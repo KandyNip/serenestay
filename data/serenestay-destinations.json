@@ -1,0 +1,3643 @@
+[
+  {
+    "id": "th-chiangmai",
+    "slug": "chiang-mai",
+    "name": "Chiang Mai",
+    "country": "Thailand",
+    "region": "Southeast Asia",
+    "tagline": "The digital nomad capital of the world",
+    "description": "Chiang Mai offers the perfect blend of ancient culture and modern remote work infrastructure. With 300+ Buddhist temples, world-class affordable massage, and a massive established nomad community, it remains the gold standard for affordable wellness-focused living in Southeast Asia.",
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 4,
+      "affordability": 5,
+      "wellness": 4,
+      "community": 5,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 600,
+      "mid": 1000,
+      "comfort": 1600
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb"
+      ],
+      "description": "Cool dry season (Nov-Feb). Avoid burning season (Mar-Apr) when haze from agricultural burning creates hazardous air quality."
+    },
+    "tags": [
+      "digital-nomad",
+      "temples",
+      "meditation",
+      "affordable",
+      "community",
+      "nature",
+      "mountains"
+    ],
+    "highlights": [
+      "300+ temples for meditation and cultural immersion",
+      "World-class Thai massage at $5-10/hour",
+      "Blazing fast fiber internet 100+ Mbps in coworking spaces"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Direct flights from Bangkok (1.5h) or international flights to CNX airport. Easy arrival process.",
+      "wifi": "Reliable fiber in most cafes and coworking. Punspace, CAMP Maya offer 100+ Mbps. Average 50+ Mbps.",
+      "medical": "Good private hospitals (Bangkok Hospital, Ram) with English-speaking staff. Affordable quality care.",
+      "visa": "Tourist visa on arrival 60 days. DTV (Destination Thailand Visa) offers 180-day stays for remote workers.",
+      "tips": "Rent a scooter for best mobility. Nimman area for nomad cafes. Old City for culture. Avoid Mar-Apr burning season."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1599576838688-8a6c11263108?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1512553353614-82a7370096dc?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1578157695179-d7b7ddeb2f53?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1682826556362-2c06b7ac75c5?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1596622897385-0086202d383d?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "th-pai",
+    "slug": "pai",
+    "name": "Pai",
+    "country": "Thailand",
+    "region": "Southeast Asia",
+    "tagline": "Mountain serenity in the heart of Northern Thailand",
+    "description": "A small canyon-rimmed valley town surrounded by rice paddies and hot springs, Pai offers an authentic Thai healing retreat experience. Perfect for those seeking solitude, creative pursuits, and connection with nature away from urban chaos.",
+    "scores": {
+      "serenity": 5,
+      "nature": 5,
+      "climate": 3,
+      "affordability": 5,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 2,
+      "visa": 5,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 400,
+      "mid": 700,
+      "comfort": 1100
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb"
+      ],
+      "description": "Best Nov-Feb when weather is cool and dry. Monsoon season (Jun-Oct) brings flooding and landslides."
+    },
+    "tags": [
+      "nature",
+      "hot-springs",
+      "creative",
+      "off-grid",
+      "yoga",
+      "serene",
+      "rural"
+    ],
+    "highlights": [
+      "Natural hot springs and waterfalls for healing",
+      "Dramatic Pai Canyon sunset views",
+      "Rustic cafes with organic farm-to-table food"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Scenic 3-hour mountain drive from Chiang Mai. Van or motorbike. Slightly bumpy road rewards patient travelers.",
+      "wifi": "Limited and unreliable. Most cafes have 5-15 Mbps. Mobile data (AIS/True) more dependable than WiFi.",
+      "medical": "Basic clinic only. Serious medical issues require transport to Chiang Mai (3h). Get travel insurance.",
+      "visa": "Same visa rules as Chiang Mai. DTV eligible. Tourist visa 60 days on arrival.",
+      "tips": "Rent a motorbike to explore. Stay in bamboo bungalows for authentic experience. Bring cash - limited ATMs."
+    },
+    "vetoWarning": "Limited medical facilities on site. Nearest hospital is 3 hours away in Chiang Mai. Ensure comprehensive travel insurance with medical evacuation coverage.",
+    "images": [
+      "https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1512553353614-82a7370096dc?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1583491470869-ca0b9fa90216?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "th-kohphangan",
+    "slug": "koh-phangan",
+    "name": "Koh Phangan",
+    "country": "Thailand",
+    "region": "Southeast Asia",
+    "tagline": "Holistic island sanctuary for body and mind",
+    "description": "Beyond the famous Full Moon Party reputation, Koh Phangan harbors a thriving wellness ecosystem with yoga retreats, detox centers, and meditation monasteries. The island offers pristine beaches and jungle trails for those seeking mindful island living.",
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 4,
+      "wellness": 5,
+      "community": 4,
+      "wifi": 3,
+      "visa": 5,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 600,
+      "mid": 1000,
+      "comfort": 1700
+    },
+    "bestSeason": {
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "description": "Dry season Jan-Apr best for weather. Wet season May-Dec brings lush scenery but occasional storms."
+    },
+    "tags": [
+      "yoga",
+      "detox",
+      "wellness",
+      "beach",
+      "meditation",
+      "holistic",
+      "community"
+    ],
+    "highlights": [
+      "World-renowned yoga and detox retreat centers",
+      "Serene Sri Thanu meditation temple and yoga school",
+      "Crystal-clear waters and secluded beach coves"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Ferry from Koh Samui (30min) or Surat Thani (2h). Speedboat options available. Book in advance during Full Moon.",
+      "wifi": "Improving but inconsistent. Central areas (Thong Sala, Haad Rin) have 20-50 Mbps. Remote beaches rely on mobile data.",
+      "medical": "Small island hospital for emergencies. Serious cases sent to Samui or Bangkok. Health insurance essential.",
+      "visa": "Standard Thailand visa rules apply. DTV available for digital nomads. 60-day tourist visa on arrival.",
+      "tips": "Stay in Srithanu area for yoga community. Rent scooter for beach hopping. Avoid Full Moon Party area if seeking serenity."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1586968425481-3285b99f3b44?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1606472679046-7a270deced3d?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1730815252324-c4fad2a15936?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1565099892185-1cebf10eff8f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1579554632071-cffdaad3738c?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "th-kohlanta",
+    "slug": "koh-lanta",
+    "name": "Koh Lanta",
+    "country": "Thailand",
+    "region": "Southeast Asia",
+    "tagline": "Laid-back island living with authentic Thai charm",
+    "description": "Koh Lanta offers a perfect balance of accessibility and tranquility. The island combines beautiful beaches, excellent seafood, and a growing wellness scene without the frenetic energy of more touristed Thai islands. Ideal for focused work and mindful living.",
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 3,
+      "wifi": 3,
+      "visa": 5,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 700,
+      "mid": 1100,
+      "comfort": 1800
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Peak season Nov-Mar with dry weather. Monsoon Jun-Sep quieter but some businesses close."
+    },
+    "tags": [
+      "beach",
+      "diving",
+      "family-friendly",
+      "relaxed",
+      "seafood",
+      "nature",
+      "accessible"
+    ],
+    "highlights": [
+      "Stunning Mu Ko Lanta National Park beaches",
+      "Excellent snorkeling and diving at Hin Muang/Hin Daeng",
+      "Authentic Thai-Muslim seafood restaurants along Klong Dao"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Ferry from Krabi (1.5h) or Phi Phi (1h). Minivan from Krabi Airport common. Well-connected infrastructure.",
+      "wifi": "Most hotels and cafes offer 20-50 Mbps. fiber expanding across main areas. Mobile data (AIS/TrueDTAC) reliable backup.",
+      "medical": "Koh Lanta Hospital handles emergencies. International clinic in Saladan. Serious cases to Krabi mainland hospital.",
+      "visa": "Thailand DTV or tourist visa. 60 days on arrival. Easy immigration runs to mainland if needed.",
+      "tips": "Klong Dao and Klong Nin beaches best for nomads. Rent scooter to explore. Saladan for supplies and restaurants."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1500111609242-145a52dcc944?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1442548520776-20acf66617df?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1575515602219-a177b8cc5e99?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1606472679046-7a270deced3d?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1672933354004-3cbd9874f099?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "th-chiangrai",
+    "slug": "chiang-rai",
+    "name": "Chiang Rai",
+    "country": "Thailand",
+    "region": "Southeast Asia",
+    "tagline": "Thailand's northernmost cultural gem",
+    "description": "Chiang Rai offers authentic Northern Thai culture with stunning temple architecture, excellent coffee, and access to the Golden Triangle. A quieter alternative to Chiang Mai with equally affordable living and emerging digital nomad infrastructure.",
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 4,
+      "affordability": 5,
+      "wellness": 3,
+      "community": 2,
+      "wifi": 3,
+      "visa": 5,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 500,
+      "mid": 850,
+      "comfort": 1300
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb"
+      ],
+      "description": "Cool dry season ideal. Mountains cooler than Chiang Mai. Best weather Nov-Feb with misty mornings."
+    },
+    "tags": [
+      "temples",
+      "coffee",
+      "culture",
+      "affordable",
+      "off-the-beaten-path",
+      "nature",
+      "authentic"
+    ],
+    "highlights": [
+      "Stunning White Temple (Wat Rong Khun) and Blue Temple",
+      "World-class Arabica coffee from local farms",
+      "Gateway to Golden Triangle and hill tribe villages"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Daily flights from Bangkok (1.5h) to CNX then 3-hour drive. Or direct flights to Phrae airport opening new routes.",
+      "wifi": "Reliable but slower than Chiang Mai. Hotels and cafes average 20-40 Mbps. True and AIS fiber available centrally.",
+      "medical": "Chiang Rai Regional Hospital handles most needs. Bangkok Hospital branch nearby. Good private clinics.",
+      "visa": "Same as Chiang Mai. DTV applies. Tourist visa 60 days on arrival. Easy border runs to Laos nearby.",
+      "tips": "Rent motorbike to explore temples. Walk Street Night Market Saturdays. Coffee tours highly recommended."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1512553353614-82a7370096dc?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1682826556362-2c06b7ac75c5?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1599745338277-e40a29d8b7d1?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1712474727361-e0fb5461086f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1733778567699-292f5e9354d6?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "id-ubud",
+    "slug": "ubud",
+    "name": "Ubud (Bali)",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "tagline": "The spiritual and creative heart of Bali",
+    "description": "Ubud is Bali's cultural epicenter where yoga, art, and mindfulness converge with world-class wellness offerings. Surrounded by rice terraces and ancient temples, it offers a deeply restorative environment perfect for creative workers and wellness seekers alike.",
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 3,
+      "affordability": 3,
+      "wellness": 5,
+      "community": 4,
+      "wifi": 3,
+      "visa": 3,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 900,
+      "mid": 1400,
+      "comfort": 2200
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct"
+      ],
+      "description": "Shoulder seasons offer best value and fewer crowds. Dry season Apr-Oct ideal for outdoor activities."
+    },
+    "tags": [
+      "yoga",
+      "meditation",
+      "rice-terraces",
+      "culture",
+      "wellness",
+      "creative",
+      "art"
+    ],
+    "highlights": [
+      "Hubud and Outpost coworking with stunning rice field views",
+      "World-class yoga studios and meditation retreats",
+      "Tegallalang rice terraces and ancient temple circuits"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to DPS (Denpasar) then 1-hour drive. Ngurah Rai Airport well-connected internationally.",
+      "wifi": "Variable 15-50 Mbps. Coworking spaces (Hubud, Outpost) offer reliable fiber. Mobile data (Telkomsel) essential backup.",
+      "medical": "International clinic (Maya Ubud) and BIMC Ubud available. Serious cases to Bali's main hospitals or Singapore.",
+      "visa": "B211A social/cultural visa 60 days. New digital nomad visa (B211A remote worker) up to 6 months renewable.",
+      "tips": "Stay near monkey forest or rice terraces for best balance. Join community dinners at coworking spaces. Rent scooter."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1612017888429-0110c5f45334?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1586319826946-9c6e9eae2726?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1755134840454-6727db2d3d6c?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1522043796093-6517bb3121cf?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1709166796926-b08c45a409b1?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "id-canggu",
+    "slug": "canggu",
+    "name": "Canggu (Bali)",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "tagline": "Bali's surf and social hub for digital nomads",
+    "description": "Canggu has evolved into Southeast Asia's most vibrant beach nomad destination with an unbeatable combination of world-class surf, thriving cafe culture, and excellent coworking infrastructure. The social scene is unmatched for those who thrive on community energy.",
+    "scores": {
+      "serenity": 2,
+      "nature": 3,
+      "climate": 3,
+      "affordability": 3,
+      "wellness": 4,
+      "community": 5,
+      "wifi": 4,
+      "visa": 3,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1000,
+      "mid": 1500,
+      "comfort": 2500
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep"
+      ],
+      "description": "Dry season Apr-Sep best for surfing and weather. Wet season Oct-Mar still manageable with tropical bursts."
+    },
+    "tags": [
+      "surf",
+      "cafe-culture",
+      "coworking",
+      "social",
+      "beach",
+      "wellness",
+      "foodie"
+    ],
+    "highlights": [
+      "Dojo Bali coworking with largest nomad community",
+      "World-class surf breaks at Batu Bolong and Echo Beach",
+      "Endless cafe options from acai bowls to gourmet pizzas"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to DPS then 30-60 min drive depending on traffic. Grab or GoJek more reliable than taxis.",
+      "wifi": "Generally reliable 30-80 Mbps in cafes and coworking. Power outages common - UPS/backup recommended.",
+      "medical": "Siloam hospital nearby. Good clinics throughout area. International insurance recommended for serious care.",
+      "visa": "B211A visa 60 days standard. Digital nomad visa B211A remote worker now available up to 6 months.",
+      "tips": "Stay near Batu Bolong for best walkability. Join Dojo community events. Beware traffic getting worse yearly."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1501179691627-eeaa65ea017c?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1546484475-7f7bd55792da?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1546484458-6904289cd4f0?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1578724859357-7cbb8670ccdc?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1546484488-2a1430996887?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "id-giliair",
+    "slug": "gili-air",
+    "name": "Gili Air",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "tagline": "Paradise island for mindful disconnection",
+    "description": "Gili Air offers the ultimate island escape with crystal-clear waters, excellent diving, and a genuine sense of remote tranquility. Perfect for digital detox while maintaining basic connectivity for essential work. The slower pace encourages mindfulness and presence.",
+    "scores": {
+      "serenity": 5,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 2,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 2,
+      "visa": 3,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 900,
+      "mid": 1400,
+      "comfort": 2000
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep"
+      ],
+      "description": "Dry season best for diving visibility. Wet season still beautiful but fewer divers. Year-round warm tropical weather."
+    },
+    "tags": [
+      "diving",
+      "island",
+      "snorkeling",
+      "relaxed",
+      "beach",
+      "digital-detox",
+      "tropical"
+    ],
+    "highlights": [
+      "Pristine coral reefs accessible from shore",
+      "Genuinely car-free peaceful island atmosphere",
+      "Vibrant dive community and excellent yoga shalas"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fast boat from Bali (1-2h) via Bangsal harbor. Public boats cheaper but slower. Book through travel agents.",
+      "wifi": "Challenging - average 8-15 Mbps, highly unreliable. XL Axiata mobile data best option. Power outages common.",
+      "medical": "Very limited. Small clinic only. Serious medical evacuation required to Bali or Singapore. Insurance essential.",
+      "visa": "B211A visa 60 days. Digital nomad visa options improving but not ideal for remote islands.",
+      "tips": "Bring XL Axiata SIM card from Bali. Stay at Starlink-equipped accommodations. Embrace the slower pace."
+    },
+    "vetoWarning": "Severely limited internet (avg 8-15 Mbps) and frequent power outages make serious remote work difficult. Medical facilities extremely limited - serious cases require evacuation to Bali or Singapore. Comprehensive travel insurance with evacuation coverage is mandatory.",
+    "images": [
+      "https://images.unsplash.com/photo-1717872444107-9a608d61167b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1525426846044-691f3a72e3b9?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1516752451528-6d991f48f7be?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1551020740-36b18c1f8e9a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1717872443518-45015f36e23e?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "id-lovina",
+    "slug": "lovina",
+    "name": "Lovina (Bali)",
+    "country": "Indonesia",
+    "region": "Southeast Asia",
+    "tagline": "North Bali's peaceful black sand sanctuary",
+    "description": "Lovina offers authentic Balinese village life on Bali's quieter north coast. With dolphin watching, hot springs, and traditional temples, it provides a deeply restorative alternative to south Bali's intensity at a fraction of the cost.",
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 2,
+      "wifi": 2,
+      "visa": 3,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 600,
+      "mid": 950,
+      "comfort": 1400
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep"
+      ],
+      "description": "Dry season Apr-Sep best. North coast less affected by wet season than south. Year-round warm weather."
+    },
+    "tags": [
+      "dolphins",
+      "relaxed",
+      "authentic",
+      "black-sand-beach",
+      "hot-springs",
+      "nature",
+      "peaceful"
+    ],
+    "highlights": [
+      "Dolphin watching sunrise boat trips",
+      "Air Sanih natural hot springs for healing",
+      "Authentic Singaraja coffee and local warungs"
+    ],
+    "practicalInfo": {
+      "gettingThere": "2-3 hour drive from Bali airport. Rent car or hire driver. Roads improving but winding in places.",
+      "wifi": "Limited infrastructure. Hotels may have 10-25 Mbps. Mobile data (Telkomsel) more reliable. Starlink expanding.",
+      "medical": "Limited facilities. Nearest good hospital in Singaraja or Denpasar. Insurance essential for anything serious.",
+      "visa": "Same B211A visa rules as rest of Bali. Remote work visa not well supported in this area.",
+      "tips": "Stay near Kalibukbuk for best amenities. Dolphin tours at sunrise highly recommended. Cash preferred locally."
+    },
+    "vetoWarning": "Limited internet infrastructure (10-25 Mbps typical) and healthcare facilities. Mobile data recommended as primary connection. Nearest comprehensive hospital requires travel to Singaraja or Denpasar.",
+    "images": [
+      "https://images.unsplash.com/photo-1613691245974-2da5fe0a6b17?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1673855471492-f84bbaa58e39?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1673855471631-5ce747ec5cca?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1561009226-7a820d647a40?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1565065526877-22bbef5dd560?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "vn-hoian",
+    "slug": "hoi-an",
+    "name": "Hoi An",
+    "country": "Vietnam",
+    "region": "Southeast Asia",
+    "tagline": "Ancient port city with timeless healing energy",
+    "description": "Hoi An's UNESCO-listed Ancient Town combines beautifully preserved architecture with a deeply meditative atmosphere. Famous for tailored clothing, holistic healing, and lantern-lit evenings, it offers one of Southeast Asia's most culturally enriching remote work experiences.",
+    "scores": {
+      "serenity": 4,
+      "nature": 3,
+      "climate": 3,
+      "affordability": 4,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 4,
+      "visa": 3,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 550,
+      "mid": 900,
+      "comfort": 1500
+    },
+    "bestSeason": {
+      "months": [
+        "Feb",
+        "Mar",
+        "Apr",
+        "May"
+      ],
+      "description": "Feb-May best weather with dry conditions. Typhoon season Sep-Nov can disrupt travel. Coolest months Dec-Feb."
+    },
+    "tags": [
+      "heritage",
+      "tailoring",
+      "lanterns",
+      "healing",
+      "beach",
+      "cultural",
+      "meditative"
+    ],
+    "highlights": [
+      "UNESCO Ancient Town with atmospheric lantern-lit streets",
+      "World-class affordable tailors for custom clothing",
+      "Traditional Vietnamese healing and cooking classes"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Da Nang (25km away) then taxi/shuttle. Daily buses from HCMC and Hanoi. Easy arrival setup.",
+      "wifi": "Good infrastructure. Most cafes and hotels offer 30-80 Mbps. Coworking spaces emerging. Reliable overall.",
+      "medical": "Family Medical Practice Da Nang nearby. Good local hospitals. Decent healthcare for region.",
+      "visa": "E-visa 30 days standard. Extended to 90 days for some nationalities. Tourist visa runs manageable.",
+      "tips": "Rent bicycle for town exploration. An Bang Beach 5km away. Full moon brings magical lantern festival."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1528127269322-539801943592?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1526139334526-f591a54b477c?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1504457047772-27faf1c00561?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1553851919-596510268b99?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "vn-danang",
+    "slug": "da-nang",
+    "name": "Da Nang",
+    "country": "Vietnam",
+    "region": "Southeast Asia",
+    "tagline": "Vietnam's rising coastal tech hub",
+    "description": "Da Nang is rapidly emerging as Vietnam's most livable coastal city with pristine beaches, excellent infrastructure, and improving digital nomad scene. The combination of beach lifestyle and modern urban amenities at surprisingly low costs makes it increasingly attractive.",
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 5,
+      "wellness": 3,
+      "community": 3,
+      "wifi": 4,
+      "visa": 3,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 550,
+      "mid": 900,
+      "comfort": 1400
+    },
+    "bestSeason": {
+      "months": [
+        "Feb",
+        "Mar",
+        "Apr",
+        "May"
+      ],
+      "description": "Best weather Feb-May avoiding typhoon season. Summer months (Jun-Aug) hot and humid. Winter months cooler."
+    },
+    "tags": [
+      "beach",
+      "modern",
+      "affordable",
+      "infrastructure",
+      "my-khe-beach",
+      "coworking",
+      "urban"
+    ],
+    "highlights": [
+      "My Khe Beach consistently rated among world's most beautiful",
+      "Modern apartments with ocean views at fraction of Bali prices",
+      "Growing startup and tech scene with coworking options"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Da Nang International Airport with direct flights to major Asian hubs. Well-connected domestically via VietJet, Vietnam Airlines.",
+      "wifi": "Excellent infrastructure for Vietnam. Fiber common, 50-150 Mbps typical in new buildings. Among Vietnam's best.",
+      "medical": "Family Medical Practice and Vinmec hospitals available. Better healthcare than most tier-2 Asian cities.",
+      "visa": "E-visa 30 days expandable. Some nationalities get 15-day visa-free. 90-day e-visa available for many.",
+      "tips": "Stay near My Khe Beach for beach lifestyle. Dragon Bridge weekend fireworks. Marble Mountains nearby for hiking."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1603852452378-a4e8d84324a2?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1555979864-7a8f9b4fddf8?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1722526933541-9a9cdfcdb28f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1684784784123-0854fc0eec25?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "vn-dalat",
+    "slug": "da-lat",
+    "name": "Da Lat",
+    "country": "Vietnam",
+    "region": "Southeast Asia",
+    "tagline": "The misty highland escape from tropical heat",
+    "description": "Da Lat offers a unique temperate climate in Vietnam's Central Highlands with French colonial charm, flower farms, and stunning mountain scenery. The cool weather and peaceful atmosphere create perfect conditions for focused work and creative pursuits.",
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 5,
+      "affordability": 5,
+      "wellness": 4,
+      "community": 2,
+      "wifi": 3,
+      "visa": 3,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 450,
+      "mid": 750,
+      "comfort": 1100
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Dry season Nov-Mar best. Misty mornings Oct-Feb create romantic atmosphere. Rainy season Jun-Sep lush but wet."
+    },
+    "tags": [
+      "highlands",
+      "coffee",
+      "cool-climate",
+      "nature",
+      "flowers",
+      "romantic",
+      "vegetables"
+    ],
+    "highlights": [
+      "Vietnam's coffee capital with world-class Arabica",
+      "Pleasant 18-25°C climate year-round - no AC needed",
+      "Stunning waterfalls, valleys, and flower farms nearby"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Daily flights from HCMC and Hanoi (1.5h). Overnight bus options from major cities. Scenic winding roads by motorbike.",
+      "wifi": "Improving but not as developed as coastal cities. Hotels 15-40 Mbps. Mobile data (Viettel, Mobifone) reliable backup.",
+      "medical": "Limited specialist care. Dalat General Hospital handles emergencies. Serious cases to HCMC (8h). Travel insurance essential.",
+      "visa": "Standard Vietnam e-visa rules. 30 days typical, extendable. 90-day options for some nationalities.",
+      "tips": "Rent motorbike for scenic mountain loop roads. Coffee plantation tours essential. Bring layers for cool evenings."
+    },
+    "vetoWarning": "Limited specialist medical facilities. For serious health issues, evacuation to Ho Chi Minh City (8+ hours by road) required. Ensure comprehensive insurance with evacuation coverage.",
+    "images": [
+      "https://images.unsplash.com/photo-1489258205848-4b9651de165b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1725209285038-a7d2192e74a5?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1592752155407-dec30130db44?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1596188431575-9e4246e47eb8?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1570114938123-7b654cce7652?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "kh-siemreap",
+    "slug": "siem-reap",
+    "name": "Siem Reap",
+    "country": "Cambodia",
+    "region": "Southeast Asia",
+    "tagline": "Gateway to ancient Khmer wonder",
+    "description": "Siem Reap serves as the perfect base for exploring Angkor's magnificent temples while enjoying Cambodia's most developed expat infrastructure. The town offers excellent food, growing wellness scene, and uniquely atmospheric ancient-meets-modern lifestyle.",
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 5,
+      "wellness": 3,
+      "community": 3,
+      "wifi": 4,
+      "visa": 4,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 500,
+      "mid": 850,
+      "comfort": 1300
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Cool dry season Nov-Feb best for temple touring. Hot season Mar-May very hot. Wet season May-Nov green but manageable."
+    },
+    "tags": [
+      "temples",
+      "angkor",
+      "culture",
+      "affordable",
+      "foodie",
+      "history",
+      "wellness"
+    ],
+    "highlights": [
+      "Iconic Angkor Wat and 1,000+ ancient temples",
+      "Emerging wellness scene with yoga and spa options",
+      "Phare Circus and vibrant arts community"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Siem Reap International Airport with regional flights. EasyVisa on arrival. Well-connected to Bangkok by bus/flight.",
+      "wifi": "Reliable infrastructure. Cafes and hotels average 30-80 Mbps. Met挥?pnex and Common House coworking offer good speeds.",
+      "medical": "Royal Phnom Penh Hospital referral for serious cases. International clinics (U-Care) available. Singapore medical evacuation common.",
+      "visa": "Visa on arrival 30 days ($30). E-visa available online. Business visa (E-class) easy to extend for long stays.",
+      "tips": "Buy multi-day Angkor pass. Pub Street for nightlife. Explore temples by tuk-tuk or bicycle. Beat crowds with early sunrise."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1599283787923-51b965a58b05?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1609949165382-2e442783c8d5?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1541429464955-87bd98d6d8f8?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1602604193553-28c132dac0a7?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1526324585411-e24d5ba61edd?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "kh-kampot",
+    "slug": "kampot",
+    "name": "Kampot",
+    "country": "Cambodia",
+    "region": "Southeast Asia",
+    "tagline": "Riverside tranquility with pepper spice",
+    "description": "Kampot offers peaceful riverside living with access to Bokor Mountain and stunning natural landscapes. Known for world-class pepper and gorgeous karst scenery, it's perfect for those seeking authentic Cambodia away from tourist crowds at remarkably low costs.",
+    "scores": {
+      "serenity": 5,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 5,
+      "wellness": 3,
+      "community": 2,
+      "wifi": 2,
+      "visa": 4,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 400,
+      "mid": 650,
+      "comfort": 1000
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Dry cool season Nov-Feb ideal. Hot season Mar-May very hot. Green season May-Oct very lush but wet."
+    },
+    "tags": [
+      "riverside",
+      "pepper",
+      "relaxed",
+      "nature",
+      "karst",
+      "off-grid",
+      "authentic"
+    ],
+    "highlights": [
+      "World-renowned Kampot pepper farms",
+      "Stunning Bokor National Park and pepper caves",
+      "Serene riverside bungalows with sunset views"
+    ],
+    "practicalInfo": {
+      "gettingThere": "4-hour bus from Phnom Penh. Nearest airport Sihanoukville (2h). Easy arrival by bus or shared taxi.",
+      "wifi": "Very limited. Hotels and cafes average 5-15 Mbps. Mobile data (Smart/Metfone) more reliable. Starlink growing.",
+      "medical": "Basic clinic only. Kampot Provincial Hospital limited. Serious cases to Phnom Penh (3h). Travel insurance mandatory.",
+      "visa": "Visa on arrival 30 days ($30). E-visa online. Business visa easy extension. Long-term stays straightforward.",
+      "tips": "Rent bicycle to explore river and pepper farms. Kep Beach 30min away. Sunset river cruises essential. Cash-based economy."
+    },
+    "vetoWarning": "Very limited internet infrastructure (5-15 Mbps typical) and minimal medical facilities. Kampot Provincial Hospital has very basic capabilities - serious medical issues require evacuation to Phnom Penh (3 hours). Mobile data recommended as primary internet source. Comprehensive travel insurance with evacuation coverage is essential.",
+    "images": [
+      "https://images.unsplash.com/photo-1607571408057-2584a3b59c91?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1722054078069-095e86f88829?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1677209806836-54e9879c0c25?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1608137567874-5fef0c5e6741?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1661487906939-aea1f059b84f?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "la-luangprabang",
+    "slug": "luang-prabang",
+    "name": "Luang Prabang",
+    "country": "Laos",
+    "region": "Southeast Asia",
+    "tagline": "UNESCO-protected jewel of ancient Laos",
+    "description": "Luang Prabang enchantingly blends Buddhist temples, French colonial architecture, and traditional Lao culture at the confluence of the Mekong and Nam Khan rivers. Its deeply spiritual atmosphere and natural beauty create perfect conditions for mindful living and creative work.",
+    "scores": {
+      "serenity": 5,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 4,
+      "wellness": 4,
+      "community": 2,
+      "wifi": 3,
+      "visa": 4,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 550,
+      "mid": 900,
+      "comfort": 1400
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Cool dry season Nov-Feb best. Pleasant temperatures (15-25°C). Hot season Mar-May. Monsoon Jun-Oct with flooding possible."
+    },
+    "tags": [
+      "UNESCO",
+      "temples",
+      "mekong",
+      "spiritual",
+      "nature",
+      "colonial",
+      "slow-living"
+    ],
+    "highlights": [
+      "Daily alms giving ceremony (Tak Bat) at dawn",
+      "Kuang Si waterfalls and bear rescue center",
+      "Excellent cooking schools and French-influenced cuisine"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Domestic flights from Vientiane, Bangkok. Slow boat from Huay Xai (2 days) for adventure. Luang Prabang Airport well-served.",
+      "wifi": "Improving but limited. Hotels and cafes average 10-30 Mbps. Mobile data (LaoTel, ETL) variable. Tourism infrastructure developing.",
+      "medical": "Very limited facilities. Small hospitals and clinics. Serious medical evacuation to Bangkok or Vientiane. Insurance essential.",
+      "visa": "Visa on arrival 30 days ($30-42). E-visa available. Visa exemption for some nationalities. Easy extension available.",
+      "tips": "Wake for Tak Bat alms ceremony. Night Market for shopping. Mekong river trips essential. Best explore by bicycle."
+    },
+    "vetoWarning": "Limited medical facilities - Luang Prabang's hospitals have very basic capabilities. Serious medical issues require evacuation to Bangkok (hours by air). Travel insurance with medical evacuation coverage is mandatory. Internet infrastructure developing but limited.",
+    "images": [
+      "https://images.unsplash.com/photo-1610426714962-83caa2244105?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1686120552846-7caf1a345876?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1693039880389-62840065382c?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1707817643213-35009bae9814?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1642085107639-bc9e2f7ee835?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "la-vangvieng",
+    "slug": "vang-vieng",
+    "name": "Vang Vieng",
+    "country": "Laos",
+    "region": "Southeast Asia",
+    "tagline": "Adventure meets tranquil karst paradise",
+    "description": "Vang Vieng has transformed from backpacker party town to adventure-spa destination, surrounded by dramatic limestone karst formations and the Nam Song River. Tubing culture persists but wellness resorts and coworking cafes now cater to those seeking both adventure and productivity.",
+    "scores": {
+      "serenity": 3,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 5,
+      "wellness": 3,
+      "community": 3,
+      "wifi": 2,
+      "visa": 4,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 400,
+      "mid": 700,
+      "comfort": 1100
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb"
+      ],
+      "description": "Dry cool season Nov-Feb best. River fullest after wet season Sep-Oct. Very hot Mar-May. Green season May-Oct scenic but humid."
+    },
+    "tags": [
+      "karst",
+      "tubing",
+      "adventure",
+      "nature",
+      "river",
+      "caving",
+      "rural"
+    ],
+    "highlights": [
+      "Dramatic karst mountain scenery for photography",
+      "Blue Lagoon and Tham Nang Aen cave exploration",
+      "Organic farms and yoga retreats emerging"
+    ],
+    "practicalInfo": {
+      "gettingThere": "4-5 hour bus from Vientiane. Scenic mountain roads. Slow boat from Luang Prabang (2 days) for adventure seekers.",
+      "wifi": "Limited and unreliable. Cafes and hotels average 5-20 Mbps. Mobile data (LaoTel) best option. Power outages occur.",
+      "medical": "Very basic clinic only. Vang Vieng Hospital limited. Serious cases to Vientiane or Bangkok. Comprehensive insurance mandatory.",
+      "visa": "Visa on arrival 30 days. E-visa online. Same as Laos general rules. Straightforward extension process.",
+      "tips": "Rent scooter to explore caves and lagoons. Stay on north side for peace. Sunset viewpoints over karst essential."
+    },
+    "vetoWarning": "Limited internet (5-20 Mbps typical) and frequent power outages make reliable remote work challenging. Medical facilities extremely basic - serious cases require evacuation to Vientiane or Bangkok. Travel insurance with evacuation coverage is essential.",
+    "images": [
+      "https://images.unsplash.com/photo-1718267104642-147a1373b3c6?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1540611025311-01df3cef54b5?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1599638906177-f175b1dcdb3f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1697142431837-22ca3108768d?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1552059660-4d11a68f35b9?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "ph-siargao",
+    "slug": "siargao",
+    "name": "Siargao",
+    "country": "Philippines",
+    "region": "Southeast Asia",
+    "tagline": "Philippines' surf capital with Starlink-powered nomads",
+    "description": "Siargao draws digital nomads with world-class Cloud 9 waves and a surprisingly functional nomad scene powered by Starlink. The island offers genuine paradise aesthetics while maintaining productivity for remote workers willing to adapt to island rhythms.",
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 3,
+      "affordability": 3,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 2,
+      "visa": 3,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 700,
+      "mid": 1200,
+      "comfort": 2000
+    },
+    "bestSeason": {
+      "months": [
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct"
+      ],
+      "description": "Best surf season Jul-Nov with biggest swells. Dry season Mar-May ideal. Typhoon season Oct-Dec can disrupt."
+    },
+    "tags": [
+      "surf",
+      "island",
+      "starlink",
+      "community",
+      "tropical",
+      "adventure",
+      "laid-back"
+    ],
+    "highlights": [
+      "World-renowned Cloud 9 reef break",
+      "Starlink making serious remote work possible",
+      "Island hopping to Naked Island, Daku, and Guyam"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Siargao (Surigao) airport from Manila or Cebu. Then ferry or banca to General Luna. Book flights in advance.",
+      "wifi": "Traditional internet poor (5-20 Mbps). Starlink now common - 50-150 Mbps when installed. Globe SIM backup essential.",
+      "medical": "Very limited. Small hospital and clinics. Serious cases to Surigao City or Manila. Medical evacuation insurance mandatory.",
+      "visa": "30-day visa-free entry for many nationalities. Extendable at immigration. No specific digital nomad visa yet.",
+      "tips": "Book Starlink-equipped accommodation immediately. Schedule calls for morning hours when power stable. Carry PHP cash."
+    },
+    "vetoWarning": "Infrastructure fragile with frequent power outages (30 min to 8+ hours). Traditional internet inadequate - Starlink essential for serious work. Medical facilities extremely limited - nearest hospital requires boat and car transport. Insurance with evacuation coverage mandatory.",
+    "images": [
+      "https://images.unsplash.com/photo-1601000234047-d9308ea1ed51?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1565565915331-293fd8113954?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1559099078-8ab4ed4eefed?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1736776256317-0896951a4dc9?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1721301310902-714ea53b3108?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "ph-palawan",
+    "slug": "palawan",
+    "name": "Palawan (El Nido)",
+    "country": "Philippines",
+    "region": "Southeast Asia",
+    "tagline": "World's most beautiful island paradise",
+    "description": "Palawan lives up to its reputation with dramatic limestone cliffs, crystal-clear lagoons, and world-class diving. El Nido and Puerto Princesa offer different vibes - from vibrant island town to laid-back underground river base - both requiring adaptation for remote work.",
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 3,
+      "affordability": 3,
+      "wellness": 3,
+      "community": 3,
+      "wifi": 2,
+      "visa": 3,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 600,
+      "mid": 1000,
+      "comfort": 1700
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "description": "Dry season Nov-May best for weather and visibility. Monsoon Jun-Oct brings storms and rough seas."
+    },
+    "tags": [
+      "lagoons",
+      "diving",
+      "island-hopping",
+      "paradise",
+      "nature",
+      "beach",
+      "limestone"
+    ],
+    "highlights": [
+      "Big Lagoon and Small Lagoon of El Nido",
+      "Underground River UNESCO World Heritage Site",
+      "Coron world-class wreck diving"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Puerto Princesa or El Nido airport (direct flights from Manila). Boats connect to other islands seasonally.",
+      "wifi": "Traditional broadband weak (5-15 Mbps). Starlink expanding but expensive. Mobile data (Globe/PLDT) inconsistent.",
+      "medical": "Limited to small clinics. Puerto Princesa has better hospitals. Serious cases to Manila. Evacuation insurance essential.",
+      "visa": "30-day visa-free entry. Extensions at immigration office. No dedicated digital nomad visa currently available.",
+      "tips": "Book island hopping tours in advance. El Nido town walkable. Nacpan Beach requires motorbike. Cash preferred everywhere."
+    },
+    "vetoWarning": "Traditional internet infrastructure inadequate for remote work. Starlink expanding but not universally available. Medical facilities extremely limited - serious cases require evacuation to Manila or Puerto Princesa. Travel insurance with full medical evacuation coverage mandatory for this remote destination.",
+    "images": [
+      "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1632307918787-8cb52566dd35?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1695051702427-1c24ce3682e7?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1746260948448-d741c5838c16?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1728042880915-0dd755899018?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "my-penang",
+    "slug": "penang",
+    "name": "Penang",
+    "country": "Malaysia",
+    "region": "Southeast Asia",
+    "tagline": "Asia's food capital with colonial charm",
+    "description": "Penang combines world-famous street food, UNESCO George Town heritage, and excellent infrastructure for remote workers. Malaysia's most livable island offers perfect balance of culture, cuisine, and modern conveniences at surprisingly affordable prices.",
+    "scores": {
+      "serenity": 3,
+      "nature": 3,
+      "climate": 3,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 4,
+      "visa": 4,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 650,
+      "mid": 1000,
+      "comfort": 1600
+    },
+    "bestSeason": {
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun"
+      ],
+      "description": "Dry season Dec-Feb best. Penang less affected by monsoon than east coast. Year-round humid tropical climate."
+    },
+    "tags": [
+      "foodie",
+      "heritage",
+      "street-food",
+      "culture",
+      "affordable",
+      "wifi",
+      "English-speaking"
+    ],
+    "highlights": [
+      "Hawker food rated world's best street cuisine",
+      "UNESCO George Town with stunning street art",
+      "English widely spoken - easiest Malaysia for nomads"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Direct flights from KL (1 hour) and major Asian hubs. Ferry from Butterworth mainland. Well-connected.",
+      "wifi": "Excellent infrastructure. Fiber widely available, 50-200 Mbps typical. Among Malaysia's best connected cities.",
+      "medical": "Excellent private hospitals (Gleneagles, Penang Adventist). High-quality care at Western standards. Best in region.",
+      "visa": "Visa-free 30-90 days for most nationalities. DE Rantau digital nomad visa up to 12 months. Easy long-term stays.",
+      "tips": "Stay in George Town for culture. Gurney for modern amenities. Rent motorbike for beaches. Hawker centers for best food."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1620488212381-dea91f7dd69a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1571783564487-d8c6bc7eb664?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1596051723702-b56e223bfa66?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1590756568559-1e1f15180d39?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1654139195059-41121449ab3d?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "my-langkawi",
+    "slug": "langkawi",
+    "name": "Langkawi",
+    "country": "Malaysia",
+    "region": "Southeast Asia",
+    "tagline": "Duty-free island escape with archipelago beauty",
+    "description": "Langkawi offers a uniquely accessible island paradise just off Malaysia's west coast with duty-free shopping, stunning geology, and excellent infrastructure. The archipelago provides perfect escape for focused work with beach access and duty-free prices on everything.",
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 2,
+      "wifi": 4,
+      "visa": 4,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 600,
+      "mid": 950,
+      "comfort": 1500
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May"
+      ],
+      "description": "Best Nov-Apr dry season. East coast monsoon affects some beaches Dec-Feb. Year-round warm tropical weather."
+    },
+    "tags": [
+      "duty-free",
+      "beach",
+      "island",
+      "geopark",
+      "affordable",
+      "relaxed",
+      "nature"
+    ],
+    "highlights": [
+      "Duty-free alcohol and chocolate at incredible prices",
+      "UNESCO Kilim Geopark with mangrove tours",
+      "Sky Bridge and cable car with stunning views"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Direct flights from KL (1 hour) and some international routes. Ferry from Kuala Perlis/Butterworth. Well-connected.",
+      "wifi": "Good infrastructure for island. Hotels and cafes 30-100 Mbps. Telekom fiber expanding. Reliable overall.",
+      "medical": "Langkawi Hospital for emergencies. Limited specialist care. Fly to Penang or KL for serious issues.",
+      "visa": "Visa-free entry 30-90 days. DE Rantau digital nomad visa available. Duty-free Langkawi designation makes living extra affordable.",
+      "tips": "Rent car to explore properly. Beach clubs plentiful. Shop duty-free for luxuries. Cenang Beach most developed area."
+    },
+    "vetoWarning": null,
+    "images": [
+      "https://images.unsplash.com/photo-1647878872662-50d50c74d40e?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1537181591432-412768324e9c?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1665988945099-9cd7b622bbc6?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1669812849320-283db1bf8216?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1612852098567-67e121dc9316?w=800&h=600&fit=crop&q=80"
+    ]
+  },
+  {
+    "id": "in-rishikesh",
+    "slug": "rishikesh",
+    "name": "Rishikesh",
+    "country": "India",
+    "region": "South Asia",
+    "tagline": "The yoga capital of the world",
+    "description": "Nestled along the sacred Ganges River in the Himalayan foothills, Rishikesh is the spiritual heart of India. Home to over 100 ashrams and yoga centers, it attracts seekers from around the globe seeking inner peace through meditation, yoga, and spiritual practices. The holy city comes alive each evening with the mesmerizing Ganga Aarti ceremony, where thousands gather to worship the river with fire and song.",
+    "images": [
+      "https://images.unsplash.com/photo-1720819029162-8500607ae232?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1650341259809-9314b0de9268?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1607406374368-809f8ec7f118?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1712510817140-917938f92e5b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1614605670899-47ecba60bf2a?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 5,
+      "wellness": 5,
+      "community": 3,
+      "wifi": 2,
+      "visa": 3,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 300,
+      "mid": 600,
+      "comfort": 1200
+    },
+    "bestSeason": {
+      "months": [
+        "Oct",
+        "Nov",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Cool dry season (Oct-Mar). Avoid monsoon (Jul-Sep) and extreme summer heat (Apr-Jun)."
+    },
+    "tags": [
+      "yoga",
+      "meditation",
+      "ashram",
+      "ganges",
+      "spiritual",
+      "himalayas",
+      "vegan-friendly"
+    ],
+    "highlights": [
+      "World capital of yoga with 100+ ashrams",
+      "Ganga Aarti ceremony every evening",
+      "Ultra-affordable extended stays"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Dehradun (DED) 20km away, or train from Delhi (5-6h). Airport has limited connections.",
+      "wifi": "Spotty outside main areas. Cafes average 10-20 Mbps. Not reliable for video calls. Coworking spaces available.",
+      "medical": "Basic clinics available. Serious conditions require travel to Delhi (5h) or Dehradun. Score reflects limited access.",
+      "visa": "e-Visa available for most nationalities (30/60 days). Long-stay options limited. Tourist visa typically max 180 days.",
+      "tips": "Dry city — no alcohol or meat in many areas. Laxman Jhula area for foreigners. Monsoon can cause flooding."
+    },
+    "vetoWarning": "⚠️ Limited WiFi and medical facilities — may not suit remote workers or those with health concerns"
+  },
+  {
+    "id": "in-goa",
+    "slug": "goa",
+    "name": "Goa (Arambol)",
+    "country": "India",
+    "region": "South Asia",
+    "description": "Arambol Beach in North Goa embodies the perfect blend of hippie culture and modern nomad life. Golden sands stretch along the Arabian Sea, dotted with colorful beach shacks serving fresh seafood and international cuisine. The area pulses with a creative community of artists, musicians, and remote workers who gather for sunset drum circles, yoga sessions, and spontaneous jam sessions under coconut palms.",
+    "images": [
+      "https://images.unsplash.com/photo-1666853159316-6fdafc8903dd?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1609169038317-1af7b0038c76?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1523387282479-ae7166314e62?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1609416490723-89f5d8892c9b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1709102217753-90ab31562aa2?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 4,
+      "affordability": 4,
+      "wellness": 4,
+      "community": 4,
+      "wifi": 3,
+      "visa": 3,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 400,
+      "mid": 700,
+      "comfort": 1300
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb"
+      ],
+      "description": "Peak season Nov-Feb with perfect weather. Monsoon Jun-Sep brings heavy rains and closures. Mar-May very hot."
+    },
+    "tags": [
+      "beach",
+      "digital-nomad",
+      "surf",
+      "coworking",
+      "community",
+      "nightlife",
+      "portuguese-heritage"
+    ],
+    "highlights": [
+      "Vibrant digital nomad community with coworking spaces",
+      "Famous sunset drum circles on Arambol Beach",
+      "Excellent mix of beach life and culture"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Goa (GOI/GOX) airport, or train from Mumbai (10h). Arambol 1.5h from airport by taxi.",
+      "wifi": "Good in cafes and coworking spaces (20-40 Mbps). Nomad-friendly infrastructure. Some areas unreliable.",
+      "medical": "Decent private clinics in beach towns. Serious cases need travel to Panaji or Mumbai. Better than Rishikesh.",
+      "visa": "e-Visa 30/60 days available. Tourist visa 180 days max. No digital nomad visa yet.",
+      "tips": "Arambol quieter than Anjuna/Vagator. Rent scooters for transport. Respect local customs in villages."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "in-dharamshala",
+    "slug": "dharamshala",
+    "name": "Dharamshala",
+    "country": "India",
+    "region": "South Asia",
+    "description": "Perched in the Dhauladhar range of the Himalayas, Dharamshala and nearby McLeod Ganj serve as the residence of the Dalai Lama and Tibetan government-in-exile. The area offers a unique blend of Tibetan Buddhist culture, stunning mountain vistas, and a growing international community. Trekking trails wind through cedar forests to hidden waterfalls, while monks debate philosophy in ancient monasteries and cafés serve butter tea alongside lattes.",
+    "images": [
+      "https://images.unsplash.com/photo-1503265192943-9d7eea6fc77a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1584108132271-5189ee552144?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1621931650010-d4d18def2f39?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1707560219466-a3fbad09bb13?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1701153760841-f329753e88a2?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 3,
+      "affordability": 5,
+      "wellness": 4,
+      "community": 4,
+      "wifi": 3,
+      "visa": 3,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 350,
+      "mid": 650,
+      "comfort": 1200
+    },
+    "bestSeason": {
+      "months": [
+        "Mar",
+        "Apr",
+        "May",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Spring (Mar-May) and autumn (Oct-Nov) offer clear skies. Winter Dec-Feb cold but sunny. Monsoon Jul-Aug very wet."
+    },
+    "tags": [
+      "tibetan-culture",
+      "himalayas",
+      "trekking",
+      "buddhism",
+      "dalai-lama",
+      "monasteries",
+      "mountain-view"
+    ],
+    "highlights": [
+      "Home to the Dalai Lama and Tibetan community",
+      "Incredible Himalayan trekking trails",
+      "Growing international community with coworking"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Dharamshala (DHM) or take bus/train from Delhi (10-12h). Mountain roads can be slow.",
+      "wifi": "Improving fast with 4G coverage. Cafes and coworking offer 15-30 Mbps. Remote areas spotty.",
+      "medical": "Basic hospitals in town. Serious conditions require travel to Chandigarh or Delhi. Altitude sickness possible.",
+      "visa": "e-Visa available 30/60 days. Tibetan refugee areas have special permit requirements (easily obtained).",
+      "tips": "Bring layers - temperature varies greatly. McLeod Ganj is the main hub. Triund trek is must-do."
+    },
+    "vetoWarning": "⚠️ Limited medical facilities for serious conditions — plan accordingly for health needs"
+  },
+  {
+    "id": "in-auroville",
+    "slug": "auroville",
+    "name": "Auroville",
+    "country": "India",
+    "region": "South Asia",
+    "description": "Founded in 1968 as an experimental township dedicated to human unity, Auroville is a unique international community spread across red earth and regenerated forest. The golden Matrimandir, a spiritual center at the heart of the township, draws visitors for silent meditation. Residents from 50+ countries practice sustainable living, organic farming, and alternative education in car-free neighborhoods connected by shaded paths through reclaimed wasteland.",
+    "images": [
+      "https://images.unsplash.com/photo-1619500178964-fa56b0e69074?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1710046385400-414634e8bfd2?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1709817243586-6ddd4e6822c1?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1662572594344-b0f91efb34f1?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1709817243500-87259ebd7d50?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 5,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 4,
+      "wellness": 5,
+      "community": 5,
+      "wifi": 2,
+      "visa": 3,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 400,
+      "mid": 700,
+      "comfort": 1200
+    },
+    "bestSeason": {
+      "months": [
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Winter (Dec-Mar) is cool and pleasant. Summer Apr-Jun very hot. Monsoon Oct-Nov moderate."
+    },
+    "tags": [
+      "ecovillage",
+      "sustainability",
+      "meditation",
+      "community-living",
+      "experimental-township",
+      "organic-farming",
+      "peaceful"
+    ],
+    "highlights": [
+      "International community from 50+ countries",
+      "Pioneering sustainable living and eco-conscious design",
+      "Matrimandir spiritual center for meditation"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Chennai (MAA) or Puducherry (PNY), then 2-3h drive. Closest airport Puducherry (15km).",
+      "wifi": "Eco-village ethos limits connectivity. Cafes have 5-15 Mbps. Not suitable for heavy remote work.",
+      "medical": "Good Ayurvedic clinics. Modern hospitals in Puducherry (15km). Chennai 3h for serious conditions.",
+      "visa": "e-Visa 30/60 days. Auroville entry requires visitor pass (free, obtain at center). Long-term stays possible with community approval.",
+      "tips": "Visit center first for orientation and pass. Many volunteer opportunities. Bicycle or scooter best for transport."
+    },
+    "vetoWarning": "⚠️ Limited WiFi due to eco-village ethos — not ideal for heavy remote work"
+  },
+  {
+    "id": "lk-unawatuna",
+    "slug": "unawatuna",
+    "name": "Unawatuna",
+    "country": "Sri Lanka",
+    "region": "South Asia",
+    "description": "Unawatuna curves around a turquoise bay framed by golden sand and swaying palms, offering one of Sri Lanka's most beautiful beach settings. The crescent beach provides calm swimming waters, coral reefs for snorkeling, and beachfront restaurants serving fresh seafood. Just inland, jungle trails lead to hidden temples and the historic Galle Fort lies a short tuk-tuk ride away, blending tropical relaxation with cultural exploration.",
+    "images": [
+      "https://images.unsplash.com/photo-1649856092355-eee498b1d0f2?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1522144315648-1230f4b13991?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1552309551-2f80ffeb4964?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1552371115-4ba5ad558bcf?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1645839449907-72c4d3cb8fb3?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 3,
+      "wifi": 3,
+      "visa": 3,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 500,
+      "mid": 800,
+      "comfort": 1400
+    },
+    "bestSeason": {
+      "months": [
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "December to March offers calm seas and sunny days. Monsoon Apr-Jun brings rough seas. Oct-Nov shoulder season."
+    },
+    "tags": [
+      "beach",
+      "snorkeling",
+      "surf",
+      "seafood",
+      "tropical",
+      "galle-fort",
+      "relaxing"
+    ],
+    "highlights": [
+      "Pristine beach with coral reefs and sea turtles",
+      "Close to UNESCO Galle Fort (7km)",
+      "Excellent fresh seafood and beach restaurants"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Colombo (CMB), then 2.5h drive or 2h train to Galle, then 15min tuk-tuk. Nearby airport Mattala (2h).",
+      "wifi": "Cafes and guesthouses offer 10-25 Mbps. Better in newer establishments. Video calls possible with good connection.",
+      "medical": "Private clinics in Galle (15min). Serious cases to Colombo hospitals (2h). Healthcare good and affordable.",
+      "visa": "Digital Nomad Visa available (12 months, $2,000+ income). ETA visa on arrival 30 days. Extensions possible.",
+      "tips": "Visit Sea Turtle Hatchery nearby. Early morning swims best. Bargain at markets but not fixed-price shops."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "lk-weligama",
+    "slug": "weligama",
+    "name": "Weligama",
+    "country": "Sri Lanka",
+    "region": "South Asia",
+    "description": "Weligama stretches along a sweeping bay with gentle waves perfect for learning to surf, making it Sri Lanka's premier surf town. Colorful fishing boats line the shore as local fishermen haul in fresh catches, while surf schools dot the beachfront teaching beginners to ride their first waves. The town balances a relaxed fishing village atmosphere with a growing international community of surfers, digital nomads, and entrepreneurs.",
+    "images": [
+      "https://images.unsplash.com/photo-1604293679030-7cfcd7174ab1?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1607672996533-98ec2fb71625?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1547818832-470a7998a99a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1453210110568-1384e93a200e?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1600255821058-c4f89958d700?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 4,
+      "affordability": 5,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 3,
+      "visa": 3,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 400,
+      "mid": 700,
+      "comfort": 1200
+    },
+    "bestSeason": {
+      "months": [
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "December-February peak surf season with clean waves. Jun-Aug monsoon brings swells but rain. Nov-Apr dry season."
+    },
+    "tags": [
+      "surf",
+      "beach",
+      "digital-nomad",
+      "coworking",
+      "surfing",
+      "fishing-village",
+      "affordable"
+    ],
+    "highlights": [
+      "Perfect waves for beginner surfers",
+      "Growing digital nomad and coworking scene",
+      "Authentic fishing village culture with fresh seafood"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Colombo (CMB), 2.5h drive or train to Weligama station. Tuk-tuks essential for local transport.",
+      "wifi": "Variable - some cafes excellent (30+ Mbps), others poor. Coworking spaces available. SIM card recommended.",
+      "medical": "Local clinics in town. Better hospitals in Galle (30min). Serious conditions to Colombo (3h).",
+      "visa": "Digital Nomad Visa available (12 months). ETA 30 days on arrival. Easy to extend.",
+      "tips": "Rent a scooter to explore nearby surf breaks. Surf lessons available everywhere. Avoid midday sun."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "lk-ella",
+    "slug": "ella",
+    "name": "Ella",
+    "country": "Sri Lanka",
+    "region": "South Asia",
+    "description": "Perched at 1,000 meters elevation in Sri Lanka's hill country, Ella offers misty mornings, rolling tea plantations, and some of the island's most breathtaking views. The famous Nine Arch Bridge emerges from the clouds as trains wind through emerald valleys, while Ella Rock and Little Adam's Peak provide rewarding hikes through tea gardens and cloud forests. The cool mountain air attracts nature lovers, hikers, and those seeking a peaceful retreat from tropical heat.",
+    "images": [
+      "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1578519050142-afb511e518de?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1609681980718-340e7f4b11d7?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1566766189268-ecac9118f2b7?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1598955890270-d77cdb06d2bb?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 5,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 4,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 3,
+      "visa": 3,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 450,
+      "mid": 750,
+      "comfort": 1300
+    },
+    "bestSeason": {
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "description": "January-April offers clear views and mild temperatures. May wetter. Dec can be busy. Year-round cool climate."
+    },
+    "tags": [
+      "tea-plantations",
+      "hiking",
+      "scenic-train",
+      "mountain",
+      "mist",
+      "nature",
+      "cool-climate"
+    ],
+    "highlights": [
+      "Stunning Nine Arch Bridge and scenic train rides",
+      "Epic hiking through tea plantations and cloud forests",
+      "Cool climate perfect for escaping tropical heat"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Scenic train from Kandy (6-7h) or Colombo (9h). Bus also available. Nearest airport Bandaranaike (CMB) 5h drive.",
+      "wifi": "Cafes and guesthouses 10-20 Mbps. Better in newer establishments. Train has no WiFi.",
+      "medical": "Basic hospital in town. Serious cases to Kandy (3h) or Colombo. Altitude not an issue (1,000m).",
+      "visa": "Digital Nomad Visa available. ETA 30 days on arrival. Easy to extend for long stays.",
+      "tips": "Book train tickets in advance (especially scenic observation car). Early morning hikes for clearest views."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "jp-okinawa",
+    "slug": "okinawa",
+    "name": "Okinawa",
+    "country": "Japan",
+    "region": "East Asia",
+    "description": "Okinawa's sub-tropical islands offer a unique blend of Japanese culture, island relaxation, and some of the world's highest life expectancy. Pristine beaches with crystal waters, coral reefs for diving, and ancient Ryukyu Kingdom castles create a paradise for wellness seekers. The island's famous 'nuchi gusui' (food is medicine) philosophy, slow-paced lifestyle, and strong community bonds foster longevity and contentment.",
+    "images": [
+      "https://images.unsplash.com/photo-1645610115316-dc38e31a1e9b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1647336963732-7446b9da7a6f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1610971250019-f677bc1300be?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1651422589451-db2ae2140b04?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1609673889466-61145b2084f3?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 5,
+      "affordability": 2,
+      "wellness": 5,
+      "community": 4,
+      "wifi": 4,
+      "visa": 2,
+      "medical": 5
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1000,
+      "mid": 1500,
+      "comfort": 2500
+    },
+    "bestSeason": {
+      "months": [
+        "Oct",
+        "Nov",
+        "Dec",
+        "Mar",
+        "Apr",
+        "May"
+      ],
+      "description": "October-December and March-May are ideal. Jan-Feb cool but sunny. Jun-Sep hot, humid, typhoon season."
+    },
+    "tags": [
+      "tropical-island",
+      "longevity",
+      "diving",
+      "beaches",
+      "ryukyu-culture",
+      "wellness",
+      "slow-life"
+    ],
+    "highlights": [
+      "Some of the world's highest life expectancy and wellness culture",
+      "Stunning beaches and world-class diving spots",
+      "Unique Ryukyu culture separate from mainland Japan"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Naha Airport (OKA) with international connections. Monorail covers Naha city. Car rental recommended for exploration.",
+      "wifi": "Excellent broadband infrastructure. Cafes and coworking 50-100 Mbps. Japan-standard reliability.",
+      "medical": "Top-tier Japanese healthcare system. Modern hospitals and clinics. English available in tourist areas.",
+      "visa": "90-day tourist visa for many nationalities. Digital nomad visa in development (check current status). Japan visa notoriously difficult.",
+      "tips": "Learn 'nuchi gusui' philosophy. Try awamori local spirit. Visit outer islands (Ishigaki, Miyako) for quieter beaches."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "jp-kyoto",
+    "slug": "kyoto",
+    "name": "Kyoto",
+    "country": "Japan",
+    "region": "East Asia",
+    "description": "Kyoto, Japan's cultural capital for over a millennium, preserves ancient traditions amidst modern convenience. Thousands of temples and shrines dot the city, from the golden Kinkaku-ji to the serene Zen gardens of Ryoan-ji. Traditional wooden machiya houses line narrow streets where geisha districts like Gion come alive at dusk, while bamboo groves in Arashiyama whisper in the wind and the philosopher's path offers contemplative walks under cherry blossoms.",
+    "images": [
+      "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1558870832-c8db4b5b47d1?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1578469645742-46cae010e5d4?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 2,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 4,
+      "visa": 2,
+      "medical": 5
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1200,
+      "mid": 1800,
+      "comfort": 3000
+    },
+    "bestSeason": {
+      "months": [
+        "Mar",
+        "Apr",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Cherry blossoms Mar-Apr (crowded but stunning). Autumn colors Oct-Nov (peak season). Winter Dec-Feb cold but beautiful."
+    },
+    "tags": [
+      "temples",
+      "culture",
+      "history",
+      "cherry-blossom",
+      "traditional-japan",
+      "zen",
+      "art"
+    ],
+    "highlights": [
+      "UNESCO World Heritage temples and shrines",
+      "Traditional geisha districts and crafts",
+      "Perfect blend of ancient culture and modern amenities"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Shinkansen from Tokyo (2.5h) or fly to Osaka Kansai (KIX, 1.5h). Extensive bus and subway network.",
+      "wifi": "Excellent city-wide broadband. Cafes and coworking 50+ Mbps. Very reliable for remote work.",
+      "medical": "World-class Japanese healthcare. Major hospitals in city. English services increasingly available.",
+      "visa": "90-day tourist visa for many nationals. Working holiday visa for eligible countries. Digital nomad visa under discussion.",
+      "tips": "Kyoto City Pass for transport. Wake up early for popular temples to avoid crowds. Respect temple etiquette."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "jp-koyasan",
+    "slug": "koyasan",
+    "name": "Koyasan",
+    "country": "Japan",
+    "region": "East Asia",
+    "description": "Koyasan (Mount Koya) is a sacred Buddhist monastery town founded in 816 AD by the monk Kukai, set on a mountain plateau surrounded by ancient cedar forests. Over 50 temples operate as shukubo (temple lodgings), offering visitors the rare opportunity to sleep in traditional tatami rooms, participate in morning fire ceremonies, and enjoy shojin ryori (Buddhist vegetarian cuisine). The atmospheric Okunoin cemetery, illuminated by thousands of lanterns, creates an otherworldly experience.",
+    "images": [
+      "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1480796927426-f609979314bd?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1574236170880-fbbca132d83d?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 5,
+      "nature": 5,
+      "climate": 3,
+      "affordability": 2,
+      "wellness": 5,
+      "community": 2,
+      "wifi": 1,
+      "visa": 2,
+      "medical": 1
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 2000,
+      "mid": 3000,
+      "comfort": 5000
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Spring cherry blossoms (Apr-May) and autumn colors (Oct-Nov) are spectacular. Winter brings beautiful snow. Year-round visits possible."
+    },
+    "tags": [
+      "temple-stay",
+      "buddhism",
+      "pilgrimage",
+      "spiritual",
+      "ancient-forests",
+      "monastery",
+      "zen"
+    ],
+    "highlights": [
+      "Authentic temple lodging with morning fire ceremonies",
+      "Atmospheric Okunoin cemetery with thousands of lanterns",
+      "Deep spiritual immersion in Buddhist traditions"
+    ],
+    "practicalInfo": {
+      "gettingThere": "90 min from Osaka via Nankai Koya Line (not JR Pass). Cable car final ascent. Koyasan World Heritage Ticket recommended.",
+      "wifi": "Very limited. Temples may have WiFi but slow/unreliable. Not suitable for remote work. Digital detox destination.",
+      "medical": "Very limited in mountain town. Serious conditions require evacuation to Osaka (2h). Remote location challenging for emergencies.",
+      "visa": "Same Japan visa restrictions (90-day tourist for most). Temple stay typically 1-2 nights, longer stays require special arrangement.",
+      "tips": "Book temple stays months ahead for peak seasons. Cash only at most temples. Participate in morning ceremony for full experience."
+    },
+    "vetoWarning": "⚠️ Extremely limited WiFi and medical facilities in remote mountain location — not suitable for remote work or those with health concerns"
+  },
+  {
+    "id": "kr-jeju",
+    "slug": "jeju-island",
+    "name": "Jeju Island",
+    "country": "Korea",
+    "region": "East Asia",
+    "description": "Jeju, a volcanic island off Korea's southern coast, offers dramatic landscapes ranging from white-sand beaches to lava tubes and towering Hallasan mountain. The island's unique culture, distinct from mainland Korea, includes thatched-roof houses, haenyeo (female divers) who harvest seafood by hand, and tangerine orchards covering the countryside. Jeju's commitment to wellness and clean air has made it a popular destination for healing retreats and nature-based tourism.",
+    "images": [
+      "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1674606059344-68bdc8cd06d0?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1668755930619-65c13747ea42?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1688545365131-424b9ba769ae?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 3,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 4,
+      "visa": 3,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 900,
+      "mid": 1300,
+      "comfort": 2200
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "description": "April-June spring blooms and mild weather. September-November autumn colors and comfortable temperatures. Winter cold but quiet."
+    },
+    "tags": [
+      "volcanic-island",
+      "beaches",
+      "hiking",
+      "nature",
+      "haenyeo",
+      "tangerines",
+      "clean-air"
+    ],
+    "highlights": [
+      "UNESCO-listed volcanic landscapes and lava tubes",
+      "Unique haenyeo (female diver) culture",
+      "Excellent hiking including Hallasan mountain and coastal trails"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Jeju International Airport (CJU) with direct flights from Seoul, Tokyo, and other Asian cities. Bus network covers island.",
+      "wifi": "Excellent Korean broadband. 50-100 Mbps common. Very reliable for remote work and video calls.",
+      "medical": "Good hospitals in Jeju City and Seogwipo. Quality healthcare but limited specialists. Serious cases to Seoul (1h flight).",
+      "visa": "30-day visa-free for many nationalities. Check current requirements. Longer stays require visa. Digital nomad visa in development.",
+      "tips": "Rent a car for full island exploration. Try Jeju black pork and tangerines. Visit Olle trails for coastal walking."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "pt-lagos",
+    "slug": "lagos",
+    "name": "Lagos",
+    "country": "Portugal",
+    "region": "Southern Europe",
+    "tagline": "Sun-kissed surf town with old-world charm",
+    "description": "Lagos is a beloved Algarve gem where dramatic sea cliffs meet golden beaches, offering world-class surfing and a lively expat community. The town blends historic Portuguese architecture with modern coworking spaces, making it ideal for remote workers seeking both adventure and productivity. Its walkable streets and welcoming atmosphere create the perfect base for a Mediterranean workation.",
+    "images": [
+      "https://images.unsplash.com/photo-1569406829354-eb0cc9e653e8?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1608649944716-228404a0a8bb?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1627826676942-576ea238e0cc?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1544946853-801555e27f3d?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1579550229847-676fa238ec46?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 5,
+      "affordability": 3,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1200,
+      "mid": 2000,
+      "comfort": 3500
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct"
+      ],
+      "description": "Warm and pleasant Apr-Jun and Sep-Oct. Peak summer crowded."
+    },
+    "tags": [
+      "surfing",
+      "beach",
+      "expat-friendly",
+      "walkable",
+      "sunshine",
+      "coworking"
+    ],
+    "highlights": [
+      "Stunning coastal cliffs and hidden beaches",
+      "Vibrant digital nomad scene",
+      "EU-level healthcare at affordable prices"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Faro (FAO) 1h drive. Or Lisbon (LIS) 3h drive/train.",
+      "wifi": "Reliable fiber. Most cafes and coworks 50+ Mbps.",
+      "medical": "Good public and private healthcare. EU standards.",
+      "visa": "Schengen zone — 90/180 days for most nationalities. D7/D8 visa for long stay.",
+      "tips": "Car needed for full exploration. Off-season (Oct-Mar) much quieter and cheaper."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "pt-madeira",
+    "slug": "madeira",
+    "name": "Madeira",
+    "country": "Portugal",
+    "region": "Southern Europe",
+    "tagline": "Subtropical island paradise with year-round spring climate",
+    "description": "Madeira floats in the Atlantic as a year-round destination where volcanic mountains meet lush forests and dramatic coastlines. The island offers exceptional hiking, stable climate, and Portugal's growing digital nomad infrastructure. Funchal's historic center provides excellent cafes and coworking spaces while maintaining authentic Portuguese charm.",
+    "images": [
+      "https://images.unsplash.com/photo-1619361034832-09d155da143f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1630324111397-0463bbd27145?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1510739628590-0c601822e0a0?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1721241843813-c54b77496005?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1609870445811-7446dbae8b94?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 3,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1300,
+      "mid": 2100,
+      "comfort": 3600
+    },
+    "bestSeason": {
+      "months": [
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Year-round mild climate. Spring (Mar-May) and autumn offer perfect hiking weather."
+    },
+    "tags": [
+      "hiking",
+      "nature",
+      "levadas",
+      "subtropical",
+      "stable-weather",
+      "wine"
+    ],
+    "highlights": [
+      "UNESCO-listed laurel forests and levada walks",
+      "Year-round outdoor activities without extreme heat",
+      "Digital nomad visa available with tax benefits"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly direct to Funchal (FNC) from Lisbon, UK, Germany. 4h from mainland Portugal.",
+      "wifi": "Excellent fiber coverage in Funchal. 4G/LTE island-wide.",
+      "medical": "Modern public hospital and private clinics in Funchal. EU healthcare card accepted.",
+      "visa": "Schengen zone. Portugal D8 digital nomad visa with favorable tax regime.",
+      "tips": "Rent a car to explore the island's hidden valleys. Levadas (irrigation channels) offer unique hiking experiences."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "pt-ericeira",
+    "slug": "ericeira",
+    "name": "Ericeira",
+    "country": "Portugal",
+    "region": "Southern Europe",
+    "tagline": "World Surf Reserve with surf culture and coworking scene",
+    "description": "Ericeira holds the rare distinction of being a World Surf Reserve, offering consistent Atlantic breaks for all skill levels. This fishing village turned surf hub maintains its authenticity while hosting an international community of remote workers and water sports enthusiasts. The compact town center is walkable, with excellent seafood restaurants and growing coworking infrastructure.",
+    "images": [
+      "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1531772337062-9d94547f333f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1725126150604-58fd344dca44?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1575460384680-d3040b05870f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1617041267900-821ce936e417?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 4,
+      "affordability": 3,
+      "wellness": 4,
+      "community": 4,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1200,
+      "mid": 2000,
+      "comfort": 3400
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct"
+      ],
+      "description": "Consistent surf year-round. Best conditions Sep-May. Summer crowded with tourists."
+    },
+    "tags": [
+      "surfing",
+      "beach",
+      "world-surf-reserve",
+      "expat-friendly",
+      "seafood",
+      "coastal"
+    ],
+    "highlights": [
+      "World-class surf breaks for all levels",
+      "Authentic Portuguese village with modern amenities",
+      "Strong surf and work community infrastructure"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Lisbon (LIS), 40min drive to Ericeira. Daily buses available.",
+      "wifi": "Good fiber connectivity. Several dedicated surf camps and coworks with fast WiFi.",
+      "medical": "EU-standard healthcare. Nearest hospital in Torres Vedras (30min).",
+      "visa": "Schengen zone — 90/180 days. D7/D8 visa for longer stays.",
+      "tips": "Book accommodation early in summer. North beach for beginners, south for advanced surfers."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "es-tenerife",
+    "slug": "tenerife",
+    "name": "Tenerife",
+    "country": "Spain",
+    "region": "Southern Europe",
+    "tagline": "Year-round spring climate on Spain's largest Canary Island",
+    "description": "Tenerife dazzles with volcanic landscapes ranging from Teide National Park's lunar terrain to lush laurel forests in the north. The island offers a perfect climate where you can swim in the ocean while snow caps Teide volcano. A well-established expat community and excellent digital infrastructure make it a top choice for year-round remote work.",
+    "images": [
+      "https://images.unsplash.com/photo-1691397553539-c7c573138747?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1602521715918-e50cc83f7326?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1578784088143-c18da1a91336?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1679913156021-ab9d1e6c7a7f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1654802966959-35be231117ae?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 5,
+      "climate": 5,
+      "affordability": 3,
+      "wellness": 4,
+      "community": 4,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1300,
+      "mid": 2200,
+      "comfort": 3800
+    },
+    "bestSeason": {
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      "description": "Year-round destination. Southern coast sunniest. Northern coast greener and cooler."
+    },
+    "tags": [
+      "volcanic",
+      "hiking",
+      "beach",
+      "year-round-swimming",
+      "expat-community",
+      "teide",
+      "diving"
+    ],
+    "highlights": [
+      "Teide volcano hiking and stargazing experiences",
+      "Perfect year-round climate with diverse microclimates",
+      "Well-developed expat infrastructure and international schools"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Two airports: Tenerife South (TFS) and Tenerife North (TFN). Direct flights from Europe and beyond.",
+      "wifi": "Excellent island-wide coverage. Fiber in main towns. 5G available.",
+      "medical": "Good public healthcare system (SNS) plus private options. Pharmacies everywhere.",
+      "visa": "Schengen zone. Spain digital nomad visa (Ley de Startups) available.",
+      "tips": "Rent a car to explore diverse regions. South is touristy/sunny; north is lush/authentic."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "es-granada",
+    "slug": "granada",
+    "name": "Granada",
+    "country": "Spain",
+    "region": "Southern Europe",
+    "tagline": "Andalusian gem where Moorish palaces meet tapas culture",
+    "description": "Granada sits at the foot of the Sierra Nevada, home to the breathtaking Alhambra palace complex and a vibrant student-powered atmosphere. The city's low cost of living combined with excellent tapas culture and strong internet infrastructure make it a favorite among digital nomads. Authentic Andalusian charm meets academic energy in this compact, walkable city.",
+    "images": [
+      "https://images.unsplash.com/photo-1564740603199-5f56138c6679?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1564697546537-e71eb2aaad1b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1468183654773-77e2f0bb6bf9?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1534423839368-1796a4dd1845?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1514981184024-f7fea649f6ed?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 4,
+      "affordability": 4,
+      "wellness": 4,
+      "community": 4,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1000,
+      "mid": 1700,
+      "comfort": 2800
+    },
+    "bestSeason": {
+      "months": [
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Mild year-round. Hot summers (Jul-Aug). Best spring for Alhambra views and hiking."
+    },
+    "tags": [
+      "moorish-history",
+      "alhambra",
+      "tapas",
+      "university-city",
+      "walkable",
+      "affordable",
+      "tapas-free"
+    ],
+    "highlights": [
+      "Alhambra palace — one of the world's architectural wonders",
+      "Free tapas culture with drinks in most bars",
+      "Proximity to Sierra Nevada skiing in winter and hiking in summer"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Granada (GRX) or Malaga (AGP) 2h bus. High-speed train from Madrid planned.",
+      "wifi": "Excellent fiber in center. University area has many cafes with good WiFi.",
+      "medical": "Good public healthcare. University hospital nearby. Private insurance recommended.",
+      "visa": "Schengen zone. Spain digital nomad visa available.",
+      "tips": "Book Alhambra tickets months ahead. Free tapas tradition means easy budget dining."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "es-ibiza",
+    "slug": "ibiza",
+    "name": "Ibiza",
+    "country": "Spain",
+    "region": "Southern Europe",
+    "tagline": "Mediterranean island balancing legendary nightlife with bohemian soul",
+    "description": "Ibiza transcends its party reputation, offering pristine beaches, pine-covered hillsides, and a deep spiritual heritage. The island attracts wellness seekers to its yoga retreats, conscious communities, and stunning sunset locations. While summer sees intense tourism, the off-season reveals an authentic island life with a small but dedicated remote worker community.",
+    "images": [
+      "https://images.unsplash.com/photo-1565352336881-dc2c1f7d2d5b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1571326984129-8e7f40e2a66d?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1661887561503-cd2a45fb0923?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1666101004884-ebe1e825f1fb?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1661887561486-1f771e7b2cab?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 2,
+      "nature": 4,
+      "climate": 5,
+      "affordability": 2,
+      "wellness": 5,
+      "community": 3,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1800,
+      "mid": 3200,
+      "comfort": 5500
+    },
+    "bestSeason": {
+      "months": [
+        "May",
+        "Jun",
+        "Sep",
+        "Oct"
+      ],
+      "description": "May-Jun and Sep-Oct ideal. Summer is crowded/expensive. Winter very quiet."
+    },
+    "tags": [
+      "wellness",
+      "beach",
+      "yoga",
+      "sunset",
+      "meditation",
+      "hippie-culture",
+      "mediterranean"
+    ],
+    "highlights": [
+      "World-renowned wellness retreats and yoga communities",
+      "Crystal-clear Mediterranean waters and hidden coves",
+      "Legendary sunset views from Cafe del Mar and surrounding spots"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Ibiza (IBZ) from major European cities. Ferry from Valencia/Barcelona.",
+      "wifi": "Good coverage but expensive. Fiber in towns, spotty in rural areas.",
+      "medical": "Good island hospital. Private clinics available. EU healthcare card works.",
+      "visa": "Schengen zone. Off-season workation friendly.",
+      "tips": "Visit off-season for lower prices and authentic vibe. Car essential for exploring. San Juan area for hippie/wellness scene."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "gr-crete",
+    "slug": "crete",
+    "name": "Crete (Chania)",
+    "country": "Greece",
+    "region": "Southern Europe",
+    "tagline": "Mediterranean island with Minoan heritage and dramatic gorges",
+    "description": "Crete captivates with its extraordinary diversity — from the pink sand beaches of Elafonisi to the spiritual summit of Mount Ida. Chania's Venetian harbor provides an enchanting backdrop for remote work, while mountain villages like ArgyROUPOLI offer deep immersion in traditional Greek life. The island's food culture and mild climate year-round make it increasingly popular with long-stay visitors.",
+    "images": [
+      "https://images.unsplash.com/photo-1616763866684-b215941fae5e?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1601836743857-4d1e6da20a32?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1575237402880-4b496a83ae04?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1544451290-c7d5f103bce8?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1667307450731-c4e7eeb9e8b3?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 5,
+      "affordability": 3,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1100,
+      "mid": 1900,
+      "comfort": 3200
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Long season Apr-Nov. Peak Jul-Aug. Shoulder seasons perfect for hiking."
+    },
+    "tags": [
+      "mediterranean",
+      "hiking",
+      "ancient-history",
+      "beach",
+      "food-culture",
+      "village-life",
+      "samaria-gorge"
+    ],
+    "highlights": [
+      "Samaria Gorge — Europe's longest canyon hike",
+      "Minoan archaeological sites including Knossos",
+      "Exceptional local food culture with olive oil and wine traditions"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Chania (CHQ) or Heraklion (HER). Seasonal routes from European cities.",
+      "wifi": "Good in towns. Rural villages may have limited connectivity.",
+      "medical": "Good public hospitals in cities. Rural clinics basic. EU card accepted.",
+      "visa": "Schengen zone. Greece digital nomad visa available.",
+      "tips": "Rent car essential. Western Crete (Chania) more scenic. Avoid driving during peak season. Mountain villages for authentic slow living."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "gr-milos",
+    "slug": "milos",
+    "name": "Milos",
+    "country": "Greece",
+    "region": "Southern Europe",
+    "tagline": "Cycladic island of lunar landscapes and hidden sea caves",
+    "description": "Milos emerges from the Aegean as a geological wonderland where volcanic formations create moon-like landscapes and crystalline waters fill hidden sea caves. Unlike its crowded neighbors, Milos maintains authentic Greek island life with charming fishing villages and exceptional seafood. The island attracts artists, photographers, and those seeking unspoiled Cycladic beauty.",
+    "images": [
+      "https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1601581875039-e899893d520c?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1470497409162-889ff0ac5726?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1595942820590-f855c6b8ba88?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1617727347345-fdd8c918018e?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 5,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 3,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 3,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1200,
+      "mid": 2100,
+      "comfort": 3600
+    },
+    "bestSeason": {
+      "months": [
+        "May",
+        "Jun",
+        "Sep",
+        "Oct"
+      ],
+      "description": "Best May-Jun and Sep-Oct. July-August busy. Winter very quiet with limited services."
+    },
+    "tags": [
+      "volcanic",
+      "beach",
+      "photography",
+      "authentic-greek",
+      "sarakina",
+      "fishing-villages",
+      "hot-springs"
+    ],
+    "highlights": [
+      "World-famous Sarakina beach and volcanic sea caves",
+      "Lunar volcanic landscape perfect for photography",
+      "Authentic Cycladic villages without mass tourism"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Milos (MLO) from Athens. Or ferry from Piraeus (Athens) or other Cycladic islands.",
+      "wifi": "Adequate but not excellent. Main town has good coverage. Outside areas limited.",
+      "medical": "Small medical center on island. Serious cases to Athens. Travel insurance essential.",
+      "visa": "Schengen zone. Long-stay possible but services limited in winter.",
+      "tips": "ATV or car essential. Ferry schedules in winter are limited. Book summer ferries early. Slow arrival recommended for immersion."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "it-cagliari",
+    "slug": "cagliari",
+    "name": "Cagliari (Sardinia)",
+    "country": "Italy",
+    "region": "Southern Europe",
+    "tagline": "Mediterranean university city with Poetto beach and hilltop old town",
+    "description": "Cagliari rises from Sardinia's south coast with a majestic medieval Castello quarter overlooking the sea. The city combines Italian academic energy with excellent year-round weather and extensive sandy beaches just minutes from downtown. University students and medical tourism create a cosmopolitan yet affordable Mediterranean lifestyle.",
+    "images": [
+      "https://images.unsplash.com/photo-1620318557203-1cf16117ea07?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1620319197461-32d517a7db27?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1620318730100-e899549498df?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1620318819110-39fa0ce55885?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1619638129972-a472df36e077?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 5,
+      "affordability": 3,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1100,
+      "mid": 1800,
+      "comfort": 3000
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Year-round mild climate. Hot summer Jul-Aug. Winter rarely cold. Beach season Apr-Nov."
+    },
+    "tags": [
+      "university-city",
+      "beach",
+      "poetto",
+      "medieval",
+      "mediterranean",
+      "affordable-italy",
+      "slow-food"
+    ],
+    "highlights": [
+      "Poetto beach — 8km of sandy coastline minutes from city center",
+      "Medieval Castello quarter with panoramic views",
+      "Affordable Italian living with excellent food culture"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Cagliari (CAG) from Rome, Milan, and European cities. Ferry from Civitavecchia/Palermo.",
+      "wifi": "Good fiber in city center. University area excellent for coworking.",
+      "medical": "Good public hospital (Policlinico Universitario). Private clinics available.",
+      "visa": "Schengen zone. Italy offers elective residence visa for remote workers.",
+      "tips": "Car recommended for exploring the region. Molentargius park with flamingos near city. Slow food movement strong here."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "gr-thessaloniki",
+    "slug": "thessaloniki",
+    "name": "Thessaloniki",
+    "country": "Greece",
+    "region": "Southern Europe",
+    "tagline": "Greece's northern cultural capital with Byzantine heritage and Aegean views",
+    "description": "Thessaloniki pulses as Greece's second city, blending Byzantine churches, Ottoman monuments, and modern creative energy. The waterfront promenade invites evening walks while the city's renowned food scene and vibrant nightlife cater to all tastes. Excellent universities create a youthful atmosphere, and the surrounding region offers ski resorts and hiking within a few hours.",
+    "images": [
+      "https://images.unsplash.com/photo-1641758140558-ee487bb94c0e?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1613538384222-cd71e8488d7a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1641758137263-ba6deeedc287?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1620050248206-f5c11bd7f1f2?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1649965164588-82b96857d4fd?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 3,
+      "climate": 4,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 4,
+      "visa": 5,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 900,
+      "mid": 1500,
+      "comfort": 2500
+    },
+    "bestSeason": {
+      "months": [
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Best Apr-Jun and Sep-Nov. Hot summers. Winter for ski nearby at Mount Olympus."
+    },
+    "tags": [
+      "byzantine",
+      "foodie",
+      "nightlife",
+      "university-city",
+      "aegean",
+      "cultural",
+      "walkable"
+    ],
+    "highlights": [
+      "UNESCO Byzantine heritage including Rotunda and churches",
+      "World-class street food and ouzeri culture",
+      "Close to Mount Olympus hiking and skiing"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Thessaloniki (SKG) direct from European cities. Or from Athens (1h flight).",
+      "wifi": "Excellent fiber in city center. Good cafe culture with reliable WiFi.",
+      "medical": "Good public and private hospitals. Medical tourism hub for northern Greece.",
+      "visa": "Schengen zone. Greece digital nomad visa available.",
+      "tips": "Most affordable major Greek city. Ladadika district for nightlife. Walk everywhere in center. Airport bus frequent and cheap."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "mx-oaxaca",
+    "slug": "oaxaca",
+    "name": "Oaxaca",
+    "country": "Mexico",
+    "region": "Central America",
+    "tagline": "Mezcal heartland with indigenous Zapotec culture and colonial beauty",
+    "description": "Oaxaca City cradles within Sierra Madre mountains, UNESCO-protected for its stunning colonial architecture and vibrant indigenous heritage. World-class mezcal, chocolate, and mole traditions make it a culinary destination, while Zapotec villages in the surrounding valleys offer artisan crafts. The city's bohemian atmosphere and affordable living attract creatives and digital workers seeking authentic Mexico.",
+    "images": [
+      "https://images.unsplash.com/photo-1660670173026-ec491dd3dd1a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1562215589-b6d0ed3cfec8?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1530455235907-0a59ea1e04ea?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1686448921254-b326a7914d2f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1594530070128-b4022cfb32b1?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 4,
+      "affordability": 5,
+      "wellness": 4,
+      "community": 4,
+      "wifi": 4,
+      "visa": 4,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 800,
+      "mid": 1300,
+      "comfort": 2200
+    },
+    "bestSeason": {
+      "months": [
+        "Oct",
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Dry season Oct-Mar ideal. Daytime 24-28°C. Rainy Jul-Sep but green and quiet."
+    },
+    "tags": [
+      "colonial",
+      "mezcal",
+      "zapotec",
+      "artisan",
+      "food-culture",
+      "bohemian",
+      "cultural"
+    ],
+    "highlights": [
+      "Day of the Dead (Nov 1-2) — world's most spectacular celebration",
+      "Monte Albán and Mitla Zapotec archaeological sites",
+      "Affordable colonial city with world-class food scene"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Oaxaca (OAX) from Mexico City. ADO bus from major cities.",
+      "wifi": "Good fiber in centro histórico. Several cowork spaces. 20-50 Mbps typical.",
+      "medical": "Good public hospitals and private clinics. Many medical tourism facilities.",
+      "visa": "180 days for most nationalities. No specific digital nomad visa.",
+      "tips": "Learn basic Spanish. Day trips to Mitla, Monte Albán, and mezcal distilleries. markets on most days. Avoid centro during holidays."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "mx-tulum",
+    "slug": "tulum",
+    "name": "Tulum",
+    "country": "Mexico",
+    "region": "Central America",
+    "tagline": "Bohemian beach town with Mayan ruins and cenote swimming",
+    "description": "Tulum perches on the Caribbean coast where ancient Mayan ruins overlook turquoise waters. Once a backpacker haven, it has evolved into a wellness destination with yoga studios, raw food cafes, and cenote swimming. The jungle-lined beaches and eco-conscious vibe attract those seeking a spiritual coastal lifestyle, though prices have risen significantly in recent years.",
+    "images": [
+      "https://images.unsplash.com/photo-1504814532849-cff240bbc503?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1605216663980-b7ca6e9f2451?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1501855901885-8b29fa615daf?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1597397707886-3edda5413325?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1605216663800-d563ef404eef?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 5,
+      "climate": 5,
+      "affordability": 2,
+      "wellness": 5,
+      "community": 4,
+      "wifi": 4,
+      "visa": 4,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1500,
+      "mid": 2800,
+      "comfort": 4500
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Best Nov-Mar dry season. Hot and humid year-round. Hurricane season Jun-Nov."
+    },
+    "tags": [
+      "mayan-ruins",
+      "cenotes",
+      "yoga",
+      "wellness",
+      "caribbean",
+      "eco-chic",
+      "beach"
+    ],
+    "highlights": [
+      "Only Caribbean beach with ancient Mayan ruins overlooking the sea",
+      "Swimming in crystalline cenotes (natural sinkholes)",
+      "World-class yoga and wellness retreat scene"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Cancun (CUN), 2h bus to Tulum. New Tulum airport opening soon.",
+      "wifi": "Improving but inconsistent. Best in hotels and cowork spaces.",
+      "medical": "Basic local clinic. Serious medical to Cancun (2h). International clinic available.",
+      "visa": "180 days for most nationalities.",
+      "tips": "High season very expensive and crowded. Aldea Zama area for better value. Rent bike for beach road. Hurricane preparations necessary Jun-Nov."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "mx-sancristobal",
+    "slug": "san-cristobal",
+    "name": "San Cristóbal de las Casas",
+    "country": "Mexico",
+    "region": "Central America",
+    "tagline": "Colonial mountain city at the heart of indigenous Chiapas",
+    "description": "San Cristóbal de las Casas tumbles through steep cobblestone streets in Mexico's highest colonial city, surrounded by Tzotzil and Tzeltal Maya villages. Colorful markets, artisan workshops, and activist culture give the city a distinctive character. Cool mountain climate and strong expat community make it ideal for extended stays seeking cultural immersion.",
+    "images": [
+      "https://images.unsplash.com/photo-1705670195825-5c286709a5aa?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1705670196062-ce602f5dd8b5?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1705670196521-ada8b042b206?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1705670199289-668d7b9767c4?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1742436900774-ac81df116400?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 5,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 4,
+      "visa": 4,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 700,
+      "mid": 1100,
+      "comfort": 1800
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Cooler months Nov-Mar best. Rainy May-Oct. Can be cold Dec-Feb nights."
+    },
+    "tags": [
+      "colonial",
+      "maya",
+      "indigenous",
+      "markets",
+      "cultural-immersion",
+      "mountains",
+      "arts"
+    ],
+    "highlights": [
+      "Vibrant indigenous markets and artisan traditions",
+      "Day trips to San Juan Chamula and other Maya villages",
+      "Affordable living with strong activist and creative community"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Tuxtla Gutiérrez (TGZ), 1h to San Cristóbal. Or bus from Oaxaca/Palenque.",
+      "wifi": "Good fiber in center. Several cafes and one main coworking space.",
+      "medical": "Basic public hospital. Private clinic available. Serious cases to Tuxtla or Tuxtla Gutiérrez.",
+      "visa": "180 days for most nationalities.",
+      "tips": "Altitude (2,200m) means cool nights. Spanish important here. NGO scene active. Hire guide for village visits. Security concerns in surrounding areas."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "mx-sayulita",
+    "slug": "sayulita",
+    "name": "Sayulita",
+    "country": "Mexico",
+    "region": "Central America",
+    "tagline": "Punchy surf town with hippie vibes and consistent breaks",
+    "description": "Sayulita waves onto the Pacific coast as Nayarit's original surf town, retaining bohemian charm despite growing popularity. Consistent beach breaks suit all levels while the colorful streets overflow with surf shops, taco stands, and international cafes. The town's compact size and welcoming community create an easy lifestyle for those seeking sun, surf, and tacos.",
+    "images": [
+      "https://images.unsplash.com/photo-1577158445641-d6f13acc6e06?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1579967742648-bcb8bacfee66?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1597711002271-db32de5ff02b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1632299768491-51d27b80d088?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1680025933120-e556c908a177?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 5,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 4,
+      "visa": 4,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 900,
+      "mid": 1500,
+      "comfort": 2500
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "description": "Best Nov-Apr dry season. Hurricane season Aug-Oct. Consistent surf year-round."
+    },
+    "tags": [
+      "surfing",
+      "beach",
+      "hippie",
+      "surf-camp",
+      "expat-community",
+      "pacific",
+      "walkable"
+    ],
+    "highlights": [
+      "Consistent Pacific surf breaks for all levels",
+      "Authentic Mexican beach town atmosphere",
+      "Strong international food scene with local prices"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Puerto Vallarta (PVR), 45min drive north. Or bus from Guadalajara.",
+      "wifi": "Improving but inconsistent. Best at cafes and hotels. 4G available.",
+      "medical": "Small local clinic. Hospital in Puerto Vallarta (1h). Travel insurance essential.",
+      "visa": "180 days for most nationalities.",
+      "tips": "Can be very crowded in peak season. Nearby San Pancho quieter. Turtle season Aug-Nov. Watch for theft on beach."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "gt-atitlan",
+    "slug": "lake-atitlan",
+    "name": "Lake Atitlán (San Marcos)",
+    "country": "Guatemala",
+    "region": "Central America",
+    "tagline": "Sacred highland lake surrounded by volcanic cones and Maya villages",
+    "description": "Lake Atitlán shimmers in a volcanic crater where three majestic volcanoes — Tolimán, Atitlán, and San Pedro — frame impossibly steep shores. Maya villages dot the lake's circumference, each with distinct textile traditions. San Marcos has evolved into a spiritual hub with yoga retreats and meditation centers, attracting seekers from around the world.",
+    "images": [
+      "https://images.unsplash.com/photo-1549558188-2f4ae0bdbb3f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1628128568591-29737e01dc6a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1705970867001-9011e90ecb92?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1705970866990-bd75fccc6049?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1596411869574-11b759d71a93?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 5,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 5,
+      "wellness": 5,
+      "community": 4,
+      "wifi": 2,
+      "visa": 4,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 600,
+      "mid": 1000,
+      "comfort": 1800
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Dry season Nov-May best. Rainy May-Oct. Cloud can cover volcanoes Nov-Jan."
+    },
+    "tags": [
+      "volcanic-lake",
+      "yoga",
+      "meditation",
+      "maya",
+      "spirituality",
+      "nature",
+      "spiritual-retreat"
+    ],
+    "highlights": [
+      "Yoga and meditation retreats in stunning natural setting",
+      "Lake swimming and kayaking between Maya villages",
+      "Exceptionally affordable spiritual and wellness community"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Guatemala City (GUA), 2-3h shuttle to Panajachel. Boat to villages.",
+      "wifi": "Unreliable throughout. Solar/4G in some places but frequent outages. Cowork spaces have generators.",
+      "medical": "Very limited. Small clinics in Panajachel. Serious cases to Guatemala City (3h). Minimal medical infrastructure.",
+      "visa": "90 days for most nationalities. Extendible.",
+      "tips": "Power outages common. Bring backup power. Spanish important outside expat circles. Steep terrain challenging. Lanquid for those seeking complete solitude."
+    },
+    "vetoWarning": "⚠️ Limited WiFi connectivity — unreliable power outages common. Very limited medical infrastructure — serious cases require evacuation to Guatemala City. Remote location may not suit those needing reliable connectivity."
+  },
+  {
+    "id": "cr-nosara",
+    "slug": "nosara",
+    "name": "Nosara",
+    "country": "Costa Rica",
+    "region": "Central America",
+    "tagline": "Sustainable surf town in a wildlife sanctuary on the Pacific",
+    "description": "Nosara spreads across the Nicoya Peninsula as a conservation success story where wildlife thrives alongside human community. Sea turtles nest on protected beaches while howler monkeys inhabit the surrounding jungle. Yoga and surf retreats define the wellness scene while sustainable living practices create a model eco-community. Reliable dry-season sunshine and consistent waves make it a top choice.",
+    "images": [
+      "https://images.unsplash.com/photo-1620478112758-245621215026?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1591775589677-ccb74b064331?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1681845045878-3ca2ccc08bcf?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1682963847712-30462012246c?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1681845047615-28696dec3756?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 5,
+      "affordability": 3,
+      "wellness": 5,
+      "community": 4,
+      "wifi": 4,
+      "visa": 4,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1400,
+      "mid": 2300,
+      "comfort": 3800
+    },
+    "bestSeason": {
+      "months": [
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "description": "Dry season Dec-Apr best. Green season May-Nov wet but lush. Surf consistent year-round."
+    },
+    "tags": [
+      "surfing",
+      "wildlife",
+      "sustainable",
+      "yoga",
+      "turtle-nesting",
+      "eco-community",
+      "beach"
+    ],
+    "highlights": [
+      "Wildlife sanctuary with howler monkeys and exotic birds",
+      "Protected sea turtle nesting beaches",
+      "Strong sustainable community with eco-infrastructure"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Liberia (LIR) or San Jose (SJO), 3-4h drive. Small planes to Nosara airstrip.",
+      "wifi": "Improving but can be inconsistent. Resorts and cafes have reliable WiFi.",
+      "medical": "Small clinic in town. Hospital in Nicoya (1h). Private air ambulance available.",
+      "visa": "90 days extendable. No specific digital nomad visa currently.",
+      "tips": "Unpaved roads require 4x4 in green season. Expensive compared to regional neighbors. High-end infrastructure. Turtle tours Dec-Mar."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "br-florianopolis",
+    "slug": "florianopolis",
+    "name": "Florianópolis",
+    "country": "Brazil",
+    "region": "South America",
+    "tagline": "Island city where 42 beaches meet Atlantic forest and Brazilian culture",
+    "description": "Florianópolis spreads across Santa Catarina Island, offering an extraordinary density of beaches ranging from wild surf breaks to calm family coves. The city combines island tranquility with urban amenities, a strong tech scene, and excellent universities. Brazilian hospitality and excellent fresh seafood create an enviable lifestyle for those escaping southern hemisphere winters.",
+    "images": [
+      "https://images.unsplash.com/photo-1675726674424-c0a7ac0ecd01?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1669761151628-20999598357a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1667323567051-1a04b9a23609?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1650217503961-a453ed6650e2?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1576642687554-b18584bef98c?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 3,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 4,
+      "visa": 4,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1000,
+      "mid": 1700,
+      "comfort": 3000
+    },
+    "bestSeason": {
+      "months": [
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Peak summer Dec-Mar. Warm 25-30°C. Can be crowded. Shoulder seasons pleasant."
+    },
+    "tags": [
+      "beach",
+      "surfing",
+      "island-life",
+      "tech-hub",
+      "brazilian",
+      "hiking",
+      "Lagoa da Conceição"
+    ],
+    "highlights": [
+      "42 beaches with diverse conditions for swimming and surfing",
+      "Strong Brazilian tech and startup scene",
+      "Lagoa da Conceição — lagoon paradise with wind sports and cafes"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly direct to Florianópolis (FLN) from major Brazilian cities. International connections via Sao Paulo.",
+      "wifi": "Good fiber in main areas. Beach towns have 4G coverage.",
+      "medical": "Good public healthcare (SUS) and private hospitals. Excellent private system.",
+      "visa": "90 days extendable to 180. Brazil now offers digital nomad visa.",
+      "tips": "Rent a car essential for exploring beaches. North island wilder. South island more developed. Portuguese essential."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "br-pipa",
+    "slug": "pipa",
+    "name": "Pipa",
+    "country": "Brazil",
+    "region": "South America",
+    "tagline": "Dramatic cliff-backed beach town with dolphins and nature reserves",
+    "description": "Pipa dazzles along Brazil's northeastern coast where turquoise bays are framed by dramatic sandstone cliffs and coconut groves. Dolphins regularly visit the protected bay while the surrounding Atlantic forest houses monkeys and tropical birds. Despite growing popularity, Pipa maintains a bohemian beach atmosphere with excellent surfing, fresh seafood, and a mixed international-local community.",
+    "images": [
+      "https://images.unsplash.com/photo-1515898698999-18f625d67499?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1630410139620-15d3a0791a5b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1622411945833-40319ff4e2ad?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1550574364-981d838fa2f1?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1560971923-16c232d1ee89?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 5,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 3,
+      "wifi": 3,
+      "visa": 4,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 800,
+      "mid": 1300,
+      "comfort": 2200
+    },
+    "bestSeason": {
+      "months": [
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Year-round destination. Best weather Sep-Mar. Whale watching Aug-Nov."
+    },
+    "tags": [
+      "beach",
+      "dolphins",
+      "surfing",
+      "nature-reserve",
+      "cliff-beaches",
+      "brazilian",
+      "turtles"
+    ],
+    "highlights": [
+      "Dolphin sanctuary with daily sightings from beach",
+      "Parnaiba Delta boat tours through mangroves",
+      "Beautiful cliff-backed beaches with surfing for all levels"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Natal (NAT), 1.5h drive. Or via Recife (REC) 4h bus.",
+      "wifi": "Variable. Some cafes and hotels have decent WiFi. 4G available but inconsistent.",
+      "medical": "Small local clinic. Hospital in Natal (1.5h). Travel insurance essential.",
+      "visa": "90 days extendable. Brazilian digital nomad visa available.",
+      "tips": "Beach access paths can be confusing. Local surf school recommended. Sun set from cliffs spectacular. Portuguese necessary for local interaction."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "co-medellin",
+    "slug": "medellin",
+    "name": "Medellín",
+    "country": "Colombia",
+    "region": "South America",
+    "tagline": "City of eternal spring transforming through innovation and creativity",
+    "description": "Medellín rises from the Aburrá Valley, internationally celebrated for its urban transformation and year-round spring climate. Cable cars connect hillside comunas to downtown museums and innovative urban parks. A thriving tech scene, excellent universities, and welcoming locals have made it Latin America's digital nomad capital. Neighborhoods like El Poblado offer every amenity while Laureles provides a more local feel.",
+    "images": [
+      "https://images.unsplash.com/photo-1515366974328-f1181eb25189?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1653932610416-399b3deb52d2?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1671240434571-a21d691f713b?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1671240432518-747abe186105?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1640768239887-77479f49a7dc?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 5,
+      "affordability": 5,
+      "wellness": 4,
+      "community": 5,
+      "wifi": 5,
+      "visa": 4,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 900,
+      "mid": 1500,
+      "comfort": 2600
+    },
+    "bestSeason": {
+      "months": [
+        "Jan",
+        "Feb",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Dec"
+      ],
+      "description": "Year-round spring climate. Wetter Mar-May and Oct-Nov. Comfortable 22-28°C always."
+    },
+    "tags": [
+      "spring-climate",
+      "tech-hub",
+      "coworking",
+      "innovation",
+      "cable-cars",
+      "art-galleries",
+      "salsa"
+    ],
+    "highlights": [
+      "Perfect year-round climate — 'City of Eternal Spring'",
+      "Thriving tech ecosystem and startup culture",
+      "Excellent coworking infrastructure with global community"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Medellín (MDE) direct from US, Europe, and Latin America. Two airports — MDE main, EOH for domestic.",
+      "wifi": "Excellent fiber and 4G/5G coverage. Many coworking spaces. Fastest speeds in Colombia.",
+      "medical": "Excellent private healthcare (Javesalud, others). Advanced medical tourism hub.",
+      "visa": "90 days extendable to 180. V-type visa for 180 days. Digital nomad visa introduced.",
+      "tips": "El Poblado for gringo scene; Laureles for local vibe. Metro and cable cars cheap and safe. Spanish helps but many speak English."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "co-minca",
+    "slug": "minca",
+    "name": "Minca",
+    "country": "Colombia",
+    "region": "South America",
+    "tagline": "Mountain eco-village surrounded by cloud forest and coffee farms",
+    "description": "Minca tumbles up the Sierra Nevada foothills, a tiny eco-village surrounded by cloud forest and shade-grown coffee farms. Waterfalls, hummingbirds, and howler monkeys define daily life while the altitude provides relief from Caribbean heat. A creative community of permaculture designers, artists, and nature lovers have established hostels and cafes, though infrastructure remains basic.",
+    "images": [
+      "https://images.unsplash.com/photo-1599651317690-b0283c307261?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1708716174997-3e071c2f7a64?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1708716175012-8c2923ce7602?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1708716174112-931d87177e69?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1663945756724-512f8dea8f73?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 5,
+      "nature": 5,
+      "climate": 3,
+      "affordability": 5,
+      "wellness": 4,
+      "community": 4,
+      "wifi": 2,
+      "visa": 4,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 600,
+      "mid": 1000,
+      "comfort": 1600
+    },
+    "bestSeason": {
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "Aug",
+        "Sep"
+      ],
+      "description": "Drier Dec-Apr but can rain any time. Wet May-Nov. Quieter weekdays."
+    },
+    "tags": [
+      "cloud-forest",
+      "coffee",
+      "ecotourism",
+      "waterfalls",
+      "birding",
+      "nature",
+      "off-grid"
+    ],
+    "highlights": [
+      "Birding paradise with toucans, hummingbirds, and exotic species",
+      "Coffee farm tours and waterfall swimming",
+      "Permaculture and sustainable living community"
+    ],
+    "practicalInfo": {
+      "gettingThere": "From Santa Marta (30min drive). Collectivo from market. Taxi recommended.",
+      "wifi": "Very limited and unreliable. Most hostels have weak satellite connections. Frequent outages.",
+      "medical": "Very limited. Clinic in Minca, basic. Hospital in Santa Marta (1h). Remote location limits emergency response.",
+      "visa": "90 days extendable. V-type visa for longer stays.",
+      "tips": "Bring layers — mountain climate cool at night. Flash floods in wet season. Spanish essential. Power cuts frequent. Off-grid stays for total immersion."
+    },
+    "vetoWarning": "⚠️ Very limited WiFi — power cuts and satellite outages common. Remote medical access — serious cases require evacuation to Santa Marta. Best suited for digital detox or those with flexible work schedules."
+  },
+  {
+    "id": "ec-vilcabamba",
+    "slug": "vilcabamba",
+    "name": "Vilcabamba",
+    "country": "Ecuador",
+    "region": "South America",
+    "tagline": "Legendary valley of longevity in the shadow of Inca sacred volcano",
+    "description": "Vilcabamba nestles in Ecuador's southern Andes, famous for legends of longevity and its contemplative atmosphere. The sacred Inca volcano Mandango frames the valley while hot springs and holistic retreats attract wellness seekers. An international community of expats, artists, and spiritual practitioners has created a unique fusion of Andean culture and alternative living.",
+    "images": [
+      "https://images.unsplash.com/photo-1616547141416-55227377a471?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1616547141892-44cb8f6a87e2?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1640554214186-788574b31564?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1616547142063-6d0d6f8668ca?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1616547310586-b5bd0965c1e2?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 5,
+      "nature": 4,
+      "climate": 4,
+      "affordability": 5,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 3,
+      "visa": 4,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 600,
+      "mid": 1000,
+      "comfort": 1700
+    },
+    "bestSeason": {
+      "months": [
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct"
+      ],
+      "description": "Dry season Jun-Nov ideal. Wet season Dec-May but still pleasant. Mild year-round."
+    },
+    "tags": [
+      "andina",
+      "hot-springs",
+      "longevity",
+      "spiritual",
+      "hiking",
+      "organic",
+      "quiet"
+    ],
+    "highlights": [
+      "Legendary 'Valley of Longevity' with holistic community",
+      "Natural hot springs in stunning Andean setting",
+      "Extremely affordable living with organic food culture"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Loja (LOH) or Cuenca (CUE), 1-2h bus. From Quito 10h bus.",
+      "wifi": "Limited infrastructure. Some cafes have WiFi. Satellite connections available but slow.",
+      "medical": "Very limited local medical care. Small clinic only. Serious cases to Loja or Cuenca (1-2h). Remote location with minimal emergency services.",
+      "visa": "90 days. Extension possible. Migratory visa for longer stays.",
+      "tips": "Altitude (1,500m) — acclimatize. Spanish essential. Quiet town closes early. Great for meditation and nature walks. Nearby Podocarpus cloud forest for hiking."
+    },
+    "vetoWarning": "⚠️ Very limited medical infrastructure — serious cases require 1-2 hour transport to regional hospitals. Remote location means minimal emergency services. Unreliable WiFi with frequent outages."
+  },
+  {
+    "id": "ma-essaouira",
+    "slug": "essaouira",
+    "name": "Essaouira",
+    "country": "Morocco",
+    "region": "Africa",
+    "tagline": "Windy Atlantic medina where Andalusian and Berber cultures meet",
+    "description": "Essaouira (Mogador) stands on Morocco's Atlantic coast where the UNESCO-protected medina tumbles to wind-swept harbor walls. The fortified Portuguese-built city combines whitewashed streets with vibrant souks and a strong arts scene. Constant Atlantic winds make it Morocco's kitesurfing capital while the mellowness attracts those seeking a calmer alternative to Marrakech.",
+    "images": [
+      "https://images.unsplash.com/photo-1624802746702-60ca95bdb605?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1613057157282-cc3cbe630b26?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1624802704371-c76faa34c3a0?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1624802710884-f7c40598140c?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1534273006427-1686266049b7?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 4,
+      "climate": 3,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 3,
+      "visa": 4,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 800,
+      "mid": 1300,
+      "comfort": 2200
+    },
+    "bestSeason": {
+      "months": [
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Best Mar-Jun and Sep-Nov. Windy year-round. Winter can be cool and rainy. Summer pleasant."
+    },
+    "tags": [
+      "medina",
+      "kitesurfing",
+      "arts",
+      "unesco",
+      "atlantic",
+      "hippie",
+      "fish-market"
+    ],
+    "highlights": [
+      "UNESCO medina with Portuguese fortifications",
+      "World-class kitesurfing and wind sports",
+      "Relaxed atmosphere compared to Marrakech (3h away)"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Essaouira (ESU) direct from Europe. Or bus from Marrakech (3h).",
+      "wifi": "Variable. Riads and cafes have WiFi but not always reliable. 4G available.",
+      "medical": "Basic local clinic. Hospital in Marrakech (3h). Travel insurance essential.",
+      "visa": "90 days for most nationalities. Morocco visa-free for many nationalities.",
+      "tips": "Medina compact and walkable. Riads offer best value accommodation. Wind strongest Mar-Jun. Gnawa music festival in June."
+    },
+    "vetoWarning": null
+  },
+  {
+    "id": "ma-taghazout",
+    "slug": "taghazout",
+    "name": "Taghazout",
+    "country": "Morocco",
+    "region": "Africa",
+    "tagline": "Legendary Moroccan surf village on the Atlantic coast",
+    "description": "Taghazout has evolved from a fishing village into Morocco's premier surf destination, attracting beginners to pros with its point breaks and mellow vibe. The village overlooks the Atlantic where surf camps and cafes line the waterfront while goat cheese and argan oil come from nearby Berber villages. Affordable living with consistent winter swells make it ideal for extended surf workations.",
+    "images": [
+      "https://images.unsplash.com/photo-1515386474292-47555758ef2e?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1538050558691-dfaad62c8ea0?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1538053367502-742497073841?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1538055947455-e743e117a8ad?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1546388613-2fb7213ec9c6?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 4,
+      "climate": 4,
+      "affordability": 4,
+      "wellness": 3,
+      "community": 4,
+      "wifi": 2,
+      "visa": 4,
+      "medical": 3
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 700,
+      "mid": 1100,
+      "comfort": 1900
+    },
+    "bestSeason": {
+      "months": [
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Surf season Sep-Mar. Biggest swells Nov-Feb. Summer flat but warm. Crowded Dec-Jan."
+    },
+    "tags": [
+      "surfing",
+      "beach",
+      "village-life",
+      "argane-oil",
+      "beginner-friendly",
+      "atlantic",
+      "coworking"
+    ],
+    "highlights": [
+      "Legendary anchor point and killer point breaks for all levels",
+      "Extremely affordable surf camp accommodation",
+      "Authentic Moroccan village life close to Taghazout Village coworking"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Agadir (AGA), 45min taxi. Or bus from Marrakech (5h).",
+      "wifi": "Limited infrastructure. Some cafes have WiFi. Coworking spaces exist but connectivity varies. Frequent power cuts.",
+      "medical": "Small clinic in Taghazout. Hospital in Agadir (45min). Basic emergency services.",
+      "visa": "90 days for most nationalities. Morocco visa-free for many nationalities.",
+      "tips": "Bring wetsuit (winter 14-17°C water). Surf camps offer packages. Taghazout Village coworking recommended. Anchor Point for sunset."
+    },
+    "vetoWarning": "⚠️ Limited WiFi infrastructure — frequent outages and slow speeds common. Remote location means limited emergency medical services. Best suited for those prioritizing surfing over connectivity."
+  },
+  {
+    "id": "tz-zanzibar",
+    "slug": "zanzibar",
+    "name": "Zanzibar",
+    "country": "Tanzania",
+    "region": "Africa",
+    "tagline": "Spice Island paradise with Stone Town heritage and turquoise lagoons",
+    "description": "Zanzibar floats in the Indian Ocean as Tanzania's semi-autonomous archipelago, where Swahili culture meets Arab heritage in UNESCO-listed Stone Town. The island offers extraordinary beaches, world-class diving, and the unique experience of swimming with wild dolphins. Coconut palms and fishing dhows define the coastal villages while spice tours reveal the island's 'Spice Island' nickname.",
+    "images": [
+      "https://images.unsplash.com/photo-1575999502951-4ab25b5ca889?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1549035092-33b2937b075a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1695643875095-f5620748605d?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1733306300778-4e44fb3ff9bd?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1620896712848-d05411ec91ec?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 4,
+      "nature": 5,
+      "climate": 5,
+      "affordability": 4,
+      "wellness": 4,
+      "community": 3,
+      "wifi": 3,
+      "visa": 4,
+      "medical": 2
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 900,
+      "mid": 1500,
+      "comfort": 2800
+    },
+    "bestSeason": {
+      "months": [
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "description": "Best Jun-Oct dry season. Long rains Mar-May. Short rains Nov-Dec. Hot year-round."
+    },
+    "tags": [
+      "diving",
+      "spice-island",
+      "swahili",
+      "beach",
+      "stone-town",
+      "dolphins",
+      "paje"
+    ],
+    "highlights": [
+      "World-class diving and snorkeling in Indian Ocean",
+      "UNESCO Stone Town with Swahili and Arab heritage",
+      "Paje beach — kitesurfing and beach bar scene"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Zanzibar (ZNZ) direct from Nairobi, Dubai, Addis Ababa. Or ferry from Dar es Salaam (2h).",
+      "wifi": "Variable. Resorts have WiFi. Outside limited. 4G available but expensive.",
+      "medical": "Very limited medical facilities. Small clinic on island. Serious cases require medical evacuation to Dar es Salaam or Nairobi. Minimal emergency infrastructure.",
+      "visa": "Visa on arrival for most nationalities (50 USD). East African Tourist Visa available.",
+      "tips": "Book inter-island flights early. Paje for kitesurfing and coworking. Nungwi/Pwani Mchangani for beach resorts. Power cuts common. Seaweed farming communities worth visiting."
+    },
+    "vetoWarning": "⚠️ Very limited medical infrastructure — serious cases require medical evacuation to mainland. Remote location limits emergency services. WiFi unreliable outside major resorts."
+  },
+  {
+    "id": "za-capetown",
+    "slug": "cape-town",
+    "name": "Cape Town",
+    "country": "South Africa",
+    "region": "Africa",
+    "tagline": "Cosmopolitan city framed by Table Mountain and two oceans",
+    "description": "Cape Town stuns where Table Mountain's flat-topped silhouette meets the Atlantic and Indian Ocean meeting point. The city combines world-class infrastructure with extraordinary natural beauty — penguins at Boulder Beach, wine estates in Constantia, and hiking trails above the city. A creative, multicultural community and South Africa's best medical facilities make it Africa's premier expat destination.",
+    "images": [
+      "https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1576485375217-d6a95e34d043?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1581596326248-f55ac7852760?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1496497243327-9dccd845c35f?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1529528070131-eda9f3e90919?w=800&h=600&fit=crop&q=80"
+    ],
+    "scores": {
+      "serenity": 3,
+      "nature": 5,
+      "climate": 4,
+      "affordability": 3,
+      "wellness": 4,
+      "community": 5,
+      "wifi": 5,
+      "visa": 3,
+      "medical": 4
+    },
+    "monthlyCost": {
+      "currency": "USD",
+      "budget": 1300,
+      "mid": 2200,
+      "comfort": 4000
+    },
+    "bestSeason": {
+      "months": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar"
+      ],
+      "description": "Summer Nov-Mar best. Cape Town's 'Mediterranean' climate. Wildflowers Aug-Sep."
+    },
+    "tags": [
+      "table-mountain",
+      "wine-country",
+      "diving",
+      "hiking",
+      "cosmopolitan",
+      "penguins",
+      "wine"
+    ],
+    "highlights": [
+      "Table Mountain hiking and cable car with panoramic views",
+      "World-class wine estates in Constantia and Stellenbosch",
+      "Two ocean convergence — Atlantic and Indian seas"
+    ],
+    "practicalInfo": {
+      "gettingThere": "Fly to Cape Town (CPT) direct from Europe, Middle East, Asia. Excellent international connections.",
+      "wifi": "Excellent fiber and 4G/LTE coverage. Coworking infrastructure comparable to Europe.",
+      "medical": "South Africa's best private healthcare in Cape Town. World-class hospitals and clinics.",
+      "visa": "90 days for most nationalities. SA critical skills visa for professionals. Byron visa available.",
+      "tips": "Table Mountain for hiking. Camps Bay for sunset. Constantia wine estates nearby. V&A Waterfront for tourists. Secure neighborhoods matter."
+    },
+    "vetoWarning": null
+  }
+]

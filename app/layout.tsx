@@ -1,0 +1,105 @@
+import type { Metadata } from 'next';
+import { DM_Serif_Display, DM_Sans, JetBrains_Mono } from 'next/font/google';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import './globals.css';
+
+// Font configurations
+const dmSerifDisplay = DM_Serif_Display({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-serif',
+});
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-mono',
+});
+
+// Site metadata
+export const metadata: Metadata = {
+  title: {
+    default: 'SereneStay.ai - Find Your Perfect Healing Retreat',
+    template: '%s | SereneStay.ai',
+  },
+  description:
+    'Discover tranquility with AI-powered healing retreat matching. Find your perfect sanctuary for wellness, nature, and serenity around the world.',
+  keywords: [
+    'healing retreat',
+    'wellness travel',
+    'serenity',
+    'nature retreat',
+    'wellness destination',
+    'mindfulness travel',
+    'digital nomad',
+    'remote work travel',
+  ],
+  authors: [{ name: 'SereneStay.ai' }],
+  creator: 'SereneStay.ai',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://serenestay.ai',
+    siteName: 'SereneStay.ai',
+    title: 'SereneStay.ai - Find Your Perfect Healing Retreat',
+    description:
+      'Discover tranquility with AI-powered healing retreat matching. Find your perfect sanctuary for wellness, nature, and serenity.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'SereneStay.ai - AI-Powered Healing Retreat Matching',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SereneStay.ai - Find Your Perfect Healing Retreat',
+    description:
+      'Discover tranquility with AI-powered healing retreat matching.',
+    images: ['/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html
+      lang="en"
+      className={`${dmSerifDisplay.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="min-h-screen flex flex-col bg-surface">
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
+}

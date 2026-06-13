@@ -1,0 +1,379 @@
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ChevronLeft, MapPin, Calendar, MessageCircle, Plane, Wifi, Heart, Clock, AlertTriangle } from 'lucide-react';
+import { fetchDestination, fetchDestinations } from '@/lib/api';
+import ScoreBar from '@/components/ScoreBar';
+import VetoWarning from '@/components/VetoWarning';
+import DestinationCard from '@/components/DestinationCard';
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+// Generate metadata
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  
+  try {
+    const { destination } = await fetchDestination(slug);
+    return {
+      title: `${destination.name}, ${destination.country}`,
+      description: destination.tagline,
+      openGraph: {
+        title: `${destination.name} | SereneStay.ai`,
+        description: destination.tagline,
+        images: [destination.images[0]],
+      },
+    };
+  } catch {
+    return {
+      title: 'Destination Not Found',
+    };
+  }
+}
+
+// Generate static params for popular destinations
+export async function generateStaticParams() {
+  try {
+    const { destinations } = await fetchDestinations();
+    return destinations.slice(0, 20).map((d) => ({
+      slug: d.slug,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export default async function DestinationDetailPage({ params }: PageProps) {
+  const { slug } = await params;
+  
+  let destination;
+  try {
+    const result = await fetchDestination(slug);
+    destination = result.destination;
+  } catch {
+    notFound();
+  }
+
+  // Fetch related destinations (same region, exclude current)
+  let relatedDestinations: typeof destination[] = [];
+  try {
+    const { destinations } = await fetchDestinations({ region: destination.region });
+    relatedDestinations = destinations
+      .filter((d) => d.id !== destination.id)
+      .slice(0, 3);
+  } catch {
+    // Ignore related destinations fetch errors
+  }
+
+  // Score labels mapping
+  const scoreLabels: Record<string, string> = {
+    serenity: 'Serenity',
+    nature: 'Nature & Scenery',
+    climate: 'Climate',
+    affordability: 'Affordability',
+    wellness: 'Wellness Facilities',
+    community: 'Community',
+    wifi: 'WiFi Quality',
+    visa: 'Visa Friendliness',
+    medical: 'Medical Access',
+  };
+
+  // Determine veto warning type
+  const getWarningType = (): 'wifi' | 'medical' | 'general' => {
+    if (destination.vetoWarning?.toLowerCase().includes('wifi')) return 'wifi';
+    if (destination.vetoWarning?.toLowerCase().includes('medical')) return 'medical';
+    return 'general';
+  };
+
+  return (
+    <div className="min-h-screen pt-16">
+      {/* Back Navigation */}
+      <div className="container-full px-4 py-4">
+        <Link
+          href="/destinations"
+          className="inline-flex items-center gap-2 text-primary/60 hover:text-secondary transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span>Back to Destinations</span>
+        </Link>
+      </div>
+
+      {/* Hero Image Gallery */}
+      <section className="container-full px-4 mb-8">
+        <div className="relative h-[40vh] sm:h-[50vh] lg:h-[60vh] rounded-2xl overflow-hidden">
+          {/* Main Image */}
+          <Image
+            src={destination.images[0]}
+            alt={`${destination.name} - Main view`}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
+          
+          {/* Location Badge */}
+          <div className="absolute bottom-6 left-6 flex items-center gap-2 text-white">
+            <MapPin className="w-5 h-5" />
+            <span className="font-serif text-xl">{destination.country}</span>
+          </div>
+
+          {/* Image Count */}
+          <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-sm text-primary">
+            +{destination.images.length - 1} more photos
+          </div>
+        </div>
+
+        {/* Thumbnail Strip */}
+        <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
+          {destination.images.map((image, index) => (
+            <div
+              key={index}
+              className={`relative h-20 w-28 rounded-lg overflow-hidden flex-shrink-0 ${
+                index === 0 ? 'ring-2 ring-secondary' : ''
+              }`}
+            >
+              <Image
+                src={image}
+                alt={`${destination.name} - Photo ${index + 1}`}
+                fill
+                className="object-cover"
+                sizes="112px"
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <div className="container-full px-4 pb-16">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Left Column - Main Info */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Header */}
+            <div>
+              <h1 className="font-serif text-4xl sm:text-5xl text-primary">
+                {destination.name}
+              </h1>
+              <p className="mt-3 text-xl text-primary/70">
+                {destination.tagline}
+              </p>
+              
+              {/* Tags */}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {destination.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Veto Warning */}
+            {destination.vetoWarning && (
+              <VetoWarning
+                warning={destination.vetoWarning}
+                type={getWarningType()}
+              />
+            )}
+
+            {/* Description */}
+            <div>
+              <h2 className="font-serif text-2xl text-primary mb-4">
+                About This Retreat
+              </h2>
+              <p className="text-primary/70 leading-relaxed">
+                {destination.description}
+              </p>
+            </div>
+
+            {/* 9-Dimensional Scores */}
+            <div>
+              <h2 className="font-serif text-2xl text-primary mb-6">
+                Rating Breakdown
+              </h2>
+              <div className="bg-white rounded-2xl p-6 shadow-card space-y-4">
+                {Object.entries(destination.scores).map(([key, score]) => (
+                  <ScoreBar
+                    key={key}
+                    label={scoreLabels[key] || key}
+                    score={score}
+                    size="lg"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Best Season */}
+            <div>
+              <h2 className="font-serif text-2xl text-primary mb-4 flex items-center gap-2">
+                <Calendar className="w-6 h-6 text-secondary" />
+                Best Time to Visit
+              </h2>
+              <div className="bg-white rounded-2xl p-6 shadow-card">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {destination.bestSeason.months.map((month) => (
+                    <span
+                      key={month}
+                      className="px-4 py-2 bg-secondary/10 text-secondary font-medium rounded-lg"
+                    >
+                      {month}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-primary/70">{destination.bestSeason.description}</p>
+              </div>
+            </div>
+
+            {/* Highlights */}
+            <div>
+              <h2 className="font-serif text-2xl text-primary mb-4 flex items-center gap-2">
+                <Heart className="w-6 h-6 text-secondary" />
+                Highlights
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {destination.highlights.map((highlight, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-card"
+                  >
+                    <div className="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-secondary font-mono text-sm">{index + 1}</span>
+                    </div>
+                    <p className="text-primary/80">{highlight}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Sidebar */}
+          <div className="space-y-6">
+            {/* Chat CTA */}
+            <div className="bg-gradient-to-br from-secondary to-primary rounded-2xl p-6 text-white">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                  <MessageCircle className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-serif text-xl">Chat with Serene</h3>
+                  <p className="text-white/70 text-sm">AI Wellness Guide</p>
+                </div>
+              </div>
+              <p className="text-white/80 text-sm mb-4">
+                Have questions about {destination.name}? Chat with our AI guide for personalized insights.
+              </p>
+              <Link
+                href={`/chat?context=${destination.slug}`}
+                className="block w-full py-3 bg-white text-primary text-center rounded-xl font-medium hover:bg-surface transition-colors"
+              >
+                Ask Serene About {destination.name}
+              </Link>
+            </div>
+
+            {/* Monthly Costs */}
+            <div className="bg-white rounded-2xl p-6 shadow-card">
+              <h3 className="font-serif text-xl text-primary mb-4">
+                Monthly Living Costs
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 bg-surface rounded-xl">
+                  <span className="text-primary/70">Budget</span>
+                  <span className="font-mono text-lg font-semibold text-primary">
+                    ${destination.monthlyCost.budget}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-secondary/5 border border-secondary/20 rounded-xl">
+                  <span className="text-secondary">Mid-range</span>
+                  <span className="font-mono text-lg font-semibold text-secondary">
+                    ${destination.monthlyCost.mid}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-surface rounded-xl">
+                  <span className="text-primary/70">Comfort</span>
+                  <span className="font-mono text-lg font-semibold text-primary">
+                    ${destination.monthlyCost.comfort}
+                  </span>
+                </div>
+              </div>
+              <p className="mt-4 text-xs text-primary/50 text-center">
+                Estimated costs in {destination.monthlyCost.currency} per month
+              </p>
+            </div>
+
+            {/* Practical Info */}
+            <div className="bg-white rounded-2xl p-6 shadow-card">
+              <h3 className="font-serif text-xl text-primary mb-4">
+                Practical Information
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-sm font-medium text-primary/60 mb-1 flex items-center gap-2">
+                    <Plane className="w-4 h-4" />
+                    Getting There
+                  </h4>
+                  <p className="text-sm text-primary/80">{destination.practicalInfo.gettingThere}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-primary/60 mb-1 flex items-center gap-2">
+                    <Wifi className="w-4 h-4" />
+                    WiFi
+                  </h4>
+                  <p className="text-sm text-primary/80">{destination.practicalInfo.wifi}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-primary/60 mb-1 flex items-center gap-2">
+                    <Heart className="w-4 h-4" />
+                    Medical
+                  </h4>
+                  <p className="text-sm text-primary/80">{destination.practicalInfo.medical}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-primary/60 mb-1 flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    Visa
+                  </h4>
+                  <p className="text-sm text-primary/80">{destination.practicalInfo.visa}</p>
+                </div>
+              </div>
+              
+              {/* Tips */}
+              <div className="mt-6 pt-4 border-t border-primary/10">
+                <h4 className="text-sm font-medium text-primary/60 mb-2 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-warning" />
+                  Local Tips
+                </h4>
+                <p className="text-sm text-primary/80">{destination.practicalInfo.tips}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Related Destinations */}
+        {relatedDestinations.length > 0 && (
+          <section className="mt-16">
+            <div className="flex items-center gap-4 mb-6">
+              <h2 className="font-serif text-2xl text-primary">
+                More in {destination.region}
+              </h2>
+              <div className="flex-1 h-px bg-primary/10" />
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedDestinations.map((dest) => (
+                <DestinationCard key={dest.id} destination={dest} />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+}

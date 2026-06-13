@@ -1,0 +1,363 @@
+'use client';
+
+import { useState, useRef, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import { Send, MessageCircle, Sparkles, ChevronDown, Lock, Zap } from 'lucide-react';
+import { Message } from '@/lib/types';
+import { streamChat } from '@/lib/api';
+
+// Quick reply suggestions
+const quickReplies = [
+  '🌿 Looking for peace and quiet',
+  '🏖️ Beach and nature combined',
+  '🏔️ Mountain retreat vibes',
+  '💼 Good WiFi for remote work',
+  '💰 Budget-friendly option',
+  '🧘 Focus on wellness',
+];
+
+interface ChatInterfaceProps {
+  initialMessages?: Message[];
+  destinationContext?: string;
+  isProUser?: boolean;
+  onMatchCountChange?: (count: number) => void;
+}
+
+export default function ChatInterface({
+  initialMessages = [],
+  destinationContext,
+  isProUser: initialIsProUser = false,
+  onMatchCountChange,
+}: ChatInterfaceProps) {
+  // State management
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [inputValue, setInputValue] = useState('');
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [matchCount, setMatchCount] = useState(0);
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
+  const [isProUser, setIsProUser] = useState(initialIsProUser);
+  
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Welcome message
+  const welcomeMessage: Message = {
+    id: 'welcome',
+    role: 'assistant',
+    content: destinationContext 
+      ? `Hello! I'm Serene, your AI wellness travel guide. I see you're interested in ${destinationContext}. Tell me more about what you're looking for, and I'll help you find your perfect sanctuary.`
+      : `Hello! I'm Serene, your AI wellness travel guide. 🌿 I'm here to help you find the perfect healing retreat that matches your needs and dreams. 
+
+What matters most to you in a wellness destination? You can tell me about:
+• Your budget and preferred climate
+• Activities like yoga, meditation, or nature walks
+• Need for good WiFi or remote work conditions
+• Any health or medical considerations
+
+Or just share what's on your mind, and we'll explore together.`,
+  };
+
+  // Initialize with welcome message
+  useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([welcomeMessage]);
+    }
+  }, []);
+
+  // Check localStorage for user status on mount
+  useEffect(() => {
+    const storedIsPro = localStorage.getItem('serenestay_pro');
+    if (storedIsPro === 'true') {
+      setIsProUser(true);
+    }
+  }, []);
+
+  // Auto-scroll to bottom on new messages
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  // Focus input on mount
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  // Handle streaming response
+  const handleStreamResponse = useCallback(async (userMessage: string) => {
+    setIsStreaming(true);
+    
+    // Create a placeholder for the AI response
+    const assistantMessageId = `assistant-${Date.now()}`;
+    setMessages((prev) => [
+      ...prev,
+      { id: assistantMessageId, role: 'assistant', content: '' },
+    ]);
+
+    let fullResponse = '';
+
+    try {
+      await streamChat(
+        [...messages, { id: 'current', role: 'user' as const, content: userMessage }],
+        (chunk) => {
+          fullResponse += chunk;
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === assistantMessageId
+                ? { ...msg, content: fullResponse }
+                : msg
+            )
+          );
+        },
+        (done) => {
+          if (done && fullResponse.includes('match')) {
+            setMatchCount((prev) => {
+              const newCount = prev + 1;
+              onMatchCountChange?.(newCount);
+              
+              // Check if free user exceeded limit
+              if (!isProUser && newCount >= 2) {
+                setShowUpgradePrompt(true);
+              }
+              return newCount;
+            });
+          }
+        }
+      );
+    } catch (error) {
+      console.error('Chat error:', error);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantMessageId
+            ? {
+                ...msg,
+                content: 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment, or feel free to reach out to us directly.'
+              }
+            : msg
+        )
+      );
+    } finally {
+      setIsStreaming(false);
+    }
+  }, [messages, isProUser, onMatchCountChange]);
+
+  // Handle send message
+  const handleSend = async () => {
+    const trimmedInput = inputValue.trim();
+    if (!trimmedInput || isStreaming) return;
+
+    // Add user message
+    const userMessage: Message = {
+      id: `user-${Date.now()}`,
+      role: 'user',
+      content: trimmedInput,
+    };
+    
+    setMessages((prev) => [...prev, userMessage]);
+    setInputValue('');
+    
+    // Trigger AI response
+    await handleStreamResponse(trimmedInput);
+  };
+
+  // Handle quick reply click
+  const handleQuickReply = async (reply: string) => {
+    const userMessage: Message = {
+      id: `user-${Date.now()}`,
+      role: 'user',
+      content: reply.replace(/^[🌿🏖️🏔️💼💰🧘]\s*/, ''), // Remove emoji for clean message
+    };
+    
+    setMessages((prev) => [...prev, userMessage]);
+    await handleStreamResponse(reply.replace(/^[🌿🏖️🏔️💼💰🧘]\s*/, ''));
+  };
+
+  // Handle keyboard input
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  // Toggle upgrade prompt
+  const toggleUpgradePrompt = () => {
+    setShowUpgradePrompt(!showUpgradePrompt);
+  };
+
+  return (
+    <div className="flex flex-col h-[calc(100vh-80px)] bg-surface">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-primary/10">
+        <div className="flex items-center gap-3">
+          {/* Serene Avatar */}
+          <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-secondary to-primary flex items-center justify-center">
+            <Sparkles className="w-5 h-5 text-white" />
+            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-secondary rounded-full border-2 border-white" />
+          </div>
+          <div>
+            <h2 className="font-serif text-lg text-primary">Serene</h2>
+            <p className="text-xs text-secondary flex items-center gap-1">
+              <span className="w-1.5 h-1.5 bg-secondary rounded-full animate-pulse-soft" />
+              AI Wellness Guide
+            </p>
+          </div>
+        </div>
+
+        {/* Match Count & Upgrade */}
+        <div className="flex items-center gap-3">
+          <div className="text-right">
+            <p className="text-xs text-primary/50">Your matches</p>
+            <p className="font-mono text-sm font-semibold text-primary">
+              {matchCount} {isProUser ? '∞' : `/ 2`}
+            </p>
+          </div>
+          
+          {!isProUser && (
+            <button
+              onClick={toggleUpgradePrompt}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-gold text-white text-xs font-medium rounded-full hover:bg-gold-600 transition-colors"
+              aria-label="Upgrade to Pro"
+            >
+              <Lock className="w-3 h-3" />
+              <span>Upgrade</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Upgrade Prompt Banner */}
+      {showUpgradePrompt && !isProUser && (
+        <div className="mx-4 mt-4 p-4 bg-gradient-to-r from-gold-100 to-surface rounded-xl border border-gold/30 animate-slide-down">
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0 w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center">
+              <Zap className="w-5 h-5 text-gold" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-primary">Unlock Unlimited Matches</h4>
+              <p className="mt-1 text-sm text-primary/70">
+                You&apos;ve used your free matches. Upgrade to Pro for unlimited AI-powered matching, 
+                detailed insights, and exclusive destination guides.
+              </p>
+              <div className="mt-3 flex items-center gap-3">
+                <Link
+                  href="/pricing"
+                  className="px-4 py-2 bg-gold text-white text-sm font-medium rounded-lg hover:bg-gold-600 transition-colors"
+                >
+                  View Pro Plans
+                </Link>
+                <button
+                  onClick={toggleUpgradePrompt}
+                  className="px-4 py-2 text-sm text-primary/60 hover:text-primary transition-colors"
+                >
+                  Maybe later
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Messages Container */}
+      <div 
+        ref={chatContainerRef}
+        className="flex-1 overflow-y-auto px-4 py-6"
+        role="log"
+        aria-live="polite"
+        aria-label="Chat messages"
+      >
+        <div className="max-w-3xl mx-auto space-y-6">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
+            >
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                  message.role === 'user'
+                    ? 'bg-secondary text-white rounded-br-md'
+                    : 'bg-white text-primary shadow-card rounded-bl-md'
+                }`}
+              >
+                {message.role === 'assistant' && (
+                  <div className="flex items-center gap-2 mb-2 text-xs text-secondary/70">
+                    <Sparkles className="w-3 h-3" />
+                    <span>Serene</span>
+                  </div>
+                )}
+                <div className="whitespace-pre-wrap leading-relaxed">
+                  {message.content}
+                  {message.id === messages[messages.length - 1]?.id && isStreaming && (
+                    <span className="inline-block w-2 h-4 ml-1 bg-secondary/50 animate-pulse-soft" />
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+      </div>
+
+      {/* Quick Replies */}
+      {messages.length <= 2 && (
+        <div className="px-4 pb-2">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {quickReplies.map((reply) => (
+                <button
+                  key={reply}
+                  onClick={() => handleQuickReply(reply)}
+                  className="flex-shrink-0 px-4 py-2 bg-white border border-primary/10 rounded-full text-sm text-primary/70 hover:border-secondary hover:text-secondary transition-colors whitespace-nowrap"
+                  disabled={isStreaming}
+                >
+                  {reply}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Input Area */}
+      <div className="px-4 py-4 bg-white border-t border-primary/10">
+        <div className="max-w-3xl mx-auto">
+          <div className="relative flex items-end gap-3">
+            <textarea
+              ref={inputRef}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Share your wellness dreams..."
+              className="flex-1 px-4 py-3 bg-surface border border-primary/10 rounded-xl text-primary placeholder-primary/40 resize-none focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition-all"
+              rows={1}
+              maxLength={500}
+              aria-label="Type your message"
+              disabled={isStreaming}
+              style={{
+                maxHeight: '120px',
+                minHeight: '48px',
+              }}
+              onInput={(e) => {
+                const target = e.target as HTMLTextAreaElement;
+                target.style.height = 'auto';
+                target.style.height = Math.min(target.scrollHeight, 120) + 'px';
+              }}
+            />
+            <button
+              onClick={handleSend}
+              disabled={!inputValue.trim() || isStreaming}
+              className="flex-shrink-0 w-12 h-12 bg-secondary text-white rounded-xl hover:bg-secondary-600 disabled:bg-primary/20 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+              aria-label="Send message"
+            >
+              <Send className={`w-5 h-5 ${isStreaming ? 'animate-pulse' : ''}`} />
+            </button>
+          </div>
+          
+          <p className="mt-2 text-center text-xs text-primary/40">
+            Serene AI may make mistakes. Consider important decisions carefully.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
