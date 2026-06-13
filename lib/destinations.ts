@@ -1,31 +1,17 @@
 // lib/destinations.ts — Destination data loader
-// Loads destination data from JSON file and provides query utilities
+// Loads destination data via static JSON import (works in Vercel serverless)
 
 import type { Destination, DestinationScores } from './types';
+import rawData from '../data/serenestay-destinations.json';
 
-// In production, this loads from /data/serenestay-destinations.json
-let _cache: Destination[] | null = null;
+const destinations: Destination[] = rawData as Destination[];
 
 /**
  * Load all destinations from the JSON data file.
- * Results are cached in memory after first load.
+ * Data is statically imported at build time.
  */
 export async function loadDestinations(): Promise<Destination[]> {
-  if (_cache) return _cache;
-
-  try {
-    // Use fs for Node.js runtime (not Edge)
-    const fs = await import('fs');
-    const path = await import('path');
-    const dataPath = path.join(process.cwd(), 'data', 'serenestay-destinations.json');
-    const raw = fs.readFileSync(dataPath, 'utf-8');
-    _cache = JSON.parse(raw) as Destination[];
-    return _cache!;
-  } catch (error) {
-    console.warn('[destinations] Failed to load data file:', error);
-    _cache = [];
-    return _cache;
-  }
+  return destinations;
 }
 
 /**

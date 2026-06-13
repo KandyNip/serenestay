@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, MapPin, Calendar, MessageCircle, Plane, Wifi, Heart, Clock, AlertTriangle } from 'lucide-react';
-import { fetchDestination, fetchDestinations } from '@/lib/api';
+import { getDestinationBySlug, loadDestinations } from '@/lib/destinations';
 import ScoreBar from '@/components/ScoreBar';
 import VetoWarning from '@/components/VetoWarning';
 import DestinationCard from '@/components/DestinationCard';
@@ -17,7 +17,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   
   try {
-    const { destination } = await fetchDestination(slug);
+    const destination = await getDestinationBySlug(slug);
+    if (!destination) {
+      return { title: 'Destination Not Found' };
+    }
     return {
       title: `${destination.name}, ${destination.country}`,
       description: destination.tagline,
@@ -37,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 // Generate static params for popular destinations
 export async function generateStaticParams() {
   try {
-    const { destinations } = await fetchDestinations();
+    const destinations = await loadDestinations();
     return destinations.slice(0, 20).map((d) => ({
       slug: d.slug,
     }));
@@ -49,23 +52,20 @@ export async function generateStaticParams() {
 export default async function DestinationDetailPage({ params }: PageProps) {
   const { slug } = await params;
   
-  let destination;
-  try {
-    const result = await fetchDestination(slug);
-    destination = result.destination;
-  } catch {
+  const destination = await getDestinationBySlug(slug);
+  if (!destination) {
     notFound();
   }
 
-  // Fetch related destinations (same region, exclude current)
+  // Load related destinations (same region, exclude current)
   let relatedDestinations: typeof destination[] = [];
   try {
-    const { destinations } = await fetchDestinations({ region: destination.region });
-    relatedDestinations = destinations
-      .filter((d) => d.id !== destination.id)
+    const all = await loadDestinations();
+    relatedDestinations = all
+      .filter((d) => d.region === destination.region && d.id !== destination.id)
       .slice(0, 3);
   } catch {
-    // Ignore related destinations fetch errors
+    // Ignore related destinations errors
   }
 
   // Score labels mapping

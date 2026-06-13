@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Sparkles, MessageCircle, MapPin, Compass, ArrowRight, CheckCircle } from 'lucide-react';
 import DestinationCard from '@/components/DestinationCard';
-import { fetchDestinations } from '@/lib/api';
+import { loadDestinations } from '@/lib/destinations';
 import type { Destination } from '@/lib/types';
 
 export const metadata = {
@@ -30,13 +30,15 @@ const steps = [
 ];
 
 export default async function HomePage() {
-  // Fetch featured destinations
+  // Load featured destinations directly (Server Component — no HTTP needed)
   let featuredDestinations: Destination[] = [];
   try {
-    const data = await fetchDestinations({ sort: 'serenity' });
-    featuredDestinations = data.destinations.slice(0, 4);
+    const all = await loadDestinations();
+    featuredDestinations = [...all]
+      .sort((a, b) => b.scores.serenity - a.scores.serenity)
+      .slice(0, 4);
   } catch (error) {
-    console.error('Failed to fetch destinations:', error);
+    console.error('Failed to load destinations:', error);
   }
 
   return (

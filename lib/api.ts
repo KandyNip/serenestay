@@ -1,6 +1,12 @@
 import { Destination, Message, UserPreferences, MatchResult } from './types';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (typeof window === 'undefined'
+    ? process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : ''
+    : '');
 
 /**
  * Fetch all destinations with optional filters
