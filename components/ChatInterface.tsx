@@ -8,12 +8,12 @@ import { streamChat } from '@/lib/api';
 
 // Quick reply suggestions
 const quickReplies = [
-  '🌿 Looking for peace and quiet',
-  '🏖️ Beach and nature combined',
-  '🏔️ Mountain retreat vibes',
-  '💼 Good WiFi for remote work',
-  '💰 Budget-friendly option',
-  '🧘 Focus on wellness',
+  { label: '🌿 Looking for peace and quiet', message: 'Looking for peace and quiet' },
+  { label: '🏖️ Beach and nature combined', message: 'Beach and nature combined' },
+  { label: '🏔️ Mountain retreat vibes', message: 'Mountain retreat vibes' },
+  { label: '💼 Good WiFi for remote work', message: 'Good WiFi for remote work' },
+  { label: '💰 Budget-friendly option', message: 'Budget-friendly option' },
+  { label: '🧘 Focus on wellness', message: 'Focus on wellness' },
 ];
 
 interface ChatInterfaceProps {
@@ -161,15 +161,15 @@ Or just share what's on your mind, and we'll explore together.`,
   };
 
   // Handle quick reply click
-  const handleQuickReply = async (reply: string) => {
+  const handleQuickReply = async (reply: { label: string; message: string }) => {
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       role: 'user',
-      content: reply.replace(/^[🌿🏖️🏔️💼💰🧘]\s*/, ''), // Remove emoji for clean message
+      content: reply.message,
     };
-    
+
     setMessages((prev) => [...prev, userMessage]);
-    await handleStreamResponse(reply.replace(/^[🌿🏖️🏔️💼💰🧘]\s*/, ''));
+    await handleStreamResponse(reply.message);
   };
 
   // Handle keyboard input
@@ -305,12 +305,12 @@ Or just share what's on your mind, and we'll explore together.`,
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
               {quickReplies.map((reply) => (
                 <button
-                  key={reply}
+                  key={reply.message}
                   onClick={() => handleQuickReply(reply)}
                   className="flex-shrink-0 px-4 py-2 bg-white border border-primary/10 rounded-full text-sm text-primary/70 hover:border-secondary hover:text-secondary transition-colors whitespace-nowrap"
                   disabled={isStreaming}
                 >
-                  {reply}
+                  {reply.label}
                 </button>
               ))}
             </div>
