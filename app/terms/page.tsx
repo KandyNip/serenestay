@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
@@ -35,7 +36,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-serif text-xl text-primary mb-3">5. Contact</h2>
-            <p>For questions about these terms, contact us at hello@serenestay.ai</p>
+            <p>For questions about these terms, contact us through our <Link href="/contact" className="text-secondary hover:underline">Contact page</Link>.</p>
           </section>
         </div>
       </div>
