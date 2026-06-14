@@ -45,13 +45,20 @@ export default async function HomePage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface to-white" />
-        
-        {/* Decorative Elements */}
-        <div className="absolute top-20 left-10 w-64 h-64 bg-secondary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1920&h=1080&fit=crop&q=80"
+            alt="Serene nature background"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+
+        {/* Frosted Glass Overlay */}
+        <div className="absolute inset-0 bg-surface/70 backdrop-blur-sm" />
+
         {/* Content */}
         <div className="relative z-10 container-full px-4 py-20 text-center">
           {/* Badge */}
