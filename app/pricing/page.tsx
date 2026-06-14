@@ -24,8 +24,8 @@ const proFeatures = [
 
 const comingSoonFeatures = [
   'Save & compare destinations',
-  'Personalized travel itineraries',
-  'Wellness partner discounts',
+  'Personalized AI travel itineraries',
+  'AI wellness check-in & mood-based matching',
 ];
 
 // FAQ data
@@ -85,6 +85,7 @@ export default function PricingPage() {
               tier="pro"
               price={{ monthly: 14.99 }}
               features={proFeatures}
+              comingSoon={comingSoonFeatures}
               cta="Coming Soon"
               disabled
             />

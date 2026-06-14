@@ -1,31 +1,12 @@
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
-import { Send, Mail } from 'lucide-react';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
-
-  // Handle newsletter subscription
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      // Simulate subscription
-      setIsSubscribed(true);
-      setEmail('');
-      setTimeout(() => setIsSubscribed(false), 3000);
-    }
-  };
-
   // Footer columns data
   const footerSections = [
     {
       title: 'Brand',
       links: [
-        { label: 'About Us', href: '/#about' },
-        { label: 'How It Works', href: '/#how-it-works' },
+        { label: 'About Us', href: '/' },
       ],
     },
     {
@@ -39,8 +20,8 @@ export default function Footer() {
     {
       title: 'Company',
       links: [
-        { label: 'Privacy Policy', href: '#' },
-        { label: 'Terms of Service', href: '#' },
+        { label: 'Privacy Policy', href: '/privacy' },
+        { label: 'Terms of Service', href: '/terms' },
       ],
     },
   ];
@@ -86,35 +67,9 @@ export default function Footer() {
           {/* Newsletter Column */}
           <div className="lg:col-span-1">
             <h3 className="font-serif text-lg mb-4">Stay Updated</h3>
-            <p className="text-white/70 text-sm mb-4">
-              Get the latest destinations and wellness tips delivered to your inbox.
+            <p className="text-white/70 text-sm">
+              We&apos;re building something special. Newsletter coming soon.
             </p>
-            <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-secondary transition-colors"
-                  aria-label="Email address"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="flex items-center justify-center gap-2 bg-secondary hover:bg-secondary-600 text-white py-3 px-4 rounded-lg transition-colors"
-              >
-                <span>Subscribe</span>
-                <Send className="w-4 h-4" />
-              </button>
-            </form>
-            {isSubscribed && (
-              <p className="mt-3 text-secondary text-sm animate-fade-in">
-                Thank you for subscribing! 🌿
-              </p>
-            )}
           </div>
         </div>
 
@@ -125,10 +80,10 @@ export default function Footer() {
               © {new Date().getFullYear()} SereneStay.ai. All rights reserved.
             </p>
             <div className="flex items-center gap-6 text-white/50 text-sm">
-              <Link href="#" className="hover:text-secondary transition-colors">
+              <Link href="/privacy" className="hover:text-secondary transition-colors">
                 Privacy
               </Link>
-              <Link href="#" className="hover:text-secondary transition-colors">
+              <Link href="/terms" className="hover:text-secondary transition-colors">
                 Terms
               </Link>
             </div>
