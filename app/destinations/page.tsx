@@ -1,6 +1,8 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import DestinationsClient from './DestinationsClient';
+import { loadDestinations } from '@/lib/destinations';
+import type { Destination } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Explore Destinations',
@@ -16,7 +18,15 @@ interface PageProps {
 
 export default async function DestinationsPage({ searchParams }: PageProps) {
   const params = await searchParams;
-  
+
+  // Load destinations server-side
+  let initialDestinations: Destination[] = [];
+  try {
+    initialDestinations = await loadDestinations();
+  } catch (error) {
+    console.error('Failed to load destinations:', error);
+  }
+
   return (
     <div className="pt-20 pb-16">
       <div className="container-full px-4">
@@ -33,7 +43,8 @@ export default async function DestinationsPage({ searchParams }: PageProps) {
 
         {/* Client Component for Filtering */}
         <Suspense fallback={<DestinationsSkeleton />}>
-          <DestinationsClient 
+          <DestinationsClient
+            initialDestinations={initialDestinations}
             initialRegion={params.region || ''}
             initialSort={params.sort || 'name'}
           />

@@ -159,6 +159,13 @@ function handleError(error: unknown): Response {
   }
 
   if (error instanceof DeepSeekAPIError) {
+    // Log detailed DeepSeek API error for debugging on Vercel
+    console.error('[api/chat] DeepSeek API Error:', {
+      statusCode: error.statusCode,
+      clientErrorCode: error.clientErrorCode,
+      responseBody: error.responseBody,
+    });
+
     return Response.json(
       {
         error: {

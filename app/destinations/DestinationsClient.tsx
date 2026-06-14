@@ -1,20 +1,20 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import DestinationCard from '@/components/DestinationCard';
-import { fetchDestinations } from '@/lib/api';
 import { Destination } from '@/lib/types';
 
-// Region options
+// Region options — must match actual data regions
 const regions = [
   { value: '', label: 'All Regions' },
   { value: 'Southeast Asia', label: 'Southeast Asia' },
+  { value: 'South Asia', label: 'South Asia' },
+  { value: 'East Asia', label: 'East Asia' },
+  { value: 'Southern Europe', label: 'Southern Europe' },
   { value: 'Central America', label: 'Central America' },
   { value: 'South America', label: 'South America' },
-  { value: 'Europe', label: 'Europe' },
-  { value: 'Oceania', label: 'Oceania' },
   { value: 'Africa', label: 'Africa' },
 ];
 
@@ -27,51 +27,49 @@ const sortOptions = [
 ];
 
 export default function DestinationsClient({
+  initialDestinations,
   initialRegion,
   initialSort,
 }: {
+  initialDestinations: Destination[];
   initialRegion: string;
   initialSort: string;
 }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  
-  const [destinations, setDestinations] = useState<Destination[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
   const [region, setRegion] = useState(initialRegion);
   const [sort, setSort] = useState(initialSort);
-  const [showFilters, setShowFilters] = useState(false);
 
-  // Fetch destinations with filters
-  const loadDestinations = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const data = await fetchDestinations({
-        region: region || undefined,
-        sort: sort as 'name' | 'serenity' | 'affordability' | 'wellness',
-      });
-      setDestinations(data.destinations);
-    } catch (err) {
-      setError('Failed to load destinations. Please try again.');
-      console.error(err);
-    } finally {
-      setLoading(false);
+  // Client-side filtering and sorting
+  const destinations = useMemo(() => {
+    let filtered = initialDestinations;
+
+    // Filter by region
+    if (region) {
+      filtered = filtered.filter((d) => d.region === region);
     }
-  }, [region, sort]);
 
-  useEffect(() => {
-    loadDestinations();
-  }, [loadDestinations]);
+    // Sort
+    const sorted = [...filtered];
+    if (sort === 'name') {
+      sorted.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sort === 'serenity') {
+      sorted.sort((a, b) => b.scores.serenity - a.scores.serenity);
+    } else if (sort === 'affordability') {
+      sorted.sort((a, b) => b.scores.affordability - a.scores.affordability);
+    } else if (sort === 'wellness') {
+      sorted.sort((a, b) => b.scores.wellness - a.scores.wellness);
+    }
+
+    return sorted;
+  }, [initialDestinations, region, sort]);
 
   // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
     if (region) params.set('region', region);
     if (sort && sort !== 'name') params.set('sort', sort);
-    
+
     const queryString = params.toString();
     router.push(`/destinations${queryString ? `?${queryString}` : ''}`, { scroll: false });
   }, [region, sort, router]);
@@ -150,47 +148,13 @@ export default function DestinationsClient({
 
           {/* Results Count */}
           <p className="text-sm text-primary/60">
-            {loading ? (
-              <span className="animate-pulse">Loading...</span>
-            ) : (
-              `${destinations.length} destination${destinations.length !== 1 ? 's' : ''}`
-            )}
+            {destinations.length} destination{destinations.length !== 1 ? 's' : ''}
           </p>
         </div>
       </div>
 
-      {/* Error State */}
-      {error && (
-        <div className="text-center py-12">
-          <p className="text-danger">{error}</p>
-          <button
-            onClick={loadDestinations}
-            className="mt-4 btn-outline"
-          >
-            Try Again
-          </button>
-        </div>
-      )}
-
-      {/* Loading State */}
-      {loading && (
-        <div className="animate-pulse">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-white rounded-xl overflow-hidden shadow-card">
-                <div className="h-48 bg-primary/10" />
-                <div className="p-4 space-y-3">
-                  <div className="h-6 bg-primary/10 rounded w-3/4" />
-                  <div className="h-4 bg-primary/10 rounded w-1/2" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Empty State */}
-      {!loading && !error && destinations.length === 0 && (
+      {destinations.length === 0 && (
         <div className="text-center py-16">
           <Search className="w-16 h-16 text-primary/20 mx-auto mb-4" />
           <h3 className="font-serif text-xl text-primary mb-2">
@@ -212,7 +176,7 @@ export default function DestinationsClient({
       )}
 
       {/* Destinations Grid */}
-      {!loading && !error && destinations.length > 0 && (
+      {destinations.length > 0 && (
         <div>
           {/* If filtering by region, show simple grid */}
           {region ? (
