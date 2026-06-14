@@ -47,14 +47,17 @@ export async function GET(request: Request) {
     // Lightweight mode: return only card-essential fields
     if (fields === 'card') {
       const cardDestinations = destinations.map((d) => ({
-        id: d.id,
         slug: d.slug,
         name: d.name,
         country: d.country,
         region: d.region,
         tagline: d.tagline,
-        scores: d.scores,
-        images: d.images,
+        images: [d.images[0]], // Only first image for thumbnail
+        scores: {
+          serenity: d.scores.serenity,
+          nature: d.scores.nature,
+          wellness: d.scores.wellness,
+        },
       }));
       return Response.json(
         { destinations: cardDestinations, total: cardDestinations.length },

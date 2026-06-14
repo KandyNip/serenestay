@@ -55,7 +55,7 @@ export const metadata: Metadata = {
       'Discover tranquility with AI-powered healing retreat matching. Find your perfect sanctuary for wellness, nature, and serenity.',
     images: [
       {
-        url: '/og-image.svg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'SereneStay.ai - AI-Powered Healing Retreat Matching',
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: 'SereneStay.ai - Find Your Perfect Healing Retreat',
     description:
       'Discover tranquility with AI-powered healing retreat matching.',
-    images: ['/og-image.svg'],
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
@@ -81,8 +81,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.svg',
-    apple: '/apple-touch-icon.svg',
+    icon: '/favicon.png',
+    apple: '/apple-touch-icon.png',
   },
 };
 
