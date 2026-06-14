@@ -226,7 +226,7 @@ export default async function DestinationDetailPage({ params }: PageProps) {
                 Have questions about {destination.name}? Chat with our AI guide for personalized insights.
               </p>
               <Link
-                href={`/chat?context=${destination.slug}`}
+                href={`/chat?context=${destination.slug}&name=${encodeURIComponent(destination.name)}`}
                 className="block w-full py-3 bg-white text-primary text-center rounded-xl font-medium hover:bg-surface transition-colors"
               >
                 Ask Serene About {destination.name}

@@ -8,6 +8,7 @@ import ChatInterface from '@/components/ChatInterface';
 function ChatContent() {
   const searchParams = useSearchParams();
   const destinationContext = searchParams.get('context') || undefined;
+  const destinationName = searchParams.get('name') || undefined;
 
   // Lock body scroll on chat page so only the chat container scrolls
   useEffect(() => {
@@ -19,7 +20,7 @@ function ChatContent() {
 
   return (
     <div className="pt-16">
-      <ChatInterface destinationContext={destinationContext} />
+      <ChatInterface destinationContext={destinationContext} destinationName={destinationName} />
     </div>
   );
 }

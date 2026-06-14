@@ -19,6 +19,7 @@ const quickReplies = [
 interface ChatInterfaceProps {
   initialMessages?: Message[];
   destinationContext?: string;
+  destinationName?: string;
   isProUser?: boolean;
   onMatchCountChange?: (count: number) => void;
 }
@@ -26,6 +27,7 @@ interface ChatInterfaceProps {
 export default function ChatInterface({
   initialMessages = [],
   destinationContext,
+  destinationName,
   isProUser: initialIsProUser = false,
   onMatchCountChange,
 }: ChatInterfaceProps) {
@@ -42,14 +44,16 @@ export default function ChatInterface({
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const isNearBottomRef = useRef(true);
+  const hasAutoTriggeredRef = useRef(false);
 
   // Welcome message
+  const displayName = destinationName || destinationContext || '';
   const welcomeMessage: Message = {
     id: 'welcome',
     role: 'assistant',
-    content: destinationContext 
-      ? `Hello! I'm Serene, your AI wellness travel guide. I see you're interested in ${destinationContext}. Tell me more about what you're looking for, and I'll help you find your perfect sanctuary.`
-      : `Hello! I'm Serene, your AI wellness travel guide. 🌿 I'm here to help you find the perfect healing retreat that matches your needs and dreams. 
+    content: destinationContext
+      ? `Let me tell you about ${displayName} ✨`
+      : `Hello! I'm Serene, your AI wellness travel guide. 🌿 I'm here to help you find the perfect healing retreat that matches your needs and dreams.
 
 What matters most to you in a wellness destination? You can tell me about:
 • Your budget and preferred climate
@@ -111,6 +115,16 @@ Or just share what's on your mind, and we'll explore together.`,
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  // Auto-trigger AI response when destination context is provided
+  useEffect(() => {
+    if (destinationContext && !hasAutoTriggeredRef.current && messages.length <= 1) {
+      hasAutoTriggeredRef.current = true;
+      handleStreamResponse(
+        `I'm interested in ${destinationName || destinationContext}. Please give me a detailed overview based on the 9-dimension scoring, highlights, and practical info.`
+      );
+    }
+  }, [destinationContext, destinationName]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle streaming response
   const handleStreamResponse = useCallback(async (userMessage: string) => {
