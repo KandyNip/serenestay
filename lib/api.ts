@@ -6,7 +6,13 @@ const API_BASE =
     ? process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
       : ''
-    : '');
+    : typeof window !== 'undefined'
+      ? (() => {
+          const host = window.location.hostname;
+          const wwwHost = host.startsWith('www.') ? host : `www.${host}`;
+          return `${window.location.protocol}//${wwwHost}`;
+        })()
+      : '');
 
 /**
  * Fetch all destinations with optional filters
