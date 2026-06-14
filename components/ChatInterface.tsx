@@ -90,9 +90,12 @@ Or just share what's on your mind, and we'll explore together.`,
   }, []);
 
   // Auto-scroll to bottom on new messages (only if user is near bottom)
+  // Use scrollTop instead of scrollIntoView to avoid scrolling outer page/body
   useEffect(() => {
-    if (isNearBottomRef.current) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (!isNearBottomRef.current) return;
+    const container = chatContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
     }
   }, [messages]);
 
