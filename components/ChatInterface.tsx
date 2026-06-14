@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Send, MessageCircle, Sparkles, ChevronDown, Lock, Zap } from 'lucide-react';
 import { Message } from '@/lib/types';
-import { streamChat } from '@/lib/api';
+import { streamChat, getRemainingMatches, incrementMatchCount, checkProStatus } from '@/lib/api';
 
 // Quick reply suggestions
 const quickReplies = [
@@ -33,9 +33,10 @@ export default function ChatInterface({
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputValue, setInputValue] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
-  const [matchCount, setMatchCount] = useState(0);
+  const [matchCount, setMatchCount] = useState(0); // will be set from localStorage in useEffect
   const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
-  const [isProUser, setIsProUser] = useState(initialIsProUser);
+  const [isProUser, setIsProUser] = useState(false); // will be set from localStorage in useEffect
+  const [chatDisabled, setChatDisabled] = useState(false); // will be set from localStorage in useEffect
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -68,9 +69,16 @@ Or just share what's on your mind, and we'll explore together.`,
 
   // Check localStorage for user status on mount
   useEffect(() => {
-    const storedIsPro = localStorage.getItem('serenestay_pro');
-    if (storedIsPro === 'true') {
-      setIsProUser(true);
+    const isPro = checkProStatus();
+    setIsProUser(isPro);
+
+    if (!isPro) {
+      const used = parseInt(localStorage.getItem('serenestay_matches_used') || '0', 10);
+      setMatchCount(used);
+      if (used >= 2) {
+        setShowUpgradePrompt(true);
+        setChatDisabled(true);
+      }
     }
   }, []);
 
@@ -131,17 +139,17 @@ Or just share what's on your mind, and we'll explore together.`,
           );
         },
         (done) => {
-          if (done && fullResponse.includes('match')) {
-            setMatchCount((prev) => {
-              const newCount = prev + 1;
-              onMatchCountChange?.(newCount);
-              
-              // Check if free user exceeded limit
-              if (!isProUser && newCount >= 2) {
+          if (done) {
+            // Every AI response counts as 1 match for free users
+            if (!isProUser) {
+              const newUsed = incrementMatchCount();
+              setMatchCount(newUsed);
+              onMatchCountChange?.(newUsed);
+              if (newUsed >= 2) {
                 setShowUpgradePrompt(true);
+                setChatDisabled(true);
               }
-              return newCount;
-            });
+            }
           }
         }
       );
@@ -329,7 +337,7 @@ Or just share what's on your mind, and we'll explore together.`,
                   key={reply.message}
                   onClick={() => handleQuickReply(reply)}
                   className="flex-shrink-0 px-4 py-2 bg-white border border-primary/10 rounded-full text-sm text-primary/70 hover:border-secondary hover:text-secondary transition-colors whitespace-nowrap"
-                  disabled={isStreaming}
+                  disabled={isStreaming || chatDisabled}
                 >
                   {reply.label}
                 </button>
@@ -341,6 +349,17 @@ Or just share what's on your mind, and we'll explore together.`,
 
       {/* Input Area */}
       <div className="px-4 py-4 bg-white border-t border-primary/10">
+        {chatDisabled && !isProUser && (
+          <div className="max-w-3xl mx-auto pb-3 text-center">
+            <p className="text-sm text-primary/70">
+              You&apos;ve used your 2 free AI matches.{' '}
+              <Link href="/pricing" className="text-secondary font-medium hover:underline">
+                Upgrade to Pro
+              </Link>{' '}
+              for unlimited conversations.
+            </p>
+          </div>
+        )}
         <div className="max-w-3xl mx-auto">
           <div className="relative flex items-end gap-3">
             <textarea
@@ -353,7 +372,7 @@ Or just share what's on your mind, and we'll explore together.`,
               rows={1}
               maxLength={500}
               aria-label="Type your message"
-              disabled={isStreaming}
+              disabled={isStreaming || chatDisabled}
               style={{
                 maxHeight: '120px',
                 minHeight: '48px',
@@ -366,7 +385,7 @@ Or just share what's on your mind, and we'll explore together.`,
             />
             <button
               onClick={handleSend}
-              disabled={!inputValue.trim() || isStreaming}
+              disabled={!inputValue.trim() || isStreaming || chatDisabled}
               className="flex-shrink-0 w-12 h-12 bg-secondary text-white rounded-xl hover:bg-secondary-600 disabled:bg-primary/20 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
               aria-label="Send message"
             >
