@@ -14,7 +14,7 @@ export default function ImageGallery({ images, destinationName }: ImageGalleryPr
   return (
     <section className="container-full px-4 mb-8">
       {/* Main Image */}
-      <div className="relative h-[40vh] sm:h-[50vh] lg:h-[60vh] rounded-2xl overflow-hidden">
+      <div className="relative aspect-[16/9] rounded-2xl overflow-hidden">
         {images.map((image, index) => (
           <Image
             key={index}
@@ -65,7 +65,7 @@ export default function ImageGallery({ images, destinationName }: ImageGalleryPr
             <button
               key={index}
               onClick={() => setActiveIndex(index)}
-              className={`relative h-20 w-28 rounded-lg overflow-hidden flex-shrink-0 transition-all ${
+              className={`relative h-20 aspect-[4/3] rounded-lg overflow-hidden flex-shrink-0 transition-all ${
                 index === activeIndex
                   ? 'ring-2 ring-secondary scale-105'
                   : 'opacity-60 hover:opacity-100'
@@ -76,7 +76,7 @@ export default function ImageGallery({ images, destinationName }: ImageGalleryPr
                 alt={`${destinationName} - Thumbnail ${index + 1}`}
                 fill
                 className="object-cover"
-                sizes="112px"
+                sizes="100px"
               />
             </button>
           ))}
