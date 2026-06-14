@@ -46,6 +46,7 @@ export default function ChatInterface({
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const isNearBottomRef = useRef(true);
   const hasAutoTriggeredRef = useRef(false);
+  const isAutoTriggerRef = useRef(false);
 
   // Cache all destinations for chat card rendering
   const [allDestinations, setAllDestinations] = useState<Destination[]>([]);
@@ -130,6 +131,7 @@ Or just share what's on your mind, and we'll explore together.`,
   useEffect(() => {
     if (destinationContext && !hasAutoTriggeredRef.current && messages.length <= 1) {
       hasAutoTriggeredRef.current = true;
+      isAutoTriggerRef.current = true; // mark this as auto-trigger (free, no count)
       handleStreamResponse(
         `I'm interested in ${destinationName || destinationContext}. Please give me a detailed overview based on the 9-dimension scoring, highlights, and practical info.`
       );
@@ -164,8 +166,8 @@ Or just share what's on your mind, and we'll explore together.`,
         },
         (done) => {
           if (done) {
-            // Every AI response counts as 1 match for free users
-            if (!isProUser) {
+            // Auto-triggered destination overview is FREE — doesn't count toward limit
+            if (!isProUser && !isAutoTriggerRef.current) {
               const newUsed = incrementMatchCount();
               setMatchCount(newUsed);
               onMatchCountChange?.(newUsed);
@@ -174,6 +176,8 @@ Or just share what's on your mind, and we'll explore together.`,
                 setChatDisabled(true);
               }
             }
+            // Reset flag after response completes
+            isAutoTriggerRef.current = false;
           }
         },
         isProUser
