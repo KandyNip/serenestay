@@ -9,8 +9,7 @@ const API_BASE =
     : typeof window !== 'undefined'
       ? (() => {
           const host = window.location.hostname;
-          const wwwHost = host.startsWith('www.') ? host : `www.${host}`;
-          return `${window.location.protocol}//${wwwHost}`;
+          return `${window.location.protocol}//${host}`;
         })()
       : '');
 
