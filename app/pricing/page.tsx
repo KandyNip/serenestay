@@ -8,43 +8,39 @@ export const metadata: Metadata = {
   description: 'Choose your path to serenity. Start free or unlock unlimited matches with SereneStay Pro.',
 };
 
-// Pricing data
+// Pricing data — only real, existing features
 const freeFeatures = [
   '2 AI-powered destination matches',
   'Access to destination database',
-  'Basic matching criteria',
+  '9-dimension wellness scoring',
   'View destination details',
-  'Community forums access',
 ];
 
 const proFeatures = [
-  'Unlimited AI-powered matches',
-  'Advanced matching with deep preferences',
-  'Detailed destination insights',
+  'Unlimited AI conversations',
+  '9-dimension wellness scoring',
+  'All 56+ destinations access',
+];
+
+const comingSoonFeatures = [
   'Save & compare destinations',
-  'Download comprehensive guides',
-  'Priority support',
-  'Early access to new destinations',
-  'Exclusive wellness partner discounts',
+  'Personalized travel itineraries',
+  'Wellness partner discounts',
 ];
 
 // FAQ data
 const faqs = [
   {
     question: 'How does the free tier work?',
-    answer: 'Free users get 2 AI-powered destination matches to experience our matching technology. After that, you can upgrade to Pro for unlimited matches and premium features.',
+    answer: 'Free users get 2 AI-powered destination matches to experience our matching technology. Both free and Pro use the same 9-dimension scoring system — the only difference is the number of conversations.',
   },
   {
     question: 'Can I cancel my Pro subscription anytime?',
     answer: 'Yes, you can cancel your Pro subscription at any time. You\'ll continue to have Pro access until the end of your billing period. We also offer a 7-day money-back guarantee if you\'re not satisfied.',
   },
   {
-    question: 'What makes the AI matching different in Pro?',
-    answer: 'Pro users get access to our advanced matching algorithm that considers 9+ dimensions including serenity, nature, wellness facilities, community vibes, WiFi quality, visa requirements, and more. Free tier uses a simplified matching system.',
-  },
-  {
-    question: 'Are the destination guides really comprehensive?',
-    answer: 'Yes! Pro users get detailed guides including month-by-month cost breakdowns, visa application tips, health & safety notes, local customs, and insider tips from verified visitors.',
+    question: 'What\'s the difference between Free and Pro?',
+    answer: 'Both tiers use the same 9-dimension AI matching (serenity, nature, climate, affordability, wellness, community, WiFi, visa, medical). The only difference is conversation limits: Free gets 2 matches, Pro gets unlimited.',
   },
   {
     question: 'Do you offer refunds?',
@@ -61,7 +57,7 @@ export default function PricingPage() {
           <Sparkles className="w-4 h-4" />
           <span>Simple, Transparent Pricing</span>
         </div>
-        
+
         <h1 className="font-serif text-4xl sm:text-5xl text-primary">
           Choose Your Path to Serenity
         </h1>
@@ -72,17 +68,9 @@ export default function PricingPage() {
 
       {/* Pricing Cards */}
       <section className="container-full px-4 pb-16">
-        <div className="max-w-4xl mx-auto">
-          {/* Billing Toggle Info */}
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <span className="text-sm text-primary/60">Monthly</span>
-            <span className="text-xs bg-secondary/10 text-secondary px-3 py-1 rounded-full">
-              Save 33% with Annual
-            </span>
-          </div>
-
+        <div className="max-w-5xl mx-auto">
           {/* Cards Grid */}
-          <div className="grid md:grid-cols-2 gap-8 items-start">
+          <div className="grid md:grid-cols-3 gap-8 items-start">
             {/* Free Tier */}
             <PricingCard
               tier="free"
@@ -92,14 +80,25 @@ export default function PricingPage() {
               href="/chat"
             />
 
-            {/* Pro Tier */}
+            {/* Pro Monthly */}
             <PricingCard
               tier="pro"
-              price={{ monthly: 9.99, yearly: 79 }}
+              price={{ monthly: 14.99 }}
               features={proFeatures}
-              cta="Upgrade to Pro"
-              isYearly={true}
-              href="/chat"
+              cta="Coming Soon"
+              disabled
+            />
+
+            {/* Pro Annual */}
+            <PricingCard
+              tier="pro"
+              price={{ monthly: 9.99, yearly: 9.99 }}
+              features={proFeatures}
+              comingSoon={comingSoonFeatures}
+              cta="Coming Soon"
+              disabled
+              isYearly
+              badge="Best Value"
             />
           </div>
 
@@ -127,7 +126,7 @@ export default function PricingPage() {
           <h2 className="font-serif text-2xl text-primary text-center mb-8">
             Feature Comparison
           </h2>
-          
+
           <div className="bg-white rounded-2xl shadow-card overflow-hidden">
             <table className="w-full">
               <thead>
@@ -140,14 +139,9 @@ export default function PricingPage() {
               <tbody>
                 {[
                   ['AI Destination Matches', '2', 'Unlimited'],
-                  ['Matching Dimensions', 'Basic (3)', 'Advanced (9+)'],
+                  ['9-Dimension Wellness Scoring', true, true],
                   ['Destination Database Access', true, true],
-                  ['Detailed Insights', false, true],
-                  ['Save Favorites', false, true],
-                  ['Compare Destinations', false, true],
-                  ['Download Guides', false, true],
-                  ['Priority Support', false, true],
-                  ['Early Access to New Destinations', false, true],
+                  ['View Destination Details', true, true],
                 ].map(([feature, free, pro], index) => (
                   <tr key={feature as string} className={index % 2 === 0 ? 'bg-surface/50' : ''}>
                     <td className="p-4 text-primary">{feature}</td>
@@ -187,7 +181,7 @@ export default function PricingPage() {
           <h2 className="font-serif text-2xl text-primary text-center mb-8">
             Frequently Asked Questions
           </h2>
-          
+
           <div className="space-y-4">
             {faqs.map((faq, index) => (
               <details
@@ -220,7 +214,7 @@ export default function PricingPage() {
           <p className="mt-4 text-primary/60">
             Start with 2 free AI matches. No credit card required.
           </p>
-          
+
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/chat"

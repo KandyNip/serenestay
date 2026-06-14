@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Check, Sparkles } from 'lucide-react';
+import { Check, Sparkles, Clock } from 'lucide-react';
 
 interface PricingCardProps {
   tier: 'free' | 'pro';
@@ -10,9 +10,12 @@ interface PricingCardProps {
     yearly?: number;
   };
   features: string[];
+  comingSoon?: string[];
   cta: string;
+  disabled?: boolean;
   isYearly?: boolean;
   href?: string;
+  badge?: string;
 }
 
 /**
@@ -25,9 +28,12 @@ export default function PricingCard({
   tier,
   price,
   features,
+  comingSoon,
   cta,
+  disabled = false,
   isYearly = false,
   href = '/chat',
+  badge,
 }: PricingCardProps) {
   const isPro = tier === 'pro';
   const displayPrice = isYearly ? price.yearly : price.monthly;
@@ -40,19 +46,19 @@ export default function PricingCard({
           : 'bg-white shadow-soft border border-primary/10'
       }`}
     >
-      {/* Popular Badge */}
-      {isPro && (
+      {/* Badge */}
+      {badge && (
         <div className="absolute -top-0 left-1/2 -translate-x-1/2">
           <div className="flex items-center gap-1.5 bg-gold text-white text-xs font-semibold px-4 py-1.5 rounded-b-lg shadow-md">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Most Popular</span>
+            <span>{badge}</span>
           </div>
         </div>
       )}
 
-      <div className={`p-6 ${isPro ? 'pt-12' : ''}`}>
+      <div className={`p-6 ${badge ? 'pt-12' : ''}`}>
         {/* Tier Name */}
-        <h3 className={`font-serif text-2xl ${isPro ? 'text-primary' : 'text-primary'}`}>
+        <h3 className="font-serif text-2xl text-primary">
           {isPro ? 'Pro' : 'Free'}
         </h3>
         <p className="mt-2 text-sm text-primary/60">
@@ -73,13 +79,18 @@ export default function PricingCard({
               {displayPrice === 0
                 ? 'Free forever'
                 : isYearly
-                  ? '/year'
+                  ? '/month'
                   : '/month'}
             </span>
           </div>
           {isPro && isYearly && price.monthly && (
             <p className="mt-1 text-xs text-secondary">
-              Save ${((price.monthly * 12) - (price.yearly || 0)).toFixed(0)}/year
+              Billed as ${((price.yearly || 0) * 12).toFixed(2)}/year · Save 33%
+            </p>
+          )}
+          {isPro && !isYearly && (
+            <p className="mt-1 text-xs text-primary/50">
+              Billed monthly
             </p>
           )}
         </div>
@@ -103,21 +114,54 @@ export default function PricingCard({
           ))}
         </ul>
 
+        {/* Coming Soon Section */}
+        {comingSoon && comingSoon.length > 0 && (
+          <div className="mt-6 p-3 rounded-xl border border-dashed border-gold/40 bg-gold/5">
+            <div className="flex items-center gap-1.5 mb-3">
+              <Clock className="w-3.5 h-3.5 text-gold" />
+              <span className="text-xs font-semibold text-gold uppercase tracking-wide">
+                Coming Soon
+              </span>
+            </div>
+            <ul className="space-y-2">
+              {comingSoon.map((feature, index) => (
+                <li key={index} className="flex items-start gap-2.5">
+                  <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-gold/40 mt-1.5" />
+                  <span className="text-xs text-primary/50">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {/* CTA Button */}
-        <Link
-          href={href}
-          className={`mt-8 w-full py-3.5 px-6 rounded-xl font-medium transition-all duration-200 text-center block ${
-            isPro
-              ? 'bg-gold hover:bg-gold-600 text-white shadow-md hover:shadow-lg active:scale-[0.98]'
-              : 'btn-outline hover:bg-primary hover:text-white'
-          }`}
-          aria-label={`${cta} - ${tier} plan`}
-        >
-          {cta}
-        </Link>
+        {disabled ? (
+          <button
+            disabled
+            className={`mt-8 w-full py-3.5 px-6 rounded-xl font-medium text-center block cursor-not-allowed ${
+              isPro
+                ? 'bg-primary/20 text-primary/40'
+                : 'bg-primary/10 text-primary/30'
+            }`}
+          >
+            {cta}
+          </button>
+        ) : (
+          <Link
+            href={href}
+            className={`mt-8 w-full py-3.5 px-6 rounded-xl font-medium transition-all duration-200 text-center block ${
+              isPro
+                ? 'bg-gold hover:bg-gold-600 text-white shadow-md hover:shadow-lg active:scale-[0.98]'
+                : 'btn-outline hover:bg-primary hover:text-white'
+            }`}
+            aria-label={`${cta} - ${tier} plan`}
+          >
+            {cta}
+          </Link>
+        )}
 
         {/* Pro Extras */}
-        {isPro && (
+        {isPro && !disabled && (
           <p className="mt-4 text-center text-xs text-primary/50">
             Cancel anytime • 7-day money back guarantee
           </p>
