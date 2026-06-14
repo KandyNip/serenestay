@@ -25,7 +25,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-serif text-xl text-primary mb-3">2. How We Use Your Information</h2>
-            <p>Your chat messages are processed by our AI to provide personalized destination recommendations. We do not store your conversations on our servers or share them with third parties.</p>
+            <p>Your chat messages are processed by our AI to provide personalized destination recommendations. Messages are sent to our AI service provider for real-time processing and are not permanently stored by us. See Section 4 for details on third-party services.</p>
           </section>
 
           <section>

@@ -179,10 +179,10 @@ export default async function HomePage() {
             <div className="flex items-end justify-between mb-12">
               <div>
                 <h2 className="font-serif text-3xl sm:text-4xl text-primary">
-                  Trending Retreats
+                  Top Rated Retreats
                 </h2>
                 <p className="mt-3 text-primary/60">
-                  Most loved by the wellness community this month
+                  Our highest-rated destinations for serenity and healing
                 </p>
               </div>
               <Link
