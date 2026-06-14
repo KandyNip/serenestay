@@ -56,13 +56,13 @@ export default async function HomePage() {
           />
         </div>
 
-        {/* Frosted Glass Overlay */}
-        <div className="absolute inset-0 bg-surface/70 backdrop-blur-sm" />
+        {/* Light Gradient Overlay — keeps image visible, ensures text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-surface/20 via-surface/40 to-surface/80" />
 
         {/* Content */}
         <div className="relative z-10 container-full px-4 py-20 text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 rounded-full text-secondary text-sm mb-8 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-md rounded-full text-secondary text-sm mb-8 animate-fade-in border border-white/30">
             <Sparkles className="w-4 h-4" />
             <span>AI-Powered Matching</span>
           </div>
