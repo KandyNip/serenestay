@@ -101,7 +101,7 @@ export default async function HomePage() {
               <span className="w-1 h-1 rounded-full bg-primary/30" />
               <span className="flex items-center gap-1.5">
                 <Compass className="w-4 h-4" />
-                6 regions worldwide
+                7 regions worldwide
               </span>
               <span className="w-1 h-1 rounded-full bg-primary/30" />
               <span className="flex items-center gap-1.5">
@@ -274,7 +274,7 @@ export default async function HomePage() {
               Ready to Find Your Sanctuary?
             </h2>
             <p className="mt-4 text-primary/60 max-w-xl mx-auto">
-              Explore 56 curated wellness destinations across 6 regions with AI-powered personalized matching.
+              Explore 56 curated wellness destinations across 7 regions with AI-powered personalized matching.
             </p>
             
             <div className="mt-10">
