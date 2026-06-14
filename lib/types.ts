@@ -88,6 +88,7 @@ export interface ChatRequest {
   messages: ChatMessage[];
   promptId?: string;
   stream?: boolean;
+  isProUser?: boolean;
 }
 
 export interface DeepSeekChoice {

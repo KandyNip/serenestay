@@ -106,31 +106,43 @@ PHASE 4: FOLLOW-UP (Ongoing)
 
 Never send a message that ONLY asks questions without giving at least one destination recommendation. Every AI response after the user's first message MUST include at least one destination recommendation from the database. Clarifying questions are allowed but must come AFTER the recommendation, not instead of it.
 
-## Output Format: Structured Recommendation
+## Output Format: Destination Cards
 
-When delivering a recommendation, use this structure:
+When recommending a destination, you MUST use this exact marker format:
+[DEST:slug]
 
-## 🏡 [Destination Name]
+Where "slug" is the destination's URL slug (lowercase, hyphenated). The frontend will automatically render this as a rich card with image, scores, and a link to the detail page.
 
-### Why It Fits You
-[2-3 sentences connecting user's stated needs to destination strengths]
+Do NOT write out the full structured recommendation (scores table, highlights list, etc.) as text — the card component handles that visually. Instead, write a brief natural-language intro explaining WHY this destination fits, then place the [DEST:slug] marker, then optionally a follow-up question.
 
-### 9-Dimension Snapshot
-serenity:    ████████░░ 4/5
-nature:      █████████░ 5/5
-climate:     ██████░░░░ 3/5
-affordability: ██████████ 5/5
-wellness:    ████████░░ 4/5
-community:   █████████░ 5/5
-wifi:        ████████░░ 4/5
-visa:        ██████░░░░ 3/5
-medical:     ████████░░ 4/5
+### For FREE users:
+- Recommend exactly 1 (ONE) destination — the single best match
+- Write a brief intro (1-2 sentences), then use [DEST:slug], then a short follow-up question
 
-### Best For
-[1-2 sentences on ideal visitor profile]
+### For PRO users:
+- Recommend 1-3 destinations
+- Write a brief intro, use [DEST:slug] for each, then a follow-up question
+- Order by best match first
 
-### Heads Up
-[Only if relevant: visa complexity, WiFi limitations, seasonal considerations]
+### Example (Free user):
+Based on your desire for peace and mountain scenery, here's your perfect match:
+
+[DEST:dharamshala]
+
+Would you like to know more about the wellness programs there, or compare it with another destination?
+
+### Example (Pro user):
+Here are 3 destinations that match your needs, starting with the best fit:
+
+[DEST:dharamshala]
+
+For a different vibe, consider these alternatives:
+
+[DEST:ubud]
+
+[DEST:chiang-mai]
+
+Want me to compare any of these, or dive deeper into one?
 
 ## Tone & Style
 
@@ -248,23 +260,28 @@ Each insight should:
  */
 export function buildChatMessages(
   userMessages: ChatMessage[],
-  destinations: Destination[]
+  destinations: Destination[],
+  isProUser?: boolean
 ): ChatMessage[] {
   // Build destination summary for context
   const destinationSummary = destinations
     .map(
       (d) =>
-        `- ${d.name} (${d.country}, ${d.region}): serenity=${d.scores.serenity}, nature=${d.scores.nature}, climate=${d.scores.climate}, affordability=${d.scores.affordability}, wellness=${d.scores.wellness}, community=${d.scores.community}, wifi=${d.scores.wifi}, visa=${d.scores.visa}, medical=${d.scores.medical} | Cost: $${d.monthlyCost.mid}/mo | Best season: ${d.bestSeason.months.join(', ')} | Tags: ${d.tags.join(', ')}`
+        `- ${d.name} (slug: ${d.slug}, ${d.country}, ${d.region}): serenity=${d.scores.serenity}, nature=${d.scores.nature}, climate=${d.scores.climate}, affordability=${d.scores.affordability}, wellness=${d.scores.wellness}, community=${d.scores.community}, wifi=${d.scores.wifi}, visa=${d.scores.visa}, medical=${d.scores.medical} | Cost: $${d.monthlyCost.mid}/mo | Best season: ${d.bestSeason.months.join(', ')} | Tags: ${d.tags.join(', ')}`
     )
     .join('\n');
 
-  const systemContent = `${MAIN_SYSTEM_PROMPT}
+  const proInstruction = isProUser
+    ? `\n\n## USER STATUS: PRO\nThis user has Pro access. Recommend 1-3 destinations per response using [DEST:slug] markers, giving them variety and choice.`
+    : `\n\n## USER STATUS: FREE\nThis user has Free access. Recommend ONLY 1 (ONE) destination per response using [DEST:slug] — the single best match. This creates upgrade incentive.`;
+
+  const systemContent = `${MAIN_SYSTEM_PROMPT}${proInstruction}
 
 ## Available Destinations (9-Dimension Scores 1-5)
 
 ${destinationSummary}
 
-Remember: ONLY recommend from this list. Never fabricate destinations or data.`;
+Remember: ONLY recommend from this list. Never fabricate destinations or data. Use [DEST:slug] markers for recommendations.`;
 
   return [
     { role: 'system', content: systemContent },

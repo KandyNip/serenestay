@@ -104,7 +104,8 @@ export async function fetchMatch(
 export async function streamChat(
   messages: Message[],
   onChunk: (chunk: string) => void,
-  onDone: (done: boolean) => void
+  onDone: (done: boolean) => void,
+  isProUser?: boolean
 ): Promise<void> {
   const response = await fetch(`${API_BASE}/api/chat`, {
     method: 'POST',
@@ -114,6 +115,7 @@ export async function streamChat(
     body: JSON.stringify({
       messages,
       stream: true,
+      isProUser,
     }),
   });
   

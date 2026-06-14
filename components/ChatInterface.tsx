@@ -3,8 +3,9 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Send, MessageCircle, Sparkles, ChevronDown, Lock, Zap } from 'lucide-react';
-import { Message } from '@/lib/types';
+import { Message, Destination } from '@/lib/types';
 import { streamChat, getRemainingMatches, incrementMatchCount, checkProStatus } from '@/lib/api';
+import DestinationChatCard from '@/components/DestinationChatCard';
 
 // Quick reply suggestions
 const quickReplies = [
@@ -45,6 +46,15 @@ export default function ChatInterface({
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const isNearBottomRef = useRef(true);
   const hasAutoTriggeredRef = useRef(false);
+
+  // Cache all destinations for chat card rendering
+  const [allDestinations, setAllDestinations] = useState<Destination[]>([]);
+  useEffect(() => {
+    fetch('/api/destinations')
+      .then((r) => r.json())
+      .then((data: { destinations: Destination[] }) => setAllDestinations(data.destinations || []))
+      .catch(() => {});
+  }, []);
 
   // Welcome message
   const displayName = destinationName || destinationContext || '';
@@ -165,7 +175,8 @@ Or just share what's on your mind, and we'll explore together.`,
               }
             }
           }
-        }
+        },
+        isProUser
       );
     } catch (error) {
       console.error('Chat error:', error);
@@ -226,6 +237,30 @@ Or just share what's on your mind, and we'll explore together.`,
   // Toggle upgrade prompt
   const toggleUpgradePrompt = () => {
     setShowUpgradePrompt(!showUpgradePrompt);
+  };
+
+  // Parse [DEST:slug] markers and render destination cards
+  const renderMessageContent = (content: string, isLastAndStreaming: boolean) => {
+    const parts = content.split(/(\[DEST:[\w-]+\])/g);
+    return parts.map((part, i) => {
+      const match = part.match(/\[DEST:([\w-]+)\]/);
+      if (match) {
+        const slug = match[1];
+        const dest = allDestinations.find((d) => d.slug === slug);
+        if (dest) {
+          return <DestinationChatCard key={`card-${i}`} dest={dest} />;
+        }
+        // Fallback: show as text link if destination not found in cache
+        return (
+          <Link key={`link-${i}`} href={`/destinations/${slug}`} className="text-secondary underline font-medium">
+            View {slug} →
+          </Link>
+        );
+      }
+      return part ? (
+        <span key={`text-${i}`} className="whitespace-pre-wrap leading-relaxed">{part}</span>
+      ) : null;
+    });
   };
 
   return (
@@ -328,8 +363,8 @@ Or just share what's on your mind, and we'll explore together.`,
                     <span>Serene</span>
                   </div>
                 )}
-                <div className="whitespace-pre-wrap leading-relaxed">
-                  {message.content}
+                <div className="leading-relaxed">
+                  {renderMessageContent(message.content, message.id === messages[messages.length - 1]?.id && isStreaming)}
                   {message.id === messages[messages.length - 1]?.id && isStreaming && (
                     <span className="inline-block w-2 h-4 ml-1 bg-secondary/50 animate-pulse-soft" />
                   )}

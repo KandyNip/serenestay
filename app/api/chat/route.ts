@@ -67,12 +67,13 @@ export async function POST(request: Request) {
     // 1. Parse and validate request
     const body = await request.json();
     const { messages, stream } = validateRequest(body);
+    const isProUser = typeof body.isProUser === 'boolean' ? body.isProUser : false;
 
     // 2. Load destination data for AI context
     const destinations = await loadDestinations();
 
-    // 3. Build full message array with system prompt + destination data
-    const fullMessages = buildChatMessages(messages, destinations);
+    // 3. Build full message array with system prompt + destination data + pro status
+    const fullMessages = buildChatMessages(messages, destinations, isProUser);
 
     // 4. Get API key from environment
     const apiKey = process.env.DEEPSEEK_API_KEY;
