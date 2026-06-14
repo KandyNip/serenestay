@@ -26,6 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 // Site metadata
 export const metadata: Metadata = {
+  metadataBase: new URL('https://howistoday.online'),
   title: {
     default: 'SereneStay.ai - Find Your Perfect Healing Retreat',
     template: '%s | SereneStay.ai',
@@ -47,14 +48,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://serenestay.ai',
+    url: 'https://howistoday.online',
     siteName: 'SereneStay.ai',
     title: 'SereneStay.ai - Find Your Perfect Healing Retreat',
     description:
       'Discover tranquility with AI-powered healing retreat matching. Find your perfect sanctuary for wellness, nature, and serenity.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.svg',
         width: 1200,
         height: 630,
         alt: 'SereneStay.ai - AI-Powered Healing Retreat Matching',
@@ -66,7 +67,7 @@ export const metadata: Metadata = {
     title: 'SereneStay.ai - Find Your Perfect Healing Retreat',
     description:
       'Discover tranquility with AI-powered healing retreat matching.',
-    images: ['/og-image.png'],
+    images: ['/og-image.svg'],
   },
   robots: {
     index: true,
@@ -80,8 +81,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/favicon.svg',
+    apple: '/apple-touch-icon.svg',
   },
 };
 

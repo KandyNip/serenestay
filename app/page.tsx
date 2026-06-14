@@ -25,7 +25,7 @@ const steps = [
   {
     icon: MapPin,
     title: 'Plan Your Journey',
-    description: 'Receive detailed guides, cost estimates, and practical tips for your healing retreat.',
+    description: 'Explore detailed destination insights and practical information for your healing retreat.',
   },
 ];
 

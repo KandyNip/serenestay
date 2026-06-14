@@ -51,7 +51,7 @@ export default function ChatInterface({
   // Cache all destinations for chat card rendering
   const [allDestinations, setAllDestinations] = useState<Destination[]>([]);
   useEffect(() => {
-    fetch('/api/destinations')
+    fetch('/api/destinations?fields=card')
       .then((r) => r.json())
       .then((data: { destinations: Destination[] }) => setAllDestinations(data.destinations || []))
       .catch(() => {});

@@ -36,6 +36,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="font-serif text-xl text-primary mb-3">4. Third-Party Services</h2>
             <p>We use AI services to power our chat recommendations. These services may temporarily process your messages to generate responses, but do not retain your data.</p>
+            <p className="mt-2">Our contact form uses <strong>FormSubmit.co</strong>, a secure form-to-email service. When you submit the contact form, your name, email, and message are temporarily processed by FormSubmit.co and forwarded to our email. FormSubmit.co does not store your data permanently.</p>
           </section>
 
           <section>

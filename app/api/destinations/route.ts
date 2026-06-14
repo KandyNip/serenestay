@@ -23,6 +23,8 @@ export async function GET(request: Request) {
     const sort = searchParams.get('sort') as keyof DestinationScores | null;
     const order = (searchParams.get('order') as 'asc' | 'desc') ?? 'desc';
 
+    const fields = searchParams.get('fields');
+
     let destinations: Destination[];
 
     // Apply filters (composable)
@@ -40,6 +42,29 @@ export async function GET(request: Request) {
         const diff = (a.scores[sort] as number) - (b.scores[sort] as number);
         return order === 'desc' ? -diff : diff;
       });
+    }
+
+    // Lightweight mode: return only card-essential fields
+    if (fields === 'card') {
+      const cardDestinations = destinations.map((d) => ({
+        id: d.id,
+        slug: d.slug,
+        name: d.name,
+        country: d.country,
+        region: d.region,
+        tagline: d.tagline,
+        scores: d.scores,
+        images: d.images,
+      }));
+      return Response.json(
+        { destinations: cardDestinations, total: cardDestinations.length },
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+          },
+        }
+      );
     }
 
     return Response.json(
