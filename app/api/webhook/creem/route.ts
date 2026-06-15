@@ -4,6 +4,8 @@
 // Events handled:
 //   - checkout.completed: One-time payment completed
 //   - subscription.active: Subscription activated/renewed
+//   - subscription.canceled: Subscription canceled
+//   - subscription.expired: Subscription expired
 //
 // Creem sends webhooks to this endpoint after payment events.
 // We verify the signature using HMAC-SHA256 with the webhook secret.
@@ -208,6 +210,11 @@ export async function POST(request: NextRequest) {
         // TODO: Handle past due subscription
         break;
 
+      case 'subscription.expired':
+        console.log('[Creem Webhook] Subscription expired:', event.data.customer_email);
+        // TODO: Handle expired subscription
+        break;
+
       default:
         console.log(`[Creem Webhook] Unhandled event type: ${event.event}`);
         // Still return 200 to acknowledge receipt
@@ -233,6 +240,6 @@ export async function GET() {
   return NextResponse.json({
     status: 'ok',
     message: 'Creem webhook endpoint is active',
-    events: ['checkout.completed', 'subscription.active', 'subscription.cancelled', 'subscription.past_due'],
+    events: ['checkout.completed', 'subscription.active', 'subscription.canceled', 'subscription.expired', 'subscription.past_due'],
   });
 }
