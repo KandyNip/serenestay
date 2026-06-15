@@ -200,7 +200,7 @@ export async function POST(request: NextRequest) {
         handleSubscriptionActive(event);
         break;
 
-      case 'subscription.cancelled':
+      case 'subscription.canceled':
         console.log('[Creem Webhook] Subscription cancelled:', event.data.customer_email);
         // TODO: Handle subscription cancellation
         break;
