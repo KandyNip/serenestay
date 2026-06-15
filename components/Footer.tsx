@@ -25,6 +25,12 @@ export default function Footer() {
         { label: 'Contact Us', href: '/contact' },
       ],
     },
+    {
+      title: 'Support',
+      links: [
+        { label: 'support@howistoday.online', href: 'mailto:support@howistoday.online' },
+      ],
+    },
   ];
 
   return (

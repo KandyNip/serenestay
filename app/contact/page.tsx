@@ -10,8 +10,14 @@ export default function ContactPage() {
     <div className="min-h-screen bg-surface pt-24 pb-16">
       <div className="container mx-auto px-4 max-w-2xl">
         <h1 className="font-serif text-4xl md:text-5xl text-primary mb-4">Contact Us</h1>
-        <p className="text-gray-600 mb-8">
+        <p className="text-gray-600 mb-4">
           Have a question, suggestion, or just want to say hello? We&apos;d love to hear from you.
+        </p>
+        <p className="text-gray-600 mb-8">
+          Email us at{' '}
+          <a href="mailto:support@howistoday.online" className="text-secondary hover:underline">
+            support@howistoday.online
+          </a>
         </p>
 
         <form action="https://formsubmit.co/449193216@qq.com" method="POST">
