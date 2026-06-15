@@ -15,6 +15,7 @@ interface PricingCardProps {
   disabled?: boolean;
   isYearly?: boolean;
   href?: string;
+  external?: boolean;
   badge?: string;
 }
 
@@ -33,6 +34,7 @@ export default function PricingCard({
   disabled = false,
   isYearly = false,
   href = '/chat',
+  external = false,
   badge,
 }: PricingCardProps) {
   const isPro = tier === 'pro';
@@ -146,6 +148,18 @@ export default function PricingCard({
           >
             {cta}
           </button>
+        ) : external ? (
+          <a
+            href={href}
+            className={`mt-8 w-full py-3.5 px-6 rounded-xl font-medium transition-all duration-200 text-center block ${
+              isPro
+                ? 'bg-gold hover:bg-gold-600 text-white shadow-md hover:shadow-lg active:scale-[0.98]'
+                : 'btn-outline hover:bg-primary hover:text-white'
+            }`}
+            aria-label={`${cta} - ${tier} plan`}
+          >
+            {cta}
+          </a>
         ) : (
           <Link
             href={href}

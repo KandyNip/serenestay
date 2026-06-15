@@ -86,8 +86,9 @@ export default function PricingPage() {
               price={{ monthly: 14.99 }}
               features={proFeatures}
               comingSoon={comingSoonFeatures}
-              cta="Coming Soon"
-              disabled
+              cta="Subscribe Now"
+              href="https://www.creem.io/test/payment/prod_6RN4FqLRHWVpsztuRNcxIX"
+              external
             />
 
             {/* Pro Annual */}
@@ -96,8 +97,9 @@ export default function PricingPage() {
               price={{ monthly: 9.99, yearly: 9.99 }}
               features={proFeatures}
               comingSoon={comingSoonFeatures}
-              cta="Coming Soon"
-              disabled
+              cta="Subscribe Now"
+              href="https://www.creem.io/test/payment/prod_3uGSnkGVxpptlrKpcIdjiB"
+              external
               isYearly
               badge="Best Value"
             />
