@@ -72,7 +72,17 @@
     "cons": [
       "Burning season (Mar-Apr) creates hazardous air quality — avoid or have N95 masks + air purifier",
       "Tourist zones like Nimman can be noisy — choose Old City or suburban areas for quiet"
-    ]
+    ],
+    "healingTags": [
+      "thai-massage",
+      "temple-stay",
+      "meditation",
+      "yoga",
+      "mindfulness",
+      "tea-ceremony",
+      "digital-detox"
+    ],
+    "emotionalTagline": "In Chiang Mai's ancient temples, find the stillness your soul has been seeking"
   },
   {
     "id": "th-pai",
@@ -147,7 +157,16 @@
     "cons": [
       "WiFi is unreliable (5-15 Mbps) — mobile data backup essential for remote work",
       "Nearest hospital is 3 hours away in Chiang Mai — get medical evacuation insurance"
-    ]
+    ],
+    "healingTags": [
+      "hot-springs",
+      "forest-bathing",
+      "yoga",
+      "meditation",
+      "sound-healing",
+      "digital-detox"
+    ],
+    "emotionalTagline": "Where mountain mist and hot springs wash away everything you carried here"
   },
   {
     "id": "th-kohphangan",
@@ -222,7 +241,17 @@
     "cons": [
       "WiFi inconsistent outside Thong Sala — remote workers rely on AIS/True mobile data",
       "Full Moon Party spills noise into otherwise serene east coast — avoid Haad Rin area"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "detox",
+      "sound-healing",
+      "ecstatic-dance",
+      "meditation",
+      "tantra",
+      "breathwork"
+    ],
+    "emotionalTagline": "Trade the Full Moon noise for silent mornings — this island heals both ways"
   },
   {
     "id": "th-kohlanta",
@@ -298,7 +327,15 @@
     "cons": [
       "Monsoon season (Jun-Sep) brings heavy rain — many businesses close",
       "Limited medical facilities — serious issues require ferry to Krabi mainland"
-    ]
+    ],
+    "healingTags": [
+      "thai-massage",
+      "ocean-therapy",
+      "yoga",
+      "meditation",
+      "digital-detox"
+    ],
+    "emotionalTagline": "Let Koh Lanta's slow island rhythm recalibrate your pace of living"
   },
   {
     "id": "th-chiangrai",
@@ -373,7 +410,16 @@
     "cons": [
       "Much smaller nomad community than Chiang Mai — fewer coworking options",
       "Same burning season air quality issues as northern Thailand (Mar-Apr)"
-    ]
+    ],
+    "healingTags": [
+      "temple-stay",
+      "meditation",
+      "thai-massage",
+      "tea-ceremony",
+      "mindfulness",
+      "forest-bathing"
+    ],
+    "emotionalTagline": "At Chiang Rai's white temple gates, silence speaks louder than any mantra"
   },
   {
     "id": "id-ubud",
@@ -449,7 +495,17 @@
     "cons": [
       "Traffic and crowds in central Ubud — stay in outskirts (Penestanan, Tegallalang) for peace",
       "Scooter culture is chaotic — road safety is a real concern for inexperienced riders"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "balinese-massage",
+      "sound-healing",
+      "cacao-ceremony",
+      "water-purification",
+      "meditation",
+      "breathwork"
+    ],
+    "emotionalTagline": "Where Ubud's rice terraces meet your inner peace beneath volcanic skies"
   },
   {
     "id": "id-canggu",
@@ -526,7 +582,15 @@
     "cons": [
       "Overtourism is real — traffic jams, noise, and crowds have replaced the chill vibe",
       "Can feel like a bubble — Balinese culture is harder to access than in Ubud"
-    ]
+    ],
+    "healingTags": [
+      "surf-therapy",
+      "yoga",
+      "ecstatic-dance",
+      "coworking-wellness",
+      "nomad-community"
+    ],
+    "emotionalTagline": "Ride Canggu's dawn waves, then let the coconuts and community restore you"
   },
   {
     "id": "id-giliair",
@@ -603,7 +667,15 @@
     "cons": [
       "WiFi is spotty island-wide — serious remote workers will struggle",
       "Medical facilities are minimal — nearest hospital is a boat ride to Lombok"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "yoga",
+      "digital-detox",
+      "meditation",
+      "sunset-meditation"
+    ],
+    "emotionalTagline": "No engines, no rush — just turquoise water teaching you how to breathe"
   },
   {
     "id": "id-lovina",
@@ -680,7 +752,15 @@
     "cons": [
       "Very limited WiFi (5-20 Mbps) — not suitable for video calls or heavy remote work",
       "Far from Bali's main airport (3+ hours) — getting there is a journey itself"
-    ]
+    ],
+    "healingTags": [
+      "balinese-massage",
+      "hot-springs",
+      "meditation",
+      "yoga",
+      "ocean-therapy"
+    ],
+    "emotionalTagline": "Wake with the dolphins at dawn — Bali's quietest coast rewards early risers"
   },
   {
     "id": "vn-hoian",
@@ -755,7 +835,15 @@
     "cons": [
       "Central old town gets extremely touristy — live in surrounding villages for authenticity",
       "Monsoon season (Oct-Dec) brings flooding — streets can be underwater for days"
-    ]
+    ],
+    "healingTags": [
+      "tea-ceremony",
+      "meditation",
+      "yoga",
+      "mindfulness",
+      "lantern-ceremony"
+    ],
+    "emotionalTagline": "Float a lantern down Hoi An's river and watch your worries drift away"
   },
   {
     "id": "vn-danang",
@@ -830,7 +918,15 @@
     "cons": [
       "Less spiritual character than Hoi An or Hue — more of a practical base than retreat destination",
       "Vietnamese driving culture is intense — crossing streets requires confidence"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "sunrise-hiking",
+      "meditation",
+      "yoga",
+      "thai-massage"
+    ],
+    "emotionalTagline": "Climb Marble Mountain at dawn, then let the sea wash the world clean"
   },
   {
     "id": "vn-dalat",
@@ -906,7 +1002,16 @@
     "cons": [
       "Limited English spoken compared to Da Nang or Hoi An — language barrier is real",
       "Smaller expat community means fewer wellness services and imported goods"
-    ]
+    ],
+    "healingTags": [
+      "forest-bathing",
+      "tea-ceremony",
+      "yoga",
+      "meditation",
+      "wild-swimming",
+      "mindfulness"
+    ],
+    "emotionalTagline": "In Da Lat's pine-scented highlands, the cool air clears what city heat cannot"
   },
   {
     "id": "kh-siemreap",
@@ -982,7 +1087,15 @@
     "cons": [
       "Dusty and hot in dry season — air quality can be poor from March to May",
       "Limited specialized healthcare — complex medical needs require travel to Bangkok"
-    ]
+    ],
+    "healingTags": [
+      "temple-stay",
+      "meditation",
+      "yoga",
+      "mindfulness",
+      "volunteer-healing"
+    ],
+    "emotionalTagline": "Sit with the stones at Angkor Wat — a thousand years of silence heals"
   },
   {
     "id": "kh-kampot",
@@ -1058,7 +1171,15 @@
     "cons": [
       "Very limited WiFi (5-15 Mbps) — not viable for bandwidth-heavy remote work",
       "Healthcare is basic — nearest quality hospital is 2+ hours in Phnom Penh"
-    ]
+    ],
+    "healingTags": [
+      "digital-detox",
+      "yoga",
+      "meditation",
+      "forest-bathing",
+      "mindfulness"
+    ],
+    "emotionalTagline": "Kampot's pepper farms and river sunsets ask nothing of you but presence"
   },
   {
     "id": "la-luangprabang",
@@ -1134,7 +1255,15 @@
     "cons": [
       "Very limited internet (3-10 Mbps) — challenging for remote work beyond email",
       "Medical facilities are basic — comprehensive travel insurance with evacuation is essential"
-    ]
+    ],
+    "healingTags": [
+      "temple-stay",
+      "meditation",
+      "alms-ceremony",
+      "yoga",
+      "mindfulness"
+    ],
+    "emotionalTagline": "Give alms at dawn in Luang Prabang — generosity heals the giver most"
   },
   {
     "id": "la-vangvieng",
@@ -1209,7 +1338,15 @@
     "cons": [
       "Still shedding party reputation — some bars and noise remain in town center",
       "WiFi and medical infrastructure are very limited — not suitable for remote-dependent workers"
-    ]
+    ],
+    "healingTags": [
+      "hot-springs",
+      "forest-bathing",
+      "yoga",
+      "meditation",
+      "wild-swimming"
+    ],
+    "emotionalTagline": "Beyond the tubing crowds, Vang Vieng's karst valleys hold real solitude"
   },
   {
     "id": "ph-siargao",
@@ -1286,7 +1423,15 @@
     "cons": [
       "Internet is unreliable (5-20 Mbps) — power outages common, especially in rainy season",
       "Remote island — medical facilities are basic, typhoon season (Nov-Jan) can disrupt travel"
-    ]
+    ],
+    "healingTags": [
+      "surf-therapy",
+      "ocean-therapy",
+      "yoga",
+      "digital-detox",
+      "island-meditation"
+    ],
+    "emotionalTagline": "Siargao's Cloud 9 breaks aren't just waves — they're invitations to start over"
   },
   {
     "id": "ph-palawan",
@@ -1363,7 +1508,15 @@
     "cons": [
       "Very limited WiFi — Palawan is a detox destination, not a remote work base",
       "Getting around is slow — island-hopping requires boat rides on rough seas"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "digital-detox",
+      "forest-bathing",
+      "wild-swimming",
+      "island-meditation"
+    ],
+    "emotionalTagline": "Palawan's hidden lagoons don't appear on maps — or in your anxious thoughts"
   },
   {
     "id": "my-penang",
@@ -1440,7 +1593,15 @@
     "cons": [
       "Hot and humid year-round — air conditioning is not optional",
       "Georgetown can be congested — choose Tanjung Bungah or Batu Ferringhi for quiet"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "thai-massage",
+      "tea-ceremony",
+      "meditation",
+      "mindfulness"
+    ],
+    "emotionalTagline": "Wander Penang's spice streets — every scent is a doorway to the present moment"
   },
   {
     "id": "my-langkawi",
@@ -1518,7 +1679,15 @@
     "cons": [
       "Limited coworking spaces — less developed nomad infrastructure than Penang",
       "Monsoon season (Sep-Oct) brings heavy rain and rough seas"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "forest-bathing",
+      "yoga",
+      "thai-massage",
+      "digital-detox"
+    ],
+    "emotionalTagline": "Langkawi's ancient mangroves whisper what the city never could — slow down"
   },
   {
     "id": "in-rishikesh",
@@ -1593,7 +1762,17 @@
     "cons": [
       "Intense heat in summer (May-Jun 45°C+) — visit only Oct-Mar for comfortable practice",
       "WiFi is unreliable and slow (5-15 Mbps) — not suitable for video-heavy remote work"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "vipassana",
+      "yoga-therapy",
+      "kirtan",
+      "ayurveda",
+      "meditation",
+      "sound-healing"
+    ],
+    "emotionalTagline": "At Rishikesh's riverbanks, the Ganges carries a thousand years of prayers — and yours"
   },
   {
     "id": "in-goa",
@@ -1667,7 +1846,16 @@
     "cons": [
       "Monsoon season (Jun-Sep) shuts down beach life — businesses close, beaches erode",
       "Tourist season (Dec-Jan) brings crowds and price spikes — book early or avoid peak"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "ayurveda",
+      "meditation",
+      "ecstatic-dance",
+      "surf-therapy",
+      "kirtan"
+    ],
+    "emotionalTagline": "Goa's Portuguese churches and palm-fringed beaches hold space for every kind of healing"
   },
   {
     "id": "in-dharamshala",
@@ -1742,7 +1930,16 @@
     "cons": [
       "Cold winters (Dec-Feb) with limited heating — bring warm layers",
       "Internet is slow and unreliable — not viable for bandwidth-dependent remote work"
-    ]
+    ],
+    "healingTags": [
+      "meditation",
+      "vipassana",
+      "yoga",
+      "mindfulness",
+      "reiki",
+      "tea-ceremony"
+    ],
+    "emotionalTagline": "In the shadow of the Himalayas, Dharamshala teaches stillness the mountain way"
   },
   {
     "id": "in-auroville",
@@ -1816,7 +2013,16 @@
     "cons": [
       "Decision-making can be slow and bureaucratic — community politics is real",
       "Pondicherry area is hot and humid (35°C+) most of the year — AC is expensive"
-    ]
+    ],
+    "healingTags": [
+      "meditation",
+      "yoga",
+      "sound-healing",
+      "volunteer-healing",
+      "mindfulness",
+      "community-healing"
+    ],
+    "emotionalTagline": "Step into Auroville's Matrimandir — a golden sphere built for nothing but inner silence"
   },
   {
     "id": "lk-unawatuna",
@@ -1890,7 +2096,15 @@
     "cons": [
       "Beach road can be busy and touristy — choose hillside stays for quiet",
       "Limited specialized healthcare — complex cases need Colombo (2 hours away)"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "ayurveda",
+      "yoga",
+      "meditation",
+      "mindfulness"
+    ],
+    "emotionalTagline": "Let Unawatuna's cinnamon-scented breezes carry the weight you forgot you were holding"
   },
   {
     "id": "lk-weligama",
@@ -1964,7 +2178,15 @@
     "cons": [
       "Internet is inconsistent — mobile data (Dialog) more reliable than WiFi",
       "Monsoon season (May-Oct) brings rough seas and limited surf"
-    ]
+    ],
+    "healingTags": [
+      "surf-therapy",
+      "ayurveda",
+      "yoga",
+      "meditation",
+      "ocean-therapy"
+    ],
+    "emotionalTagline": "Weligama's stilt fishermen wait in stillness — the ocean's oldest meditation practice"
   },
   {
     "id": "lk-ella",
@@ -2038,7 +2260,16 @@
     "cons": [
       "Very limited WiFi (3-10 Mbps) — remote workers should plan for offline days",
       "Minimal medical facilities — serious conditions require transport to Nuwara Eliya or Kandy"
-    ]
+    ],
+    "healingTags": [
+      "forest-bathing",
+      "hiking-meditation",
+      "yoga",
+      "digital-detox",
+      "wild-swimming",
+      "mindfulness"
+    ],
+    "emotionalTagline": "Hike Ella's Nine Arches at first light — every step is a breath released"
   },
   {
     "id": "jp-okinawa",
@@ -2114,7 +2345,16 @@
     "cons": [
       "Expensive compared to Southeast Asian alternatives — budget living from $1,500/month",
       "Visa restrictions for long stays — 90-day tourist visa with limited extension options"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "longevity-wellness",
+      "yoga",
+      "forest-bathing",
+      "qigong",
+      "meditation"
+    ],
+    "emotionalTagline": "Okinawa's centenarians know the secret — breathe deeply, move slowly, live long"
   },
   {
     "id": "jp-kyoto",
@@ -2188,7 +2428,16 @@
     "cons": [
       "High cost of living — budget stays from $1,500/month, hotels from $80/night",
       "Overtourism in peak seasons (cherry blossom, autumn) — book months ahead"
-    ]
+    ],
+    "healingTags": [
+      "zen-retreat",
+      "tea-ceremony",
+      "temple-stay",
+      "meditation",
+      "mindfulness",
+      "forest-bathing"
+    ],
+    "emotionalTagline": "In Kyoto's moss gardens, each stone and stream arranges your scattered thoughts"
   },
   {
     "id": "jp-koyasan",
@@ -2262,7 +2511,15 @@
     "cons": [
       "Very limited WiFi — this is a monastery, not a coworking space",
       "Not a long-stay destination — best experienced as 2-3 day retreat within a Japan trip"
-    ]
+    ],
+    "healingTags": [
+      "temple-stay",
+      "zen-retreat",
+      "meditation",
+      "mindfulness",
+      "sound-healing"
+    ],
+    "emotionalTagline": "Sleep among a thousand Buddhas at Koyasan — even dreams find peace here"
   },
   {
     "id": "kr-jeju",
@@ -2338,7 +2595,16 @@
     "cons": [
       "Winter (Dec-Feb) is cold and windy — outdoor activities limited",
       "Korean visa requirements can be restrictive — check eligibility for extended stays"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "forest-bathing",
+      "hot-springs",
+      "yoga",
+      "meditation",
+      "digital-detox"
+    ],
+    "emotionalTagline": "Jeju's volcanic shores and stone walls guard an island that time forgot"
   },
   {
     "id": "pt-lagos",
@@ -2413,7 +2679,15 @@
     "cons": [
       "Peak summer (Jul-Aug) brings crowds and price spikes — visit shoulder season instead",
       "Limited public transport — a car or scooter is needed for full exploration"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "surf-therapy",
+      "yoga",
+      "meditation",
+      "sunrise-hiking"
+    ],
+    "emotionalTagline": "Lagos' golden cliffs and Atlantic swells reshape more than the coastline"
   },
   {
     "id": "pt-madeira",
@@ -2490,7 +2764,15 @@
     "cons": [
       "Very steep terrain — not suitable for those with mobility limitations",
       "Can be rainy and foggy in mountains — coastal areas have better weather consistency"
-    ]
+    ],
+    "healingTags": [
+      "forest-bathing",
+      "hiking-meditation",
+      "yoga",
+      "ocean-therapy",
+      "wild-swimming"
+    ],
+    "emotionalTagline": "Walk Madeira's levada trails — ancient waterways that irrigate both land and soul"
   },
   {
     "id": "pt-ericeira",
@@ -2565,7 +2847,15 @@
     "cons": [
       "Ocean water is cold year-round (16-19°C) — wetsuit is mandatory even in summer",
       "Small town can feel limiting — Lisbon is 45 min away for city needs"
-    ]
+    ],
+    "healingTags": [
+      "surf-therapy",
+      "yoga",
+      "ocean-therapy",
+      "meditation",
+      "digital-detox"
+    ],
+    "emotionalTagline": "Ericeira's Atlantic breaks wash clean whatever you arrived carrying inside"
   },
   {
     "id": "es-tenerife",
@@ -2645,7 +2935,15 @@
     "cons": [
       "South is touristy and commercial — choose north (Puerto de la Cruz) for authentic vibe",
       "Car dependency is high — public transport is limited outside major towns"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "yoga",
+      "volcano-hiking",
+      "hot-springs",
+      "meditation"
+    ],
+    "emotionalTagline": "Above Tenerife's clouds on Teide, perspective shifts — problems shrink to specks"
   },
   {
     "id": "es-granada",
@@ -2723,7 +3021,15 @@
     "cons": [
       "Winter gets genuinely cold (near-zero) — many apartments lack central heating",
       "Job market is limited — not ideal if you need local employment beyond remote work"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "meditation",
+      "tea-ceremony",
+      "mindfulness",
+      "sound-healing"
+    ],
+    "emotionalTagline": "In Granada's Albaicín at sunset, the Alhambra glows and time simply stops"
   },
   {
     "id": "es-ibiza",
@@ -2798,7 +3104,16 @@
     "cons": [
       "Summer season (Jul-Aug) is loud and expensive — visit Oct-May for the real Ibiza",
       "One of Europe's priciest destinations in peak season — budget living from $1,800/month"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "sound-healing",
+      "ecstatic-dance",
+      "cacao-ceremony",
+      "meditation",
+      "breathwork"
+    ],
+    "emotionalTagline": "Beyond the bass drops, Ibiza's north hides the island your spirit came for"
   },
   {
     "id": "gr-crete",
@@ -2875,7 +3190,15 @@
     "cons": [
       "Summer heat (Jul-Aug 35°C+) can be oppressive — visit spring or autumn",
       "Car essential for exploration — public transport is sparse outside cities"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "yoga",
+      "meditation",
+      "forest-bathing",
+      "mediterranean-diet-wellness"
+    ],
+    "emotionalTagline": "Crete's olive groves and turquoise coves have been healing wanderers for millennia"
   },
   {
     "id": "gr-milos",
@@ -2950,7 +3273,15 @@
     "cons": [
       "Very limited WiFi in many areas — this is an escape, not a workspace",
       "Island is small — 3-5 days exhausts most activities; pair with Crete or Athens"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "digital-detox",
+      "yoga",
+      "wild-swimming",
+      "meditation"
+    ],
+    "emotionalTagline": "Milos carves cathedrals from white stone — nature's therapy needs no appointment"
   },
   {
     "id": "it-cagliari",
@@ -3027,7 +3358,15 @@
     "cons": [
       "Sardinian transport is limited — a car is needed to explore beyond Cagliari",
       "Winter (Nov-Mar) can be quiet with some businesses closed"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "yoga",
+      "meditation",
+      "forest-bathing",
+      "mindfulness"
+    ],
+    "emotionalTagline": "From Cagliari's hilltop, the Mediterranean stretches endlessly — so does your breathing room"
   },
   {
     "id": "gr-thessaloniki",
@@ -3104,7 +3443,15 @@
     "cons": [
       "Summer humidity can be intense — not as breezy as the islands",
       "Fewer wellness-specific offerings than island destinations — more self-directed practice"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "meditation",
+      "tea-ceremony",
+      "ocean-therapy",
+      "mindfulness"
+    ],
+    "emotionalTagline": "Thessaloniki's waterfront sunsets paint the sky in shades you forgot existed"
   },
   {
     "id": "mx-oaxaca",
@@ -3181,7 +3528,16 @@
     "cons": [
       "Air quality can be poor in dry season — dust and agricultural burning",
       "Political protests occasionally disrupt city life — check current situation before committing"
-    ]
+    ],
+    "healingTags": [
+      "cacao-ceremony",
+      "temazcal",
+      "yoga",
+      "meditation",
+      "mindfulness",
+      "volunteer-healing"
+    ],
+    "emotionalTagline": "In Oaxaca's temazcal steam, ancient Zapotec heat melts what modern life hardened"
   },
   {
     "id": "mx-tulum",
@@ -3257,7 +3613,16 @@
     "cons": [
       "Massively overdeveloped — Tulum Pueblo to beach road is a traffic nightmare",
       "Expensive by Mexican standards — beach clubs charge $50+ minimum spend"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "cacao-ceremony",
+      "sound-healing",
+      "meditation",
+      "breathwork",
+      "ecstatic-dance"
+    ],
+    "emotionalTagline": "Tulum's cenotes are gateways to the underworld — and to your own depths"
   },
   {
     "id": "mx-sancristobal",
@@ -3333,7 +3698,15 @@
     "cons": [
       "Very limited WiFi and coworking infrastructure — not a remote work base",
       "Political tensions in Chiapas occasionally affect travel — stay informed"
-    ]
+    ],
+    "healingTags": [
+      "temazcal",
+      "meditation",
+      "yoga",
+      "mindfulness",
+      "volunteer-healing"
+    ],
+    "emotionalTagline": "San Cristóbal's highland air and indigenous markets ground you in something older"
   },
   {
     "id": "mx-sayulita",
@@ -3410,7 +3783,15 @@
     "cons": [
       "High season (Dec-Mar) brings crowds and price spikes — the quiet town gets busy",
       "Water quality can be inconsistent after rains — check before swimming"
-    ]
+    ],
+    "healingTags": [
+      "surf-therapy",
+      "yoga",
+      "meditation",
+      "digital-detox",
+      "ecstatic-dance"
+    ],
+    "emotionalTagline": "Sayulita's surf and sunset drums sync your heartbeat back to natural rhythm"
   },
   {
     "id": "gt-atitlan",
@@ -3486,7 +3867,16 @@
     "cons": [
       "Very limited WiFi in most villages — San Pedro has the best connection",
       "Road access is winding and slow — allow 3-4 hours from Guatemala City or Antigua"
-    ]
+    ],
+    "healingTags": [
+      "meditation",
+      "cacao-ceremony",
+      "shamanic-journey",
+      "yoga",
+      "mindfulness",
+      "volunteer-healing"
+    ],
+    "emotionalTagline": "Three volcanoes guard Lake Atitlán — their silence becomes your meditation"
   },
   {
     "id": "cr-nosara",
@@ -3562,7 +3952,16 @@
     "cons": [
       "Expensive by Central American standards — budget living from $1,500/month",
       "Dusty roads (many unpaved) — not ideal for those with respiratory sensitivities"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "surf-therapy",
+      "meditation",
+      "breathwork",
+      "sound-healing",
+      "ecstatic-dance"
+    ],
+    "emotionalTagline": "Nosara's Blue Zone tides pull you toward the longest, fullest version of yourself"
   },
   {
     "id": "br-florianopolis",
@@ -3637,7 +4036,15 @@
     "cons": [
       "Summer (Jan-Feb) gets crowded and expensive — Brazilians flock here for holidays",
       "Public transport is limited — a car is needed to access the best beaches"
-    ]
+    ],
+    "healingTags": [
+      "surf-therapy",
+      "yoga",
+      "ocean-therapy",
+      "meditation",
+      "nature-therapy"
+    ],
+    "emotionalTagline": "Florianópolis' forty-two beaches mean forty-two chances to start your day differently"
   },
   {
     "id": "br-pipa",
@@ -3715,7 +4122,15 @@
     "cons": [
       "Limited WiFi (10-30 Mbps) — mobile data (Claro/Vivo) is more reliable",
       "Small town with limited healthcare — serious issues require Natal (1.5 hours away)"
-    ]
+    ],
+    "healingTags": [
+      "surf-therapy",
+      "yoga",
+      "ocean-therapy",
+      "meditation",
+      "digital-detox"
+    ],
+    "emotionalTagline": "Pipa's dolphin pods and red cliffs — Brazil's northeast heals without trying"
   },
   {
     "id": "co-medellin",
@@ -3792,7 +4207,15 @@
     "cons": [
       "Some neighborhoods still unsafe — research and choose El Poblado, Envigado, or Laureles",
       "Altitude (1,500m) takes adjustment — first week may bring mild altitude symptoms"
-    ]
+    ],
+    "healingTags": [
+      "yoga",
+      "coworking-wellness",
+      "nomad-community",
+      "meditation",
+      "mindfulness"
+    ],
+    "emotionalTagline": "Medellín's eternal spring air and reinvented streets breathe possibility into every morning"
   },
   {
     "id": "co-minca",
@@ -3869,7 +4292,15 @@
     "cons": [
       "Very limited WiFi (3-10 Mbps) — digital detox by necessity, not choice",
       "Humidity and insects are intense — not for those sensitive to tropical conditions"
-    ]
+    ],
+    "healingTags": [
+      "forest-bathing",
+      "yoga",
+      "meditation",
+      "digital-detox",
+      "birdwatching-meditation"
+    ],
+    "emotionalTagline": "In Minca's cloud forest, hummingbirds hover at eye level — even they are present"
   },
   {
     "id": "ec-vilcabamba",
@@ -3945,7 +4376,15 @@
     "cons": [
       "Very limited internet and healthcare — basic infrastructure only",
       "Remote location — nearest major city (Loja) is 45 minutes, Cuenca is 3 hours"
-    ]
+    ],
+    "healingTags": [
+      "meditation",
+      "yoga",
+      "longevity-wellness",
+      "forest-bathing",
+      "digital-detox"
+    ],
+    "emotionalTagline": "Vilcabamba's valley of centenarians — where time moves slowly and people move slower"
   },
   {
     "id": "ma-essaouira",
@@ -4023,7 +4462,15 @@
     "cons": [
       "Wind can be relentless — not ideal for those who dislike constant breezes",
       "Winter (Dec-Feb) can be surprisingly chilly and damp — heating is rare in riads"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "surf-therapy",
+      "meditation",
+      "sound-healing",
+      "breathwork"
+    ],
+    "emotionalTagline": "Let Essaouira's Atlantic winds and Gnawa rhythms carry your worries out to sea"
   },
   {
     "id": "ma-taghazout",
@@ -4101,7 +4548,15 @@
     "cons": [
       "Ramadan timing affects business hours — plan around the holy month",
       "Conservative culture — dress modestly outside resort areas"
-    ]
+    ],
+    "healingTags": [
+      "surf-therapy",
+      "yoga",
+      "meditation",
+      "ocean-therapy",
+      "breathwork"
+    ],
+    "emotionalTagline": "Taghazout's dawn patrol — Atlantic swells and Berber tea before the world wakes"
   },
   {
     "id": "tz-zanzibar",
@@ -4178,7 +4633,15 @@
     "cons": [
       "WiFi is unreliable outside resorts — Tanzania's internet infrastructure is limited",
       "Mosquito-borne illness risk (malaria) — prophylaxis is strongly recommended"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "yoga",
+      "spice-therapy",
+      "meditation",
+      "digital-detox"
+    ],
+    "emotionalTagline": "Zanzibar's clove-scented shores and turquoise tides dissolve borders between rest and wonder"
   },
   {
     "id": "za-capetown",
@@ -4254,6 +4717,14 @@
     "cons": [
       "Safety concerns are real — stick to recommended areas and use Uber after dark",
       "Loadshedding (power outages) still occurs — solar/UPS backup needed for remote work"
-    ]
+    ],
+    "healingTags": [
+      "ocean-therapy",
+      "hiking-meditation",
+      "yoga",
+      "cold-exposure",
+      "mindfulness"
+    ],
+    "emotionalTagline": "Climb Lion's Head at dawn and Cape Town gives you back your perspective"
   }
 ]
