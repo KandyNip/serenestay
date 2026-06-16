@@ -107,8 +107,9 @@ export async function POST(request: Request) {
       pid: product_id,
     });
 
-    const tokenSignature = signProToken(tokenPayload, signingSecret);
-    const token = `${base64url(tokenPayload)}.${tokenSignature}`;
+    const payloadB64 = base64url(tokenPayload);
+    const tokenSignature = signProToken(payloadB64, signingSecret);
+    const token = `${payloadB64}.${tokenSignature}`;
 
     return Response.json({ token });
   } catch (error) {
