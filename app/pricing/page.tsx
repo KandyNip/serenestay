@@ -87,7 +87,7 @@ export default function PricingPage() {
               features={proFeatures}
               comingSoon={comingSoonFeatures}
               cta="Subscribe Now"
-              href="https://www.creem.io/test/payment/prod_6RN4FqLRHWVpsztuRNcxIX"
+              href="https://www.creem.io/payment/prod_4Tswoy49WmcyoR0XrxO0SR"
               external
             />
 
@@ -98,7 +98,7 @@ export default function PricingPage() {
               features={proFeatures}
               comingSoon={comingSoonFeatures}
               cta="Subscribe Now"
-              href="https://www.creem.io/test/payment/prod_3uGSnkGVxpptlrKpcIdjiB"
+              href="https://www.creem.io/payment/prod_4D1Yb4ziXDLQ3ky8VufgdU"
               external
               isYearly
               badge="Best Value"
