@@ -105,7 +105,8 @@ export async function streamChat(
   messages: Message[],
   onChunk: (chunk: string) => void,
   onDone: (done: boolean) => void,
-  isProUser?: boolean
+  isProUser?: boolean,
+  proToken?: string
 ): Promise<void> {
   const response = await fetch(`${API_BASE}/api/chat`, {
     method: 'POST',
@@ -116,6 +117,7 @@ export async function streamChat(
       messages,
       stream: true,
       isProUser,
+      proToken,
     }),
   });
   
@@ -172,22 +174,33 @@ export async function streamChat(
 }
 
 /**
- * Check if user has Pro status (simple localStorage check)
+ * Check if user has Pro status (token-based verification)
+ * Parses the Pro token from localStorage and checks expiration
  */
 export function checkProStatus(): boolean {
   if (typeof window === 'undefined') return false;
-  
-  const stored = localStorage.getItem('serenestay_pro');
-  return stored === 'true';
-}
 
-/**
- * Set Pro status
- */
-export function setProStatus(isPro: boolean): void {
-  if (typeof window === 'undefined') return;
-  
-  localStorage.setItem('serenestay_pro', isPro.toString());
+  const token = localStorage.getItem('serenestay_pro_token');
+  if (!token) return false;
+
+  try {
+    // Token format: base64url(payload).base64url(signature)
+    const parts = token.split('.');
+    if (parts.length !== 2) return false;
+
+    // Decode payload (base64url → base64 → utf8)
+    let base64 = parts[0].replace(/-/g, '+').replace(/_/g, '/');
+    while (base64.length % 4) base64 += '=';
+    const payload = JSON.parse(Buffer.from(base64, 'base64').toString('utf8'));
+
+    // Check expiration and isPro flag
+    if (payload.exp > Date.now() && payload.isPro === true) {
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
 }
 
 /**

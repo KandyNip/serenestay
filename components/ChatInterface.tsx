@@ -152,6 +152,11 @@ Or just share what's on your mind, and we'll explore together.`,
     let fullResponse = '';
 
     try {
+      // Read Pro token from localStorage
+      const proToken = typeof window !== 'undefined'
+        ? localStorage.getItem('serenestay_pro_token') || undefined
+        : undefined;
+
       await streamChat(
         [...messages, { id: 'current', role: 'user' as const, content: userMessage }],
         (chunk) => {
@@ -180,7 +185,8 @@ Or just share what's on your mind, and we'll explore together.`,
             isAutoTriggerRef.current = false;
           }
         },
-        isProUser
+        isProUser,
+        proToken
       );
     } catch (error) {
       console.error('Chat error:', error);

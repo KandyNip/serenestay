@@ -8,6 +8,7 @@
 // Response (streaming):
 //   text/event-stream with data: {"content": "..."} chunks
 
+import crypto from 'crypto';
 import {
   createStreamingCompletion,
   createChatCompletion,
@@ -20,6 +21,53 @@ import type { ChatMessage, ChatRequest } from '../../../lib/types';
 
 // Use Node.js runtime (not Edge) to support fs.readFileSync for JSON data
 export const dynamic = 'force-dynamic';
+
+// Live product IDs
+const VALID_PRODUCT_IDS = [
+  'prod_4Tswoy49WmcyoR0XrxO0SR', // Monthly
+  'prod_4D1Yb4ziXDLQ3ky8VufgdU', // Annual
+];
+
+// ============================================================
+// Pro Token Verification
+// ============================================================
+
+function verifyProToken(token: string): boolean {
+  try {
+    const signingSecret = process.env.PRO_SIGNING_SECRET;
+    if (!signingSecret) return false;
+
+    // Split token into payload and signature
+    const parts = token.split('.');
+    if (parts.length !== 2) return false;
+
+    const [payloadB64, signatureB64] = parts;
+
+    // Compute expected signature
+    const expectedSig = crypto.createHmac('sha256', signingSecret).update(payloadB64).digest('base64')
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+    // Timing-safe comparison
+    const sigBuffer = Buffer.from(signatureB64);
+    const expectedBuffer = Buffer.from(expectedSig);
+    if (sigBuffer.length !== expectedBuffer.length) return false;
+    if (!crypto.timingSafeEqual(sigBuffer, expectedBuffer)) return false;
+
+    // Decode payload
+    let base64 = payloadB64.replace(/-/g, '+').replace(/_/g, '/');
+    while (base64.length % 4) base64 += '=';
+    const payload = JSON.parse(Buffer.from(base64, 'base64').toString('utf8'));
+
+    // Check expiration, isPro flag, and product ID
+    if (payload.exp <= Date.now()) return false;
+    if (payload.isPro !== true) return false;
+    if (!VALID_PRODUCT_IDS.includes(payload.pid)) return false;
+
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 // ============================================================
 // Input Validation
@@ -67,7 +115,10 @@ export async function POST(request: Request) {
     // 1. Parse and validate request
     const body = await request.json();
     const { messages, stream } = validateRequest(body);
-    const isProUser = typeof body.isProUser === 'boolean' ? body.isProUser : false;
+
+    // Verify Pro status server-side via token (ignore client's isProUser claim)
+    const proToken = typeof body.proToken === 'string' ? body.proToken : '';
+    const isProUser = proToken ? verifyProToken(proToken) : false;
 
     // 2. Load destination data for AI context
     const destinations = await loadDestinations();
