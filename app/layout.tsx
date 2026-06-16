@@ -3,6 +3,7 @@ import { DM_Serif_Display, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
 
 // Font configurations
 const dmSerifDisplay = DM_Serif_Display({
@@ -100,6 +101,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
