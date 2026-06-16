@@ -18,18 +18,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isMobileMenuOpen]);
-
   // Navigation links
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -41,7 +29,7 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || isMobileMenuOpen
+        isScrolled
           ? 'bg-white/95 backdrop-blur-md shadow-soft'
           : 'bg-transparent'
       }`}
@@ -97,38 +85,36 @@ export default function Navbar() {
             )}
           </button>
         </div>
-      </nav>
 
-      {/* Mobile Menu - Full screen overlay */}
-      <div
-        id="mobile-menu"
-        className={`md:hidden fixed inset-0 top-16 z-40 bg-surface/98 backdrop-blur-lg transition-all duration-300 ${
-          isMobileMenuOpen
-            ? 'opacity-100 visible'
-            : 'opacity-0 invisible'
-        }`}
-        aria-hidden={!isMobileMenuOpen}
-      >
-        <div className="flex flex-col items-center justify-center h-full space-y-6 px-6">
-          {navLinks.map((link) => (
+        {/* Mobile Menu */}
+        <div
+          id="mobile-menu"
+          className={`md:hidden overflow-hidden transition-all duration-300 ${
+            isMobileMenuOpen ? 'max-h-96 pb-4' : 'max-h-0'
+          }`}
+          aria-hidden={!isMobileMenuOpen}
+        >
+          <div className="flex flex-col space-y-3 pt-4 border-t border-primary/10">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-primary/80 hover:text-secondary font-medium py-2 transition-colors duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
             <Link
-              key={link.href}
-              href={link.href}
-              className="text-primary text-2xl font-serif hover:text-secondary transition-colors duration-200 py-2"
+              href="/chat"
+              className="btn-secondary text-sm text-center mt-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              {link.label}
+              Start Your Journey
             </Link>
-          ))}
-          <Link
-            href="/chat"
-            className="btn-secondary text-base mt-4 px-8 py-3"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Start Your Journey
-          </Link>
+          </div>
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
