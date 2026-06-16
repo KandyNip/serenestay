@@ -55,6 +55,8 @@ export interface Destination {
   images: string[];              // 图片URL数组
   pros: string[];                // 优点列表
   cons: string[];                // 缺点列表
+  healingTags: string[];         // 疗愈标签
+  emotionalTagline: string;      // 情感标语
 }
 
 // ============================================================
