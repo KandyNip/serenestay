@@ -1,12 +1,13 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ChevronLeft, Calendar, MessageCircle, Plane, Wifi, Heart, Clock, AlertTriangle } from 'lucide-react';
+import { ChevronLeft, Calendar, MessageCircle, Plane, Wifi, Heart, Clock, AlertTriangle, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { getDestinationBySlug, loadDestinations } from '@/lib/destinations';
 import ScoreBar from '@/components/ScoreBar';
 import VetoWarning from '@/components/VetoWarning';
 import DestinationCard from '@/components/DestinationCard';
 import ImageGallery from '@/components/ImageGallery';
+import ProsConsCard from '@/components/ProsConsCard';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -207,6 +208,17 @@ export default async function DestinationDetailPage({ params }: PageProps) {
                 ))}
               </div>
             </div>
+
+            {/* Pros & Cons */}
+            {destination.pros && destination.pros.length > 0 && (
+              <div>
+                <h2 className="font-serif text-2xl text-primary mb-4 flex items-center gap-2">
+                  <ThumbsUp className="w-6 h-6 text-secondary" />
+                  Pros & Cons
+                </h2>
+                <ProsConsCard pros={destination.pros} cons={destination.cons || []} />
+              </div>
+            )}
           </div>
 
           {/* Right Column - Sidebar */}

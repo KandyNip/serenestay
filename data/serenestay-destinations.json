@@ -61,6 +61,16 @@
       "https://images.unsplash.com/photo-1578157695179-d7b7ddeb2f53?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1682826556362-2c06b7ac75c5?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1596622897385-0086202d383d?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "300+ temples for meditation and cultural immersion",
+      "World-class Thai massage at $5-10/hour",
+      "Blazing fast fiber internet 100+ Mbps in coworking spaces",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 4/5"
+    ],
+    "cons": [
+      "Best to avoid: burning season (Mar-Apr) when haze from agricultural burning creates hazardous air quality"
     ]
   },
   {
@@ -125,6 +135,18 @@
       "https://images.unsplash.com/photo-1512553353614-82a7370096dc?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1583491470869-ca0b9fa90216?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Natural hot springs and waterfalls for healing",
+      "Dramatic Pai Canyon sunset views",
+      "Rustic cafes with organic farm-to-table food",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "Limited medical facilities on site. Nearest hospital is 3 hours away in Chiang Mai. Ensure comprehensive travel insurance with medical evacuation coverage.",
+      "WiFi quality limited (2/5)",
+      "Medical access limited (2/5)"
     ]
   },
   {
@@ -189,7 +211,15 @@
       "https://images.unsplash.com/photo-1730815252324-c4fad2a15936?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1565099892185-1cebf10eff8f?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1579554632071-cffdaad3738c?w=800&h=600&fit=crop&q=80"
-    ]
+    ],
+    "pros": [
+      "World-renowned yoga and detox retreat centers",
+      "Serene Sri Thanu meditation temple and yoga school",
+      "Crystal-clear waters and secluded beach coves",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "th-kohlanta",
@@ -254,7 +284,15 @@
       "https://images.unsplash.com/photo-1575515602219-a177b8cc5e99?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1606472679046-7a270deced3d?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1672933354004-3cbd9874f099?w=800&h=600&fit=crop&q=80"
-    ]
+    ],
+    "pros": [
+      "Stunning Mu Ko Lanta National Park beaches",
+      "Excellent snorkeling and diving at Hin Muang/Hin Daeng",
+      "Authentic Thai-Muslim seafood restaurants along Klong Dao",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "th-chiangrai",
@@ -318,6 +356,16 @@
       "https://images.unsplash.com/photo-1599745338277-e40a29d8b7d1?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1712474727361-e0fb5461086f?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1733778567699-292f5e9354d6?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Stunning White Temple (Wat Rong Khun) and Blue Temple",
+      "World-class Arabica coffee from local farms",
+      "Gateway to Golden Triangle and hill tribe villages",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": [
+      "Community vibe limited (2/5)"
     ]
   },
   {
@@ -383,7 +431,15 @@
       "https://images.unsplash.com/photo-1755134840454-6727db2d3d6c?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1522043796093-6517bb3121cf?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1709166796926-b08c45a409b1?w=800&h=600&fit=crop&q=80"
-    ]
+    ],
+    "pros": [
+      "Hubud and Outpost coworking with stunning rice field views",
+      "World-class yoga studios and meditation retreats",
+      "Tegallalang rice terraces and ancient temple circuits",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "id-canggu",
@@ -449,6 +505,16 @@
       "https://images.unsplash.com/photo-1546484458-6904289cd4f0?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1578724859357-7cbb8670ccdc?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1546484488-2a1430996887?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Dojo Bali coworking with largest nomad community",
+      "World-class surf breaks at Batu Bolong and Echo Beach",
+      "Endless cafe options from acai bowls to gourmet pizzas",
+      "Wellness facilities rated 4/5",
+      "Community vibe rated 5/5"
+    ],
+    "cons": [
+      "Serenity & peace limited (2/5)"
     ]
   },
   {
@@ -515,6 +581,19 @@
       "https://images.unsplash.com/photo-1516752451528-6d991f48f7be?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1551020740-36b18c1f8e9a?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1717872443518-45015f36e23e?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Pristine coral reefs accessible from shore",
+      "Genuinely car-free peaceful island atmosphere",
+      "Vibrant dive community and excellent yoga shalas",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "Severely limited internet (avg 8-15 Mbps) and frequent power outages make serious remote work difficult. Medical facilities extremely limited - serious cases require evacuation to Bali or Singapore. Comprehensive travel insurance with evacuation coverage is mandatory.",
+      "Affordability limited (2/5)",
+      "WiFi quality limited (2/5)",
+      "Medical access limited (2/5)"
     ]
   },
   {
@@ -581,6 +660,19 @@
       "https://images.unsplash.com/photo-1673855471631-5ce747ec5cca?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1561009226-7a820d647a40?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1565065526877-22bbef5dd560?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Dolphin watching sunrise boat trips",
+      "Air Sanih natural hot springs for healing",
+      "Authentic Singaraja coffee and local warungs",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": [
+      "Limited internet infrastructure (10-25 Mbps typical) and healthcare facilities. Mobile data recommended as primary connection. Nearest comprehensive hospital requires travel to Singaraja or Denpasar.",
+      "Community vibe limited (2/5)",
+      "WiFi quality limited (2/5)",
+      "Medical access limited (2/5)"
     ]
   },
   {
@@ -645,7 +737,15 @@
       "https://images.unsplash.com/photo-1504457047772-27faf1c00561?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1553851919-596510268b99?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?w=800&h=600&fit=crop&q=80"
-    ]
+    ],
+    "pros": [
+      "UNESCO Ancient Town with atmospheric lantern-lit streets",
+      "World-class affordable tailors for custom clothing",
+      "Traditional Vietnamese healing and cooking classes",
+      "Serenity & peace rated 4/5",
+      "Affordability rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "vn-danang",
@@ -709,6 +809,16 @@
       "https://images.unsplash.com/photo-1555979864-7a8f9b4fddf8?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1722526933541-9a9cdfcdb28f?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1684784784123-0854fc0eec25?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "My Khe Beach consistently rated among world's most beautiful",
+      "Modern apartments with ocean views at fraction of Bali prices",
+      "Growing startup and tech scene with coworking options",
+      "Natural environment rated 4/5",
+      "Affordability rated 5/5"
+    ],
+    "cons": [
+      "Best to avoid: ing typhoon season"
     ]
   },
   {
@@ -774,6 +884,18 @@
       "https://images.unsplash.com/photo-1592752155407-dec30130db44?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1596188431575-9e4246e47eb8?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1570114938123-7b654cce7652?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Vietnam's coffee capital with world-class Arabica",
+      "Pleasant 18-25°C climate year-round - no AC needed",
+      "Stunning waterfalls, valleys, and flower farms nearby",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "Limited specialist medical facilities. For serious health issues, evacuation to Ho Chi Minh City (8+ hours by road) required. Ensure comprehensive insurance with evacuation coverage.",
+      "Community vibe limited (2/5)",
+      "Medical access limited (2/5)"
     ]
   },
   {
@@ -839,7 +961,15 @@
       "https://images.unsplash.com/photo-1541429464955-87bd98d6d8f8?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1602604193553-28c132dac0a7?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1526324585411-e24d5ba61edd?w=800&h=600&fit=crop&q=80"
-    ]
+    ],
+    "pros": [
+      "Iconic Angkor Wat and 1,000+ ancient temples",
+      "Emerging wellness scene with yoga and spa options",
+      "Phare Circus and vibrant arts community",
+      "Natural environment rated 4/5",
+      "Affordability rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "kh-kampot",
@@ -904,6 +1034,19 @@
       "https://images.unsplash.com/photo-1677209806836-54e9879c0c25?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1608137567874-5fef0c5e6741?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1661487906939-aea1f059b84f?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "World-renowned Kampot pepper farms",
+      "Stunning Bokor National Park and pepper caves",
+      "Serene riverside bungalows with sunset views",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": [
+      "Very limited internet infrastructure (5-15 Mbps typical) and minimal medical facilities. Kampot Provincial Hospital has very basic capabilities - serious medical issues require evacuation to Phnom Penh (3 hours). Mobile data recommended as primary internet source. Comprehensive travel insurance with evacuation coverage is essential.",
+      "Community vibe limited (2/5)",
+      "WiFi quality limited (2/5)",
+      "Medical access limited (2/5)"
     ]
   },
   {
@@ -969,6 +1112,18 @@
       "https://images.unsplash.com/photo-1693039880389-62840065382c?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1707817643213-35009bae9814?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1642085107639-bc9e2f7ee835?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Daily alms giving ceremony (Tak Bat) at dawn",
+      "Kuang Si waterfalls and bear rescue center",
+      "Excellent cooking schools and French-influenced cuisine",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "Limited medical facilities - Luang Prabang's hospitals have very basic capabilities. Serious medical issues require evacuation to Bangkok (hours by air). Travel insurance with medical evacuation coverage is mandatory. Internet infrastructure developing but limited.",
+      "Community vibe limited (2/5)",
+      "Medical access limited (2/5)"
     ]
   },
   {
@@ -1033,6 +1188,18 @@
       "https://images.unsplash.com/photo-1599638906177-f175b1dcdb3f?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1697142431837-22ca3108768d?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1552059660-4d11a68f35b9?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Dramatic karst mountain scenery for photography",
+      "Blue Lagoon and Tham Nang Aen cave exploration",
+      "Organic farms and yoga retreats emerging",
+      "Natural environment rated 5/5",
+      "Climate comfort rated 4/5"
+    ],
+    "cons": [
+      "Limited internet (5-20 Mbps typical) and frequent power outages make reliable remote work challenging. Medical facilities extremely basic - serious cases require evacuation to Vientiane or Bangkok. Travel insurance with evacuation coverage is essential.",
+      "WiFi quality limited (2/5)",
+      "Medical access limited (2/5)"
     ]
   },
   {
@@ -1099,6 +1266,18 @@
       "https://images.unsplash.com/photo-1559099078-8ab4ed4eefed?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1736776256317-0896951a4dc9?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1721301310902-714ea53b3108?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "World-renowned Cloud 9 reef break",
+      "Starlink making serious remote work possible",
+      "Island hopping to Naked Island, Daku, and Guyam",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "Infrastructure fragile with frequent power outages (30 min to 8+ hours). Traditional internet inadequate - Starlink essential for serious work. Medical facilities extremely limited - nearest hospital requires boat and car transport. Insurance with evacuation coverage mandatory.",
+      "WiFi quality limited (2/5)",
+      "Medical access limited (2/5)"
     ]
   },
   {
@@ -1165,6 +1344,18 @@
       "https://images.unsplash.com/photo-1695051702427-1c24ce3682e7?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1746260948448-d741c5838c16?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1728042880915-0dd755899018?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Big Lagoon and Small Lagoon of El Nido",
+      "Underground River UNESCO World Heritage Site",
+      "Coron world-class wreck diving",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "Traditional internet infrastructure inadequate for remote work. Starlink expanding but not universally available. Medical facilities extremely limited - serious cases require evacuation to Manila or Puerto Princesa. Travel insurance with full medical evacuation coverage mandatory for this remote destination.",
+      "WiFi quality limited (2/5)",
+      "Medical access limited (2/5)"
     ]
   },
   {
@@ -1231,7 +1422,15 @@
       "https://images.unsplash.com/photo-1596051723702-b56e223bfa66?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1590756568559-1e1f15180d39?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1654139195059-41121449ab3d?w=800&h=600&fit=crop&q=80"
-    ]
+    ],
+    "pros": [
+      "Hawker food rated world's best street cuisine",
+      "UNESCO George Town with stunning street art",
+      "English widely spoken - easiest Malaysia for nomads",
+      "Affordability rated 4/5",
+      "Community vibe rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "my-langkawi",
@@ -1298,6 +1497,16 @@
       "https://images.unsplash.com/photo-1665988945099-9cd7b622bbc6?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1669812849320-283db1bf8216?w=800&h=600&fit=crop&q=80",
       "https://images.unsplash.com/photo-1612852098567-67e121dc9316?w=800&h=600&fit=crop&q=80"
+    ],
+    "pros": [
+      "Duty-free alcohol and chocolate at incredible prices",
+      "UNESCO Kilim Geopark with mangrove tours",
+      "Sky Bridge and cable car with stunning views",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": [
+      "Community vibe limited (2/5)"
     ]
   },
   {
@@ -1362,7 +1571,20 @@
       "visa": "e-Visa available for most nationalities (30/60 days). Long-stay options limited. Tourist visa typically max 180 days.",
       "tips": "Dry city — no alcohol or meat in many areas. Laxman Jhula area for foreigners. Monsoon can cause flooding."
     },
-    "vetoWarning": "⚠️ Limited WiFi and medical facilities — may not suit remote workers or those with health concerns"
+    "vetoWarning": "⚠️ Limited WiFi and medical facilities — may not suit remote workers or those with health concerns",
+    "pros": [
+      "World capital of yoga with 100+ ashrams",
+      "Ganga Aarti ceremony every evening",
+      "Ultra-affordable extended stays",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": [
+      "⚠️ Limited WiFi and medical facilities — may not suit remote workers or those with health concerns",
+      "WiFi quality limited (2/5)",
+      "Medical access limited (2/5)",
+      "Best to avoid: monsoon (Jul-Sep) and extreme summer heat (Apr-Jun)"
+    ]
   },
   {
     "id": "in-goa",
@@ -1425,7 +1647,15 @@
       "visa": "e-Visa 30/60 days available. Tourist visa 180 days max. No digital nomad visa yet.",
       "tips": "Arambol quieter than Anjuna/Vagator. Rent scooters for transport. Respect local customs in villages."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Vibrant digital nomad community with coworking spaces",
+      "Famous sunset drum circles on Arambol Beach",
+      "Excellent mix of beach life and culture",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "in-dharamshala",
@@ -1489,7 +1719,18 @@
       "visa": "e-Visa available 30/60 days. Tibetan refugee areas have special permit requirements (easily obtained).",
       "tips": "Bring layers - temperature varies greatly. McLeod Ganj is the main hub. Triund trek is must-do."
     },
-    "vetoWarning": "⚠️ Limited medical facilities for serious conditions — plan accordingly for health needs"
+    "vetoWarning": "⚠️ Limited medical facilities for serious conditions — plan accordingly for health needs",
+    "pros": [
+      "Home to the Dalai Lama and Tibetan community",
+      "Incredible Himalayan trekking trails",
+      "Growing international community with coworking",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "⚠️ Limited medical facilities for serious conditions — plan accordingly for health needs",
+      "Medical access limited (2/5)"
+    ]
   },
   {
     "id": "in-auroville",
@@ -1552,7 +1793,18 @@
       "visa": "e-Visa 30/60 days. Auroville entry requires visitor pass (free, obtain at center). Long-term stays possible with community approval.",
       "tips": "Visit center first for orientation and pass. Many volunteer opportunities. Bicycle or scooter best for transport."
     },
-    "vetoWarning": "⚠️ Limited WiFi due to eco-village ethos — not ideal for heavy remote work"
+    "vetoWarning": "⚠️ Limited WiFi due to eco-village ethos — not ideal for heavy remote work",
+    "pros": [
+      "International community from 50+ countries",
+      "Pioneering sustainable living and eco-conscious design",
+      "Matrimandir spiritual center for meditation",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "⚠️ Limited WiFi due to eco-village ethos — not ideal for heavy remote work",
+      "WiFi quality limited (2/5)"
+    ]
   },
   {
     "id": "lk-unawatuna",
@@ -1615,7 +1867,15 @@
       "visa": "Digital Nomad Visa available (12 months, $2,000+ income). ETA visa on arrival 30 days. Extensions possible.",
       "tips": "Visit Sea Turtle Hatchery nearby. Early morning swims best. Bargain at markets but not fixed-price shops."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Pristine beach with coral reefs and sea turtles",
+      "Close to UNESCO Galle Fort (7km)",
+      "Excellent fresh seafood and beach restaurants",
+      "Natural environment rated 5/5",
+      "Climate comfort rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "lk-weligama",
@@ -1678,7 +1938,15 @@
       "visa": "Digital Nomad Visa available (12 months). ETA 30 days on arrival. Easy to extend.",
       "tips": "Rent a scooter to explore nearby surf breaks. Surf lessons available everywhere. Avoid midday sun."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Perfect waves for beginner surfers",
+      "Growing digital nomad and coworking scene",
+      "Authentic fishing village culture with fresh seafood",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "lk-ella",
@@ -1741,7 +2009,15 @@
       "visa": "Digital Nomad Visa available. ETA 30 days on arrival. Easy to extend for long stays.",
       "tips": "Book train tickets in advance (especially scenic observation car). Early morning hikes for clearest views."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Stunning Nine Arch Bridge and scenic train rides",
+      "Epic hiking through tea plantations and cloud forests",
+      "Cool climate perfect for escaping tropical heat",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "jp-okinawa",
@@ -1806,7 +2082,18 @@
       "visa": "90-day tourist visa for many nationalities. Digital nomad visa in development (check current status). Japan visa notoriously difficult.",
       "tips": "Learn 'nuchi gusui' philosophy. Try awamori local spirit. Visit outer islands (Ishigaki, Miyako) for quieter beaches."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Some of the world's highest life expectancy and wellness culture",
+      "Stunning beaches and world-class diving spots",
+      "Unique Ryukyu culture separate from mainland Japan",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "Affordability limited (2/5)",
+      "Visa friendliness limited (2/5)"
+    ]
   },
   {
     "id": "jp-kyoto",
@@ -1869,7 +2156,18 @@
       "visa": "90-day tourist visa for many nationals. Working holiday visa for eligible countries. Digital nomad visa under discussion.",
       "tips": "Kyoto City Pass for transport. Wake up early for popular temples to avoid crowds. Respect temple etiquette."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "UNESCO World Heritage temples and shrines",
+      "Traditional geisha districts and crafts",
+      "Perfect blend of ancient culture and modern amenities",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": [
+      "Affordability limited (2/5)",
+      "Visa friendliness limited (2/5)"
+    ]
   },
   {
     "id": "jp-koyasan",
@@ -1932,7 +2230,20 @@
       "visa": "Same Japan visa restrictions (90-day tourist for most). Temple stay typically 1-2 nights, longer stays require special arrangement.",
       "tips": "Book temple stays months ahead for peak seasons. Cash only at most temples. Participate in morning ceremony for full experience."
     },
-    "vetoWarning": "⚠️ Extremely limited WiFi and medical facilities in remote mountain location — not suitable for remote work or those with health concerns"
+    "vetoWarning": "⚠️ Extremely limited WiFi and medical facilities in remote mountain location — not suitable for remote work or those with health concerns",
+    "pros": [
+      "Authentic temple lodging with morning fire ceremonies",
+      "Atmospheric Okunoin cemetery with thousands of lanterns",
+      "Deep spiritual immersion in Buddhist traditions",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "⚠️ Extremely limited WiFi and medical facilities in remote mountain location — not suitable for remote work or those with health concerns",
+      "Affordability limited (2/5)",
+      "Community vibe limited (2/5)",
+      "WiFi quality limited (1/5)"
+    ]
   },
   {
     "id": "kr-jeju",
@@ -1997,7 +2308,15 @@
       "visa": "30-day visa-free for many nationalities. Check current requirements. Longer stays require visa. Digital nomad visa in development.",
       "tips": "Rent a car for full island exploration. Try Jeju black pork and tangerines. Visit Olle trails for coastal walking."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "UNESCO-listed volcanic landscapes and lava tubes",
+      "Unique haenyeo (female diver) culture",
+      "Excellent hiking including Hallasan mountain and coastal trails",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "pt-lagos",
@@ -2061,7 +2380,15 @@
       "visa": "Schengen zone — 90/180 days for most nationalities. D7/D8 visa for long stay.",
       "tips": "Car needed for full exploration. Off-season (Oct-Mar) much quieter and cheaper."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Stunning coastal cliffs and hidden beaches",
+      "Vibrant digital nomad scene",
+      "EU-level healthcare at affordable prices",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "pt-madeira",
@@ -2127,7 +2454,15 @@
       "visa": "Schengen zone. Portugal D8 digital nomad visa with favorable tax regime.",
       "tips": "Rent a car to explore the island's hidden valleys. Levadas (irrigation channels) offer unique hiking experiences."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "UNESCO-listed laurel forests and levada walks",
+      "Year-round outdoor activities without extreme heat",
+      "Digital nomad visa available with tax benefits",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "pt-ericeira",
@@ -2191,7 +2526,15 @@
       "visa": "Schengen zone — 90/180 days. D7/D8 visa for longer stays.",
       "tips": "Book accommodation early in summer. North beach for beginners, south for advanced surfers."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "World-class surf breaks for all levels",
+      "Authentic Portuguese village with modern amenities",
+      "Strong surf and work community infrastructure",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "es-tenerife",
@@ -2260,7 +2603,15 @@
       "visa": "Schengen zone. Spain digital nomad visa (Ley de Startups) available.",
       "tips": "Rent a car to explore diverse regions. South is touristy/sunny; north is lush/authentic."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Teide volcano hiking and stargazing experiences",
+      "Perfect year-round climate with diverse microclimates",
+      "Well-developed expat infrastructure and international schools",
+      "Natural environment rated 5/5",
+      "Climate comfort rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "es-granada",
@@ -2327,7 +2678,15 @@
       "visa": "Schengen zone. Spain digital nomad visa available.",
       "tips": "Book Alhambra tickets months ahead. Free tapas tradition means easy budget dining."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Alhambra palace — one of the world's architectural wonders",
+      "Free tapas culture with drinks in most bars",
+      "Proximity to Sierra Nevada skiing in winter and hiking in summer",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "es-ibiza",
@@ -2391,7 +2750,18 @@
       "visa": "Schengen zone. Off-season workation friendly.",
       "tips": "Visit off-season for lower prices and authentic vibe. Car essential for exploring. San Juan area for hippie/wellness scene."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "World-renowned wellness retreats and yoga communities",
+      "Crystal-clear Mediterranean waters and hidden coves",
+      "Legendary sunset views from Cafe del Mar and surrounding spots",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 5/5"
+    ],
+    "cons": [
+      "Serenity & peace limited (2/5)",
+      "Affordability limited (2/5)"
+    ]
   },
   {
     "id": "gr-crete",
@@ -2457,7 +2827,15 @@
       "visa": "Schengen zone. Greece digital nomad visa available.",
       "tips": "Rent car essential. Western Crete (Chania) more scenic. Avoid driving during peak season. Mountain villages for authentic slow living."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Samaria Gorge — Europe's longest canyon hike",
+      "Minoan archaeological sites including Knossos",
+      "Exceptional local food culture with olive oil and wine traditions",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "gr-milos",
@@ -2521,7 +2899,15 @@
       "visa": "Schengen zone. Long-stay possible but services limited in winter.",
       "tips": "ATV or car essential. Ferry schedules in winter are limited. Book summer ferries early. Slow arrival recommended for immersion."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "World-famous Sarakina beach and volcanic sea caves",
+      "Lunar volcanic landscape perfect for photography",
+      "Authentic Cycladic villages without mass tourism",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "it-cagliari",
@@ -2587,7 +2973,15 @@
       "visa": "Schengen zone. Italy offers elective residence visa for remote workers.",
       "tips": "Car recommended for exploring the region. Molentargius park with flamingos near city. Slow food movement strong here."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Poetto beach — 8km of sandy coastline minutes from city center",
+      "Medieval Castello quarter with panoramic views",
+      "Affordable Italian living with excellent food culture",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "gr-thessaloniki",
@@ -2653,7 +3047,15 @@
       "visa": "Schengen zone. Greece digital nomad visa available.",
       "tips": "Most affordable major Greek city. Ladadika district for nightlife. Walk everywhere in center. Airport bus frequent and cheap."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "UNESCO Byzantine heritage including Rotunda and churches",
+      "World-class street food and ouzeri culture",
+      "Close to Mount Olympus hiking and skiing",
+      "Climate comfort rated 4/5",
+      "Affordability rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "mx-oaxaca",
@@ -2719,7 +3121,15 @@
       "visa": "180 days for most nationalities. No specific digital nomad visa.",
       "tips": "Learn basic Spanish. Day trips to Mitla, Monte Albán, and mezcal distilleries. markets on most days. Avoid centro during holidays."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Day of the Dead (Nov 1-2) — world's most spectacular celebration",
+      "Monte Albán and Mitla Zapotec archaeological sites",
+      "Affordable colonial city with world-class food scene",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "mx-tulum",
@@ -2784,7 +3194,17 @@
       "visa": "180 days for most nationalities.",
       "tips": "High season very expensive and crowded. Aldea Zama area for better value. Rent bike for beach road. Hurricane preparations necessary Jun-Nov."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Only Caribbean beach with ancient Mayan ruins overlooking the sea",
+      "Swimming in crystalline cenotes (natural sinkholes)",
+      "World-class yoga and wellness retreat scene",
+      "Natural environment rated 5/5",
+      "Climate comfort rated 5/5"
+    ],
+    "cons": [
+      "Affordability limited (2/5)"
+    ]
   },
   {
     "id": "mx-sancristobal",
@@ -2849,7 +3269,15 @@
       "visa": "180 days for most nationalities.",
       "tips": "Altitude (2,200m) means cool nights. Spanish important here. NGO scene active. Hire guide for village visits. Security concerns in surrounding areas."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Vibrant indigenous markets and artisan traditions",
+      "Day trips to San Juan Chamula and other Maya villages",
+      "Affordable living with strong activist and creative community",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "mx-sayulita",
@@ -2915,7 +3343,15 @@
       "visa": "180 days for most nationalities.",
       "tips": "Can be very crowded in peak season. Nearby San Pancho quieter. Turtle season Aug-Nov. Watch for theft on beach."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Consistent Pacific surf breaks for all levels",
+      "Authentic Mexican beach town atmosphere",
+      "Strong international food scene with local prices",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "gt-atitlan",
@@ -2980,7 +3416,19 @@
       "visa": "90 days for most nationalities. Extendible.",
       "tips": "Power outages common. Bring backup power. Spanish important outside expat circles. Steep terrain challenging. Lanquid for those seeking complete solitude."
     },
-    "vetoWarning": "⚠️ Limited WiFi connectivity — unreliable power outages common. Very limited medical infrastructure — serious cases require evacuation to Guatemala City. Remote location may not suit those needing reliable connectivity."
+    "vetoWarning": "⚠️ Limited WiFi connectivity — unreliable power outages common. Very limited medical infrastructure — serious cases require evacuation to Guatemala City. Remote location may not suit those needing reliable connectivity.",
+    "pros": [
+      "Yoga and meditation retreats in stunning natural setting",
+      "Lake swimming and kayaking between Maya villages",
+      "Exceptionally affordable spiritual and wellness community",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "⚠️ Limited WiFi connectivity — unreliable power outages common. Very limited medical infrastructure — serious cases require evacuation to Guatemala City. Remote location may not suit those needing reliable connectivity.",
+      "WiFi quality limited (2/5)",
+      "Medical access limited (2/5)"
+    ]
   },
   {
     "id": "cr-nosara",
@@ -3045,7 +3493,15 @@
       "visa": "90 days extendable. No specific digital nomad visa currently.",
       "tips": "Unpaved roads require 4x4 in green season. Expensive compared to regional neighbors. High-end infrastructure. Turtle tours Dec-Mar."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Wildlife sanctuary with howler monkeys and exotic birds",
+      "Protected sea turtle nesting beaches",
+      "Strong sustainable community with eco-infrastructure",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "br-florianopolis",
@@ -3109,7 +3565,15 @@
       "visa": "90 days extendable to 180. Brazil now offers digital nomad visa.",
       "tips": "Rent a car essential for exploring beaches. North island wilder. South island more developed. Portuguese essential."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "42 beaches with diverse conditions for swimming and surfing",
+      "Strong Brazilian tech and startup scene",
+      "Lagoa da Conceição — lagoon paradise with wind sports and cafes",
+      "Natural environment rated 5/5",
+      "Climate comfort rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "br-pipa",
@@ -3176,7 +3640,15 @@
       "visa": "90 days extendable. Brazilian digital nomad visa available.",
       "tips": "Beach access paths can be confusing. Local surf school recommended. Sun set from cliffs spectacular. Portuguese necessary for local interaction."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Dolphin sanctuary with daily sightings from beach",
+      "Parnaiba Delta boat tours through mangroves",
+      "Beautiful cliff-backed beaches with surfing for all levels",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "co-medellin",
@@ -3242,7 +3714,15 @@
       "visa": "90 days extendable to 180. V-type visa for 180 days. Digital nomad visa introduced.",
       "tips": "El Poblado for gringo scene; Laureles for local vibe. Metro and cable cars cheap and safe. Spanish helps but many speak English."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Perfect year-round climate — 'City of Eternal Spring'",
+      "Thriving tech ecosystem and startup culture",
+      "Excellent coworking infrastructure with global community",
+      "Natural environment rated 4/5",
+      "Climate comfort rated 5/5"
+    ],
+    "cons": []
   },
   {
     "id": "co-minca",
@@ -3308,7 +3788,18 @@
       "visa": "90 days extendable. V-type visa for longer stays.",
       "tips": "Bring layers — mountain climate cool at night. Flash floods in wet season. Spanish essential. Power cuts frequent. Off-grid stays for total immersion."
     },
-    "vetoWarning": "⚠️ Very limited WiFi — power cuts and satellite outages common. Remote medical access — serious cases require evacuation to Santa Marta. Best suited for digital detox or those with flexible work schedules."
+    "vetoWarning": "⚠️ Very limited WiFi — power cuts and satellite outages common. Remote medical access — serious cases require evacuation to Santa Marta. Best suited for digital detox or those with flexible work schedules.",
+    "pros": [
+      "Birding paradise with toucans, hummingbirds, and exotic species",
+      "Coffee farm tours and waterfall swimming",
+      "Permaculture and sustainable living community",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "⚠️ Very limited WiFi — power cuts and satellite outages common. Remote medical access — serious cases require evacuation to Santa Marta. Best suited for digital detox or those with flexible work schedules.",
+      "WiFi quality limited (2/5)"
+    ]
   },
   {
     "id": "ec-vilcabamba",
@@ -3373,7 +3864,18 @@
       "visa": "90 days. Extension possible. Migratory visa for longer stays.",
       "tips": "Altitude (1,500m) — acclimatize. Spanish essential. Quiet town closes early. Great for meditation and nature walks. Nearby Podocarpus cloud forest for hiking."
     },
-    "vetoWarning": "⚠️ Very limited medical infrastructure — serious cases require 1-2 hour transport to regional hospitals. Remote location means minimal emergency services. Unreliable WiFi with frequent outages."
+    "vetoWarning": "⚠️ Very limited medical infrastructure — serious cases require 1-2 hour transport to regional hospitals. Remote location means minimal emergency services. Unreliable WiFi with frequent outages.",
+    "pros": [
+      "Legendary 'Valley of Longevity' with holistic community",
+      "Natural hot springs in stunning Andean setting",
+      "Extremely affordable living with organic food culture",
+      "Serenity & peace rated 5/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": [
+      "⚠️ Very limited medical infrastructure — serious cases require 1-2 hour transport to regional hospitals. Remote location means minimal emergency services. Unreliable WiFi with frequent outages.",
+      "Medical access limited (2/5)"
+    ]
   },
   {
     "id": "ma-essaouira",
@@ -3440,7 +3942,15 @@
       "visa": "90 days for most nationalities. Morocco visa-free for many nationalities.",
       "tips": "Medina compact and walkable. Riads offer best value accommodation. Wind strongest Mar-Jun. Gnawa music festival in June."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "UNESCO medina with Portuguese fortifications",
+      "World-class kitesurfing and wind sports",
+      "Relaxed atmosphere compared to Marrakech (3h away)",
+      "Natural environment rated 4/5",
+      "Affordability rated 4/5"
+    ],
+    "cons": []
   },
   {
     "id": "ma-taghazout",
@@ -3507,7 +4017,18 @@
       "visa": "90 days for most nationalities. Morocco visa-free for many nationalities.",
       "tips": "Bring wetsuit (winter 14-17°C water). Surf camps offer packages. Taghazout Village coworking recommended. Anchor Point for sunset."
     },
-    "vetoWarning": "⚠️ Limited WiFi infrastructure — frequent outages and slow speeds common. Remote location means limited emergency medical services. Best suited for those prioritizing surfing over connectivity."
+    "vetoWarning": "⚠️ Limited WiFi infrastructure — frequent outages and slow speeds common. Remote location means limited emergency medical services. Best suited for those prioritizing surfing over connectivity.",
+    "pros": [
+      "Legendary anchor point and killer point breaks for all levels",
+      "Extremely affordable surf camp accommodation",
+      "Authentic Moroccan village life close to Taghazout Village coworking",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 4/5"
+    ],
+    "cons": [
+      "⚠️ Limited WiFi infrastructure — frequent outages and slow speeds common. Remote location means limited emergency medical services. Best suited for those prioritizing surfing over connectivity.",
+      "WiFi quality limited (2/5)"
+    ]
   },
   {
     "id": "tz-zanzibar",
@@ -3573,7 +4094,18 @@
       "visa": "Visa on arrival for most nationalities (50 USD). East African Tourist Visa available.",
       "tips": "Book inter-island flights early. Paje for kitesurfing and coworking. Nungwi/Pwani Mchangani for beach resorts. Power cuts common. Seaweed farming communities worth visiting."
     },
-    "vetoWarning": "⚠️ Very limited medical infrastructure — serious cases require medical evacuation to mainland. Remote location limits emergency services. WiFi unreliable outside major resorts."
+    "vetoWarning": "⚠️ Very limited medical infrastructure — serious cases require medical evacuation to mainland. Remote location limits emergency services. WiFi unreliable outside major resorts.",
+    "pros": [
+      "World-class diving and snorkeling in Indian Ocean",
+      "UNESCO Stone Town with Swahili and Arab heritage",
+      "Paje beach — kitesurfing and beach bar scene",
+      "Serenity & peace rated 4/5",
+      "Natural environment rated 5/5"
+    ],
+    "cons": [
+      "⚠️ Very limited medical infrastructure — serious cases require medical evacuation to mainland. Remote location limits emergency services. WiFi unreliable outside major resorts.",
+      "Medical access limited (2/5)"
+    ]
   },
   {
     "id": "za-capetown",
@@ -3638,6 +4170,14 @@
       "visa": "90 days for most nationalities. SA critical skills visa for professionals. Byron visa available.",
       "tips": "Table Mountain for hiking. Camps Bay for sunset. Constantia wine estates nearby. V&A Waterfront for tourists. Secure neighborhoods matter."
     },
-    "vetoWarning": null
+    "vetoWarning": null,
+    "pros": [
+      "Table Mountain hiking and cable car with panoramic views",
+      "World-class wine estates in Constantia and Stellenbosch",
+      "Two ocean convergence — Atlantic and Indian seas",
+      "Natural environment rated 5/5",
+      "Climate comfort rated 4/5"
+    ],
+    "cons": []
   }
 ]

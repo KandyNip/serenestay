@@ -53,6 +53,8 @@ export interface Destination {
   practicalInfo: PracticalInfo;  // 实用信息
   vetoWarning: string | null;    // Hard Veto警告信息 (WiFi/Medical ≤ 2)
   images: string[];              // 图片URL数组
+  pros: string[];                // 优点列表
+  cons: string[];                // 缺点列表
 }
 
 // ============================================================
