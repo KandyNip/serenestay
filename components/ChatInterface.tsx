@@ -48,12 +48,7 @@ export default function ChatInterface({
   const [isStreaming, setIsStreaming] = useState(false);
   const [matchCount, setMatchCount] = useState(0); // will be set from localStorage in useEffect
   const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
-  const [isProUser, setIsProUser] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return !!localStorage.getItem('serenestay_pro_token');
-    }
-    return false;
-  });
+  const [isProUser, setIsProUser] = useState(() => checkProStatus());
   const [chatDisabled, setChatDisabled] = useState(false); // will be set from localStorage in useEffect
   
   const messagesEndRef = useRef<HTMLDivElement>(null);

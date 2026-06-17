@@ -1,0 +1,643 @@
+{
+  "destinations": [
+    {
+      "slug": "chiang-mai",
+      "healingTags": [
+        "thai-massage",
+        "temple-stay",
+        "meditation",
+        "yoga",
+        "mindfulness",
+        "tea-ceremony",
+        "digital-detox"
+      ],
+      "emotionalTagline": "In Chiang Mai's ancient temples, find the stillness your soul has been seeking"
+    },
+    {
+      "slug": "pai",
+      "healingTags": [
+        "hot-springs",
+        "forest-bathing",
+        "yoga",
+        "meditation",
+        "sound-healing",
+        "digital-detox"
+      ],
+      "emotionalTagline": "Where mountain mist and hot springs wash away everything you carried here"
+    },
+    {
+      "slug": "koh-phangan",
+      "healingTags": [
+        "yoga",
+        "detox",
+        "sound-healing",
+        "ecstatic-dance",
+        "meditation",
+        "tantra",
+        "breathwork"
+      ],
+      "emotionalTagline": "Trade the Full Moon noise for silent mornings — this island heals both ways"
+    },
+    {
+      "slug": "koh-lanta",
+      "healingTags": [
+        "thai-massage",
+        "ocean-therapy",
+        "yoga",
+        "meditation",
+        "digital-detox"
+      ],
+      "emotionalTagline": "Let Koh Lanta's slow island rhythm recalibrate your pace of living"
+    },
+    {
+      "slug": "chiang-rai",
+      "healingTags": [
+        "temple-stay",
+        "meditation",
+        "thai-massage",
+        "tea-ceremony",
+        "mindfulness",
+        "forest-bathing"
+      ],
+      "emotionalTagline": "At Chiang Rai's white temple gates, silence speaks louder than any mantra"
+    },
+    {
+      "slug": "ubud",
+      "healingTags": [
+        "yoga",
+        "balinese-massage",
+        "sound-healing",
+        "cacao-ceremony",
+        "water-purification",
+        "meditation",
+        "breathwork"
+      ],
+      "emotionalTagline": "Where Ubud's rice terraces meet your inner peace beneath volcanic skies"
+    },
+    {
+      "slug": "canggu",
+      "healingTags": [
+        "surf-therapy",
+        "yoga",
+        "ecstatic-dance",
+        "coworking-wellness",
+        "nomad-community"
+      ],
+      "emotionalTagline": "Ride Canggu's dawn waves, then let the coconuts and community restore you"
+    },
+    {
+      "slug": "gili-air",
+      "healingTags": [
+        "ocean-therapy",
+        "yoga",
+        "digital-detox",
+        "meditation",
+        "sunset-meditation"
+      ],
+      "emotionalTagline": "No engines, no rush — just turquoise water teaching you how to breathe"
+    },
+    {
+      "slug": "lovina",
+      "healingTags": [
+        "balinese-massage",
+        "hot-springs",
+        "meditation",
+        "yoga",
+        "ocean-therapy"
+      ],
+      "emotionalTagline": "Wake with the dolphins at dawn — Bali's quietest coast rewards early risers"
+    },
+    {
+      "slug": "hoi-an",
+      "healingTags": [
+        "tea-ceremony",
+        "meditation",
+        "yoga",
+        "mindfulness",
+        "lantern-ceremony"
+      ],
+      "emotionalTagline": "Float a lantern down Hoi An's river and watch your worries drift away"
+    },
+    {
+      "slug": "da-nang",
+      "healingTags": [
+        "ocean-therapy",
+        "sunrise-hiking",
+        "meditation",
+        "yoga",
+        "thai-massage"
+      ],
+      "emotionalTagline": "Climb Marble Mountain at dawn, then let the sea wash the world clean"
+    },
+    {
+      "slug": "da-lat",
+      "healingTags": [
+        "forest-bathing",
+        "tea-ceremony",
+        "yoga",
+        "meditation",
+        "wild-swimming",
+        "mindfulness"
+      ],
+      "emotionalTagline": "In Da Lat's pine-scented highlands, the cool air clears what city heat cannot"
+    },
+    {
+      "slug": "siem-reap",
+      "healingTags": [
+        "temple-stay",
+        "meditation",
+        "yoga",
+        "mindfulness",
+        "volunteer-healing"
+      ],
+      "emotionalTagline": "Sit with the stones at Angkor Wat — a thousand years of silence heals"
+    },
+    {
+      "slug": "kampot",
+      "healingTags": [
+        "digital-detox",
+        "yoga",
+        "meditation",
+        "forest-bathing",
+        "mindfulness"
+      ],
+      "emotionalTagline": "Kampot's pepper farms and river sunsets ask nothing of you but presence"
+    },
+    {
+      "slug": "luang-prabang",
+      "healingTags": [
+        "temple-stay",
+        "meditation",
+        "alms-ceremony",
+        "yoga",
+        "mindfulness"
+      ],
+      "emotionalTagline": "Give alms at dawn in Luang Prabang — generosity heals the giver most"
+    },
+    {
+      "slug": "vang-vieng",
+      "healingTags": [
+        "hot-springs",
+        "forest-bathing",
+        "yoga",
+        "meditation",
+        "wild-swimming"
+      ],
+      "emotionalTagline": "Beyond the tubing crowds, Vang Vieng's karst valleys hold real solitude"
+    },
+    {
+      "slug": "siargao",
+      "healingTags": [
+        "surf-therapy",
+        "ocean-therapy",
+        "yoga",
+        "digital-detox",
+        "island-meditation"
+      ],
+      "emotionalTagline": "Siargao's Cloud 9 breaks aren't just waves — they're invitations to start over"
+    },
+    {
+      "slug": "palawan",
+      "healingTags": [
+        "ocean-therapy",
+        "digital-detox",
+        "forest-bathing",
+        "wild-swimming",
+        "island-meditation"
+      ],
+      "emotionalTagline": "Palawan's hidden lagoons don't appear on maps — or in your anxious thoughts"
+    },
+    {
+      "slug": "penang",
+      "healingTags": [
+        "yoga",
+        "thai-massage",
+        "tea-ceremony",
+        "meditation",
+        "mindfulness"
+      ],
+      "emotionalTagline": "Wander Penang's spice streets — every scent is a doorway to the present moment"
+    },
+    {
+      "slug": "langkawi",
+      "healingTags": [
+        "ocean-therapy",
+        "forest-bathing",
+        "yoga",
+        "thai-massage",
+        "digital-detox"
+      ],
+      "emotionalTagline": "Langkawi's ancient mangroves whisper what the city never could — slow down"
+    },
+    {
+      "slug": "rishikesh",
+      "healingTags": [
+        "yoga",
+        "vipassana",
+        "yoga-therapy",
+        "kirtan",
+        "ayurveda",
+        "meditation",
+        "sound-healing"
+      ],
+      "emotionalTagline": "At Rishikesh's riverbanks, the Ganges carries a thousand years of prayers — and yours"
+    },
+    {
+      "slug": "goa",
+      "healingTags": [
+        "yoga",
+        "ayurveda",
+        "meditation",
+        "ecstatic-dance",
+        "surf-therapy",
+        "kirtan"
+      ],
+      "emotionalTagline": "Goa's Portuguese churches and palm-fringed beaches hold space for every kind of healing"
+    },
+    {
+      "slug": "dharamshala",
+      "healingTags": [
+        "meditation",
+        "vipassana",
+        "yoga",
+        "mindfulness",
+        "reiki",
+        "tea-ceremony"
+      ],
+      "emotionalTagline": "In the shadow of the Himalayas, Dharamshala teaches stillness the mountain way"
+    },
+    {
+      "slug": "auroville",
+      "healingTags": [
+        "meditation",
+        "yoga",
+        "sound-healing",
+        "volunteer-healing",
+        "mindfulness",
+        "community-healing"
+      ],
+      "emotionalTagline": "Step into Auroville's Matrimandir — a golden sphere built for nothing but inner silence"
+    },
+    {
+      "slug": "unawatuna",
+      "healingTags": [
+        "ocean-therapy",
+        "ayurveda",
+        "yoga",
+        "meditation",
+        "mindfulness"
+      ],
+      "emotionalTagline": "Let Unawatuna's cinnamon-scented breezes carry the weight you forgot you were holding"
+    },
+    {
+      "slug": "weligama",
+      "healingTags": [
+        "surf-therapy",
+        "ayurveda",
+        "yoga",
+        "meditation",
+        "ocean-therapy"
+      ],
+      "emotionalTagline": "Weligama's stilt fishermen wait in stillness — the ocean's oldest meditation practice"
+    },
+    {
+      "slug": "ella",
+      "healingTags": [
+        "forest-bathing",
+        "hiking-meditation",
+        "yoga",
+        "digital-detox",
+        "wild-swimming",
+        "mindfulness"
+      ],
+      "emotionalTagline": "Hike Ella's Nine Arches at first light — every step is a breath released"
+    },
+    {
+      "slug": "okinawa",
+      "healingTags": [
+        "ocean-therapy",
+        "longevity-wellness",
+        "yoga",
+        "forest-bathing",
+        "qigong",
+        "meditation"
+      ],
+      "emotionalTagline": "Okinawa's centenarians know the secret — breathe deeply, move slowly, live long"
+    },
+    {
+      "slug": "kyoto",
+      "healingTags": [
+        "zen-retreat",
+        "tea-ceremony",
+        "temple-stay",
+        "meditation",
+        "mindfulness",
+        "forest-bathing"
+      ],
+      "emotionalTagline": "In Kyoto's moss gardens, each stone and stream arranges your scattered thoughts"
+    },
+    {
+      "slug": "koyasan",
+      "healingTags": [
+        "temple-stay",
+        "zen-retreat",
+        "meditation",
+        "mindfulness",
+        "sound-healing"
+      ],
+      "emotionalTagline": "Sleep among a thousand Buddhas at Koyasan — even dreams find peace here"
+    },
+    {
+      "slug": "jeju-island",
+      "healingTags": [
+        "ocean-therapy",
+        "forest-bathing",
+        "hot-springs",
+        "yoga",
+        "meditation",
+        "digital-detox"
+      ],
+      "emotionalTagline": "Jeju's volcanic shores and stone walls guard an island that time forgot"
+    },
+    {
+      "slug": "lagos",
+      "healingTags": [
+        "ocean-therapy",
+        "surf-therapy",
+        "yoga",
+        "meditation",
+        "sunrise-hiking"
+      ],
+      "emotionalTagline": "Lagos' golden cliffs and Atlantic swells reshape more than the coastline"
+    },
+    {
+      "slug": "madeira",
+      "healingTags": [
+        "forest-bathing",
+        "hiking-meditation",
+        "yoga",
+        "ocean-therapy",
+        "wild-swimming"
+      ],
+      "emotionalTagline": "Walk Madeira's levada trails — ancient waterways that irrigate both land and soul"
+    },
+    {
+      "slug": "ericeira",
+      "healingTags": [
+        "surf-therapy",
+        "yoga",
+        "ocean-therapy",
+        "meditation",
+        "digital-detox"
+      ],
+      "emotionalTagline": "Ericeira's Atlantic breaks wash clean whatever you arrived carrying inside"
+    },
+    {
+      "slug": "tenerife",
+      "healingTags": [
+        "ocean-therapy",
+        "yoga",
+        "volcano-hiking",
+        "hot-springs",
+        "meditation"
+      ],
+      "emotionalTagline": "Above Tenerife's clouds on Teide, perspective shifts — problems shrink to specks"
+    },
+    {
+      "slug": "granada",
+      "healingTags": [
+        "yoga",
+        "meditation",
+        "tea-ceremony",
+        "mindfulness",
+        "sound-healing"
+      ],
+      "emotionalTagline": "In Granada's Albaicín at sunset, the Alhambra glows and time simply stops"
+    },
+    {
+      "slug": "ibiza",
+      "healingTags": [
+        "yoga",
+        "sound-healing",
+        "ecstatic-dance",
+        "cacao-ceremony",
+        "meditation",
+        "breathwork"
+      ],
+      "emotionalTagline": "Beyond the bass drops, Ibiza's north hides the island your spirit came for"
+    },
+    {
+      "slug": "crete",
+      "healingTags": [
+        "ocean-therapy",
+        "yoga",
+        "meditation",
+        "forest-bathing",
+        "mediterranean-diet-wellness"
+      ],
+      "emotionalTagline": "Crete's olive groves and turquoise coves have been healing wanderers for millennia"
+    },
+    {
+      "slug": "milos",
+      "healingTags": [
+        "ocean-therapy",
+        "digital-detox",
+        "yoga",
+        "wild-swimming",
+        "meditation"
+      ],
+      "emotionalTagline": "Milos carves cathedrals from white stone — nature's therapy needs no appointment"
+    },
+    {
+      "slug": "cagliari",
+      "healingTags": [
+        "ocean-therapy",
+        "yoga",
+        "meditation",
+        "forest-bathing",
+        "mindfulness"
+      ],
+      "emotionalTagline": "From Cagliari's hilltop, the Mediterranean stretches endlessly — so does your breathing room"
+    },
+    {
+      "slug": "thessaloniki",
+      "healingTags": [
+        "yoga",
+        "meditation",
+        "tea-ceremony",
+        "ocean-therapy",
+        "mindfulness"
+      ],
+      "emotionalTagline": "Thessaloniki's waterfront sunsets paint the sky in shades you forgot existed"
+    },
+    {
+      "slug": "oaxaca",
+      "healingTags": [
+        "cacao-ceremony",
+        "temazcal",
+        "yoga",
+        "meditation",
+        "mindfulness",
+        "volunteer-healing"
+      ],
+      "emotionalTagline": "In Oaxaca's temazcal steam, ancient Zapotec heat melts what modern life hardened"
+    },
+    {
+      "slug": "tulum",
+      "healingTags": [
+        "yoga",
+        "cacao-ceremony",
+        "sound-healing",
+        "meditation",
+        "breathwork",
+        "ecstatic-dance"
+      ],
+      "emotionalTagline": "Tulum's cenotes are gateways to the underworld — and to your own depths"
+    },
+    {
+      "slug": "san-cristobal",
+      "healingTags": [
+        "temazcal",
+        "meditation",
+        "yoga",
+        "mindfulness",
+        "volunteer-healing"
+      ],
+      "emotionalTagline": "San Cristóbal's highland air and indigenous markets ground you in something older"
+    },
+    {
+      "slug": "sayulita",
+      "healingTags": [
+        "surf-therapy",
+        "yoga",
+        "meditation",
+        "digital-detox",
+        "ecstatic-dance"
+      ],
+      "emotionalTagline": "Sayulita's surf and sunset drums sync your heartbeat back to natural rhythm"
+    },
+    {
+      "slug": "lake-atitlan",
+      "healingTags": [
+        "meditation",
+        "cacao-ceremony",
+        "shamanic-journey",
+        "yoga",
+        "mindfulness",
+        "volunteer-healing"
+      ],
+      "emotionalTagline": "Three volcanoes guard Lake Atitlán — their silence becomes your meditation"
+    },
+    {
+      "slug": "nosara",
+      "healingTags": [
+        "yoga",
+        "surf-therapy",
+        "meditation",
+        "breathwork",
+        "sound-healing",
+        "ecstatic-dance"
+      ],
+      "emotionalTagline": "Nosara's Blue Zone tides pull you toward the longest, fullest version of yourself"
+    },
+    {
+      "slug": "florianopolis",
+      "healingTags": [
+        "surf-therapy",
+        "yoga",
+        "ocean-therapy",
+        "meditation",
+        "nature-therapy"
+      ],
+      "emotionalTagline": "Florianópolis' forty-two beaches mean forty-two chances to start your day differently"
+    },
+    {
+      "slug": "pipa",
+      "healingTags": [
+        "surf-therapy",
+        "yoga",
+        "ocean-therapy",
+        "meditation",
+        "digital-detox"
+      ],
+      "emotionalTagline": "Pipa's dolphin pods and red cliffs — Brazil's northeast heals without trying"
+    },
+    {
+      "slug": "medellin",
+      "healingTags": [
+        "yoga",
+        "coworking-wellness",
+        "nomad-community",
+        "meditation",
+        "mindfulness"
+      ],
+      "emotionalTagline": "Medellín's eternal spring air and reinvented streets breathe possibility into every morning"
+    },
+    {
+      "slug": "minca",
+      "healingTags": [
+        "forest-bathing",
+        "yoga",
+        "meditation",
+        "digital-detox",
+        "birdwatching-meditation"
+      ],
+      "emotionalTagline": "In Minca's cloud forest, hummingbirds hover at eye level — even they are present"
+    },
+    {
+      "slug": "vilcabamba",
+      "healingTags": [
+        "meditation",
+        "yoga",
+        "longevity-wellness",
+        "forest-bathing",
+        "digital-detox"
+      ],
+      "emotionalTagline": "Vilcabamba's valley of centenarians — where time moves slowly and people move slower"
+    },
+    {
+      "slug": "essaouira",
+      "healingTags": [
+        "ocean-therapy",
+        "surf-therapy",
+        "meditation",
+        "sound-healing",
+        "breathwork"
+      ],
+      "emotionalTagline": "Let Essaouira's Atlantic winds and Gnawa rhythms carry your worries out to sea"
+    },
+    {
+      "slug": "taghazout",
+      "healingTags": [
+        "surf-therapy",
+        "yoga",
+        "meditation",
+        "ocean-therapy",
+        "breathwork"
+      ],
+      "emotionalTagline": "Taghazout's dawn patrol — Atlantic swells and Berber tea before the world wakes"
+    },
+    {
+      "slug": "zanzibar",
+      "healingTags": [
+        "ocean-therapy",
+        "yoga",
+        "spice-therapy",
+        "meditation",
+        "digital-detox"
+      ],
+      "emotionalTagline": "Zanzibar's clove-scented shores and turquoise tides dissolve borders between rest and wonder"
+    },
+    {
+      "slug": "cape-town",
+      "healingTags": [
+        "ocean-therapy",
+        "hiking-meditation",
+        "yoga",
+        "cold-exposure",
+        "mindfulness"
+      ],
+      "emotionalTagline": "Climb Lion's Head at dawn and Cape Town gives you back your perspective"
+    }
+  ]
+}
