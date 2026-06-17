@@ -34,6 +34,7 @@ export default function YouTubeEmbed({ videoId, destinationName }: YouTubeEmbedP
           className="absolute top-0 left-0 w-full h-full"
         />
       </div>
+      <p className="mt-3 text-xs text-primary/40 text-center">Click CC button for subtitles</p>
     </div>
   );
 }
