@@ -9,6 +9,7 @@ import DestinationCard from '@/components/DestinationCard';
 import ImageGallery from '@/components/ImageGallery';
 import ProsConsCard from '@/components/ProsConsCard';
 import HealingTagsCard from '@/components/HealingTagsCard';
+import YouTubeEmbed from '@/components/YouTubeEmbed';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -236,6 +237,11 @@ export default async function DestinationDetailPage({ params }: PageProps) {
                 </h2>
                 <ProsConsCard pros={destination.pros} cons={destination.cons || []} />
               </div>
+            )}
+
+            {/* YouTube Video */}
+            {destination.youtubeId && (
+              <YouTubeEmbed videoId={destination.youtubeId} destinationName={destination.name} />
             )}
           </div>
 

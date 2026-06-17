@@ -57,6 +57,7 @@ export interface Destination {
   cons: string[];                // 缺点列表
   healingTags: string[];         // 疗愈标签
   emotionalTagline: string;      // 情感标语
+  youtubeId?: string;            // YouTube视频ID（可选，用于嵌入视频）
 }
 
 // ============================================================
