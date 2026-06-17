@@ -19,12 +19,12 @@ const quickReplies = [
 
 // Pro-exclusive emotion quick replies
 const emotionQuickReplies = [
-  { label: '😰 Feeling stressed & overwhelmed', message: 'I\'m feeling really stressed and overwhelmed lately' },
-  { label: '🔥 Burnt out & exhausted', message: 'I\'m completely burnt out and exhausted' },
-  { label: '💙 Feeling lonely & disconnected', message: 'I\'m feeling lonely and disconnected' },
-  { label: '🌀 Anxious & restless', message: 'I\'ve been feeling anxious and restless' },
-  { label: '🔮 Seeking purpose & direction', message: 'I feel lost and I\'m seeking purpose and direction' },
-  { label: '💔 Going through grief or heartbreak', message: 'I\'m going through grief and need healing' },
+  { label: '😰 Stressed & Overwhelmed', description: 'Need to decompress and slow down', message: 'I\'m feeling really stressed and overwhelmed lately' },
+  { label: '🔥 Burnt Out & Exhausted', description: 'Running on empty, need deep recharge', message: 'I\'m completely burnt out and exhausted' },
+  { label: '💙 Lonely & Disconnected', description: 'Craving meaningful connection', message: 'I\'m feeling lonely and disconnected' },
+  { label: '🌀 Anxious & Restless', description: 'Can\'t settle, need calm and grounding', message: 'I\'ve been feeling anxious and restless' },
+  { label: '🔮 Lost & Seeking Purpose', description: 'Searching for direction and meaning', message: 'I feel lost and I\'m seeking purpose and direction' },
+  { label: '💔 Grieving & Heartbroken', description: 'Need space to process and heal', message: 'I\'m going through grief and need healing' },
 ];
 
 interface ChatInterfaceProps {
@@ -48,7 +48,12 @@ export default function ChatInterface({
   const [isStreaming, setIsStreaming] = useState(false);
   const [matchCount, setMatchCount] = useState(0); // will be set from localStorage in useEffect
   const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
-  const [isProUser, setIsProUser] = useState(false); // will be set from localStorage in useEffect
+  const [isProUser, setIsProUser] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return !!localStorage.getItem('serenestay_pro_token');
+    }
+    return false;
+  });
   const [chatDisabled, setChatDisabled] = useState(false); // will be set from localStorage in useEffect
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -74,7 +79,9 @@ export default function ChatInterface({
     role: 'assistant',
     content: destinationContext
       ? `Let me tell you about ${displayName} ✨`
-      : `Hello! I'm Serene, your AI wellness travel guide. 🌿 I'm here to help you find the perfect healing retreat that matches your needs and dreams.
+      : isProUser
+        ? `Hello! I'm Serene, your personal wellness travel guide ✨ I'll help you find a healing retreat that's truly matched to how you're feeling — not just a popular destination, but one that speaks to YOUR needs.\n\nTo give you the most personalized recommendation, I'd love to understand you better. Tap one of the emotion cards below to get started, or simply tell me what's on your mind 💫`
+        : `Hello! I'm Serene, your AI wellness travel guide. 🌿 I'm here to help you find the perfect healing retreat that matches your needs and dreams.
 
 What matters most to you in a wellness destination? You can tell me about:
 • Your budget and preferred climate
@@ -414,20 +421,44 @@ Or just share what's on your mind, and we'll explore together.`,
         <div className="px-4 pb-2">
           <div className="max-w-3xl mx-auto">
             {isProUser && (
-              <p className="text-xs text-primary/40 mb-2 text-center">How are you feeling? This helps us match the perfect retreat ✨</p>
+              <p className="text-xs text-primary/40 mb-3 text-center font-medium">
+                ✨ How are you feeling? Tap a card to start your personalized healing journey
+              </p>
             )}
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-              {(isProUser ? emotionQuickReplies : quickReplies).map((reply) => (
-                <button
-                  key={reply.message}
-                  onClick={() => handleQuickReply(reply)}
-                  className="flex-shrink-0 px-4 py-2 bg-white border border-primary/10 rounded-full text-sm text-primary/70 hover:border-secondary hover:text-secondary transition-colors whitespace-nowrap"
-                  disabled={isStreaming || chatDisabled}
-                >
-                  {reply.label}
-                </button>
-              ))}
-            </div>
+            {isProUser ? (
+              /* Pro: Emotion cards — larger, more prominent */
+              <div className="grid grid-cols-2 gap-2 pb-2">
+                {emotionQuickReplies.map((reply) => (
+                  <button
+                    key={reply.message}
+                    onClick={() => handleQuickReply(reply)}
+                    className="flex flex-col items-start px-4 py-3 bg-white border border-primary/10 rounded-xl text-left hover:border-purple-300 hover:shadow-md transition-all group"
+                    disabled={isStreaming || chatDisabled}
+                  >
+                    <span className="text-sm font-medium text-primary/80 group-hover:text-purple-600 transition-colors">
+                      {reply.label}
+                    </span>
+                    <span className="text-xs text-primary/40 mt-0.5 group-hover:text-purple-400 transition-colors">
+                      {reply.description}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              /* Free: Simple pill buttons */
+              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                {quickReplies.map((reply) => (
+                  <button
+                    key={reply.message}
+                    onClick={() => handleQuickReply(reply)}
+                    className="flex-shrink-0 px-4 py-2 bg-white border border-primary/10 rounded-full text-sm text-primary/70 hover:border-secondary hover:text-secondary transition-colors whitespace-nowrap"
+                    disabled={isStreaming || chatDisabled}
+                  >
+                    {reply.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
