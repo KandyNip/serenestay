@@ -4,6 +4,26 @@
 import type { ChatMessage, Destination } from './types';
 
 // ============================================================
+// Emotion → Healing Practice Mapping (Pro Exclusive)
+// ============================================================
+
+export const EMOTION_HEALING_MAP = `
+## Emotion → Healing Practice Mapping
+
+Use this to match destinations to users' emotional states:
+
+| User Emotion | Best Healing Tags | Avoid If |
+|---|---|---|
+| Stressed / Overwhelmed | meditation, mindfulness, breathwork, nature-therapy, forest-bathing, tea-ceremony, zen-retreat | Overly social/intense experiences |
+| Burnt Out / Exhausted | detox, digital-detox, spa-related (thai-massage, balinese-massage), sound-healing, hot-springs, ocean-therapy, wild-swimming | High-energy or demanding activities |
+| Lonely / Isolated | nomad-community, community-healing, ecstatic-dance, cacao-ceremony, volunteer-healing, coworking-wellness | Isolated retreats with no social element |
+| Anxious / Restless | meditation, breathwork, yoga, vipassana, qigong, temple-stay, nature-therapy | Intense physical or extreme activities |
+| Lost / Seeking Purpose | shamanic-journey, cacao-ceremony, kirtan, tantra, vipassana, volunteer-healing, water-purification | Superficial tourist experiences |
+| Grieving / Heartbroken | nature-therapy, forest-bathing, wild-swimming, ocean-therapy, art-therapy, community-healing | Forced socializing or high-energy activities |
+| Physically Depleted | ayurveda, thai-massage, balinese-massage, hot-springs, longevity-wellness, mediterranean-diet-wellness, spice-therapy | Physically demanding activities |
+`;
+
+// ============================================================
 // Main System Prompt — Serene, the AI wellness travel guide
 // ============================================================
 
@@ -267,13 +287,13 @@ export function buildChatMessages(
   const destinationSummary = destinations
     .map(
       (d) =>
-        `- ${d.name} (slug: ${d.slug}, ${d.country}, ${d.region}): serenity=${d.scores.serenity}, nature=${d.scores.nature}, climate=${d.scores.climate}, affordability=${d.scores.affordability}, wellness=${d.scores.wellness}, community=${d.scores.community}, wifi=${d.scores.wifi}, visa=${d.scores.visa}, medical=${d.scores.medical} | Cost: $${d.monthlyCost.mid}/mo | Best season: ${d.bestSeason.months.join(', ')} | Tags: ${d.tags.join(', ')}`
+        `- ${d.name} (slug: ${d.slug}, ${d.country}, ${d.region}): serenity=${d.scores.serenity}, nature=${d.scores.nature}, climate=${d.scores.climate}, affordability=${d.scores.affordability}, wellness=${d.scores.wellness}, community=${d.scores.community}, wifi=${d.scores.wifi}, visa=${d.scores.visa}, medical=${d.scores.medical} | Cost: $${d.monthlyCost.mid}/mo | Best season: ${d.bestSeason.months.join(', ')} | Tags: ${d.tags.join(', ')}${d.healingTags?.length ? ` | Healing: ${d.healingTags.join(', ')}` : ''}`
     )
     .join('\n');
 
   const proInstruction = isProUser
-    ? `\n\n## USER STATUS: PRO\nThis user has Pro access. Recommend 1-3 destinations per response using [DEST:slug] markers, giving them variety and choice.`
-    : `\n\n## USER STATUS: FREE\nThis user has Free access. Recommend ONLY 1 (ONE) destination per response using [DEST:slug] — the single best match. This creates upgrade incentive.`;
+    ? `\n\n## USER STATUS: PRO\nThis user has Pro access with Emotional Matching.\n\n### Emotional Matching Protocol (PRO EXCLUSIVE)\nWhen a Pro user shares their emotional state (explicitly or implicitly), you MUST:\n1. Acknowledge their emotional state with genuine empathy (1-2 sentences)\n2. Use the Emotion → Healing Practice Mapping to identify the best healing tags for their state\n3. Cross-reference those healing tags with destinations in the database that have matching Healing tags\n4. Recommend 1-3 destinations whose healing practices directly address the user's emotional needs\n5. Include an "Emotional Match Analysis" section in your response that explains:\n   - What emotional state you detected\n   - Which healing practices match their needs\n   - Why each recommended destination is emotionally relevant\n\nFormat for Emotional Match Analysis (include AFTER the destination recommendation):\n"💫 **Emotional Match**: Based on your feeling of [emotion], [Destination]'s [healing tag 1] and [healing tag 2] are exactly what you need right now. [1 sentence explaining the specific healing benefit]."\n\n### Output Markers for Emotional Matching\nWhen recommending a destination WITH emotional matching, use this marker format INSTEAD of [DEST:slug]:\n[EMATCH:slug:emotional match reason]\n\nExample: [EMATCH:chiang-mai:Meditation & mindfulness for your stress]\n\nThis renders as a destination card with a special "Emotional Match" badge showing the reason. Use this for the FIRST (best match) destination when emotional matching is active. For additional recommendations without emotional analysis, use regular [DEST:slug].\n\nIMPORTANT:\n- Always look for the user's emotional state FIRST before recommending\n- If they haven't shared it, gently ask: "Before I recommend the perfect retreat, how are you feeling right now? Stressed, burnt out, seeking something, or something else?"\n- Never fabricate healing tags — only reference tags that exist in the destination data\n- Recommend 1-3 destinations per response using [DEST:slug] or [EMATCH:slug:reason] markers\n\n${EMOTION_HEALING_MAP}`
+    : `\n\n## USER STATUS: FREE\nThis user has Free access. Recommend ONLY 1 (ONE) destination per response using [DEST:slug] — the single best match. Do NOT provide emotional analysis or mention emotional matching features. This creates upgrade incentive.`;
 
   const systemContent = `${MAIN_SYSTEM_PROMPT}${proInstruction}
 

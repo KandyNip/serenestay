@@ -18,14 +18,14 @@ const freeFeatures = [
 
 const proFeatures = [
   'Unlimited AI conversations',
-  '9-dimension wellness scoring',
+  'AI emotional matching — tell Serene how you feel',
+  'Personalized healing practice recommendations',
   'All 56+ destinations access',
 ];
 
 const comingSoonFeatures = [
   'Save & compare destinations',
   'Personalized AI travel itineraries',
-  'AI wellness check-in & mood-based matching',
 ];
 
 // FAQ data
@@ -40,7 +40,7 @@ const faqs = [
   },
   {
     question: 'What\'s the difference between Free and Pro?',
-    answer: 'Both tiers use the same 9-dimension AI matching (serenity, nature, climate, affordability, wellness, community, WiFi, visa, medical). The only difference is conversation limits: Free gets 2 matches, Pro gets unlimited.',
+    answer: 'Pro includes unlimited conversations AND exclusive emotional matching — tell Serene how you\'re feeling (stressed, burnt out, seeking purpose, etc.) and get personalized recommendations based on each destination\'s healing practices. Free users get 2 matches with standard recommendations without emotional analysis.',
   },
   {
     question: 'Do you offer refunds?',
@@ -142,6 +142,7 @@ export default function PricingPage() {
               <tbody>
                 {[
                   ['AI Destination Matches', '2', 'Unlimited'],
+                  ['Emotional Matching & Healing Insights', false, true],
                   ['9-Dimension Wellness Scoring', true, true],
                   ['Destination Database Access', true, true],
                   ['View Destination Details', true, true],

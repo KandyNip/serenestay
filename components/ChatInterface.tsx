@@ -17,6 +17,16 @@ const quickReplies = [
   { label: '🧘 Focus on wellness', message: 'Focus on wellness' },
 ];
 
+// Pro-exclusive emotion quick replies
+const emotionQuickReplies = [
+  { label: '😰 Feeling stressed & overwhelmed', message: 'I\'m feeling really stressed and overwhelmed lately' },
+  { label: '🔥 Burnt out & exhausted', message: 'I\'m completely burnt out and exhausted' },
+  { label: '💙 Feeling lonely & disconnected', message: 'I\'m feeling lonely and disconnected' },
+  { label: '🌀 Anxious & restless', message: 'I\'ve been feeling anxious and restless' },
+  { label: '🔮 Seeking purpose & direction', message: 'I feel lost and I\'m seeking purpose and direction' },
+  { label: '💔 Going through grief or heartbreak', message: 'I\'m going through grief and need healing' },
+];
+
 interface ChatInterfaceProps {
   initialMessages?: Message[];
   destinationContext?: string;
@@ -249,10 +259,23 @@ Or just share what's on your mind, and we'll explore together.`,
     setShowUpgradePrompt(!showUpgradePrompt);
   };
 
-  // Parse [DEST:slug] markers and render destination cards
+  // Parse [DEST:slug] and [EMATCH:slug:reason] markers and render destination cards
   const renderMessageContent = (content: string, isLastAndStreaming: boolean) => {
-    const parts = content.split(/(\[DEST:[\w-]+\])/g);
+    const parts = content.split(/(\[DEST:[\w-]+\]|\[EMATCH:[\w-]+:[^\]]+\])/g);
     return parts.map((part, i) => {
+      // Check for emotional match marker [EMATCH:slug:match_text]
+      const ematchMatch = part.match(/\[EMATCH:([\w-]+):([^\]]+)\]/);
+      if (ematchMatch) {
+        const slug = ematchMatch[1];
+        const matchText = ematchMatch[2];
+        const dest = allDestinations.find((d) => d.slug === slug);
+        if (dest) {
+          return <DestinationChatCard key={`card-${i}`} dest={dest} emotionMatch={matchText} />;
+        }
+        return null;
+      }
+
+      // Check for regular destination marker [DEST:slug]
       const match = part.match(/\[DEST:([\w-]+)\]/);
       if (match) {
         const slug = match[1];
@@ -390,8 +413,11 @@ Or just share what's on your mind, and we'll explore together.`,
       {messages.length <= 2 && (
         <div className="px-4 pb-2">
           <div className="max-w-3xl mx-auto">
+            {isProUser && (
+              <p className="text-xs text-primary/40 mb-2 text-center">How are you feeling? This helps us match the perfect retreat ✨</p>
+            )}
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-              {quickReplies.map((reply) => (
+              {(isProUser ? emotionQuickReplies : quickReplies).map((reply) => (
                 <button
                   key={reply.message}
                   onClick={() => handleQuickReply(reply)}

@@ -6,9 +6,10 @@ import type { Destination } from '@/lib/types';
 
 interface DestinationChatCardProps {
   dest: Destination;
+  emotionMatch?: string;  // 情绪匹配说明，Pro专属
 }
 
-export default function DestinationChatCard({ dest }: DestinationChatCardProps) {
+export default function DestinationChatCard({ dest, emotionMatch }: DestinationChatCardProps) {
   // Pick 3 key scores to show
   const keyScores = [
     { label: 'Serenity', value: dest.scores.serenity },
@@ -51,6 +52,13 @@ export default function DestinationChatCard({ dest }: DestinationChatCardProps) 
             </div>
           ))}
         </div>
+        {/* Emotional Match Badge - Pro Exclusive */}
+        {emotionMatch && (
+          <div className="mt-2 flex items-center gap-1.5 px-2.5 py-1.5 bg-purple-50 border border-purple-200 rounded-lg">
+            <span className="text-xs">💫</span>
+            <span className="text-xs text-purple-700 font-medium">{emotionMatch}</span>
+          </div>
+        )}
         <p className="mt-2 text-xs text-secondary font-medium group-hover:underline">
           View Details →
         </p>
