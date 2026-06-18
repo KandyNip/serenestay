@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Share2, MessageSquare, Twitter, Facebook, Link2, Check } from 'lucide-react';
+import { Share2, Twitter, Facebook, Link2, Check } from 'lucide-react';
 
 interface ShareButtonsProps {
   destinationName: string;
@@ -19,7 +19,11 @@ export default function ShareButtons({ destinationName, destinationSlug }: Share
 
   const shareLinks = [
     {
-      icon: MessageSquare,
+      icon: ({ className }: { className?: string }) => (
+        <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.657-.547-.8 3.747c1.693.076 3.224.554 4.326 1.29.46-.39 1.065-.63 1.73-.63 1.423 0 2.576 1.155 2.576 2.578 0 1.042-.618 1.937-1.503 2.344.053.28.08.573.08.87 0 3.415-3.937 6.183-8.793 6.183-4.856 0-8.793-2.768-8.793-6.182 0-.31.027-.615.082-.913A2.573 2.573 0 0 1 3.52 11.8c0-1.423 1.153-2.578 2.576-2.578.65 0 1.243.227 1.7.603 1.122-.757 2.694-1.235 4.427-1.298l.89-4.168a.5.5 0 0 1 .396-.39l2.99.614A1.245 1.245 0 0 1 17.01 4.744zM8.21 14.537c-.688 0-1.249.561-1.249 1.25a1.25 1.25 0 0 0 2.498 0 1.25 1.25 0 0 0-1.249-1.25zm7.58 0c-.688 0-1.249.561-1.249 1.25a1.25 1.25 0 0 0 2.498 0 1.25 1.25 0 0 0-1.249-1.25zm-3.836 1.718c-.472 0-.86.15-1.076.336-.108.094-.144.18-.144.268 0 .088.036.174.144.268.216.186.604.336 1.076.336.472 0 .86-.15 1.076-.336.108-.094.144-.18.144-.268 0-.088-.036-.174-.144-.268-.216-.186-.604-.336-1.076-.336z"/>
+        </svg>
+      ),
       label: 'Share on Reddit',
       url: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedText}`,
       color: 'hover:text-orange-600',
