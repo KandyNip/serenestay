@@ -204,15 +204,6 @@ export default async function DestinationDetailPage({ params }: PageProps) {
                 ))}
               </div>
 
-              {/* Emotional Tagline */}
-              {destination.emotionalTagline && (
-                <div className="mt-6 bg-gradient-to-r from-purple-50 via-emerald-50 to-sky-50 rounded-2xl p-6 shadow-card">
-                  <p className="font-serif text-xl sm:text-2xl text-primary/90 leading-relaxed italic">
-                    "{destination.emotionalTagline}"
-                  </p>
-                </div>
-              )}
-
               {/* Share Buttons */}
               <div className="mt-6">
                 <ShareButtons destinationName={destination.name} destinationSlug={destination.slug} />
