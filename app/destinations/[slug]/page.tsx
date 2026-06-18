@@ -10,6 +10,7 @@ import ImageGallery from '@/components/ImageGallery';
 import ProsConsCard from '@/components/ProsConsCard';
 import HealingTagsCard from '@/components/HealingTagsCard';
 import YouTubeEmbed from '@/components/YouTubeEmbed';
+import ShareButtons from '@/components/ShareButtons';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -211,6 +212,11 @@ export default async function DestinationDetailPage({ params }: PageProps) {
                   </p>
                 </div>
               )}
+
+              {/* Share Buttons */}
+              <div className="mt-6">
+                <ShareButtons destinationName={destination.name} destinationSlug={destination.slug} />
+              </div>
             </div>
 
             {/* Veto Warning */}
