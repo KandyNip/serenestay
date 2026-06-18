@@ -11,8 +11,11 @@ interface HealingTagsCardProps {
  * - Does not render if healingTags is empty
  */
 export default function HealingTagsCard({ healingTags, emotionalTagline }: HealingTagsCardProps) {
-  // Don't render if no healing tags
-  if (!healingTags || healingTags.length === 0) {
+  const hasHealingTags = healingTags && healingTags.length > 0;
+  const hasEmotionalTagline = !!emotionalTagline;
+
+  // If neither exists, don't render
+  if (!hasHealingTags && !hasEmotionalTagline) {
     return null;
   }
 
@@ -39,22 +42,24 @@ export default function HealingTagsCard({ healingTags, emotionalTagline }: Heali
       )}
 
       {/* Healing Tags */}
-      <div className="bg-white rounded-2xl p-6 shadow-card">
-        <h3 className="font-serif text-xl text-primary mb-4">Healing Practices</h3>
-        <div className="flex flex-wrap gap-2">
-          {healingTags.map((tag, index) => {
-            const colorClass = tagColors[index % tagColors.length];
-            return (
-              <span
-                key={tag}
-                className={`px-4 py-2 rounded-full text-sm font-medium border ${colorClass} transition-all duration-200 hover:scale-105`}
-              >
-                {tag}
-              </span>
-            );
-          })}
+      {hasHealingTags && (
+        <div className="bg-white rounded-2xl p-6 shadow-card">
+          <h3 className="font-serif text-xl text-primary mb-4">Healing Practices</h3>
+          <div className="flex flex-wrap gap-2">
+            {healingTags.map((tag, index) => {
+              const colorClass = tagColors[index % tagColors.length];
+              return (
+                <span
+                  key={tag}
+                  className={`px-4 py-2 rounded-full text-sm font-medium border ${colorClass} transition-all duration-200 hover:scale-105`}
+                >
+                  {tag}
+                </span>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
