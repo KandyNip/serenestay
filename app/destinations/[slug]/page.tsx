@@ -93,6 +93,76 @@ export default async function DestinationDetailPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen pt-16">
+      {/* Schema.org: TouristDestination */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "TouristDestination",
+            name: destination.name,
+            description: destination.tagline,
+            image: destination.images,
+            url: `https://howistoday.online/destinations/${destination.slug}`,
+            address: {
+              "@type": "PostalAddress",
+              addressCountry: destination.country,
+              addressRegion: destination.region,
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: (
+                Object.values(destination.scores).reduce((a: number, b: number) => a + b, 0) /
+                Object.keys(destination.scores).length
+              ).toFixed(1),
+              bestRating: 5,
+              worstRating: 1,
+              ratingCount: Object.keys(destination.scores).length,
+            },
+            makesOffer: {
+              "@type": "Offer",
+              priceSpecification: {
+                "@type": "PriceSpecification",
+                price: destination.monthlyCost.mid,
+                priceCurrency: destination.monthlyCost.currency,
+                description: "Estimated monthly living cost (mid-range)",
+              },
+            },
+            keywords: destination.tags.join(", "),
+            touristType: ["Wellness travelers", "Digital nomads", "Meditation seekers"],
+          }),
+        }}
+      />
+      {/* Schema.org: BreadcrumbList */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://howistoday.online",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Destinations",
+                item: "https://howistoday.online/destinations",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: destination.name,
+                item: `https://howistoday.online/destinations/${destination.slug}`,
+              },
+            ],
+          }),
+        }}
+      />
       {/* Back Navigation */}
       <div className="container-full px-4 py-4">
         <Link

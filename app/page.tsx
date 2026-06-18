@@ -43,6 +43,50 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen">
+      {/* Schema.org: FAQPage */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What is SereneStay.ai?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "SereneStay.ai is an AI-powered platform that matches you with healing retreat destinations worldwide. We evaluate 56 vetted wellness destinations across 9 dimensions including serenity, nature, wellness facilities, and more.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How does the AI matching work?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Our AI guide analyzes your emotional state, preferred healing methods, travel group size, and special needs through a personalized 4-step consultation, then recommends destinations that match your unique wellness goals.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "What does Pro include?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Pro users get unlimited AI healing destination matches, detailed wellness scores, and personalized emotional matching with guided 4-step wellness consultations. Pro is $14.99/month or $119.88/year.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Are the destinations verified?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, all 56 destinations are carefully vetted with a 9-dimension scoring system. Destinations with WiFi or medical scores of 2 or below trigger a veto warning to help you make informed decisions.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         {/* Background Image */}

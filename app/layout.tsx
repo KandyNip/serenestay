@@ -98,6 +98,35 @@ export default function RootLayout({
       className={`${dmSerifDisplay.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-surface">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "SereneStay.ai",
+              url: "https://howistoday.online",
+              description: "AI-powered healing retreat matching platform",
+              email: "support@howistoday.online",
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "SereneStay.ai",
+              url: "https://howistoday.online",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://howistoday.online/destinations?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
