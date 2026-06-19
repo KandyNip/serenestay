@@ -396,6 +396,18 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
         throw new Error('PDF library not available');
       }
 
+      // Clone the content and replace image URLs with proxy URLs to avoid CORS issues
+      const clonedContent = contentRef.current.cloneNode(true) as HTMLElement;
+      const images = clonedContent.querySelectorAll('img');
+      images.forEach((img) => {
+        const originalSrc = img.getAttribute('src');
+        if (originalSrc && !originalSrc.startsWith('/api/image-proxy')) {
+          // Use image proxy to avoid CORS issues
+          const proxyUrl = `/api/image-proxy?url=${encodeURIComponent(originalSrc)}`;
+          img.setAttribute('src', proxyUrl);
+        }
+      });
+
       const opt = {
         margin: 10,
         filename: `${name.replace(/\s+/g, '-')}-itinerary.pdf`,
@@ -404,7 +416,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
       };
 
-      await html2pdf().setOptions(opt).from(contentRef.current).save();
+      await html2pdf().setOptions(opt).from(clonedContent).save();
     } catch (error) {
       console.error('PDF generation failed:', error);
       // Fallback to browser print dialog
