@@ -11,6 +11,8 @@ import ProsConsCard from '@/components/ProsConsCard';
 import HealingTagsCard from '@/components/HealingTagsCard';
 import YouTubeEmbed from '@/components/YouTubeEmbed';
 import ShareButtons from '@/components/ShareButtons';
+import InsightsSection from '@/components/InsightsSection';
+import CompareSection from '@/components/CompareSection';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -245,6 +247,9 @@ export default async function DestinationDetailPage({ params }: PageProps) {
               </div>
             </div>
 
+            {/* AI Healing Insights */}
+            <InsightsSection slug={destination.slug} />
+
             {/* Best Season */}
             <div>
               <h2 className="font-serif text-2xl text-primary mb-4 flex items-center gap-2">
@@ -335,6 +340,9 @@ export default async function DestinationDetailPage({ params }: PageProps) {
                 Ask Serene About {destination.name}
               </Link>
             </div>
+
+            {/* Compare Destinations */}
+            <CompareSection currentSlug={destination.slug} currentName={destination.name} />
 
             {/* Monthly Costs */}
             <div className="bg-white rounded-2xl p-6 shadow-card">
