@@ -131,7 +131,7 @@ export default function AboutPage() {
 
               <p>
                 <strong>Pro exists for depth, not scarcity.</strong> Unlimited conversations,
-                emotional matching, and priority access to new destinations are for people who
+                emotional matching, and detailed healing insights are for people who
                 want to go deeper. The free tier isn't a demo — it's a complete experience.
               </p>
             </div>

@@ -20,8 +20,7 @@ const proFeatures = [
   'Unlimited AI conversations',
   'AI emotional matching — tell Serene how you feel',
   'Personalized healing practice recommendations',
-  'Full scores with veto warnings',
-  'Priority access to new destinations',
+  'Full destination scores with detailed insights',
 ];
 
 const comingSoonFeatures = [
@@ -146,9 +145,8 @@ export default function PricingPage() {
                   ['Browse 56+ Destinations', true, true],
                   ['9-Dimension Wellness Scoring', true, true],
                   ['View Full Destination Details', true, true],
+                  ['Veto Warnings (WiFi/Medical Alerts)', true, true],
                   ['Emotional Matching & Healing Insights', false, true],
-                  ['Veto Warnings (WiFi/Medical Alerts)', false, true],
-                  ['Priority Access to New Destinations', false, true],
                 ].map(([feature, free, pro], index) => (
                   <tr key={feature as string} className={index % 2 === 0 ? 'bg-surface/50' : ''}>
                     <td className="p-4 text-primary">{feature}</td>
