@@ -108,6 +108,10 @@ function parseItinerary(markdown: string): ParsedItinerary {
         let title = timeMatch[2].trim();
         let description = timeMatch[3].trim();
 
+        // Strip markdown bold markers
+        title = title.replace(/\*\*/g, '');
+        description = description.replace(/\*\*/g, '');
+
         // Extract wiki/cat tags
         let wikiTag: string | undefined;
         let catTag: string | undefined;
@@ -157,6 +161,15 @@ function parseItinerary(markdown: string): ParsedItinerary {
   // Extract Final Note
   const finalMatch = markdown.match(/###\s*💌\s*Final Note[\s\S]*?\n([\s\S]*?)$/);
   if (finalMatch) result.finalNote = finalMatch[1].trim();
+
+  // Strip markdown bold markers from all text fields
+  result.overview = result.overview.replace(/\*\*/g, '');
+  Object.keys(result.beforeYouGo).forEach(k => {
+    result.beforeYouGo[k] = result.beforeYouGo[k].replace(/\*\*/g, '');
+  });
+  result.wellnessFocus = result.wellnessFocus.replace(/\*\*/g, '');
+  result.practicalHeadsUp = result.practicalHeadsUp.replace(/\*\*/g, '');
+  result.finalNote = result.finalNote.replace(/\*\*/g, '');
 
   return result;
 }
