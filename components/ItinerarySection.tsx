@@ -5,7 +5,7 @@ import { Lock, Sparkles, Map, CalendarDays, Compass, Info, MessageCircle, Bookma
 import Link from 'next/link';
 import { checkProStatus } from '@/lib/api';
 import { getCategoryImage, getCategoryEmoji, DEFAULT_IMAGE } from '@/lib/itinerary-images';
-import { saveItinerary, isItinerarySaved, removeItinerary } from '@/lib/itinerary-storage';
+import { saveItinerary, isItinerarySaved, removeItinerary, getSavedItineraries } from '@/lib/itinerary-storage';
 
 interface ItinerarySectionProps {
   slug: string;
@@ -249,11 +249,26 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
       .catch(() => {});
   }, [slug]);
 
+  // Auto-load saved itinerary when duration/focus changes
+  useEffect(() => {
+    if (!slug || loading) return;
+    const actualDuration = duration === 0 ? (customDays || 30) : duration;
+    const saved = getSavedItineraries().find(
+      i => i.slug === slug && i.duration === actualDuration && i.focus === focus
+    );
+    if (saved && saved.parsed) {
+      setParsed(saved.parsed);
+      setIsSaved(true);
+    } else {
+      setParsed(null);
+      setIsSaved(false);
+    }
+  }, [slug, duration, customDays, focus]);
+
   // Reset expanded days when new itinerary is generated
   useEffect(() => {
     if (parsed) {
       setExpandedDays(new Set([1]));
-      setIsSaved(isItinerarySaved(slug, actualDuration, focus));
     }
   }, [parsed]);
 
@@ -360,6 +375,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
         if (data.itinerary) {
           setItinerary(data.itinerary);
           setParsed(parseItinerary(data.itinerary));
+          setIsSaved(false);
         }
       })
       .catch(() => {})
@@ -490,7 +506,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
           ) : (
             <>
               <Sparkles className="w-4 h-4" />
-              Generate {actualDuration}-Day Itinerary
+              {parsed ? 'Regenerate' : 'Generate'} {actualDuration}-Day Itinerary
             </>
           )}
         </button>

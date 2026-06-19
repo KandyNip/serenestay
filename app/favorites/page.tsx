@@ -258,7 +258,7 @@ export default function FavoritesPage() {
                 {itineraries.map((it) => (
                   <div key={`${it.slug}-${it.duration}-${it.focus}`} className="relative group">
                     <Link
-                      href={`/destinations/${it.slug}`}
+                      href={`/destinations/${it.slug}?tab=itinerary`}
                       className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow"
                     >
                       {/* Cover image or gradient */}
