@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Lock, Sparkles, Map, CalendarDays, Compass, Info, MessageCircle, Download, Sun, Sunrise, Sunset, ChevronDown, ChevronUp, ChevronsUpDown, ChevronsDownUp } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Lock, Sparkles, Map, CalendarDays, Compass, Info, MessageCircle, Bookmark, BookmarkCheck, Sun, Sunrise, Sunset, ChevronDown, ChevronUp, ChevronsUpDown, ChevronsDownUp } from 'lucide-react';
 import Link from 'next/link';
 import { checkProStatus } from '@/lib/api';
 import { getCategoryImage, getCategoryEmoji, DEFAULT_IMAGE } from '@/lib/itinerary-images';
+import { saveItinerary, isItinerarySaved, removeItinerary } from '@/lib/itinerary-storage';
 
 interface ItinerarySectionProps {
   slug: string;
@@ -164,7 +165,7 @@ function parseItinerary(markdown: string): ParsedItinerary {
 function ImagePlaceholder({ category }: { category?: string }) {
   const emoji = category ? getCategoryEmoji(category) : '📍';
   return (
-    <div className="w-[120px] h-[95px] rounded-lg flex-shrink-0 bg-gradient-to-br from-[#6b8f71]/10 to-[#e8b960]/10 flex items-center justify-center">
+    <div className="w-[100px] h-[75px] rounded-lg flex-shrink-0 bg-gradient-to-br from-[#6b8f71]/10 to-[#e8b960]/10 flex items-center justify-center">
       <span className="text-3xl">{emoji}</span>
     </div>
   );
@@ -203,7 +204,7 @@ function ActivityImage({ activity, loadedImages }: { activity: Activity; loadedI
       crossOrigin="anonymous"
       onLoad={() => setImgLoaded(true)}
       onError={() => setImgError(true)}
-      className={`w-[120px] h-[95px] object-cover rounded-lg flex-shrink-0 transition-opacity duration-300 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+      className={`w-[100px] h-[75px] object-cover rounded-lg flex-shrink-0 transition-opacity duration-300 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
     />
   );
 }
@@ -219,10 +220,8 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
   const [hasChatContext, setHasChatContext] = useState(false);
   const [destination, setDestination] = useState<Destination | null>(null);
   const [loadedImages, setLoadedImages] = useState<Record<string, string>>({});
-  const [pdfLoading, setPdfLoading] = useState(false);
-  const [pdfError, setPdfError] = useState<string | null>(null);
+  const [isSaved, setIsSaved] = useState(false);
   const [expandedDays, setExpandedDays] = useState<Set<number>>(new Set([1]));
-  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsPro(checkProStatus());
@@ -254,6 +253,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
   useEffect(() => {
     if (parsed) {
       setExpandedDays(new Set([1]));
+      setIsSaved(isItinerarySaved(slug, actualDuration, focus));
     }
   }, [parsed]);
 
@@ -322,7 +322,6 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
     setLoading(true);
     setItinerary(null);
     setParsed(null);
-    setPdfError(null);
     const proToken = localStorage.getItem('serenestay_pro_token') || '';
 
     // Extract user messages from chat history as personalization context
@@ -366,69 +365,6 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
       .catch(() => {})
       .finally(() => setLoading(false));
   };
-
-  const downloadPdf = useCallback(async () => {
-    if (!contentRef.current) return;
-    setPdfLoading(true);
-    setPdfError(null);
-
-    try {
-      // Try npm-installed html2pdf.js first
-      let html2pdf: any;
-      try {
-        const mod = await import('html2pdf.js');
-        html2pdf = mod.default;
-      } catch {
-        // Fallback: try loading from CDN
-        if (!(window as any).html2pdf) {
-          await new Promise<void>((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-            script.onload = () => resolve();
-            script.onerror = () => reject(new Error('Failed to load html2pdf'));
-            document.head.appendChild(script);
-          });
-        }
-        html2pdf = (window as any).html2pdf;
-      }
-
-      if (!html2pdf) {
-        throw new Error('PDF library not available');
-      }
-
-      // Clone the content and replace image URLs with proxy URLs to avoid CORS issues
-      const clonedContent = contentRef.current.cloneNode(true) as HTMLElement;
-      const images = clonedContent.querySelectorAll('img');
-      images.forEach((img) => {
-        const originalSrc = img.getAttribute('src');
-        if (originalSrc && !originalSrc.startsWith('/api/image-proxy')) {
-          // Use image proxy to avoid CORS issues
-          const proxyUrl = `/api/image-proxy?url=${encodeURIComponent(originalSrc)}`;
-          img.setAttribute('src', proxyUrl);
-        }
-      });
-
-      const opt = {
-        margin: 10,
-        filename: `${name.replace(/\s+/g, '-')}-itinerary.pdf`,
-        image: { type: 'jpeg', quality: 0.95 },
-        html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
-      };
-
-      await html2pdf().setOptions(opt).from(clonedContent).save();
-    } catch (error) {
-      console.error('PDF generation failed:', error);
-      // Fallback to browser print dialog
-      setPdfError('PDF generation failed. Opening print dialog instead...');
-      setTimeout(() => {
-        window.print();
-        setPdfError(null);
-      }, 1500);
-    } finally {
-      setPdfLoading(false);
-    }
-  }, [name]);
 
   // Free users: locked card
   if (!isPro) {
@@ -575,7 +511,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
 
       {/* Visual itinerary rendering */}
       {parsed && (
-        <div id="itinerary-content" ref={contentRef} className="bg-[#faf9f7] rounded-2xl overflow-hidden shadow-card">
+        <div id="itinerary-content" className="bg-[#faf9f7] rounded-2xl overflow-hidden shadow-card">
           {/* Cover area */}
           {destination && (
             <div className="relative h-48 sm:h-64 overflow-hidden">
@@ -690,7 +626,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                           {/* Collapsible header */}
                           <button
                             onClick={() => toggleDay(day.day)}
-                            className="w-full flex items-center justify-between p-4 hover:bg-[#6b8f71]/5 transition-colors"
+                            className="w-full flex items-center justify-between p-3 hover:bg-[#6b8f71]/5 transition-colors"
                           >
                             <div className="flex items-center gap-2 min-w-0">
                               <h5 className="font-medium text-primary text-sm sm:text-base truncate">
@@ -711,7 +647,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                               isExpanded ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
                             }`}
                           >
-                            <div className="px-4 pb-4 space-y-3">
+                            <div className="px-3 pb-3 space-y-2">
                               {day.activities.map((activity, idx) => {
                                 const isDining = activity.description.toLowerCase().includes('lunch') ||
                                   activity.description.toLowerCase().includes('dinner') ||
@@ -817,29 +753,34 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
             </div>
           </div>
 
-          {/* PDF download button */}
-          <div className="p-4 sm:p-6 pt-0 space-y-2">
-            {pdfError && (
-              <div className="px-3 py-2 bg-red-50 border border-red-200 rounded-lg text-xs text-red-600">
-                {pdfError}
-              </div>
-            )}
+          {/* Save button */}
+          <div className="p-4 sm:p-6 pt-0">
             <button
-              onClick={downloadPdf}
-              disabled={pdfLoading}
-              className="w-full py-3 bg-[#6b8f71] text-white rounded-xl font-medium hover:bg-[#6b8f71]/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              onClick={() => {
+                if (isSaved) {
+                  removeItinerary(slug, actualDuration, focus);
+                  setIsSaved(false);
+                } else if (parsed) {
+                  saveItinerary({
+                    slug,
+                    name,
+                    duration: actualDuration,
+                    focus,
+                    savedAt: new Date().toISOString(),
+                    parsed,
+                    coverImage: destination?.images[0],
+                  });
+                  setIsSaved(true);
+                }
+              }}
+              className="w-full py-3 rounded-xl font-medium flex items-center justify-center gap-2 transition-colors"
+              style={{
+                background: isSaved ? '#6b8f71' : 'rgba(107, 143, 113, 0.1)',
+                color: isSaved ? '#fff' : '#6b8f71',
+              }}
             >
-              {pdfLoading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Generating PDF...
-                </>
-              ) : (
-                <>
-                  <Download className="w-4 h-4" />
-                  Download as PDF
-                </>
-              )}
+              {isSaved ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
+              {isSaved ? 'Saved' : 'Save Trip'}
             </button>
           </div>
         </div>
