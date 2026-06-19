@@ -6,7 +6,7 @@ export default function Footer() {
     {
       title: 'Brand',
       links: [
-        { label: 'About Us', href: '/' },
+        { label: 'About Us', href: '/about' },
       ],
     },
     {
