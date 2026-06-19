@@ -72,6 +72,113 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80',
     'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80',
   ],
+  cooking: [
+    'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80',
+    'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=600&q=80',
+  ],
+  class: [
+    'https://images.unsplash.com/photo-1524178232363-1fb2b075b172?w=600&q=80',
+    'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80',
+  ],
+  workshop: [
+    'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&q=80',
+    'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=600&q=80',
+  ],
+  hotel: [
+    'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80',
+    'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&q=80',
+  ],
+  park: [
+    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80',
+    'https://images.unsplash.com/photo-1510797215324-95aa89f43c33?w=600&q=80',
+  ],
+  lake: [
+    'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600&q=80',
+    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80',
+  ],
+  waterfall: [
+    'https://images.unsplash.com/photo-1432405972618-c6b0cfba8673?w=600&q=80',
+    'https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=600&q=80',
+  ],
+  museum: [
+    'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=600&q=80',
+    'https://images.unsplash.com/photo-1566127444979-b3d23654c60d?w=600&q=80',
+  ],
+  shopping: [
+    'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80',
+    'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=600&q=80',
+  ],
+  diving: [
+    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80',
+    'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?w=600&q=80',
+  ],
+  hiking: [
+    'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80',
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80',
+  ],
+  sunset: [
+    'https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?w=600&q=80',
+    'https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=600&q=80',
+  ],
+  river: [
+    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80',
+    'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600&q=80',
+  ],
+  island: [
+    'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=600&q=80',
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',
+  ],
+  festival: [
+    'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&q=80',
+  ],
+  art: [
+    'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&q=80',
+    'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&q=80',
+  ],
+  wellness: [
+    'https://images.unsplash.com/photo-1544161515-4ab6ce6db872?w=600&q=80',
+    'https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=600&q=80',
+  ],
+};
+
+// Emoji fallback for when images fail to load
+export const CATEGORY_EMOJIS: Record<string, string> = {
+  temple: '🏛️',
+  market: '🛒',
+  food: '🍜',
+  nature: '🌿',
+  massage: '💆',
+  meditation: '🧘',
+  yoga: '🧘',
+  garden: '🌺',
+  beach: '🏖️',
+  mountain: '⛰️',
+  adventure: '🧗',
+  nightlife: '🌃',
+  spa: '🧖',
+  cafe: '☕',
+  culture: '🎭',
+  nomad: '💻',
+  transport: '🚐',
+  accommodation: '🏨',
+  cooking: '👨‍🍳',
+  class: '📚',
+  workshop: '🎨',
+  hotel: '🏨',
+  park: '🌳',
+  lake: '🏞️',
+  waterfall: '💧',
+  museum: '🏛️',
+  shopping: '🛍️',
+  diving: '🤿',
+  hiking: '🥾',
+  sunset: '🌅',
+  river: '🏞️',
+  island: '🏝️',
+  festival: '🎉',
+  art: '🎨',
+  wellness: '🧘',
 };
 
 export const DEFAULT_IMAGE =
@@ -82,4 +189,13 @@ export function getCategoryImage(category: string): string {
   if (!images || images.length === 0) return DEFAULT_IMAGE;
   // Pick a random image from the category
   return images[Math.floor(Math.random() * images.length)];
+}
+
+export function getCategoryEmoji(category: string): string {
+  return CATEGORY_EMOJIS[category.toLowerCase()] || '📍';
+}
+
+export function hasCategoryImage(category: string): boolean {
+  const images = CATEGORY_IMAGES[category.toLowerCase()];
+  return !!images && images.length > 0;
 }

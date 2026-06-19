@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Lock, Sparkles, Map, CalendarDays, Compass, Info, MessageCircle, Download, Sun, Sunrise, Sunset } from 'lucide-react';
+import { Lock, Sparkles, Map, CalendarDays, Compass, Info, MessageCircle, Download, Sun, Sunrise, Sunset, ChevronDown, ChevronUp, ChevronsUpDown, ChevronsDownUp } from 'lucide-react';
 import Link from 'next/link';
 import { checkProStatus } from '@/lib/api';
-import { getCategoryImage, DEFAULT_IMAGE } from '@/lib/itinerary-images';
+import { getCategoryImage, getCategoryEmoji, DEFAULT_IMAGE } from '@/lib/itinerary-images';
 
 interface ItinerarySectionProps {
   slug: string;
@@ -160,17 +160,50 @@ function parseItinerary(markdown: string): ParsedItinerary {
   return result;
 }
 
-// Activity image component with lazy loading
+// Emoji placeholder when image fails to load
+function ImagePlaceholder({ category }: { category?: string }) {
+  const emoji = category ? getCategoryEmoji(category) : '📍';
+  return (
+    <div className="w-[120px] h-[95px] rounded-lg flex-shrink-0 bg-gradient-to-br from-[#6b8f71]/10 to-[#e8b960]/10 flex items-center justify-center">
+      <span className="text-3xl">{emoji}</span>
+    </div>
+  );
+}
+
+// Activity image component with lazy loading and fallback chain
 function ActivityImage({ activity, loadedImages }: { activity: Activity; loadedImages: Record<string, string> }) {
-  const cacheKey = activity.wikiTag || activity.catTag || 'default';
-  const imageUrl = loadedImages[cacheKey] || DEFAULT_IMAGE;
+  const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+
+  // Fallback chain: wiki image → cat image → placeholder
+  let imageUrl: string | null = null;
+  let fallbackCategory: string | undefined;
+
+  if (activity.wikiTag && loadedImages[activity.wikiTag]) {
+    imageUrl = loadedImages[activity.wikiTag];
+  } else if (activity.catTag && loadedImages[activity.catTag]) {
+    imageUrl = loadedImages[activity.catTag];
+    fallbackCategory = activity.catTag;
+  } else if (activity.catTag) {
+    // catTag exists but no image loaded — use getCategoryImage directly
+    imageUrl = getCategoryImage(activity.catTag);
+    fallbackCategory = activity.catTag;
+  }
+
+  // Show emoji placeholder if no image or load error
+  if (!imageUrl || imgError) {
+    return <ImagePlaceholder category={fallbackCategory || activity.catTag} />;
+  }
 
   return (
     <img
       src={imageUrl}
       alt={activity.title}
       loading="lazy"
-      className="w-[120px] h-[95px] object-cover rounded-lg flex-shrink-0"
+      crossOrigin="anonymous"
+      onLoad={() => setImgLoaded(true)}
+      onError={() => setImgError(true)}
+      className={`w-[120px] h-[95px] object-cover rounded-lg flex-shrink-0 transition-opacity duration-300 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
     />
   );
 }
@@ -187,6 +220,8 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
   const [destination, setDestination] = useState<Destination | null>(null);
   const [loadedImages, setLoadedImages] = useState<Record<string, string>>({});
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+  const [expandedDays, setExpandedDays] = useState<Set<number>>(new Set([1]));
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -215,35 +250,44 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
       .catch(() => {});
   }, [slug]);
 
+  // Reset expanded days when new itinerary is generated
+  useEffect(() => {
+    if (parsed) {
+      setExpandedDays(new Set([1]));
+    }
+  }, [parsed]);
+
   // Load images for activities after itinerary is parsed
   useEffect(() => {
     if (!parsed) return;
 
     const loadImages = async () => {
       const images: Record<string, string> = {};
-      const tagsToLoad = new Set<string>();
+      const wikiTags: string[] = [];
+      const catTags: string[] = [];
 
       parsed.days.forEach(day => {
         day.activities.forEach(activity => {
-          if (activity.wikiTag) tagsToLoad.add(`wiki:${activity.wikiTag}`);
-          else if (activity.catTag) tagsToLoad.add(`cat:${activity.catTag}`);
+          if (activity.wikiTag) wikiTags.push(activity.wikiTag);
+          if (activity.catTag) catTags.push(activity.catTag);
         });
       });
 
-      for (const tag of tagsToLoad) {
-        if (tag.startsWith('wiki:')) {
-          const title = tag.slice(5);
-          try {
-            const res = await fetch(`/api/wiki-image?title=${encodeURIComponent(title)}`);
-            const data = await res.json();
-            if (data.url) {
-              images[title] = data.url;
-            }
-          } catch {}
-        } else if (tag.startsWith('cat:')) {
-          const cat = tag.slice(4);
-          images[cat] = getCategoryImage(cat);
-        }
+      // Load wiki images first
+      for (const title of wikiTags) {
+        try {
+          const res = await fetch(`/api/wiki-image?title=${encodeURIComponent(title)}`);
+          const data = await res.json();
+          if (data.url) {
+            images[title] = data.url;
+          }
+        } catch {}
+      }
+
+      // Load cat images (always available from local mapping)
+      const uniqueCats = [...new Set(catTags)];
+      for (const cat of uniqueCats) {
+        images[cat] = getCategoryImage(cat);
       }
 
       setLoadedImages(images);
@@ -252,11 +296,33 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
     loadImages();
   }, [parsed]);
 
+  const toggleDay = (day: number) => {
+    setExpandedDays(prev => {
+      const next = new Set(prev);
+      if (next.has(day)) {
+        next.delete(day);
+      } else {
+        next.add(day);
+      }
+      return next;
+    });
+  };
+
+  const expandAll = () => {
+    if (!parsed) return;
+    setExpandedDays(new Set(parsed.days.map(d => d.day)));
+  };
+
+  const collapseAll = () => {
+    setExpandedDays(new Set());
+  };
+
   const generateItinerary = () => {
     if (!isPro) return;
     setLoading(true);
     setItinerary(null);
     setParsed(null);
+    setPdfError(null);
     const proToken = localStorage.getItem('serenestay_pro_token') || '';
 
     // Extract user messages from chat history as personalization context
@@ -304,31 +370,49 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
   const downloadPdf = useCallback(async () => {
     if (!contentRef.current) return;
     setPdfLoading(true);
+    setPdfError(null);
 
     try {
-      // Dynamically load html2pdf.js from CDN
-      if (!(window as any).html2pdf) {
-        await new Promise<void>((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-          script.onload = () => resolve();
-          script.onerror = () => reject(new Error('Failed to load html2pdf'));
-          document.head.appendChild(script);
-        });
+      // Try npm-installed html2pdf.js first
+      let html2pdf: any;
+      try {
+        const mod = await import('html2pdf.js');
+        html2pdf = mod.default;
+      } catch {
+        // Fallback: try loading from CDN
+        if (!(window as any).html2pdf) {
+          await new Promise<void>((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('Failed to load html2pdf'));
+            document.head.appendChild(script);
+          });
+        }
+        html2pdf = (window as any).html2pdf;
       }
 
-      const html2pdf = (window as any).html2pdf;
+      if (!html2pdf) {
+        throw new Error('PDF library not available');
+      }
+
       const opt = {
         margin: 10,
         filename: `${name.replace(/\s+/g, '-')}-itinerary.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
       };
 
       await html2pdf().setOptions(opt).from(contentRef.current).save();
     } catch (error) {
       console.error('PDF generation failed:', error);
+      // Fallback to browser print dialog
+      setPdfError('PDF generation failed. Opening print dialog instead...');
+      setTimeout(() => {
+        window.print();
+        setPdfError(null);
+      }, 1500);
     } finally {
       setPdfLoading(false);
     }
@@ -365,6 +449,8 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
   const avgScore = destination
     ? (Object.values(destination.scores).reduce((a, b) => a + b, 0) / Object.keys(destination.scores).length).toFixed(1)
     : '—';
+
+  const allExpanded = parsed ? expandedDays.size === parsed.days.length : false;
 
   // Pro users: itinerary generator with visual rendering
   return (
@@ -550,58 +636,106 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
               </div>
             )}
 
-            {/* Timeline day cards */}
+            {/* Timeline day cards with accordion */}
             {parsed.days.length > 0 && (
               <div>
-                <h4 className="font-serif text-lg text-primary mb-4 flex items-center gap-2">
-                  <span>🗓️</span> Day-by-Day Itinerary
-                </h4>
-                <div className="relative pl-6 border-l-2 border-[#6b8f71]/30 space-y-6">
-                  {parsed.days.map((day) => (
-                    <div key={day.day} className="relative">
-                      {/* Day marker */}
-                      <div className="absolute -left-[31px] w-6 h-6 bg-[#6b8f71] rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        {day.day}
-                      </div>
-                      <div className="bg-white rounded-xl p-4 ml-2">
-                        <h5 className="font-medium text-primary mb-3">
-                          Day {day.day}: {day.theme}
-                        </h5>
-                        <div className="space-y-3">
-                          {day.activities.map((activity, idx) => {
-                            const isDining = activity.description.toLowerCase().includes('lunch') ||
-                              activity.description.toLowerCase().includes('dinner') ||
-                              activity.description.toLowerCase().includes('breakfast') ||
-                              activity.title.toLowerCase().includes('food') ||
-                              activity.catTag === 'food';
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-serif text-lg text-primary flex items-center gap-2">
+                    <span>🗓️</span> Day-by-Day Itinerary
+                  </h4>
+                  <button
+                    onClick={allExpanded ? collapseAll : expandAll}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#6b8f71] bg-[#6b8f71]/10 rounded-lg hover:bg-[#6b8f71]/20 transition-colors"
+                  >
+                    {allExpanded ? (
+                      <>
+                        <ChevronsDownUp className="w-3.5 h-3.5" />
+                        Collapse All
+                      </>
+                    ) : (
+                      <>
+                        <ChevronsUpDown className="w-3.5 h-3.5" />
+                        Expand All
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div className="relative pl-6 border-l-2 border-[#6b8f71]/30 space-y-3">
+                  {parsed.days.map((day) => {
+                    const isExpanded = expandedDays.has(day.day);
+                    const timeEmojis = day.activities
+                      .map(a => a.time === 'morning' ? '🌅' : a.time === 'afternoon' ? '☀️' : '🌙')
+                      .filter((v, i, arr) => arr.indexOf(v) === i) // unique
+                      .join('');
 
-                            return (
-                              <div
-                                key={idx}
-                                className={`flex gap-3 ${isDining ? 'border-l-2 border-[#e8b960] pl-3' : ''}`}
-                              >
-                                {/* Activity image */}
-                                <div className="hidden sm:block">
-                                  <ActivityImage activity={activity} loadedImages={loadedImages} />
-                                </div>
-                                {/* Activity content */}
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center gap-2 mb-1">
-                                    {activity.time === 'morning' && <Sunrise className="w-4 h-4 text-[#e8b960]" />}
-                                    {activity.time === 'afternoon' && <Sun className="w-4 h-4 text-[#e8b960]" />}
-                                    {activity.time === 'evening' && <Sunset className="w-4 h-4 text-[#e8b960]" />}
-                                    <span className="text-xs font-medium text-[#6b8f71] capitalize">{activity.time}</span>
+                    return (
+                      <div key={day.day} className="relative">
+                        {/* Day marker */}
+                        <div className="absolute -left-[31px] w-6 h-6 bg-[#6b8f71] rounded-full flex items-center justify-center text-white text-xs font-bold">
+                          {day.day}
+                        </div>
+                        <div className="bg-white rounded-xl ml-2 overflow-hidden">
+                          {/* Collapsible header */}
+                          <button
+                            onClick={() => toggleDay(day.day)}
+                            className="w-full flex items-center justify-between p-4 hover:bg-[#6b8f71]/5 transition-colors"
+                          >
+                            <div className="flex items-center gap-2 min-w-0">
+                              <h5 className="font-medium text-primary text-sm sm:text-base truncate">
+                                Day {day.day}: {day.theme}
+                              </h5>
+                              <span className="text-xs flex-shrink-0">{timeEmojis}</span>
+                            </div>
+                            {isExpanded ? (
+                              <ChevronUp className="w-4 h-4 text-[#6b8f71] flex-shrink-0" />
+                            ) : (
+                              <ChevronDown className="w-4 h-4 text-[#6b8f71] flex-shrink-0" />
+                            )}
+                          </button>
+
+                          {/* Expandable content */}
+                          <div
+                            className={`transition-all duration-300 ease-in-out ${
+                              isExpanded ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                            }`}
+                          >
+                            <div className="px-4 pb-4 space-y-3">
+                              {day.activities.map((activity, idx) => {
+                                const isDining = activity.description.toLowerCase().includes('lunch') ||
+                                  activity.description.toLowerCase().includes('dinner') ||
+                                  activity.description.toLowerCase().includes('breakfast') ||
+                                  activity.title.toLowerCase().includes('food') ||
+                                  activity.catTag === 'food';
+
+                                return (
+                                  <div
+                                    key={idx}
+                                    className={`flex gap-3 ${isDining ? 'border-l-2 border-[#e8b960] pl-3' : ''}`}
+                                  >
+                                    {/* Activity image */}
+                                    <div className="hidden sm:block">
+                                      <ActivityImage activity={activity} loadedImages={loadedImages} />
+                                    </div>
+                                    {/* Activity content */}
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        {activity.time === 'morning' && <Sunrise className="w-4 h-4 text-[#e8b960]" />}
+                                        {activity.time === 'afternoon' && <Sun className="w-4 h-4 text-[#e8b960]" />}
+                                        {activity.time === 'evening' && <Sunset className="w-4 h-4 text-[#e8b960]" />}
+                                        <span className="text-xs font-medium text-[#6b8f71] capitalize">{activity.time}</span>
+                                      </div>
+                                      <p className="text-sm font-medium text-primary">{activity.title}</p>
+                                      <p className="text-xs text-primary/60 mt-0.5 line-clamp-2">{activity.description}</p>
+                                    </div>
                                   </div>
-                                  <p className="text-sm font-medium text-primary">{activity.title}</p>
-                                  <p className="text-xs text-primary/60 mt-0.5 line-clamp-2">{activity.description}</p>
-                                </div>
-                              </div>
-                            );
-                          })}
+                                );
+                              })}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -672,7 +806,12 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
           </div>
 
           {/* PDF download button */}
-          <div className="p-4 sm:p-6 pt-0">
+          <div className="p-4 sm:p-6 pt-0 space-y-2">
+            {pdfError && (
+              <div className="px-3 py-2 bg-red-50 border border-red-200 rounded-lg text-xs text-red-600">
+                {pdfError}
+              </div>
+            )}
             <button
               onClick={downloadPdf}
               disabled={pdfLoading}
