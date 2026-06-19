@@ -667,7 +667,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
             {/* Disclaimer */}
             <div className="flex items-start gap-2 px-1 text-xs text-primary/40">
               <Info className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-              <p>⚠️ 图片仅供参考，部分配图为示意，具体以实际为准。行程由AI生成，具体场所和项目可能有所变化，请在预订前核实详情。</p>
+              <p>⚠️ Images are for reference only — some are illustrative and may not exactly represent the actual location. This itinerary is AI-generated; specific venues and details may vary. Please verify before booking.</p>
             </div>
           </div>
 
