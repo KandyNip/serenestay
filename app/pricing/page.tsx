@@ -11,16 +11,17 @@ export const metadata: Metadata = {
 // Pricing data — only real, existing features
 const freeFeatures = [
   '2 AI-powered destination matches',
-  'Access to destination database',
+  'Browse all 56+ destinations',
   '9-dimension wellness scoring',
-  'View destination details',
+  'View full destination details',
 ];
 
 const proFeatures = [
   'Unlimited AI conversations',
   'AI emotional matching — tell Serene how you feel',
   'Personalized healing practice recommendations',
-  'All 56+ destinations access',
+  'Full scores with veto warnings',
+  'Priority access to new destinations',
 ];
 
 const comingSoonFeatures = [
@@ -142,10 +143,12 @@ export default function PricingPage() {
               <tbody>
                 {[
                   ['AI Destination Matches', '2', 'Unlimited'],
-                  ['Emotional Matching & Healing Insights', false, true],
+                  ['Browse 56+ Destinations', true, true],
                   ['9-Dimension Wellness Scoring', true, true],
-                  ['Destination Database Access', true, true],
-                  ['View Destination Details', true, true],
+                  ['View Full Destination Details', true, true],
+                  ['Emotional Matching & Healing Insights', false, true],
+                  ['Veto Warnings (WiFi/Medical Alerts)', false, true],
+                  ['Priority Access to New Destinations', false, true],
                 ].map(([feature, free, pro], index) => (
                   <tr key={feature as string} className={index % 2 === 0 ? 'bg-surface/50' : ''}>
                     <td className="p-4 text-primary">{feature}</td>

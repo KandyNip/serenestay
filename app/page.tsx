@@ -337,7 +337,7 @@ export default async function HomePage() {
                 Begin Your Journey
               </Link>
               <p className="mt-4 text-sm text-primary/50">
-                Free to start — 2 AI matches included
+                Free to start — 2 AI matches, browse 56 destinations, 9-dimension scores
               </p>
             </div>
           </div>
