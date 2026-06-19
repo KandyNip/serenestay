@@ -531,6 +531,7 @@ ${destination.cons?.join('; ') || 'N/A'}`;
 - Duration: ${duration} days
 - Focus: ${focus}
 ${userContextSection}
+
 ## Destination Details
 
 ${destinationDetails}`;

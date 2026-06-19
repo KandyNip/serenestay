@@ -10,7 +10,7 @@ function ChatContent() {
   const destinationContext = searchParams.get('context') || undefined;
   const destinationName = searchParams.get('name') || undefined;
   const continueSlug = searchParams.get('continue') || undefined;
-  const continueName = searchParams.get('name') || undefined;
+  const continueName = destinationName;
 
   // Lock body scroll on chat page so only the chat container scrolls
   useEffect(() => {
