@@ -48,7 +48,24 @@ export async function POST(request: Request) {
     const apiKey = process.env.DEEPSEEK_API_KEY;
     if (!apiKey) return Response.json({ error: 'AI service not configured' }, { status: 500 });
 
-    const content = await createChatCompletion(messages, { apiKey, maxTokens: 3000 });
+    // Dynamic maxTokens based on trip duration
+    const tokensPerDay = actualDuration <= 7 ? 500 : actualDuration <= 14 ? 350 : 250;
+    const maxTokens = Math.min(Math.max(actualDuration * tokensPerDay + 800, 3000), 8000);
+
+    const content = await createChatCompletion(messages, { apiKey, maxTokens });
+
+    // Validate generated day count
+    const dayCount = (content.match(/\*\*Day\s+\d+/g) || []).length;
+    if (dayCount < actualDuration) {
+      console.warn(`[itinerary] Generated ${dayCount}/${actualDuration} days, retrying...`);
+      // Retry once with more tokens
+      const retryContent = await createChatCompletion(messages, { apiKey, maxTokens: Math.min(maxTokens + 2000, 8000) });
+      const retryDayCount = (retryContent.match(/\*\*Day\s+\d+/g) || []).length;
+      if (retryDayCount > dayCount) {
+        return Response.json({ itinerary: retryContent });
+      }
+    }
+
     return Response.json({ itinerary: content });
   } catch (error) {
     console.error('[api/itinerary] Error:', error);

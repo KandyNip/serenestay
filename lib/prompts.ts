@@ -485,7 +485,11 @@ export function buildItineraryMessages(
 ): ChatMessage[] {
   const actualDuration = duration === 0 ? (customDays || 30) : duration;
   const longTripHint = actualDuration >= 14
-    ? `\n\nNOTE: This is a ${actualDuration}-day trip. For longer trips, group some days thematically rather than detailed hour-by-hour schedules for every single day. Focus on key highlights and weekly rhythms.`
+    ? `\n\nCRITICAL: You MUST generate exactly ${actualDuration} days. Every single day from Day 1 to Day ${actualDuration} must appear in the output. For trips over 14 days:
+- Still output ALL ${actualDuration} days, but you can be more concise for some days
+- Group every 3-4 days under a weekly theme (e.g., "Week 1: Deep Healing", "Week 2: Exploration")
+- For rest days, a brief 1-line description is acceptable
+- DO NOT skip or merge days — Day 1 through Day ${actualDuration} must all be present`
     : '';
   const destinationDetails = `## ${destination.name} (${destination.country})
 
