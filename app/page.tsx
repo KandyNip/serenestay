@@ -35,7 +35,12 @@ export default async function HomePage() {
   try {
     const all = await loadDestinations();
     featuredDestinations = [...all]
-      .sort((a, b) => b.scores.serenity - a.scores.serenity)
+      .filter(d => d.scores.wifi > 2 && d.scores.medical > 2)
+      .sort((a, b) => {
+        const avgA = (a.scores.serenity + a.scores.nature + a.scores.climate + a.scores.affordability + a.scores.wellness + a.scores.community + a.scores.wifi + a.scores.visa + a.scores.medical) / 9;
+        const avgB = (b.scores.serenity + b.scores.nature + b.scores.climate + b.scores.affordability + b.scores.wellness + b.scores.community + b.scores.wifi + b.scores.visa + b.scores.medical) / 9;
+        return avgB - avgA;
+      })
       .slice(0, 4);
   } catch (error) {
     console.error('Failed to load destinations:', error);
