@@ -1,15 +1,39 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Heart, Star } from 'lucide-react';
 import type { Destination } from '@/lib/types';
+import { checkProStatus } from '@/lib/api';
+import { addFavorite, removeFavorite, isFavorite } from '@/lib/favorites';
 
 interface DestinationChatCardProps {
   dest: Destination;
   emotionMatch?: string;  // 情绪匹配说明，Pro专属
+  isTopPick?: boolean;
 }
 
-export default function DestinationChatCard({ dest, emotionMatch }: DestinationChatCardProps) {
+export default function DestinationChatCard({ dest, emotionMatch, isTopPick }: DestinationChatCardProps) {
+  const [isPro] = useState(() => checkProStatus());
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    setSaved(isFavorite(dest.slug));
+  }, [dest.slug]);
+
+  const toggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (saved) {
+      removeFavorite(dest.slug);
+      setSaved(false);
+    } else {
+      addFavorite(dest.slug);
+      setSaved(true);
+    }
+  };
+
   // Pick 3 key scores to show
   const keyScores = [
     { label: 'Serenity', value: dest.scores.serenity },
@@ -24,6 +48,13 @@ export default function DestinationChatCard({ dest, emotionMatch }: DestinationC
     >
       {/* Image */}
       <div className="relative aspect-[16/9] w-full overflow-hidden">
+        {/* Pro Pick Badge */}
+        {isTopPick && isPro && (
+          <div className="absolute top-2 left-2 z-10 flex items-center gap-1 px-2 py-1 bg-purple-600 text-white text-[10px] font-semibold rounded-full">
+            <Star className="w-3 h-3 fill-white" />
+            Pro Pick
+          </div>
+        )}
         <Image
           src={dest.images[0]}
           alt={dest.name}
@@ -59,9 +90,25 @@ export default function DestinationChatCard({ dest, emotionMatch }: DestinationC
             <span className="text-xs text-purple-700 font-medium">{emotionMatch}</span>
           </div>
         )}
-        <p className="mt-2 text-xs text-secondary font-medium group-hover:underline">
-          View Details →
-        </p>
+        {/* Footer: View Details + Favorite */}
+        <div className="mt-2 flex items-center justify-between">
+          <p className="text-xs text-secondary font-medium group-hover:underline">
+            View Details →
+          </p>
+          {isPro && (
+            <button
+              onClick={toggleFavorite}
+              className={`p-1.5 rounded-full transition-colors ${
+                saved
+                  ? 'text-rose-500 hover:bg-rose-50'
+                  : 'text-primary/30 hover:text-rose-400 hover:bg-rose-50'
+              }`}
+              title={saved ? 'Remove from favorites' : 'Save to favorites'}
+            >
+              <Heart className={`w-4 h-4 ${saved ? 'fill-rose-500' : ''}`} />
+            </button>
+          )}
+        </div>
       </div>
     </Link>
   );

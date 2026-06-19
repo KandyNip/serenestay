@@ -264,37 +264,78 @@ Or just share what's on your mind, and we'll explore together.`,
   // Parse [DEST:slug] and [EMATCH:slug:reason] markers and render destination cards
   const renderMessageContent = (content: string, isLastAndStreaming: boolean) => {
     const parts = content.split(/(\[DEST:[\w-]+\]|\[EMATCH:[\w-]+:[^\]]+\])/g);
-    return parts.map((part, i) => {
-      // Check for emotional match marker [EMATCH:slug:match_text]
+
+    // Collect consecutive cards into groups for grid layout
+    type CardInfo = { type: 'ematch' | 'dest'; slug: string; matchText?: string; index: number };
+    type RenderItem = { type: 'card'; cards: CardInfo[]; key: string } | { type: 'text'; content: string; key: string };
+
+    const items: RenderItem[] = [];
+    let currentCards: CardInfo[] = [];
+    let firstEmatchSeen = false;
+
+    const flushCards = () => {
+      if (currentCards.length > 0) {
+        items.push({ type: 'card', cards: [...currentCards], key: `group-${items.length}` });
+        currentCards = [];
+      }
+    };
+
+    parts.forEach((part, i) => {
       const ematchMatch = part.match(/\[EMATCH:([\w-]+):([^\]]+)\]/);
       if (ematchMatch) {
-        const slug = ematchMatch[1];
-        const matchText = ematchMatch[2];
-        const dest = allDestinations.find((d) => d.slug === slug);
-        if (dest) {
-          return <DestinationChatCard key={`card-${i}`} dest={dest} emotionMatch={matchText} />;
-        }
-        return null;
+        currentCards.push({ type: 'ematch', slug: ematchMatch[1], matchText: ematchMatch[2], index: i });
+        return;
+      }
+      const destMatch = part.match(/\[DEST:([\w-]+)\]/);
+      if (destMatch) {
+        currentCards.push({ type: 'dest', slug: destMatch[1], index: i });
+        return;
+      }
+      // Non-card part — flush any accumulated cards first
+      flushCards();
+      if (part) {
+        items.push({ type: 'text', content: part, key: `text-${i}` });
+      }
+    });
+    flushCards();
+
+    return items.map((item) => {
+      if (item.type === 'text') {
+        return <span key={item.key} className="whitespace-pre-wrap leading-relaxed">{item.content}</span>;
       }
 
-      // Check for regular destination marker [DEST:slug]
-      const match = part.match(/\[DEST:([\w-]+)\]/);
-      if (match) {
-        const slug = match[1];
-        const dest = allDestinations.find((d) => d.slug === slug);
-        if (dest) {
-          return <DestinationChatCard key={`card-${i}`} dest={dest} />;
+      // Card group
+      const cards = item.cards;
+      const cardElements = cards.map((card) => {
+        const dest = allDestinations.find((d) => d.slug === card.slug);
+        if (!dest) {
+          if (card.type === 'dest') {
+            return (
+              <Link key={`link-${card.index}`} href={`/destinations/${card.slug}`} className="text-secondary underline font-medium">
+                View {card.slug} →
+              </Link>
+            );
+          }
+          return null;
         }
-        // Fallback: show as text link if destination not found in cache
+
+        // First EMATCH card overall gets isTopPick
+        const isTopPick = card.type === 'ematch' && !firstEmatchSeen ? (firstEmatchSeen = true, true) : false;
+
+        if (card.type === 'ematch') {
+          return <DestinationChatCard key={`card-${card.index}`} dest={dest} emotionMatch={card.matchText} isTopPick={isTopPick} />;
+        }
+        return <DestinationChatCard key={`card-${card.index}`} dest={dest} isTopPick={isTopPick} />;
+      }).filter(Boolean);
+
+      if (cardElements.length > 1) {
         return (
-          <Link key={`link-${i}`} href={`/destinations/${slug}`} className="text-secondary underline font-medium">
-            View {slug} →
-          </Link>
+          <div key={item.key} className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-3">
+            {cardElements}
+          </div>
         );
       }
-      return part ? (
-        <span key={`text-${i}`} className="whitespace-pre-wrap leading-relaxed">{part}</span>
-      ) : null;
+      return <div key={item.key}>{cardElements}</div>;
     });
   };
 

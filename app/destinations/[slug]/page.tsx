@@ -13,6 +13,7 @@ import YouTubeEmbed from '@/components/YouTubeEmbed';
 import ShareButtons from '@/components/ShareButtons';
 import InsightsSection from '@/components/InsightsSection';
 import CompareSection from '@/components/CompareSection';
+import FavoriteButton from '@/components/FavoriteButton';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -187,12 +188,17 @@ export default async function DestinationDetailPage({ params }: PageProps) {
           <div className="lg:col-span-2 space-y-8">
             {/* Header */}
             <div>
-              <h1 className="font-serif text-4xl sm:text-5xl text-primary">
-                {destination.name}
-              </h1>
-              <p className="mt-3 text-xl text-primary/70">
-                {destination.tagline}
-              </p>
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h1 className="font-serif text-4xl sm:text-5xl text-primary">
+                    {destination.name}
+                  </h1>
+                  <p className="mt-3 text-xl text-primary/70">
+                    {destination.tagline}
+                  </p>
+                </div>
+                <FavoriteButton slug={destination.slug} name={destination.name} />
+              </div>
 
               {/* Tags */}
               <div className="mt-4 flex flex-wrap gap-2">

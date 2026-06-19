@@ -21,10 +21,10 @@ const proFeatures = [
   'AI emotional matching — tell Serene how you feel',
   'AI Healing Insights — why a destination heals & who it\'s best for',
   'Compare destinations head-to-head with AI analysis',
+  'Save favorites & build a shortlist',
 ];
 
 const comingSoonFeatures = [
-  'Save favorites & build a shortlist',
   'Personalized AI travel itineraries',
 ];
 
@@ -148,6 +148,7 @@ export default function PricingPage() {
                   ['Veto Warnings (WiFi/Medical Alerts)', true, true],
                   ['Emotional Matching & Healing Insights', false, true],
                   ['Compare Destinations Head-to-Head', false, true],
+                  ['Save Favorites & Shortlist', false, true],
                 ].map(([feature, free, pro], index) => (
                   <tr key={feature as string} className={index % 2 === 0 ? 'bg-surface/50' : ''}>
                     <td className="p-4 text-primary">{feature}</td>
