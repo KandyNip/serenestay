@@ -240,6 +240,20 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
     setIsPro(checkProStatus());
   }, []);
 
+  // Auto-scroll to itinerary section when coming from Saved page
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('tab') === 'itinerary') {
+      const timer = setTimeout(() => {
+        const el = document.getElementById('itinerary-section');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   useEffect(() => {
     try {
       const saved = localStorage.getItem('serenestay_chat_history');
@@ -431,7 +445,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
 
   // Pro users: itinerary generator with visual rendering
   return (
-    <div>
+    <div id="itinerary-section">
       <h2 className="font-serif text-2xl text-primary mb-4 flex items-center gap-2">
         <Map className="w-6 h-6 text-secondary" />
         AI Travel Itinerary
