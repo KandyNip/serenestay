@@ -22,11 +22,10 @@ const proFeatures = [
   'AI Healing Insights — why a destination heals & who it\'s best for',
   'Compare destinations head-to-head with AI analysis',
   'Save favorites & build a shortlist',
-];
-
-const comingSoonFeatures = [
   'Personalized AI travel itineraries',
 ];
+
+const comingSoonFeatures: string[] = [];
 
 // FAQ data
 const faqs = [
@@ -40,7 +39,7 @@ const faqs = [
   },
   {
     question: 'What\'s the difference between Free and Pro?',
-    answer: 'Pro includes unlimited conversations, exclusive emotional matching, AI Healing Insights (why a destination heals, who it\'s best for, what to consider), and head-to-head destination comparison. Free users get 2 matches with standard recommendations without emotional analysis or insights.',
+    answer: 'Pro includes unlimited conversations, exclusive emotional matching, AI Healing Insights, head-to-head destination comparison, saved favorites & shortlist, and personalized AI travel itineraries. Free users get 2 matches with standard recommendations without emotional analysis, insights, or itinerary planning.',
   },
   {
     question: 'Do you offer refunds?',
@@ -149,6 +148,7 @@ export default function PricingPage() {
                   ['Emotional Matching & Healing Insights', false, true],
                   ['Compare Destinations Head-to-Head', false, true],
                   ['Save Favorites & Shortlist', false, true],
+                  ['AI Travel Itineraries', false, true],
                 ].map(([feature, free, pro], index) => (
                   <tr key={feature as string} className={index % 2 === 0 ? 'bg-surface/50' : ''}>
                     <td className="p-4 text-primary">{feature}</td>

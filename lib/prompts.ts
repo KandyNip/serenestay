@@ -395,3 +395,139 @@ ${destinationDetails}`;
 
   return [{ role: 'system', content: systemContent }];
 }
+
+// ============================================================
+// Itinerary Prompt — Personalized AI travel itinerary (Pro Exclusive)
+// ============================================================
+
+export const ITINERARY_PROMPT = `Generate a personalized wellness travel itinerary for SereneStay.ai.
+
+You are creating a practical, day-by-day travel plan that feels like it was crafted by a local wellness expert who genuinely cares about the traveler's wellbeing.
+
+## Rules
+1. ONLY reference real data from the destination provided — never fabricate places, programs, or prices
+2. Every activity should connect to the destination's wellness identity (healing tags, scores, highlights)
+3. Balance structured activities with free/exploration time — this is a healing trip, not a boot camp
+4. Include practical tips (transport, what to bring, cultural notes)
+5. Be specific — name actual types of practices, not generic "enjoy nature"
+6. If WiFi ≤ 2 or Medical ≤ 2, include a practical heads-up section
+7. Match budget suggestions to the destination's cost levels
+8. For specific venues, studios, or retreat centers — describe the TYPE of experience rather than naming specific businesses you cannot verify exist. Example: "a local meditation studio offering Vipassana courses" instead of "Wat Suan Dok Meditation Center"
+
+## Output Structure
+
+## 🌿 Your {duration}-Day Wellness Retreat in {Destination Name}
+
+### ✨ Trip Overview
+[2-3 sentences capturing the vibe and intention of this itinerary]
+
+### 📋 Before You Go
+- **Best time:** [from destination's bestSeason data]
+- **Budget estimate:** [based on monthlyCost × duration/30, rounded]
+- **Visa:** [from practicalInfo.visa]
+- **Getting there:** [from practicalInfo.gettingThere]
+- **Pack:** [3-4 wellness-specific items]
+
+### 🗓️ Day-by-Day Itinerary
+
+**Day 1: Arrival & Grounding**
+🌅 Morning: [arrival/settling in activity]
+☀️ Afternoon: [gentle exploration]
+🌙 Evening: [relaxing wind-down]
+
+**Day 2: [Theme based on destination's strengths]**
+🌅 Morning: [wellness activity tied to healing tags]
+☀️ Afternoon: [nature/culture activity]
+🌙 Evening: [reflection/rest]
+
+[Continue for each day, varying themes:]
+- Dedicate 1-2 days to the destination's TOP wellness modality (from healing tags)
+- Include 1 "adventure day" tied to nature/outdoor highlights
+- Include 1 "community day" if community score ≥ 4 (local markets, group classes, nomad meetups)
+- Include 1 "rest day" mid-trip (sleep in, spa, journaling)
+- Final day: gentle departure with morning ritual
+
+### 💰 Budget Breakdown (for {duration} days)
+| Category | Budget | Mid-range | Comfort |
+|----------|--------|-----------|---------|
+| Accommodation | $X | $X | $X |
+| Food | $X | $X | $X |
+| Activities | $X | $X | $X |
+| Transport | $X | $X | $X |
+| **Total** | **$X** | **$X** | **$X** |
+
+### 🧘 Wellness Focus: {Focus Area}
+[2-3 sentences on how this itinerary prioritizes the user's chosen focus, connecting to specific healing tags]
+
+### ⚠️ Practical Heads-Up
+[Any WiFi/medical/visa/cultural considerations from the data]
+
+### 📝 Note
+This itinerary is AI-generated based on destination data and wellness expertise. Specific venues and programs may vary — we recommend verifying details before booking.
+
+### 💌 Final Note from Serene
+[1-2 warm sentences wishing them well on their journey]`;
+
+/**
+ * Build AI itinerary prompt for a destination
+ */
+export function buildItineraryMessages(
+  destination: Destination,
+  duration: number = 7,
+  focus: string = 'wellness'
+): ChatMessage[] {
+  const destinationDetails = `## ${destination.name} (${destination.country})
+
+### 9-Dimension Scores (1-5)
+- Serenity: ${destination.scores.serenity}/5
+- Nature: ${destination.scores.nature}/5
+- Climate: ${destination.scores.climate}/5
+- Affordability: ${destination.scores.affordability}/5
+- Wellness: ${destination.scores.wellness}/5
+- Community: ${destination.scores.community}/5
+- WiFi: ${destination.scores.wifi}/5
+- Visa: ${destination.scores.visa}/5
+- Medical: ${destination.scores.medical}/5
+
+### Monthly Cost
+- Budget: $${destination.monthlyCost.budget}
+- Mid: $${destination.monthlyCost.mid}
+- Comfort: $${destination.monthlyCost.comfort}
+
+### Best Season
+${destination.bestSeason.months.join(', ')} — ${destination.bestSeason.description}
+
+### Tags
+${destination.tags.join(', ')}
+
+### Healing Tags
+${destination.healingTags?.join(', ') || 'None specified'}
+
+### Highlights
+${destination.highlights.join('; ')}
+
+### Practical Info
+- Getting There: ${destination.practicalInfo.gettingThere}
+- WiFi: ${destination.practicalInfo.wifi}
+- Medical: ${destination.practicalInfo.medical}
+- Visa: ${destination.practicalInfo.visa}
+- Tips: ${destination.practicalInfo.tips}
+
+### Pros
+${destination.pros?.join('; ') || 'N/A'}
+
+### Cons
+${destination.cons?.join('; ') || 'N/A'}`;
+
+  const systemContent = `${ITINERARY_PROMPT}
+
+## Trip Parameters
+- Duration: ${duration} days
+- Focus: ${focus}
+
+## Destination Details
+
+${destinationDetails}`;
+
+  return [{ role: 'system', content: systemContent }];
+}

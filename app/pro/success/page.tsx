@@ -120,6 +120,7 @@ function ProSuccessContent() {
                 'AI emotional matching & healing insights',
                 'Compare destinations head-to-head',
                 'Save favorites & build a shortlist',
+                'Personalized AI travel itineraries',
                 'All 56+ destinations with full details',
               ].map((feature, i) => (
                 <li key={i} className="flex items-center gap-3">
