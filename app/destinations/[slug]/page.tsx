@@ -341,13 +341,13 @@ export default async function DestinationDetailPage({ params }: PageProps) {
                 </div>
               </div>
               <p className="text-white/80 text-sm mb-4">
-                Have questions about {destination.name}? Chat with our AI guide for personalized insights.
+                Want to dive deeper? Return to your conversation with Serene and explore {destination.name} together.
               </p>
               <Link
-                href={`/chat?context=${destination.slug}&name=${encodeURIComponent(destination.name)}`}
+                href={`/chat?continue=${destination.slug}&name=${encodeURIComponent(destination.name)}`}
                 className="block w-full py-3 bg-white text-primary text-center rounded-xl font-medium hover:bg-surface transition-colors"
               >
-                Ask Serene About {destination.name}
+                Continue Chat About {destination.name}
               </Link>
             </div>
 

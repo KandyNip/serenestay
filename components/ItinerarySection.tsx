@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Lock, Sparkles, Map, CalendarDays, Compass, Info } from 'lucide-react';
+import { Lock, Sparkles, Map, CalendarDays, Compass, Info, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { checkProStatus } from '@/lib/api';
@@ -31,9 +31,22 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
   const [loading, setLoading] = useState(false);
   const [duration, setDuration] = useState(7);
   const [focus, setFocus] = useState('wellness');
+  const [hasChatContext, setHasChatContext] = useState(false);
 
   useEffect(() => {
     setIsPro(checkProStatus());
+  }, []);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('serenestay_chat_history');
+      if (saved) {
+        const history = JSON.parse(saved);
+        if (Array.isArray(history) && history.some((m: { role: string }) => m.role === 'user')) {
+          setHasChatContext(true);
+        }
+      }
+    } catch {}
   }, []);
 
   const generateItinerary = () => {
@@ -41,10 +54,28 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
     setLoading(true);
     setItinerary(null);
     const proToken = localStorage.getItem('serenestay_pro_token') || '';
+
+    // Extract user messages from chat history as personalization context
+    let chatContext = '';
+    try {
+      const saved = localStorage.getItem('serenestay_chat_history');
+      if (saved) {
+        const history = JSON.parse(saved);
+        if (Array.isArray(history)) {
+          const userMessages = history
+            .filter((m: { role: string }) => m.role === 'user')
+            .map((m: { content: string }) => m.content);
+          if (userMessages.length > 0) {
+            chatContext = userMessages.join('\n');
+          }
+        }
+      }
+    } catch {}
+
     fetch('/api/itinerary', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, proToken, duration, focus }),
+      body: JSON.stringify({ slug, proToken, duration, focus, chatContext: chatContext || undefined }),
     })
       .then(r => r.json())
       .then(data => { if (data.itinerary) setItinerary(data.itinerary); })
@@ -133,6 +164,14 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
             </div>
           </div>
         </div>
+        {hasChatContext && (
+          <div className="mb-4 flex items-center gap-2 px-3 py-2 bg-secondary/5 border border-secondary/20 rounded-lg">
+            <MessageCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+            <p className="text-xs text-secondary">
+              ✨ Personalized based on your conversation with Serene
+            </p>
+          </div>
+        )}
         <button
           onClick={generateItinerary}
           disabled={loading}

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { Send, MessageCircle, Sparkles, ChevronDown, Lock, Zap } from 'lucide-react';
+import { Send, MessageCircle, Sparkles, ChevronDown, Lock, Zap, RotateCcw } from 'lucide-react';
 import { Message, Destination } from '@/lib/types';
 import { streamChat, getRemainingMatches, incrementMatchCount, checkProStatus } from '@/lib/api';
 import DestinationChatCard from '@/components/DestinationChatCard';
@@ -31,6 +31,8 @@ interface ChatInterfaceProps {
   initialMessages?: Message[];
   destinationContext?: string;
   destinationName?: string;
+  continueSlug?: string;
+  continueName?: string;
   isProUser?: boolean;
   onMatchCountChange?: (count: number) => void;
 }
@@ -39,11 +41,23 @@ export default function ChatInterface({
   initialMessages = [],
   destinationContext,
   destinationName,
+  continueSlug,
+  continueName,
   isProUser: initialIsProUser = false,
   onMatchCountChange,
 }: ChatInterfaceProps) {
-  // State management
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  // State management — initialize from localStorage for chat persistence
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const saved = localStorage.getItem('serenestay_chat_history');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return [];
+  });
   const [inputValue, setInputValue] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
   const [matchCount, setMatchCount] = useState(0); // will be set from localStorage in useEffect
@@ -87,12 +101,20 @@ What matters most to you in a wellness destination? You can tell me about:
 Or just share what's on your mind, and we'll explore together.`,
   };
 
-  // Initialize with welcome message
+  // Initialize with welcome message (only if no localStorage history)
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([welcomeMessage]);
     }
   }, []);
+
+  // Persist messages to localStorage (keep last 20 to prevent overflow)
+  useEffect(() => {
+    if (messages.length > 0) {
+      const toSave = messages.length > 20 ? messages.slice(-20) : messages;
+      localStorage.setItem('serenestay_chat_history', JSON.stringify(toSave));
+    }
+  }, [messages]);
 
   // Check localStorage for user status on mount
   useEffect(() => {
@@ -139,16 +161,27 @@ Or just share what's on your mind, and we'll explore together.`,
     inputRef.current?.focus();
   }, []);
 
-  // Auto-trigger AI response when destination context is provided
+  // Auto-trigger: new conversation vs continue conversation
   useEffect(() => {
+    // Mode A: New destination conversation (from homepage)
     if (destinationContext && !hasAutoTriggeredRef.current && messages.length <= 1) {
       hasAutoTriggeredRef.current = true;
-      isAutoTriggerRef.current = true; // mark this as auto-trigger (free, no count)
+      isAutoTriggerRef.current = true;
       handleStreamResponse(
         `I'm interested in ${destinationName || destinationContext}. Please give me a detailed overview based on the 9-dimension scoring, highlights, and practical info.`
       );
+      return;
     }
-  }, [destinationContext, destinationName]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Mode B: Continue conversation about a destination (from detail page)
+    if (continueSlug && !hasAutoTriggeredRef.current && messages.length > 1) {
+      hasAutoTriggeredRef.current = true;
+      isAutoTriggerRef.current = true;
+      handleStreamResponse(
+        `I'd like to know more about ${continueName || continueSlug}. Can you tell me more details about what makes it special for wellness travel?`
+      );
+    }
+  }, [destinationContext, destinationName, continueSlug, continueName, messages.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle streaming response
   const handleStreamResponse = useCallback(async (userMessage: string) => {
@@ -358,7 +391,7 @@ Or just share what's on your mind, and we'll explore together.`,
           </div>
         </div>
 
-        {/* Match Count & Upgrade */}
+        {/* Match Count & Actions */}
         <div className="flex items-center gap-3">
           <div className="text-right">
             <p className="text-xs text-primary/50">Your matches</p>
@@ -366,7 +399,20 @@ Or just share what's on your mind, and we'll explore together.`,
               {matchCount} {isProUser ? '∞' : `/ 2`}
             </p>
           </div>
-          
+
+          {/* New Chat button */}
+          <button
+            onClick={() => {
+              localStorage.removeItem('serenestay_chat_history');
+              setMessages([welcomeMessage]);
+            }}
+            title="Start new conversation"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary text-xs font-medium rounded-full hover:bg-primary/20 transition-colors"
+          >
+            <RotateCcw className="w-3 h-3" />
+            <span>New</span>
+          </button>
+
           {!isProUser && (
             <button
               onClick={toggleUpgradePrompt}

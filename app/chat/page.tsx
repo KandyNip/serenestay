@@ -9,6 +9,8 @@ function ChatContent() {
   const searchParams = useSearchParams();
   const destinationContext = searchParams.get('context') || undefined;
   const destinationName = searchParams.get('name') || undefined;
+  const continueSlug = searchParams.get('continue') || undefined;
+  const continueName = searchParams.get('name') || undefined;
 
   // Lock body scroll on chat page so only the chat container scrolls
   useEffect(() => {
@@ -20,7 +22,12 @@ function ChatContent() {
 
   return (
     <div className="pt-16">
-      <ChatInterface destinationContext={destinationContext} destinationName={destinationName} />
+      <ChatInterface
+        destinationContext={destinationContext}
+        destinationName={destinationName}
+        continueSlug={continueSlug}
+        continueName={continueName}
+      />
     </div>
   );
 }
