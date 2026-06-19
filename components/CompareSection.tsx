@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Lock, GitCompare, X, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 import { checkProStatus } from '@/lib/api';
 import type { Destination } from '@/lib/types';
 
@@ -156,9 +157,9 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
           <div className="prose prose-sm max-w-none text-primary/80
             [&_h3]:font-serif [&_h3]:text-primary [&_h3]:mt-4 [&_h3]:mb-2
             [&_table]:w-full [&_th]:text-left [&_th]:p-2 [&_td]:p-2 [&_td]:text-sm
-            [&_strong]:text-primary"
-            dangerouslySetInnerHTML={{ __html: comparison }}
-          />
+            [&_strong]:text-primary">
+            <ReactMarkdown>{comparison}</ReactMarkdown>
+          </div>
           <button
             onClick={() => { setSelectedSlug(null); setComparison(null); }}
             className="mt-3 text-sm text-secondary hover:text-secondary-600"

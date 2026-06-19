@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Lock, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 import { checkProStatus } from '@/lib/api';
 
 interface InsightsSectionProps {
@@ -79,9 +80,9 @@ export default function InsightsSection({ slug }: InsightsSectionProps) {
         <div className="bg-white rounded-2xl p-6 shadow-card prose prose-sm max-w-none text-primary/80
           [&_h3]:font-serif [&_h3]:text-primary [&_h3]:mt-4 [&_h3]:mb-2
           [&_table]:w-full [&_th]:text-left [&_th]:p-2 [&_td]:p-2 [&_td]:text-sm
-          [&_strong]:text-primary"
-          dangerouslySetInnerHTML={{ __html: insights }}
-        />
+          [&_strong]:text-primary">
+          <ReactMarkdown>{insights}</ReactMarkdown>
+        </div>
       ) : (
         <div className="bg-white rounded-2xl p-6 shadow-card text-primary/50 text-sm">
           Unable to load insights. Please try again.
