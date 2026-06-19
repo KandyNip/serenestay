@@ -117,9 +117,9 @@ function ProSuccessContent() {
             <ul className="space-y-3">
               {[
                 'Unlimited AI conversations',
-                'All 56+ destinations access',
-                '9-dimension wellness scoring',
-                'Priority support',
+                'AI emotional matching & healing insights',
+                'Compare destinations head-to-head',
+                'All 56+ destinations with full details',
               ].map((feature, i) => (
                 <li key={i} className="flex items-center gap-3">
                   <div className="flex-shrink-0 w-5 h-5 rounded-full bg-secondary/20 flex items-center justify-center">
