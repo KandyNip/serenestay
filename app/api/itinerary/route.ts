@@ -34,7 +34,7 @@ function verifyProToken(token: string): boolean {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { slug, proToken, duration, focus, chatContext } = body;
+    const { slug, proToken, duration, focus, chatContext, customDays } = body;
     if (!slug) return Response.json({ error: 'slug is required' }, { status: 400 });
 
     const isPro = proToken ? verifyProToken(proToken) : false;
@@ -43,7 +43,8 @@ export async function POST(request: Request) {
     const destination = await getDestinationBySlug(slug);
     if (!destination) return Response.json({ error: 'Destination not found' }, { status: 404 });
 
-    const messages = buildItineraryMessages(destination, duration || 7, focus || 'wellness', chatContext);
+    const actualDuration = duration === 0 ? (customDays || 30) : (duration || 7);
+    const messages = buildItineraryMessages(destination, actualDuration, focus || 'wellness', chatContext, customDays);
     const apiKey = process.env.DEEPSEEK_API_KEY;
     if (!apiKey) return Response.json({ error: 'AI service not configured' }, { status: 500 });
 

@@ -414,6 +414,10 @@ You are creating a practical, day-by-day travel plan that feels like it was craf
 7. Match budget suggestions to the destination's cost levels
 8. For specific venues, studios, or retreat centers — describe the TYPE of experience rather than naming specific businesses you cannot verify exist. Example: "a local meditation studio offering Vipassana courses" instead of "Wat Suan Dok Meditation Center"
 9. If the user's personal context is provided, prioritize their specific emotional state, preferences, and needs over generic recommendations. Make the itinerary feel like it was crafted specifically for THIS person.
+10. IMAGE TAGS — For each activity/venue, add image source tags:
+    - Well-known landmarks with Wikipedia articles: [wiki:Wikipedia_Page_Title] (e.g. [wiki:Wat_Phra_That_Doi_Suthep])
+    - Other activities (restaurants, massages, markets): [cat:category] where category is one of: temple, market, food, nature, massage, meditation, yoga, garden, beach, mountain, adventure, nightlife, spa, cafe, culture, nomad, transport, accommodation
+    - Place tags right after the activity heading, e.g.: "🌅 Morning: Visit Doi Suthep [wiki:Wat_Phra_That_Doi_Suthep]" or "🌙 Evening: Night Market stroll [cat:market]"
 
 ## Output Structure
 
@@ -476,8 +480,13 @@ export function buildItineraryMessages(
   destination: Destination,
   duration: number = 7,
   focus: string = 'wellness',
-  chatContext?: string
+  chatContext?: string,
+  customDays?: number
 ): ChatMessage[] {
+  const actualDuration = duration === 0 ? (customDays || 30) : duration;
+  const longTripHint = actualDuration >= 14
+    ? `\n\nNOTE: This is a ${actualDuration}-day trip. For longer trips, group some days thematically rather than detailed hour-by-hour schedules for every single day. Focus on key highlights and weekly rhythms.`
+    : '';
   const destinationDetails = `## ${destination.name} (${destination.country})
 
 ### 9-Dimension Scores (1-5)
@@ -525,10 +534,10 @@ ${destination.cons?.join('; ') || 'N/A'}`;
     ? '\n## User\'s Personal Context (from conversation)\n' + chatContext + '\n\nIMPORTANT: Use this personal context to personalize the itinerary. Reference their specific emotional state, preferences, companion type, and special needs when planning activities and making recommendations.'
     : '';
 
-  const systemContent = `${ITINERARY_PROMPT}
+  const systemContent = `${ITINERARY_PROMPT}${longTripHint}
 
 ## Trip Parameters
-- Duration: ${duration} days
+- Duration: ${actualDuration} days
 - Focus: ${focus}
 ${userContextSection}
 
