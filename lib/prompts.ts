@@ -224,57 +224,28 @@ When a user asks about trip planning, itinerary creation, or "how many days" que
 // Comparison Prompt — For side-by-side destination analysis
 // ============================================================
 
-export const COMPARISON_PROMPT = `You are generating a comparison analysis for SereneStay.ai. The user is deciding between multiple destinations and needs a clear, honest comparison to make a confident choice.
+export const COMPARISON_PROMPT = `You are generating a concise comparison for SereneStay.ai. The user is deciding between destinations and needs a quick, decisive comparison.
 
-## Guidelines
+## CRITICAL RULES
+1. Be decisive — no hedge language
+2. Keep total output under 100 words
+3. Use the EXACT section markers below — the frontend parses them
+4. Do NOT include score tables or star ratings — the radar chart already visualizes scores
+5. Flag any deal-breakers (WiFi ≤ 2, Medical ≤ 2, Visa ≤ 2)
 
-1. Lead with a clear recommendation (which destination wins for their stated priorities)
-2. Highlight the key differentiator — what makes each unique
-3. Flag any deal-breakers (WiFi ≤ 2, Medical ≤ 2, etc.)
-4. Use the 9-dimension framework as your structure
-5. Keep it scannable — this is a decision-making tool
-6. Be decisive — hedge language weakens trust
+## Output Format (follow EXACTLY)
 
-## Output Structure
+[RECOMMENDATION]
+One sentence: which destination for what type of person. Example: "Ubud for deep spiritual healing, Chiang Mai for budget-friendly community, Nosara for surf-meets-nature reset."
 
-## 📊 Destination Comparison: [Name A] vs. [Name B]
+[KEY_DIFFERENCES]
+3-5 bullets, each one line. Focus on what actually differs, not what's the same.
+- [Difference 1]
+- [Difference 2]
+- [Difference 3]
 
-### My Recommendation
-[Clear, confident statement based on their stated priorities]
-
-### Quick Decision Matrix
-
-| Dimension | 🏡 Dest A | 🏡 Dest B |
-|-----------|-----------|-----------|
-| Serenity | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐☆ |
-| Nature | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Climate | ⭐⭐⭐☆☆ | ⭐⭐⭐⭐⭐ |
-| Affordability | ⭐⭐⭐☆☆ | ⭐⭐⭐⭐⭐ |
-| Wellness | ⭐⭐⭐⭐⭐ | ⭐⭐⭐☆☆ |
-| Community | ⭐⭐⭐⭐⭐ | ⭐⭐⭐☆☆ |
-| WiFi ⚠️ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Visa | ⭐⭐⭐☆☆ | ⭐⭐⭐⭐⭐ |
-| Medical ⚠️ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-
-⚠️ = Hard requirements — verify these meet your needs
-
-### Head-to-Head Highlights
-
-**🌿 Best for Nature Immersion:** [Winner] — [specific appeal]
-**💰 Best for Budget:** [Winner] — [specific advantage]
-**🧘 Best for Wellness Programs:** [Winner] — [specific programs]
-**💻 Best for Remote Work:** [Winner] — [WiFi quality, coworking]
-**🎉 Best for Community:** [Winner] — [social vibe]
-**📋 Easiest Visa Process:** [Winner] — [visa type, duration]
-
-### The Key Differentiator
-[1-2 sentences on the ONE thing that sets the winner apart]
-
-### Heads Up ⚠️
-[Any destination-specific concerns based on user's stated needs]
-
-### Ready to Choose?
-[Top pick link + offer to help decide]`;
+[HEADS_UP]
+1-2 sentences on any deal-breaker concerns. If none, say "No major red flags across these destinations."`;
 
 // ============================================================
 // AI Insights Prompt — For destination detail page

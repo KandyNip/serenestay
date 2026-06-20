@@ -14,6 +14,7 @@ import ShareButtons from '@/components/ShareButtons';
 import InsightsSection from '@/components/InsightsSection';
 import CompareSection from '@/components/CompareSection';
 import FavoriteButton from '@/components/FavoriteButton';
+import DestinationRadar from '@/components/DestinationRadar';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -241,6 +242,12 @@ export default async function DestinationDetailPage({ params }: PageProps) {
               <h2 className="font-serif text-2xl text-primary mb-6">
                 Rating Breakdown
               </h2>
+              {/* Radar Chart — Personality Shape */}
+              <div className="bg-white rounded-2xl p-6 shadow-card mb-4">
+                <DestinationRadar destinations={[destination]} />
+              </div>
+
+              {/* Score Bars — Exact Values */}
               <div className="bg-white rounded-2xl p-6 shadow-card space-y-4">
                 {Object.entries(destination.scores).map(([key, score]) => (
                   <ScoreBar

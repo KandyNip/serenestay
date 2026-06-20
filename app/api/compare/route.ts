@@ -35,8 +35,8 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { slugs, proToken, userContext } = body;
-    if (!Array.isArray(slugs) || slugs.length < 2) {
-      return Response.json({ error: 'At least 2 destination slugs required' }, { status: 400 });
+    if (!Array.isArray(slugs) || slugs.length < 2 || slugs.length > 4) {
+      return Response.json({ error: '2-4 destination slugs required' }, { status: 400 });
     }
 
     const isPro = proToken ? verifyProToken(proToken) : false;
