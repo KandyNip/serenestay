@@ -14,6 +14,7 @@ interface ItineraryModalProps {
 
 export default function ItineraryModal({ itinerary, onClose, onDelete }: ItineraryModalProps) {
   const [expandedDays, setExpandedDays] = useState<Set<number>>(new Set([1]));
+  const [enlargedImage, setEnlargedImage] = useState<{ url: string; alt: string } | null>(null);
 
   const toggleDay = (dayNum: number) => {
     setExpandedDays(prev => {
@@ -124,7 +125,8 @@ export default function ItineraryModal({ itinerary, onClose, onDelete }: Itinera
             <img
               src={imageUrl}
               alt={value}
-              className="w-6 h-6 rounded object-cover inline-block"
+              className="w-12 h-12 rounded object-cover inline-block cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={() => setEnlargedImage({ url: imageUrl, alt: value })}
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}
@@ -321,6 +323,28 @@ export default function ItineraryModal({ itinerary, onClose, onDelete }: Itinera
           </button>
         </div>
       </div>
+
+      {/* Image Lightbox */}
+      {enlargedImage && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          onClick={() => setEnlargedImage(null)}
+        >
+          <button
+            onClick={() => setEnlargedImage(null)}
+            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            aria-label="Close"
+          >
+            <X className="w-6 h-6 text-white" />
+          </button>
+          <img
+            src={enlargedImage.url}
+            alt={enlargedImage.alt}
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }

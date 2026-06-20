@@ -315,8 +315,7 @@ Or just share what's on your mind, and we'll explore together.`,
       const itData = sourceMsg?._itineraryData as SavedItinerary | undefined;
       if (itData) {
         setViewingItinerary(itData);
-        // Clear quickReplies
-        setMessages((prev) => prev.map(m => m.id === messageId ? { ...m, quickReplies: undefined } : m));
+        // Keep quickReplies visible so user can still provide satisfaction feedback
         return;
       }
     }

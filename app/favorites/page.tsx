@@ -283,7 +283,7 @@ export default function FavoritesPage() {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            handleRemoveItinerary(it.slug, it.duration, it.focus);
+                            handleRemoveItinerary(it.slug, it.phase, it.focus);
                           }}
                           className="absolute top-3 right-3 p-2 bg-white/90 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50"
                           title="Remove itinerary"
