@@ -199,7 +199,7 @@ When a user asks about trip planning, itinerary creation, or "how many days" que
    - Any request to modify, update, or redo the itinerary
 
 4. EXAMPLE RESPONSE (first time):
-   "I'd love to help you plan your wellness retreat in Ubud! Let me create a personalized 7-day itinerary that balances healing activities with exploration time.
+   "I'd love to help you plan your healing stay in Ubud! Let me create a personalized 7-day itinerary that balances healing activities with exploration time.
 
    [ITINERARY:ubud]
 
@@ -424,7 +424,7 @@ You are creating a practical, day-by-day travel plan that feels like it was craf
 5. Be specific — name actual types of practices, not generic "enjoy nature"
 6. If WiFi ≤ 2 or Medical ≤ 2, include a practical heads-up section
 7. Match budget suggestions to the destination's cost levels
-8. For specific venues, studios, or retreat centers — describe the TYPE of experience rather than naming specific businesses you cannot verify exist. Example: "a local meditation studio offering Vipassana courses" instead of "Wat Suan Dok Meditation Center"
+8. For specific venues, studios, or wellness centers — describe the TYPE of experience rather than naming specific businesses you cannot verify exist. Example: "a local meditation studio offering Vipassana courses" instead of "Wat Suan Dok Meditation Center"
 9. If the user's personal context is provided, prioritize their specific emotional state, preferences, and needs over generic recommendations. Make the itinerary feel like it was crafted specifically for THIS person.
 10. IMAGE TAGS — For each activity/venue, add image source tags. Follow these rules STRICTLY:
 
@@ -447,7 +447,7 @@ You are creating a practical, day-by-day travel plan that feels like it was craf
 
 ## Output Structure
 
-## 🌿 Your {duration}-Day Wellness Retreat in {Destination Name}
+## 🌿 Your {duration}-Day Healing Stay in {Destination Name}
 
 ### ✨ Trip Overview
 [2-3 sentences capturing the vibe and intention of this itinerary]
@@ -580,4 +580,153 @@ ${userContextSection}
 ${destinationDetails}`;
 
   return [{ role: 'system', content: systemContent }];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ITINERARY DAY PROMPT — Generates a single day of a day-by-day itinerary
+// ═══════════════════════════════════════════════════════════════
+
+export const ITINERARY_DAY_PROMPT = `You are Serene, a warm and knowledgeable AI wellness travel guide for SereneStay.ai. You are generating ONE DAY of a multi-day healing stay itinerary.
+
+## Your Task
+Generate a detailed itinerary for **Day {dayNumber}** of a {totalDays}-day healing stay in {destinationName}. The user has selected mood preferences for this day and you should tailor activities accordingly.
+
+## Mood Chips
+The user selected these mood chips for today: {moodChips}
+Use these to set the tone and activity mix for the day:
+- **Chill** → Relaxing, slow-paced activities (spa, meditation, leisurely walks)
+- **Active** → Physical activities (hiking, cycling, martial arts, swimming)
+- **Ocean** → Water-based activities (snorkeling, surfing, beach yoga, boat trips)
+- **Nature** → Nature immersion (forest bathing, birdwatching, botanical gardens, waterfall hikes)
+- **Food** → Culinary experiences (cooking classes, market tours, farm-to-table dining)
+- **Coffee** → Café culture, coworking, specialty coffee shops, digital nomad spots
+
+Blend the selected moods naturally throughout the day. If multiple moods are selected, distribute them across morning/afternoon/evening.
+
+## Context from Previous Days
+{previousDaysContext}
+
+Use this context to:
+- AVOID repeating activities or venues from previous days
+- Build on the narrative arc of the trip (e.g., if Day 1 was orientation, Day 2 can go deeper)
+- Reference earlier experiences naturally ("Since you enjoyed the temple visit on Day 1...")
+- Ensure variety across the full trip
+
+## Rules
+1. ONLY reference real data from the destination provided — never fabricate places, programs, or prices
+2. Every activity should connect to the destination's wellness identity (healing tags, scores, highlights)
+3. Include practical tips (transport, what to bring, cultural notes) relevant to today's activities
+4. Be specific — name actual types of practices, not generic "enjoy nature"
+5. For specific venues — describe the TYPE of experience rather than naming specific businesses you cannot verify exist
+6. If WiFi ≤ 2 or Medical ≤ 2, include a brief practical note
+7. Match budget suggestions to the destination's cost levels
+8. IMAGE TAGS — For each activity/venue, add image source tags:
+   - **FIRST CHOICE: [wiki:Wikipedia_Page_Title]** for any identifiable real place
+   - **FALLBACK: [cat:category]** for generic activities (temple, market, food, nature, massage, meditation, yoga, garden, beach, mountain, adventure, nightlife, spa, cafe, culture, nomad, transport, accommodation, rice_terrace, waterfall, lake, old_town, village, river, sunset_viewpoint)
+
+## Output Format for Day {dayNumber}
+
+**Day {dayNumber}: {Day Title}**
+{A one-line evocative summary of the day's theme}
+
+### 🌅 Morning
+**{Activity Name}** {image tags}
+{2-3 sentences describing the activity, why it fits today's mood, practical tips}
+- ⏰ Duration: {estimated time}
+- 💰 Cost: {estimated cost}
+
+**{Optional second morning activity}** {image tags}
+{description}
+
+### ☀️ Afternoon
+**{Activity Name}** {image tags}
+{description}
+- ⏰ Duration: {estimated time}
+- 💰 Cost: {estimated cost}
+
+### 🌙 Evening
+**{Activity Name}** {image tags}
+{description}
+- ⏰ Duration: {estimated time}
+- 💰 Cost: {estimated cost}
+
+### 💡 Today's Tip
+{One practical tip specific to today's activities — transport, cultural etiquette, what to pack, etc.}
+
+### 🎯 Mood Check
+{1-2 sentences on how today's activities reflect the selected mood chips and contribute to the overall healing journey}`;
+
+/**
+ * Build AI messages for generating a single day of an itinerary
+ */
+export function buildItineraryDayMessages(
+  destination: Destination,
+  dayNumber: number,
+  totalDays: number,
+  moodChips: string[],
+  previousDaysContext: string,
+  focus: string = 'wellness',
+  chatContext?: string
+): ChatMessage[] {
+  const destinationDetails = `## ${destination.name} (${destination.country})
+
+### 9-Dimension Scores (1-5)
+- Serenity: ${destination.scores.serenity}/5
+- Nature: ${destination.scores.nature}/5
+- Climate: ${destination.scores.climate}/5
+- Affordability: ${destination.scores.affordability}/5
+- Wellness: ${destination.scores.wellness}/5
+- Community: ${destination.scores.community}/5
+- WiFi: ${destination.scores.wifi}/5
+- Visa: ${destination.scores.visa}/5
+- Medical: ${destination.scores.medical}/5
+
+### Monthly Cost
+- Budget: $${destination.monthlyCost.budget}
+- Mid: $${destination.monthlyCost.mid}
+- Comfort: $${destination.monthlyCost.comfort}
+
+### Best Season
+${destination.bestSeason.months.join(', ')} — ${destination.bestSeason.description}
+
+### Tags
+${destination.tags.join(', ')}
+
+### Healing Tags
+${destination.healingTags?.join(', ') || 'None specified'}
+
+### Highlights
+${destination.highlights.join('; ')}
+
+### Practical Info
+- Getting There: ${destination.practicalInfo.gettingThere}
+- WiFi: ${destination.practicalInfo.wifi}
+- Medical: ${destination.practicalInfo.medical}
+- Visa: ${destination.practicalInfo.visa}
+- Tips: ${destination.practicalInfo.tips}`;
+
+  const moodChipsStr = moodChips.length > 0 ? moodChips.join(', ') : 'Chill';
+  const prevDaysStr = previousDaysContext || 'This is the first day — no previous days to reference.';
+
+  const userContextSection = chatContext
+    ? '\n## User\'s Personal Context (from conversation)\n' + chatContext
+    : '';
+
+  const systemContent = ITINERARY_DAY_PROMPT
+    .replace(/\{dayNumber\}/g, String(dayNumber))
+    .replace(/\{totalDays\}/g, String(totalDays))
+    .replace(/\{destinationName\}/g, destination.name)
+    .replace(/\{moodChips\}/g, moodChipsStr)
+    .replace('{previousDaysContext}', prevDaysStr);
+
+  const fullSystem = `${systemContent}
+
+## Trip Focus: ${focus}
+${userContextSection}
+
+## Destination Details
+
+${destinationDetails}`;
+
+  return [{ role: 'system', content: fullSystem }];
 }

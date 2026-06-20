@@ -3,22 +3,26 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart, Lock, Trash2, Sparkles, Map } from 'lucide-react';
+import { Heart, Lock, Trash2, Sparkles, Map, Calendar, X } from 'lucide-react';
 import { checkProStatus } from '@/lib/api';
 import { getFavorites, removeFavorite, clearFavorites } from '@/lib/favorites';
-import { getSavedItineraries, removeItinerary, clearItineraries } from '@/lib/itinerary-storage';
-import type { SavedItinerary } from '@/lib/itinerary-storage';
+import { getSavedItineraries, removeItinerary, clearItineraries, getSavedDayByDayItineraries, removeDayByDayItinerary } from '@/lib/itinerary-storage';
+import type { SavedItinerary, SavedDayByDayItinerary } from '@/lib/itinerary-storage';
 import type { Destination } from '@/lib/types';
 import ItineraryModal from '@/components/ItineraryModal';
+import ItineraryDayCard from '@/components/ItineraryDayCard';
 
 export default function FavoritesPage() {
   const [isPro, setIsPro] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [itineraries, setItineraries] = useState<SavedItinerary[]>([]);
+  const [dayByDayItineraries, setDayByDayItineraries] = useState<SavedDayByDayItinerary[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'destinations' | 'itineraries'>('destinations');
   const [selectedItinerary, setSelectedItinerary] = useState<SavedItinerary | null>(null);
+  const [selectedDayByDay, setSelectedDayByDay] = useState<SavedDayByDayItinerary | null>(null);
+  const [expandedDays, setExpandedDays] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const pro = checkProStatus();
@@ -27,6 +31,7 @@ export default function FavoritesPage() {
     const saved = getFavorites();
     setFavorites(saved);
     setItineraries(getSavedItineraries());
+    setDayByDayItineraries(getSavedDayByDayItineraries());
 
     // Fetch all destinations and filter by saved slugs
     fetch('/api/destinations?fields=card')
@@ -59,10 +64,16 @@ export default function FavoritesPage() {
     setItineraries(getSavedItineraries());
   };
 
+  const handleRemoveDayByDay = (id: string) => {
+    removeDayByDayItinerary(id);
+    setDayByDayItineraries(getSavedDayByDayItineraries());
+  };
+
   const handleClearItineraries = () => {
     if (confirm('Remove all saved itineraries?')) {
       clearItineraries();
       setItineraries([]);
+      setDayByDayItineraries([]);
     }
   };
 
@@ -224,7 +235,7 @@ export default function FavoritesPage() {
           )
         ) : (
           /* Itineraries Tab */
-          itineraries.length === 0 ? (
+          (itineraries.length === 0 && dayByDayItineraries.length === 0) ? (
             <div className="max-w-md mx-auto text-center py-12">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/5 rounded-full mb-4">
                 <Map className="w-8 h-8 text-primary/30" />
@@ -245,7 +256,7 @@ export default function FavoritesPage() {
               {/* Actions Bar */}
               <div className="flex items-center justify-between max-w-5xl mx-auto mb-6">
                 <p className="text-sm text-primary/50">
-                  {itineraries.length} trip{itineraries.length !== 1 ? 's' : ''} saved
+                  {itineraries.length + dayByDayItineraries.length} trip{(itineraries.length + dayByDayItineraries.length) !== 1 ? 's' : ''} saved
                 </p>
                 <button
                   onClick={handleClearItineraries}
@@ -255,58 +266,120 @@ export default function FavoritesPage() {
                 </button>
               </div>
 
-              {/* Itineraries Grid */}
-              <div className="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {itineraries.map((it) => (
-                  <div key={`${it.slug}-${it.duration}-${it.focus}`} className="relative group">
-                    <div
-                      onClick={() => setSelectedItinerary(it)}
-                      className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
-                    >
-                      {/* Cover image or gradient */}
-                      <div className="relative aspect-[16/10] overflow-hidden">
-                        {it.coverImage ? (
-                          <Image
-                            src={it.coverImage}
-                            alt={it.name}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-300"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-[#6b8f71]/20 to-[#e8b960]/20 flex items-center justify-center">
-                            <Map className="w-12 h-12 text-[#6b8f71]/40" />
-                          </div>
-                        )}
-                        {/* Remove button (hover reveal) */}
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleRemoveItinerary(it.slug, it.phase, it.focus);
+              {/* Day-by-Day Itineraries */}
+              {dayByDayItineraries.length > 0 && (
+                <div className="max-w-5xl mx-auto mb-8">
+                  <h3 className="text-sm font-medium text-primary/60 mb-3 flex items-center gap-2">
+                    <Calendar className="w-4 h-4" />
+                    Day-by-Day Plans
+                  </h3>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {dayByDayItineraries.map((it) => (
+                      <div key={it.id} className="relative group">
+                        <div
+                          onClick={() => {
+                            setSelectedDayByDay(it);
+                            setExpandedDays(new Set());
                           }}
-                          className="absolute top-3 right-3 p-2 bg-white/90 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50"
-                          title="Remove itinerary"
+                          className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
                         >
-                          <Trash2 className="w-4 h-4 text-rose-500" />
-                        </button>
-                        {/* Duration badge */}
-                        <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 rounded-full shadow-sm text-xs font-medium text-[#6b8f71]">
-                          {it.duration} Days
+                          {/* Gradient cover */}
+                          <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center">
+                            <Calendar className="w-12 h-12 text-secondary/40" />
+                            {/* Remove button (hover reveal) */}
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleRemoveDayByDay(it.id);
+                              }}
+                              className="absolute top-3 right-3 p-2 bg-white/90 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50"
+                              title="Remove itinerary"
+                            >
+                              <Trash2 className="w-4 h-4 text-rose-500" />
+                            </button>
+                            {/* Duration badge */}
+                            <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 rounded-full shadow-sm text-xs font-medium text-secondary">
+                              {it.totalDays} Days
+                            </div>
+                          </div>
+                          {/* Info */}
+                          <div className="p-4">
+                            <h3 className="font-serif text-lg text-primary">{it.destinationName}</h3>
+                            <p className="text-sm text-primary/50 mt-1 capitalize">{it.focus} focus</p>
+                            <p className="text-xs text-primary/40 mt-2">
+                              {it.days.length} days planned · Saved {new Date(it.savedAt).toLocaleDateString()}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      {/* Info */}
-                      <div className="p-4">
-                        <h3 className="font-serif text-lg text-primary">{it.name}</h3>
-                        <p className="text-sm text-primary/50 mt-1 capitalize">{it.focus} focus</p>
-                        <p className="text-xs text-primary/40 mt-2">
-                          Saved {new Date(it.savedAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
+
+              {/* Phase-based Itineraries */}
+              {itineraries.length > 0 && (
+                <div className="max-w-5xl mx-auto">
+                  {dayByDayItineraries.length > 0 && (
+                    <h3 className="text-sm font-medium text-primary/60 mb-3 flex items-center gap-2">
+                      <Map className="w-4 h-4" />
+                      Full Trip Itineraries
+                    </h3>
+                  )}
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {itineraries.map((it) => (
+                      <div key={`${it.slug}-${it.duration}-${it.focus}`} className="relative group">
+                        <div
+                          onClick={() => setSelectedItinerary(it)}
+                          className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                        >
+                          {/* Cover image or gradient */}
+                          <div className="relative aspect-[16/10] overflow-hidden">
+                            {it.coverImage ? (
+                              <Image
+                                src={it.coverImage}
+                                alt={it.name}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-[#6b8f71]/20 to-[#e8b960]/20 flex items-center justify-center">
+                                <Map className="w-12 h-12 text-[#6b8f71]/40" />
+                              </div>
+                            )}
+                            {/* Remove button (hover reveal) */}
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleRemoveItinerary(it.slug, it.phase, it.focus);
+                              }}
+                              className="absolute top-3 right-3 p-2 bg-white/90 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50"
+                              title="Remove itinerary"
+                            >
+                              <Trash2 className="w-4 h-4 text-rose-500" />
+                            </button>
+                            {/* Duration badge */}
+                            <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 rounded-full shadow-sm text-xs font-medium text-[#6b8f71]">
+                              {it.duration} Days
+                            </div>
+                          </div>
+                          {/* Info */}
+                          <div className="p-4">
+                            <h3 className="font-serif text-lg text-primary">{it.name}</h3>
+                            <p className="text-sm text-primary/50 mt-1 capitalize">{it.focus} focus</p>
+                            <p className="text-xs text-primary/40 mt-2">
+                              Saved {new Date(it.savedAt).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </>
           )
         )}
@@ -324,6 +397,70 @@ export default function FavoritesPage() {
             }
           }}
         />
+      )}
+
+      {/* Day-by-Day Itinerary Viewer */}
+      {selectedDayByDay && (
+        <div
+          className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+          onClick={() => setSelectedDayByDay(null)}
+        >
+          <div
+            className="bg-surface rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="sticky top-0 bg-white border-b border-primary/10 px-6 py-4 flex items-center justify-between z-10">
+              <div>
+                <h2 className="font-serif text-2xl text-primary">{selectedDayByDay.destinationName}</h2>
+                <p className="text-sm text-primary/60 mt-0.5 capitalize">
+                  {selectedDayByDay.totalDays}-day {selectedDayByDay.focus} trip
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    if (confirm('Delete this trip?')) {
+                      handleRemoveDayByDay(selectedDayByDay.id);
+                      setSelectedDayByDay(null);
+                    }
+                  }}
+                  className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                  title="Delete trip"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setSelectedDayByDay(null)}
+                  className="p-2 text-primary/60 hover:bg-primary/5 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Days */}
+            <div className="p-6 space-y-3">
+              {selectedDayByDay.days.map((day) => (
+                <ItineraryDayCard
+                  key={day.dayNumber}
+                  dayNumber={day.dayNumber}
+                  title={day.title}
+                  content={day.content}
+                  moodChips={day.moodChips}
+                  isExpanded={expandedDays.has(day.dayNumber)}
+                  onToggle={() => {
+                    const next = new Set(expandedDays);
+                    if (next.has(day.dayNumber)) next.delete(day.dayNumber);
+                    else next.add(day.dayNumber);
+                    setExpandedDays(next);
+                  }}
+                  onRegenerate={() => {}}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

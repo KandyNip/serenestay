@@ -82,3 +82,58 @@ export function generatePlannedPhasesSummary(slug: string): string {
 
   return `Previously planned phases for this destination:\n${summaries.join('\n')}\n\nPlease avoid repeating these activities and locations in the new phase.`;
 }
+
+// ============================================================
+// Day-by-Day Itinerary Storage (new format)
+// ============================================================
+
+const DAYBYDAY_KEY = 'serenestay_daybyday_itineraries';
+
+export interface SavedDaySummary {
+  dayNumber: number;
+  title: string;
+  content: string;
+  moodChips: string[];
+}
+
+export interface SavedDayByDayItinerary {
+  id: string; // unique ID for this trip
+  slug: string;
+  destinationName: string;
+  totalDays: number;
+  focus: string;
+  days: SavedDaySummary[];
+  savedAt: string;
+}
+
+export function getSavedDayByDayItineraries(): SavedDayByDayItinerary[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    return JSON.parse(localStorage.getItem(DAYBYDAY_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+export function saveDayByDayItinerary(itinerary: SavedDayByDayItinerary): SavedDayByDayItinerary[] {
+  const list = getSavedDayByDayItineraries();
+  // Same id = overwrite
+  const idx = list.findIndex(i => i.id === itinerary.id);
+  if (idx >= 0) {
+    list[idx] = itinerary;
+  } else {
+    list.unshift(itinerary);
+  }
+  localStorage.setItem(DAYBYDAY_KEY, JSON.stringify(list));
+  return list;
+}
+
+export function removeDayByDayItinerary(id: string): SavedDayByDayItinerary[] {
+  const list = getSavedDayByDayItineraries().filter(i => i.id !== id);
+  localStorage.setItem(DAYBYDAY_KEY, JSON.stringify(list));
+  return list;
+}
+
+export function getDayByDayForDestination(slug: string): SavedDayByDayItinerary[] {
+  return getSavedDayByDayItineraries().filter(i => i.slug === slug);
+}

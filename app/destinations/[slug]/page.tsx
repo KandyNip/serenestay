@@ -340,6 +340,28 @@ export default async function DestinationDetailPage({ params }: PageProps) {
 
           {/* Right Column - Sidebar */}
           <div className="space-y-6">
+            {/* Plan Your Stay CTA */}
+            <div className="bg-white rounded-2xl border border-secondary/20 p-6 shadow-sm">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-secondary" />
+                </div>
+                <div>
+                  <h3 className="font-serif text-lg text-primary">Plan Your Stay</h3>
+                  <p className="text-primary/60 text-xs">Day-by-day AI itinerary</p>
+                </div>
+              </div>
+              <p className="text-primary/70 text-sm mb-4">
+                Create a personalized itinerary for {destination.name}. Choose your mood each day and let AI craft the perfect plan.
+              </p>
+              <Link
+                href={`/itinerary/${destination.slug}`}
+                className="block w-full py-2.5 bg-secondary text-white text-center rounded-xl font-medium hover:bg-secondary-600 transition-colors text-sm"
+              >
+                Start Planning →
+              </Link>
+            </div>
+
             {/* Chat CTA */}
             <div className="bg-gradient-to-br from-secondary to-primary rounded-2xl p-6 text-white">
               <div className="flex items-center gap-3 mb-4">
