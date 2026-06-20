@@ -626,7 +626,16 @@ Use this context to:
 
 ## Output Format for Day {dayNumber}
 
-**Day {dayNumber}: {Day Title}**
+You MUST respond with valid JSON only — no markdown code fences, no extra text. The JSON object must have this exact structure:
+
+{
+  "title": "Day {dayNumber}: {Day Title}",
+  "content": "...markdown body...",
+  "note": "This itinerary is AI-generated based on destination data and wellness expertise. Specific venues and programs may vary — we recommend verifying details before booking."
+}
+
+The "content" field should contain the markdown body of the day (everything except the title line and the note). Use this format for the content:
+
 {A one-line evocative summary of the day's theme}
 
 ### 🌅 Morning
@@ -656,8 +665,11 @@ Use this context to:
 ### 🎯 Mood Check
 {1-2 sentences on how today's activities reflect the selected mood chips and contribute to the overall healing journey}
 
-### 📝 Note
-This itinerary is AI-generated based on destination data and wellness expertise. Specific venues and programs may vary — we recommend verifying details before booking.`;
+IMPORTANT:
+- The "title" field should be like "Day {dayNumber}: Sunrise Temple & Rice Terrace Morning"
+- The "content" field is a string containing the markdown body (escape newlines as \\n, quotes as \\" etc.)
+- The "note" field is the AI disclaimer text
+- Output ONLY the JSON object, nothing else`;
 
 /**
  * Build AI messages for generating a single day of an itinerary

@@ -89,10 +89,16 @@ export function generatePlannedPhasesSummary(slug: string): string {
 
 const DAYBYDAY_KEY = 'serenestay_daybyday_itineraries';
 
+// Dual format: old data has plain string, new data has structured object
+export interface DayContentData {
+  content: string;
+  note?: string;
+}
+
 export interface SavedDaySummary {
   dayNumber: number;
   title: string;
-  content: string;
+  content: string | DayContentData;
   moodChips: string[];
 }
 

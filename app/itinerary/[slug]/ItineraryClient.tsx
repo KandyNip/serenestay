@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Lock, ArrowLeft, Sparkles, MapPin, Calendar, Compass } from 'lucide-react';
 import ItineraryFlow from '@/components/ItineraryFlow';
+import DisclaimerNote from '@/components/DisclaimerNote';
 import { checkProStatus } from '@/lib/api';
 import type { Destination } from '@/lib/types';
 
@@ -97,6 +98,11 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
               Pro also unlocks 5 AI-matched healing destinations, day-by-day itineraries & more
             </p>
           </div>
+
+          {/* AI disclaimer */}
+          <div className="mt-4">
+            <DisclaimerNote />
+          </div>
         </div>
       </div>
     );
@@ -129,6 +135,11 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
           initialDays={3}
           initialFocus="wellness"
         />
+
+        {/* AI disclaimer */}
+        <div className="mt-6">
+          <DisclaimerNote />
+        </div>
       </div>
     </div>
   );

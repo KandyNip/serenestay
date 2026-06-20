@@ -63,9 +63,30 @@ export async function POST(request: Request) {
     // Single day needs fewer tokens
     const maxTokens = 2000;
 
-    const content = await createChatCompletion(messages, { apiKey, maxTokens });
+    const raw = await createChatCompletion(messages, { apiKey, maxTokens });
 
-    return Response.json({ dayContent: content });
+    // Try to parse JSON response from AI
+    let dayContent: string;
+    let title: string | undefined;
+    let note: string | undefined;
+
+    try {
+      // Strip markdown code fences if present
+      const cleaned = raw.replace(/^```(?:json)?\s*\n?/m, '').replace(/\n?```\s*$/m, '').trim();
+      const parsed = JSON.parse(cleaned);
+      if (parsed && typeof parsed === 'object') {
+        title = parsed.title;
+        note = parsed.note;
+        dayContent = parsed.content || raw;
+      } else {
+        dayContent = raw;
+      }
+    } catch {
+      // Fallback: treat entire response as markdown content
+      dayContent = raw;
+    }
+
+    return Response.json({ dayContent, title, note });
   } catch (error) {
     console.error('[api/itinerary-day] Error:', error);
     return Response.json({ error: 'Failed to generate day itinerary' }, { status: 500 });

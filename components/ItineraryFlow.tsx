@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { ArrowRight, Check, Sparkles, RotateCcw, Save, Share2, Plus, MapPin, Calendar, Target, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import { ArrowRight, Check, Sparkles, RotateCcw, Save, Plus, MapPin, Calendar, Target, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 import MoodChips, { MOOD_CHIPS, getMoodLabels } from './MoodChips';
-import ItineraryDayCard from './ItineraryDayCard';
+import ItineraryDayCard, { type DayContent } from './ItineraryDayCard';
 import ItineraryChatInput from './ItineraryChatInput';
 import DisclaimerNote from './DisclaimerNote';
 import type { ItinerarySession, DaySummary } from '@/lib/itinerary-session';
@@ -21,7 +21,7 @@ interface ItineraryFlowProps {
 interface DayData {
   dayNumber: number;
   title: string;
-  content: string;
+  content: string | DayContent;
   moodChips: string[];
 }
 
@@ -99,11 +99,24 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
       }
 
       const data = await response.json();
-      const content: string = data.dayContent || '';
+      const dayContentStr: string = data.dayContent || '';
+      const apiTitle: string | undefined = data.title;
+      const apiNote: string | undefined = data.note;
 
-      // Extract title from content
-      const titleMatch = content.match(/\*\*Day\s+\d+[:\s]*(.+?)\*\*/);
-      const title = titleMatch ? titleMatch[1].trim() : `Day ${dayNumber}`;
+      // Use title from API if available, otherwise extract from content
+      let title: string;
+      if (apiTitle) {
+        // Strip "Day N:" prefix if present
+        title = apiTitle.replace(/^Day\s+\d+[:\s]*/, '').trim() || `Day ${dayNumber}`;
+      } else {
+        const titleMatch = dayContentStr.match(/\*\*Day\s+\d+[:\s]*(.+?)\*\*/);
+        title = titleMatch ? titleMatch[1].trim() : `Day ${dayNumber}`;
+      }
+
+      // Build content: use structured format if note is present
+      const content: string | DayContent = apiNote
+        ? { content: dayContentStr, note: apiNote }
+        : dayContentStr;
 
       const dayData: DayData = {
         dayNumber,
@@ -197,20 +210,6 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
     alert('Trip saved! You can find it in your Favorites.');
   };
 
-  const handleShareTrip = async () => {
-    const text = `My ${totalDays}-day healing stay in ${destination.name} — planned with SereneStay.ai`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: `SereneStay: ${destination.name}`, text });
-      } catch {
-        // User cancelled
-      }
-    } else {
-      await navigator.clipboard.writeText(text);
-      alert('Trip summary copied to clipboard!');
-    }
-  };
-
   const toggleDayExpand = (dayNumber: number) => {
     setExpandedDays(prev => {
       const next = new Set(prev);
@@ -224,9 +223,10 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
   };
 
   // Extract activity names from content for the session summary
-  function extractActivities(content: string): string[] {
+  function extractActivities(content: string | DayContent): string[] {
+    const markdown = typeof content === 'string' ? content : content.content;
     const activities: string[] = [];
-    const boldMatches = content.matchAll(/\*\*([^*]+)\*\*/g);
+    const boldMatches = markdown.matchAll(/\*\*([^*]+)\*\*/g);
     for (const match of boldMatches) {
       const text = match[1].trim();
       // Skip day titles and section headers
@@ -283,7 +283,7 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
               What's your focus?
             </label>
             <div className="flex flex-wrap gap-2">
-              {['wellness', 'adventure', 'culture', 'relaxation'].map(f => (
+              {['wellness', 'adventure', 'culture', 'relaxation', 'spiritual'].map(f => (
                 <button
                   key={f}
                   onClick={() => setFocus(f)}
@@ -293,7 +293,7 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
                       : 'bg-primary/5 text-primary/70 hover:bg-primary/10'
                   }`}
                 >
-                  {f}
+                  {f === 'spiritual' ? 'Spiritual Growth' : f}
                 </button>
               ))}
             </div>
@@ -486,13 +486,6 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
                 >
                   <Save className="w-4 h-4" />
                   Save Trip
-                </button>
-                <button
-                  onClick={handleShareTrip}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-primary/60 hover:bg-primary/5 rounded-lg transition-colors"
-                >
-                  <Share2 className="w-4 h-4" />
-                  Share
                 </button>
                 <div className="flex-1" />
                 <button

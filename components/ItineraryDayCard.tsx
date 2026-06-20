@@ -1,17 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, RefreshCw, Pencil, Loader2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, RefreshCw, Pencil, Loader2, Info } from 'lucide-react';
 import { MOOD_CHIPS } from '@/components/MoodChips';
 import { getCategoryEmoji } from '@/lib/itinerary-images';
 
 // Re-export getCategoryEmoji from itinerary-images for convenience
 export { getCategoryEmoji } from '@/lib/itinerary-images';
 
+// Dual format: old data has plain string, new data has structured object
+export interface DayContent {
+  content: string;
+  note?: string;
+}
+
 interface ItineraryDayCardProps {
   dayNumber: number;
   title: string;
-  content: string;
+  content: string | DayContent;
   moodChips: string[];
   isExpanded: boolean;
   onToggle: () => void;
@@ -31,6 +37,9 @@ export default function ItineraryDayCard({
   onEdit,
   isGenerating = false,
 }: ItineraryDayCardProps) {
+  // Normalize content: support both string (legacy) and DayContent (new) formats
+  const markdownContent = typeof content === 'string' ? content : content.content;
+  const note = typeof content === 'object' ? content.note : undefined;
   // Parse image tags and render with emoji indicators
   const renderLineWithImages = (line: string, key: string) => {
     const imageTagRegex = /\[(wiki|cat):([^\]]+)\]/g;
@@ -127,7 +136,7 @@ export default function ItineraryDayCard({
         <div className="px-4 pb-4 pt-2 border-t border-primary/10">
           {/* Content */}
           <div className="prose prose-sm max-w-none text-primary/70">
-            {content.split('\n').map((line, i) => {
+            {markdownContent.split('\n').map((line, i) => {
               const trimmed = line.trim();
               if (!trimmed) return null;
 
@@ -170,6 +179,14 @@ export default function ItineraryDayCard({
               return <p key={i} className="mb-2">{renderLineWithImages(trimmed, `p-${i}`)}</p>;
             })}
           </div>
+
+          {/* AI note (new format only) */}
+          {note && (
+            <div className="flex items-start gap-2 mt-3 p-2.5 bg-amber-50 border border-amber-100 rounded-lg">
+              <Info className="w-3.5 h-3.5 text-amber-500 mt-0.5 flex-shrink-0" />
+              <p className="text-xs text-amber-700/80">{note}</p>
+            </div>
+          )}
 
           {/* Action buttons */}
           <div className="flex items-center gap-2 mt-4 pt-3 border-t border-primary/5">
