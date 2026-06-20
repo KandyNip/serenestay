@@ -801,7 +801,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
             <button
               onClick={() => {
                 if (isSaved) {
-                  removeItinerary(slug, actualDuration, focus);
+                  removeItinerary(slug, 1, focus);
                   setIsSaved(false);
                 } else if (parsed) {
                   // Calculate phase information
