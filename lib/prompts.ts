@@ -441,10 +441,24 @@ You are creating a practical, day-by-day travel plan that feels like it was craf
 7. Match budget suggestions to the destination's cost levels
 8. For specific venues, studios, or retreat centers — describe the TYPE of experience rather than naming specific businesses you cannot verify exist. Example: "a local meditation studio offering Vipassana courses" instead of "Wat Suan Dok Meditation Center"
 9. If the user's personal context is provided, prioritize their specific emotional state, preferences, and needs over generic recommendations. Make the itinerary feel like it was crafted specifically for THIS person.
-10. IMAGE TAGS — For each activity/venue, add image source tags:
-    - Well-known landmarks with Wikipedia articles: [wiki:Wikipedia_Page_Title] (e.g. [wiki:Wat_Phra_That_Doi_Suthep])
-    - Other activities (restaurants, massages, markets): [cat:category] where category is one of: temple, market, food, nature, massage, meditation, yoga, garden, beach, mountain, adventure, nightlife, spa, cafe, culture, nomad, transport, accommodation
-    - Place tags right after the activity heading, e.g.: "🌅 Morning: Visit Doi Suthep [wiki:Wat_Phra_That_Doi_Suthep]" or "🌙 Evening: Night Market stroll [cat:market]"
+10. IMAGE TAGS — For each activity/venue, add image source tags. Follow these rules STRICTLY:
+
+    **FIRST CHOICE: Use [wiki:Wikipedia_Page_Title] for ANY place you can identify with a real name.**
+    - Temples, parks, beaches, mountains, landmarks, markets, neighborhoods, waterfalls, lakes, old towns, museums, monuments — if it has a Wikipedia page, use [wiki:].
+    - Wikipedia titles use English, with underscores for spaces: [wiki:Wat_Phra_That_Doi_Suthep], [wiki:Phi_Phi_Islands], [wiki:Old_Quarter], [wiki:Ubud_Monkey_Forest], [wiki:Doi_Inthanon_National_Park]
+    - When unsure of exact title, use the most likely English Wikipedia article name.
+
+    **FALLBACK ONLY: Use [cat:category] ONLY when you cannot identify a specific named place.**
+    - Use [cat:] for generic activities: a massage session, a cooking class, a yoga class, a café visit, a walk, etc.
+    - Categories: temple, market, food, nature, massage, meditation, yoga, garden, beach, mountain, adventure, nightlife, spa, cafe, culture, nomad, transport, accommodation, rice_terrace, waterfall, lake, old_town, village, river, sunset_viewpoint
+
+    **CRITICAL: At least 60% of all tags should be [wiki:] tags.** If most of your tags are [cat:], you are doing it wrong — go back and find Wikipedia names for the places.
+
+    **Placement:** Put tags right after the activity heading, e.g.:
+    - "🌅 Morning: Visit Doi Suthep [wiki:Wat_Phra_That_Doi_Suthep]"
+    - "🏞️ Day trip: Explore the Phi Phi Islands [wiki:Phi_Phi_Islands]"
+    - "🌙 Evening: Night Market stroll [cat:market]"
+    - "🧘 Afternoon: Yoga session at a local studio [cat:yoga]"
 
 ## Output Structure
 
