@@ -429,7 +429,8 @@ Or just share what's on your mind, and we'll explore together.`,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate itinerary');
+        const errData = await response.json().catch(() => ({ error: `HTTP ${response.status}` }));
+        throw new Error(errData.error || `Failed to generate itinerary (HTTP ${response.status})`);
       }
 
       const data = await response.json();
@@ -463,12 +464,18 @@ Or just share what's on your mind, and we'll explore together.`,
       );
     } catch (error) {
       console.error('Itinerary generation error:', error);
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+      // If API returned an error response, try to read it
+      let detail = '';
+      if (errorMsg.includes('Failed to generate')) {
+        detail = ' The AI service may be temporarily busy — please try again in a moment.';
+      }
       setMessages((prev) =>
         prev.map((msg) =>
           msg.id === assistantMessageId
             ? {
                 ...msg,
-                content: 'I apologize, but I encountered an issue generating your itinerary. Please try again.',
+                content: `I apologize, but I encountered an issue generating your itinerary.${detail} Please try again.`,
               }
             : msg
         )

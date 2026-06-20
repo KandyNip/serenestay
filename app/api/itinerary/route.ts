@@ -3,6 +3,9 @@ import { buildItineraryMessages } from '../../../lib/prompts';
 import { getDestinationBySlug } from '@/lib/destinations';
 import crypto from 'crypto';
 
+// Extend Vercel function timeout to 60s for DeepSeek itinerary generation
+export const maxDuration = 60;
+
 const VALID_PRODUCT_IDS = [
   'prod_4Tswoy49WmcyoR0XrxO0SR',
   'prod_4D1Yb4ziXDLQ3ky8VufgdU',

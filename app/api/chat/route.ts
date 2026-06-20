@@ -22,6 +22,9 @@ import type { ChatMessage, ChatRequest } from '../../../lib/types';
 // Use Node.js runtime (not Edge) to support fs.readFileSync for JSON data
 export const dynamic = 'force-dynamic';
 
+// Extend Vercel function timeout for streaming responses
+export const maxDuration = 60;
+
 // Live product IDs
 const VALID_PRODUCT_IDS = [
   'prod_4Tswoy49WmcyoR0XrxO0SR', // Monthly
