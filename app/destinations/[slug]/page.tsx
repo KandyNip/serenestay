@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -362,7 +363,9 @@ export default async function DestinationDetailPage({ params }: PageProps) {
             </div>
 
             {/* Compare Destinations */}
-            <CompareSection currentSlug={destination.slug} currentName={destination.name} />
+            <Suspense fallback={<div className="h-32" />}>
+              <CompareSection currentSlug={destination.slug} currentName={destination.name} />
+            </Suspense>
 
             {/* Monthly Costs */}
             <div className="bg-white rounded-2xl p-6 shadow-card">

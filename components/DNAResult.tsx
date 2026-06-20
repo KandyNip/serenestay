@@ -27,10 +27,43 @@ interface DNAResultProps {
 
 export default function DNAResult({ profile, onWeightsChange, onRetake, onViewMatches }: DNAResultProps) {
   const [weights, setWeights] = useState(profile.weights);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     setWeights(profile.weights);
   }, [profile]);
+
+  // Share logic
+  const shareUrl = 'https://howistoday.online/chat';
+  const shareText = `I'm a ${profile.emoji} ${profile.type}! What's your healing DNA? Discover yours →`;
+  const encodedUrl = encodeURIComponent(shareUrl);
+  const encodedText = encodeURIComponent(shareText);
+
+  const handleShareX = () => {
+    window.open(`https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`, '_blank', 'width=550,height=420');
+  };
+
+  const handleShareWhatsApp = () => {
+    window.open(`https://wa.me/?text=${encodedText}%20${encodedUrl}`, '_blank');
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = shareUrl;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2000);
+  };
 
   const handleSliderChange = (dim: ScoreKey, value: number) => {
     const newWeights = { ...weights, [dim]: value };
@@ -211,7 +244,7 @@ export default function DNAResult({ profile, onWeightsChange, onRetake, onViewMa
           </div>
         </div>
 
-        {/* Social share card (UI only) */}
+        {/* Social share card */}
         <div
           className="rounded-xl p-5 mb-6 text-center"
           style={{ background: 'linear-gradient(135deg, #1B433210, #52B78810)' }}
@@ -220,14 +253,14 @@ export default function DNAResult({ profile, onWeightsChange, onRetake, onViewMa
           <p className="font-serif text-lg text-[#1B4332] mb-1">I'm a {profile.type}</p>
           <p className="text-xs text-[#1B4332]/50 mb-4">What's your healing type?</p>
           <div className="flex justify-center gap-3">
-            <button className="text-xs px-3 py-1.5 rounded-full bg-black text-white hover:bg-black/80 transition-colors">
+            <button onClick={handleShareX} className="text-xs px-3 py-1.5 rounded-full bg-black text-white hover:bg-black/80 transition-colors">
               𝕏 Post
             </button>
-            <button className="text-xs px-3 py-1.5 rounded-full bg-gradient-to-tr from-purple-500 to-orange-400 text-white hover:opacity-80 transition-opacity">
-              IG Story
+            <button onClick={handleShareWhatsApp} className="text-xs px-3 py-1.5 rounded-full text-white hover:opacity-80 transition-opacity" style={{ backgroundColor: '#25D366' }}>
+              WhatsApp
             </button>
-            <button className="text-xs px-3 py-1.5 rounded-full border border-[#1B433240] text-[#1B4332] hover:bg-[#1B433210] transition-colors">
-              Copy Link
+            <button onClick={handleCopyLink} className="text-xs px-3 py-1.5 rounded-full border border-[#1B433240] text-[#1B4332] hover:bg-[#1B433210] transition-colors">
+              {linkCopied ? '✓ Copied!' : 'Copy Link'}
             </button>
           </div>
         </div>

@@ -100,10 +100,26 @@ export default function DNAQuiz({ onComplete }: DNAQuizProps) {
           </div>
         </div>
 
-        {/* Question counter */}
-        <p className="text-center text-sm text-[#1B4332]/40 mt-6">
-          {currentQuestion + 1} / {total}
-        </p>
+        {/* Back button + Question counter */}
+        <div className="flex items-center justify-between mt-6">
+          {currentQuestion > 0 ? (
+            <button
+              onClick={() => {
+                const prevAnswers = answers.slice(0, -1);
+                setAnswers(prevAnswers);
+                setCurrentQuestion(currentQuestion - 1);
+              }}
+              className="text-sm text-[#1B4332]/50 hover:text-[#52B788] transition-colors flex items-center gap-1"
+            >
+              ← Previous
+            </button>
+          ) : (
+            <span />
+          )}
+          <p className="text-sm text-[#1B4332]/40">
+            {currentQuestion + 1} / {total}
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Lock, GitCompare, X, Sparkles, Check } from 'lucide-react';
 import Link from 'next/link';
 import { checkProStatus } from '@/lib/api';
@@ -52,6 +53,7 @@ function parseCompareResult(raw: string): CompareResult {
 }
 
 export default function CompareSection({ currentSlug, currentName }: CompareSectionProps) {
+  const searchParams = useSearchParams();
   const [isPro, setIsPro] = useState(false);
   const [allDestinations, setAllDestinations] = useState<Destination[]>([]);
   const [showPicker, setShowPicker] = useState(false);
@@ -61,6 +63,14 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
   const [activeRadarIndex, setActiveRadarIndex] = useState<number | null>(null);
 
   useEffect(() => { setIsPro(checkProStatus()); }, []);
+
+  useEffect(() => {
+    const compareParam = searchParams.get('compare');
+    if (compareParam) {
+      const slugs = compareParam.split(',').filter(s => s !== currentSlug);
+      setSelectedSlugs(slugs.slice(0, MAX_COMPARE - 1));
+    }
+  }, [searchParams, currentSlug]);
 
   useEffect(() => {
     fetch('/api/destinations?fields=card')

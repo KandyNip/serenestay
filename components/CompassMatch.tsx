@@ -372,14 +372,11 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
         {selectedForCompare.length >= 2 && (
           <div className="text-center mb-8">
             <Link
-              href={`/destinations/${selectedForCompare[0]}`}
+              href={`/destinations/${selectedForCompare[0]}?compare=${selectedForCompare.slice(1).join(',')}`}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#1B4332] text-[#FEFAE0] font-medium hover:bg-[#1B4332]/90 transition-colors"
             >
               Compare {selectedForCompare.length} Destinations →
             </Link>
-            <p className="text-xs text-[#1B4332]/40 mt-2">
-              Opens detail page with comparison tool
-            </p>
           </div>
         )}
 
