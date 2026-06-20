@@ -6,26 +6,26 @@ import { loadDestinations } from '@/lib/destinations';
 import type { Destination } from '@/lib/types';
 
 export const metadata = {
-  title: 'Find Your Perfect Healing Retreat',
-  description: 'Discover tranquility with AI-powered healing retreat matching. Find your perfect sanctuary for wellness, nature, and serenity around the world.',
+  title: 'SereneStay.ai — AI-Matched Healing Stays',
+  description: 'Tell us how you feel. Get AI-matched to a healing stay — yoga in Bali, temple stays in Thailand, forest bathing in Japan. 56 curated places, 9-dimension scoring, free to start.',
 };
 
 // How it works steps
 const steps = [
   {
     icon: MessageCircle,
-    title: 'Chat with Serene',
-    description: 'Share your wellness dreams and preferences with our AI guide in a natural conversation.',
+    title: 'Share How You Feel',
+    description: 'Tell our AI what you\'re feeling — stressed, burnt out, seeking peace. No forms, just conversation.',
   },
   {
     icon: Compass,
     title: 'Get Matched',
-    description: 'Our AI analyzes hundreds of destinations to find your perfect sanctuary based on your unique needs.',
+    description: 'Our AI matches your emotional state with healing stays — temples, hot springs, ocean retreats — across 9 dimensions.',
   },
   {
     icon: MapPin,
-    title: 'Plan Your Journey',
-    description: 'Explore detailed destination insights and practical information for your healing retreat.',
+    title: 'Start Healing',
+    description: 'See where you\'ll heal, what it offers, and how to get there. Stay a week or a season.',
   },
 ];
 
@@ -61,7 +61,7 @@ export default async function HomePage() {
                 name: "What is SereneStay.ai?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "SereneStay.ai is an AI-powered platform that matches you with healing retreat destinations worldwide. We evaluate 56 vetted wellness destinations across 9 dimensions including serenity, nature, wellness facilities, and more.",
+                  text: "SereneStay.ai is an AI-powered platform that matches you with healing stay destinations worldwide. Tell us how you feel — we find where you'll heal. We evaluate 56 vetted destinations across 9 dimensions including serenity, nature, wellness, and more.",
                 },
               },
               {
@@ -113,20 +113,19 @@ export default async function HomePage() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-md rounded-full text-secondary text-sm mb-8 animate-fade-in border border-white/30">
             <Sparkles className="w-4 h-4" />
-            <span>AI-Powered Matching</span>
+            <span>AI-Matched Healing Stays</span>
           </div>
           
           {/* Main Heading */}
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-primary leading-tight animate-slide-up">
-            Find Your Perfect
+            Where Will Your
             <br />
-            <span className="text-gradient">Healing Retreat</span>
+            <span className="text-gradient">Soul Heal?</span>
           </h1>
           
           {/* Subheading */}
           <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-primary/70 animate-slide-up stagger-1">
-            Discover tranquility with personalized AI recommendations. 
-            From mountain monasteries to coastal sanctuaries, find where your soul belongs.
+            Tell us how you feel. We'll match you with a place to heal — for a week or a season.
           </p>
           
           {/* CTA Buttons */}
@@ -135,14 +134,14 @@ export default async function HomePage() {
               href="/chat"
               className="btn-secondary text-lg px-8 py-4 flex items-center gap-2 shadow-lg hover:shadow-xl"
             >
-              <Sparkles className="w-5 h-5" />
-              Start AI Matching
+              <MessageCircle className="w-5 h-5" />
+              How Are You Feeling?
             </Link>
             <Link
               href="/destinations"
               className="btn-outline text-lg px-8 py-4 flex items-center gap-2"
             >
-              Explore Destinations
+              Browse Healing Stays
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -184,7 +183,7 @@ export default async function HomePage() {
               How It Works
             </h2>
             <p className="mt-4 text-primary/60 max-w-xl mx-auto">
-              Three simple steps to your perfect wellness retreat
+              From burnout to belonging — in three steps
             </p>
           </div>
           
@@ -228,10 +227,10 @@ export default async function HomePage() {
             <div className="flex items-end justify-between mb-12">
               <div>
                 <h2 className="font-serif text-3xl sm:text-4xl text-primary">
-                  Top Rated Retreats
+                  Top Healing Stays
                 </h2>
                 <p className="mt-3 text-primary/60">
-                  Our highest-rated destinations for serenity and healing
+                  Curated places where healing begins — scored across 9 dimensions
                 </p>
               </div>
               <Link
@@ -258,7 +257,7 @@ export default async function HomePage() {
                 href="/destinations"
                 className="btn-outline inline-flex items-center gap-2"
               >
-                View all destinations
+                View all healing stays
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -271,10 +270,10 @@ export default async function HomePage() {
         <div className="container-full px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-serif text-3xl sm:text-4xl">
-              Why Choose SereneStay?
+              Why Healing Stays Work
             </h2>
             <p className="mt-4 text-white/70 max-w-2xl mx-auto">
-              We combine AI intelligence with deep wellness expertise to match you with retreats that truly transform.
+              We match your emotional state with places built for healing — not just travel.
             </p>
           </div>
           
@@ -282,27 +281,27 @@ export default async function HomePage() {
             {[
               {
                 title: '9-Dimensional Matching',
-                description: 'We analyze serenity, nature, climate, affordability, wellness facilities, community, WiFi, visa, and medical access.',
+                description: 'Not just pretty photos. We score serenity, nature, wellness facilities, medical access, and 5 more dimensions — so your healing stay actually heals.',
               },
               {
                 title: 'Honest Assessments',
-                description: 'Every destination is scored with real data. We flag dealbreakers like poor WiFi or limited medical facilities upfront.',
+                description: 'We flag dealbreakers like poor medical access or unstable WiFi before you commit. No surprises on your healing journey.',
               },
               {
                 title: 'Budget Transparent',
-                description: 'See exact monthly costs for different lifestyles — from backpacker to comfort living.',
+                description: 'See real costs for different lifestyles — budget, mid, comfort. Plan a week or stay a season, you\'ll know what it costs.',
               },
               {
-                title: 'Veto Warnings',
-                description: 'We flag potential dealbreakers like poor WiFi or limited medical facilities before you commit.',
+                title: 'Emotional Matching',
+                description: 'Burnt out? We find temple stays and digital detox. Need nature? Forest bathing and hot springs. Your feeling drives the match.',
               },
               {
                 title: 'Seasonal Intelligence',
-                description: 'Know the perfect time to visit for weather, prices, and local events.',
+                description: 'Healing isn\'t one-size-fits-all. Know the best season for weather, prices, and local wellness events at each destination.',
               },
               {
-                title: 'Holistic Wellness',
-                description: 'From yoga retreats to digital detox, find experiences that match your wellness journey.',
+                title: '46 Healing Modalities',
+                description: 'Yoga, meditation, sound healing, forest bathing, Ayurveda, temple stays — we match you with places that offer what you need.',
               },
             ].map((feature) => (
               <div
@@ -327,22 +326,22 @@ export default async function HomePage() {
             </div>
             
             <h2 className="font-serif text-3xl sm:text-4xl text-primary">
-              Ready to Find Your Sanctuary?
+              Ready to Find Where You Heal?
             </h2>
             <p className="mt-4 text-primary/60 max-w-xl mx-auto">
-              Explore 56 curated wellness destinations across 7 regions with AI-powered personalized matching.
+              56 curated healing stays. AI-matched to how you feel. Free to start.
             </p>
-            
+
             <div className="mt-10">
               <Link
                 href="/chat"
                 className="btn-secondary text-lg px-10 py-4 inline-flex items-center gap-2 shadow-lg"
               >
-                <Sparkles className="w-5 h-5" />
-                Begin Your Journey
+                <MessageCircle className="w-5 h-5" />
+                How Are You Feeling?
               </Link>
               <p className="mt-4 text-sm text-primary/50">
-                Free to start — 2 AI matches, browse 56 destinations, 9-dimension scores
+                Free: 2 AI matches + all destination scores + 9-dimension breakdowns
               </p>
             </div>
           </div>
