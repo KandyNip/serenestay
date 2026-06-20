@@ -4,7 +4,7 @@
 // Response: { matches: Array<{ slug, name, country, emoji, matchScore, topTags, monthlyCostMid }> }
 
 import { loadDestinations } from '../../../lib/destinations';
-import { calculateMatchScore, type ScoreKey } from '../../../lib/dna-quiz';
+import { calculateMatchScore, type ScoreKey, type DNAProfile } from '../../../lib/dna-quiz';
 import type { Destination } from '../../../lib/types';
 
 export async function POST(request: Request) {
@@ -23,7 +23,10 @@ export async function POST(request: Request) {
       slug: d.slug,
       name: d.name,
       country: d.country,
-      matchScore: calculateMatchScore({ weights } as any, d.scores),
+      matchScore: calculateMatchScore(
+        { type: '', emoji: '', description: '', traits: [], weights, createdAt: 0 } as DNAProfile,
+        d.scores
+      ),
       topTags: d.healingTags.slice(0, 3),
       monthlyCostMid: d.monthlyCost.mid,
       scores: d.scores,

@@ -9,9 +9,11 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   ResponsiveContainer,
+  Tooltip,
 } from 'recharts';
+import { Lock } from 'lucide-react';
 import type { DNAProfile, ScoreKey } from '@/lib/dna-quiz';
-import { addFavorite, getFavorites } from '@/lib/favorites';
+import { addFavorite, removeFavorite, getFavorites } from '@/lib/favorites';
 
 const DIMENSION_LABELS: Record<ScoreKey, string> = {
   serenity: 'Serenity',
@@ -68,9 +70,11 @@ interface Match {
 interface CompassMatchProps {
   profile: DNAProfile;
   onWeightsChange: (weights: Record<ScoreKey, number>) => void;
+  onBack?: () => void;
+  isPro?: boolean;
 }
 
-export default function CompassMatch({ profile, onWeightsChange }: CompassMatchProps) {
+export default function CompassMatch({ profile, onWeightsChange, onBack, isPro = false }: CompassMatchProps) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedForCompare, setSelectedForCompare] = useState<string[]>([]);
@@ -78,6 +82,11 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
   const [adjusting, setAdjusting] = useState(false);
   const [adjustMessage, setAdjustMessage] = useState<string | null>(null);
   const [saved, setSaved] = useState<Set<string>>(new Set());
+
+  // Free users see only top 1 match; Pro sees all 5
+  const displayMatches = isPro ? matches : matches.slice(0, 1);
+  // Radar chart: Free shows 1 destination, Pro shows 3
+  const radarDests = isPro ? matches.slice(0, 3) : matches.slice(0, 1);
 
   const fetchMatches = useCallback(async (weights: Record<ScoreKey, number>) => {
     setLoading(true);
@@ -135,9 +144,18 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
     setChatInput(chip);
   };
 
-  const handleSave = (slug: string) => {
-    addFavorite(slug);
-    setSaved((prev) => new Set(prev).add(slug));
+  const handleToggleSave = (slug: string) => {
+    if (saved.has(slug)) {
+      removeFavorite(slug);
+      setSaved((prev) => {
+        const next = new Set(prev);
+        next.delete(slug);
+        return next;
+      });
+    } else {
+      addFavorite(slug);
+      setSaved((prev) => new Set(prev).add(slug));
+    }
   };
 
   const toggleCompare = (slug: string) => {
@@ -148,16 +166,16 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
     });
   };
 
-  // Build radar chart data: user profile + top destinations
+  // Build radar chart data: user profile + top destinations (using slug as dataKey)
   const buildRadarData = () => {
-    const topDests = matches.slice(0, 3);
+    const topDests = radarDests;
     return DIMENSIONS.map((dim) => {
       const entry: Record<string, string | number> = {
         dimension: DIMENSION_LABELS[dim],
-        'Your DNA': profile.weights[dim],
+        userDna: profile.weights[dim],
       };
       topDests.forEach((dest) => {
-        entry[dest.name] = dest.scores[dim] * 2; // Scale 1-5 to 2-10 for comparison
+        entry[dest.slug] = dest.scores[dim] * 2; // Scale 1-5 to 2-10 for comparison
       });
       return entry;
     });
@@ -168,6 +186,16 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
   return (
     <div className="min-h-screen bg-[#FEFAE0] px-4 py-12">
       <div className="max-w-2xl mx-auto">
+        {/* Bug 1: Back button */}
+        <div className="mb-4">
+          <button
+            onClick={onBack}
+            className="text-sm text-[#1B4332]/50 hover:text-[#52B788] transition-colors flex items-center gap-1"
+          >
+            ← Adjust DNA
+          </button>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="font-serif text-3xl text-[#1B4332] mb-2">
@@ -187,10 +215,23 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
                   <PolarGrid stroke="#e2e8f0" />
                   <PolarAngleAxis dataKey="dimension" tick={{ fontSize: 10, fill: '#64748b' }} />
                   <PolarRadiusAxis angle={90} domain={[0, 10]} tick={{ fontSize: 8, fill: '#94a3b8' }} tickCount={6} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#FEFAE0',
+                      border: '1px solid #1B433220',
+                      borderRadius: '8px',
+                      fontSize: '12px',
+                    }}
+                    formatter={(value: any, name: any) => {
+                      if (name === 'Your DNA') return [value, name];
+                      const dest = matches.find(d => d.slug === name);
+                      return [value, dest?.name || name];
+                    }}
+                  />
                   {/* User profile - dashed */}
                   <Radar
                     name="Your DNA"
-                    dataKey="Your DNA"
+                    dataKey="userDna"
                     stroke="#52B788"
                     fill="#52B788"
                     fillOpacity={0}
@@ -198,15 +239,15 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
                     strokeDasharray="5 5"
                   />
                   {/* Top destinations - solid */}
-                  {matches.slice(0, 3).map((dest, i) => (
+                  {radarDests.map((dest, i) => (
                     <Radar
                       key={dest.slug}
-                      name={dest.name}
-                      dataKey={dest.name}
+                      name={dest.slug}
+                      dataKey={dest.slug}
                       stroke={DEST_COLORS[i]}
                       fill={DEST_COLORS[i]}
-                      fillOpacity={0.15}
-                      strokeWidth={2}
+                      fillOpacity={0.08}
+                      strokeWidth={2.5}
                     />
                   ))}
                 </RadarChart>
@@ -218,7 +259,7 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
                 <span className="inline-block w-4 h-0.5 rounded" style={{ backgroundColor: '#52B788', borderTop: '1px dashed #52B788' }} />
                 Your DNA
               </span>
-              {matches.slice(0, 3).map((dest, i) => (
+              {radarDests.map((dest, i) => (
                 <span key={dest.slug} className="inline-flex items-center gap-1.5 text-xs" style={{ color: DEST_COLORS[i] }}>
                   <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: DEST_COLORS[i] }} />
                   {dest.name}
@@ -245,7 +286,7 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
         {/* Top match cards */}
         {!loading && (
           <div className="space-y-3 mb-8">
-            {matches.map((match, i) => (
+            {displayMatches.map((match, i) => (
               <div
                 key={match.slug}
                 className="bg-white rounded-xl p-4 shadow-sm border-l-4 border-[#52B788] flex items-center gap-4 hover:shadow-md transition-shadow"
@@ -283,26 +324,43 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
                 <div className="text-right shrink-0">
                   <div className="text-xl font-bold text-[#52B788]">{match.matchScore}%</div>
                   <div className="flex gap-1 mt-1">
-                    {!saved.has(match.slug) ? (
+                    {/* Save button with Pro paywall */}
+                    {!isPro ? (
+                      <span className="text-[10px] px-2 py-0.5 rounded border border-[#1B433215] text-[#1B4332]/25 flex items-center gap-0.5">
+                        <Lock size={8} /> Save
+                      </span>
+                    ) : !saved.has(match.slug) ? (
                       <button
-                        onClick={() => handleSave(match.slug)}
+                        onClick={() => handleToggleSave(match.slug)}
                         className="text-[10px] px-2 py-0.5 rounded border border-[#1B433230] text-[#1B4332]/50 hover:border-[#52B788] hover:text-[#52B788] transition-colors"
                       >
                         ♡ Save
                       </button>
                     ) : (
-                      <span className="text-[10px] px-2 py-0.5 text-[#52B788]">♥ Saved</span>
+                      <button
+                        onClick={() => handleToggleSave(match.slug)}
+                        className="text-[10px] px-2 py-0.5 rounded border border-[#52B78840] text-[#52B788] hover:text-red-400 hover:border-red-400 transition-colors"
+                      >
+                        ♥ Saved
+                      </button>
                     )}
-                    <button
-                      onClick={() => toggleCompare(match.slug)}
-                      className={`text-[10px] px-2 py-0.5 rounded border transition-colors ${
-                        selectedForCompare.includes(match.slug)
-                          ? 'border-[#52B788] bg-[#52B78815] text-[#52B788]'
-                          : 'border-[#1B433230] text-[#1B4332]/50 hover:border-[#52B788] hover:text-[#52B788]'
-                      }`}
-                    >
-                      Compare
-                    </button>
+                    {/* Compare button with Pro paywall */}
+                    {!isPro ? (
+                      <span className="text-[10px] px-2 py-0.5 rounded border border-[#1B433215] text-[#1B4332]/25 flex items-center gap-0.5">
+                        <Lock size={8} /> Compare
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => toggleCompare(match.slug)}
+                        className={`text-[10px] px-2 py-0.5 rounded border transition-colors ${
+                          selectedForCompare.includes(match.slug)
+                            ? 'border-[#52B788] bg-[#52B78815] text-[#52B788]'
+                            : 'border-[#1B433230] text-[#1B4332]/50 hover:border-[#52B788] hover:text-[#52B788]'
+                        }`}
+                      >
+                        Compare
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -310,25 +368,44 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
           </div>
         )}
 
-        {/* Compare button */}
+        {/* Compare button — Bug 4 fix: link to destination detail page */}
         {selectedForCompare.length >= 2 && (
           <div className="text-center mb-8">
             <Link
-              href={`/chat?compare=${selectedForCompare.join(',')}`}
+              href={`/destinations/${selectedForCompare[0]}`}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#1B4332] text-[#FEFAE0] font-medium hover:bg-[#1B4332]/90 transition-colors"
             >
               Compare {selectedForCompare.length} Destinations →
             </Link>
+            <p className="text-xs text-[#1B4332]/40 mt-2">
+              Opens detail page with comparison tool
+            </p>
           </div>
         )}
 
-        {/* Save prompt */}
-        {matches.length > 0 && !saved.has(matches[0]?.slug) && (
+        {/* Pro paywall: upgrade prompt for Free users */}
+        {!isPro && matches.length > 0 && (
+          <div className="bg-white rounded-xl p-5 shadow-sm mb-8 text-center border-l-4 border-[#D4A373]">
+            <p className="text-[#1B4332] mb-1 font-medium">✨ Unlock Full Compass</p>
+            <p className="text-xs text-[#1B4332]/50 mb-3">
+              See all 5 matches, compare destinations, save favorites & talk to AI
+            </p>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-[#1B4332] text-[#FEFAE0] text-sm hover:bg-[#1B4332]/90 transition-colors"
+            >
+              Upgrade to Pro →
+            </Link>
+          </div>
+        )}
+
+        {/* Save prompt — only for Pro users */}
+        {isPro && matches.length > 0 && !saved.has(matches[0]?.slug) && (
           <div className="bg-white rounded-xl p-5 shadow-sm mb-8 text-center">
             <p className="text-[#1B4332] mb-3">❤️ Love this match? Save to Favorites</p>
             <div className="flex justify-center gap-3">
               <button
-                onClick={() => handleSave(matches[0].slug)}
+                onClick={() => handleToggleSave(matches[0].slug)}
                 className="px-4 py-2 rounded-lg bg-[#1B4332] text-[#FEFAE0] text-sm hover:bg-[#1B4332]/90 transition-colors"
               >
                 Save to Favorites
@@ -346,42 +423,60 @@ export default function CompassMatch({ profile, onWeightsChange }: CompassMatchP
         {/* Talk to AI */}
         <div className="bg-white rounded-xl p-5 shadow-sm">
           <h3 className="font-serif text-lg text-[#1B4332] mb-3">Talk to AI</h3>
-          <p className="text-xs text-[#1B4332]/50 mb-3">
-            Adjust your preferences in natural language
-          </p>
 
-          {/* Suggestion chips */}
-          <div className="flex flex-wrap gap-2 mb-3">
-            {SUGGESTION_CHIPS.map((chip) => (
-              <button
-                key={chip}
-                onClick={() => handleChipClick(chip)}
-                className="text-xs px-3 py-1.5 rounded-full border border-[#1B433230] text-[#1B4332]/60 hover:border-[#52B788] hover:text-[#52B788] hover:bg-[#52B78810] transition-all"
+          {!isPro ? (
+            <div className="text-center py-4">
+              <Lock className="mx-auto mb-2 text-[#D4A373]" size={24} />
+              <p className="text-sm text-[#1B4332]/50 mb-3">
+                Pro feature — Describe your ideal stay and we'll adjust your compass
+              </p>
+              <Link
+                href="/pricing"
+                className="text-sm font-medium text-[#52B788] hover:text-[#52B788]/80 transition-colors"
               >
-                {chip}
-              </button>
-            ))}
-          </div>
+                Upgrade to Pro →
+              </Link>
+            </div>
+          ) : (
+            <>
+              <p className="text-xs text-[#1B4332]/50 mb-3">
+                Adjust your preferences in natural language
+              </p>
 
-          {/* Input */}
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Tell me what you're looking for..."
-              className="flex-1 px-4 py-2.5 rounded-lg bg-[#FEFAE0] border border-[#1B433220] text-sm text-[#1B4332] placeholder:text-[#1B4332]/30 focus:outline-none focus:border-[#52B788]"
-              disabled={adjusting}
-            />
-            <button
-              onClick={handleSend}
-              disabled={adjusting || !chatInput.trim()}
-              className="px-4 py-2.5 rounded-lg bg-[#1B4332] text-[#FEFAE0] text-sm hover:bg-[#1B4332]/90 disabled:opacity-40 transition-colors"
-            >
-              {adjusting ? '...' : '→'}
-            </button>
-          </div>
+              {/* Suggestion chips */}
+              <div className="flex flex-wrap gap-2 mb-3">
+                {SUGGESTION_CHIPS.map((chip) => (
+                  <button
+                    key={chip}
+                    onClick={() => handleChipClick(chip)}
+                    className="text-xs px-3 py-1.5 rounded-full border border-[#1B433230] text-[#1B4332]/60 hover:border-[#52B788] hover:text-[#52B788] hover:bg-[#52B78810] transition-all"
+                  >
+                    {chip}
+                  </button>
+                ))}
+              </div>
+
+              {/* Input */}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                  placeholder="Tell me what you're looking for..."
+                  className="flex-1 px-4 py-2.5 rounded-lg bg-[#FEFAE0] border border-[#1B433220] text-sm text-[#1B4332] placeholder:text-[#1B4332]/30 focus:outline-none focus:border-[#52B788]"
+                  disabled={adjusting}
+                />
+                <button
+                  onClick={handleSend}
+                  disabled={adjusting || !chatInput.trim()}
+                  className="px-4 py-2.5 rounded-lg bg-[#1B4332] text-[#FEFAE0] text-sm hover:bg-[#1B4332]/90 disabled:opacity-40 transition-colors"
+                >
+                  {adjusting ? '...' : '→'}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

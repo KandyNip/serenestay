@@ -128,6 +128,16 @@ export default function DNAResult({ profile, onWeightsChange, onRetake, onViewMa
   return (
     <div className="min-h-screen bg-[#FEFAE0] px-4 py-12">
       <div className="max-w-lg mx-auto">
+        {/* 顶部返回按钮 */}
+        <div className="mb-4">
+          <button
+            onClick={onRetake}
+            className="text-sm text-[#1B4332]/50 hover:text-[#52B788] transition-colors flex items-center gap-1"
+          >
+            ← Retake Test
+          </button>
+        </div>
+
         {/* Personality type header */}
         <div className="text-center mb-8">
           <div className="text-5xl mb-3">{profile.emoji}</div>

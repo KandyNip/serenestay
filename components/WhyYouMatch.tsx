@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { loadDNAProfile, calculateMatchScore, type DNAProfile, type ScoreKey } from '@/lib/dna-quiz';
+import { checkProStatus } from '@/lib/api';
 
 const DIMENSION_LABELS: Record<ScoreKey, string> = {
   serenity: 'Serenity',
@@ -26,10 +27,12 @@ interface WhyYouMatchProps {
 export default function WhyYouMatch({ destinationScores, destinationName }: WhyYouMatchProps) {
   const [profile, setProfile] = useState<DNAProfile | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
     const saved = loadDNAProfile();
     if (saved) setProfile(saved);
+    setIsPro(checkProStatus());
     setMounted(true);
   }, []);
 
@@ -105,8 +108,8 @@ export default function WhyYouMatch({ destinationScores, destinationName }: WhyY
         </div>
       )}
 
-      {/* Mind the gap */}
-      {gaps.length > 0 && (
+      {/* Mind the gap — Pro only */}
+      {isPro && gaps.length > 0 && (
         <div>
           <p className="text-sm text-[#D4A373]">
             ⚠️ <strong>Mind the gap:</strong> {gaps.join(', ')} {gaps.length === 1 ? 'is' : 'are'} important to you but {destinationName} {gaps.length === 1 ? 'scores' : 'score'} lower here.
@@ -120,15 +123,29 @@ export default function WhyYouMatch({ destinationScores, destinationName }: WhyY
         </p>
       )}
 
-      {/* Adjust weights link */}
-      <div className="mt-4 pt-3 border-t border-[#1B433210]">
-        <Link
-          href="/chat"
-          className="text-xs text-[#52B788] hover:text-[#52B788]/80 transition-colors"
-        >
-          Adjust your DNA weights →
-        </Link>
-      </div>
+      {/* Free user upgrade prompt */}
+      {!isPro && (
+        <div className="mt-4 pt-3 border-t border-[#1B433210]">
+          <Link
+            href="/pricing"
+            className="text-xs text-[#D4A373] hover:text-[#D4A373]/80 transition-colors"
+          >
+            ✨ Unlock full match analysis with Pro →
+          </Link>
+        </div>
+      )}
+
+      {/* Pro user: adjust weights link */}
+      {isPro && (
+        <div className="mt-4 pt-3 border-t border-[#1B433210]">
+          <Link
+            href="/chat"
+            className="text-xs text-[#52B788] hover:text-[#52B788]/80 transition-colors"
+          >
+            Adjust your DNA weights →
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

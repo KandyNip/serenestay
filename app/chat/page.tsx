@@ -6,12 +6,14 @@ import DNAQuiz from '@/components/DNAQuiz';
 import DNAResult from '@/components/DNAResult';
 import CompassMatch from '@/components/CompassMatch';
 import { calculateDNAProfile, saveDNAProfile, loadDNAProfile, type DNAProfile, type ScoreKey } from '@/lib/dna-quiz';
+import { checkProStatus } from '@/lib/api';
 
 type Phase = 'quiz' | 'result' | 'matches';
 
 function DNAFlowContent() {
   const [phase, setPhase] = useState<Phase>('quiz');
   const [profile, setProfile] = useState<DNAProfile | null>(null);
+  const [isPro, setIsPro] = useState(false);
 
   // 检查是否已有保存的画像
   useEffect(() => {
@@ -20,6 +22,7 @@ function DNAFlowContent() {
       setProfile(saved);
       setPhase('result');  // 有画像直接到结果页（可继续调整）
     }
+    setIsPro(checkProStatus());
   }, []);
 
   const handleQuizComplete = (answers: number[]) => {
@@ -62,6 +65,8 @@ function DNAFlowContent() {
         <CompassMatch
           profile={profile}
           onWeightsChange={handleWeightsChange}
+          onBack={() => setPhase('result')}
+          isPro={isPro}
         />
       )}
     </div>
