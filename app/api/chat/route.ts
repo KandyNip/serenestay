@@ -15,6 +15,10 @@ import {
   transformStream,
   DeepSeekAPIError,
 } from '../../../lib/deepseek';
+
+// Extend Vercel function timeout for streaming responses
+export const maxDuration = 60;
+
 import { buildChatMessages } from '../../../lib/prompts';
 import { loadDestinations } from '../../../lib/destinations';
 import type { ChatMessage, ChatRequest } from '../../../lib/types';

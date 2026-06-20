@@ -464,18 +464,17 @@ Or just share what's on your mind, and we'll explore together.`,
       );
     } catch (error) {
       console.error('Itinerary generation error:', error);
-      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-      // If API returned an error response, try to read it
-      let detail = '';
-      if (errorMsg.includes('Failed to generate')) {
-        detail = ' The AI service may be temporarily busy — please try again in a moment.';
-      }
+      const errDetail = error instanceof Error ? error.message : 'Unknown error';
+      const isTimeout = errDetail.includes('timeout') || errDetail.includes('504') || errDetail.includes('TIMED_OUT');
+      const userMsg = isTimeout
+        ? 'I apologize, but the itinerary generation is taking longer than expected. Please try again — the AI service may be temporarily busy.'
+        : `I apologize, but I encountered an issue generating your itinerary (${errDetail}). Please try again.`;
       setMessages((prev) =>
         prev.map((msg) =>
           msg.id === assistantMessageId
             ? {
                 ...msg,
-                content: `I apologize, but I encountered an issue generating your itinerary.${detail} Please try again.`,
+                content: userMsg,
               }
             : msg
         )
