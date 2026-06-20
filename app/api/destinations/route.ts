@@ -53,11 +53,7 @@ export async function GET(request: Request) {
         region: d.region,
         tagline: d.tagline,
         images: [d.images[0]], // Only first image for thumbnail
-        scores: {
-          serenity: d.scores.serenity,
-          nature: d.scores.nature,
-          wellness: d.scores.wellness,
-        },
+        scores: d.scores,
       }));
       return Response.json(
         { destinations: cardDestinations, total: cardDestinations.length },

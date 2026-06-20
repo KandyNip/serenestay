@@ -58,6 +58,7 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>([]);
   const [rawComparison, setRawComparison] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [activeRadarIndex, setActiveRadarIndex] = useState<number | null>(null);
 
   useEffect(() => { setIsPro(checkProStatus()); }, []);
 
@@ -152,13 +153,18 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
       {/* 已选chips */}
       <div className="flex flex-wrap gap-2 mb-3">
         {/* 当前目的地chip（不可删除） */}
-        <span
-          className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full"
-          style={{ backgroundColor: `${COLORS[0]}15`, color: COLORS[0] }}
+        <button
+          onClick={() => setActiveRadarIndex(activeRadarIndex === 0 ? null : 0)}
+          className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition-all cursor-pointer"
+          style={{
+            backgroundColor: activeRadarIndex === 0 ? `${COLORS[0]}25` : `${COLORS[0]}15`,
+            color: COLORS[0],
+            outline: activeRadarIndex === 0 ? `2px solid ${COLORS[0]}40` : 'none',
+          }}
         >
           <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: COLORS[0] }} />
           {currentName}
-        </span>
+        </button>
         {/* 用户选的目的地chips */}
         {selectedSlugs.map((slug, i) => {
           const dest = allDestinations.find(d => d.slug === slug);
@@ -167,13 +173,19 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
           return (
             <span
               key={slug}
-              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full"
-              style={{ backgroundColor: `${COLORS[colorIdx]}15`, color: COLORS[colorIdx] }}
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition-all"
+              style={{
+                backgroundColor: activeRadarIndex === colorIdx ? `${COLORS[colorIdx]}25` : `${COLORS[colorIdx]}15`,
+                color: COLORS[colorIdx],
+                outline: activeRadarIndex === colorIdx ? `2px solid ${COLORS[colorIdx]}40` : 'none',
+                cursor: 'pointer',
+              }}
+              onClick={() => setActiveRadarIndex(activeRadarIndex === colorIdx ? null : colorIdx)}
             >
               <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: COLORS[colorIdx] }} />
               {dest.name}
               <button
-                onClick={() => toggleSlug(slug)}
+                onClick={(e) => { e.stopPropagation(); toggleSlug(slug); }}
                 className="ml-0.5 opacity-60 hover:opacity-100"
               >
                 <X className="w-3 h-3" />
@@ -264,7 +276,7 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
         <div className="mt-4">
           {/* 雷达图 */}
           <div className="bg-surface/50 rounded-xl p-4 mb-4">
-            <DestinationRadar destinations={selectedDestinations} showLegend={false} />
+            <DestinationRadar destinations={selectedDestinations} showLegend={false} activeIndex={activeRadarIndex} onActivate={setActiveRadarIndex} />
           </div>
 
           {/* 精简AI总结 */}

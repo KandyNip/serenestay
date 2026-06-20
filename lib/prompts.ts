@@ -233,6 +233,7 @@ export const COMPARISON_PROMPT = `You are generating a concise comparison for Se
 4. Do NOT use bullet points in [RECOMMENDATION] — write ONE sentence only
 5. Each bullet in [KEY_DIFFERENCES] must be ONE short line (under 15 words)
 6. Flag any deal-breakers (WiFi ≤ 2, Medical ≤ 2, Visa ≤ 2)
+7. You MUST mention every destination in the comparison in [RECOMMENDATION] — do not skip any
 
 ## Output Format (follow EXACTLY)
 

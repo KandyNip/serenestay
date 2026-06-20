@@ -31,9 +31,11 @@ const COLORS = ['#2D6A4F', '#D4A373', '#5B8FB9', '#c2785c'];
 interface DestinationRadarProps {
   destinations: Destination[];
   showLegend?: boolean;
+  activeIndex?: number | null;
+  onActivate?: (index: number | null) => void;
 }
 
-export default function DestinationRadar({ destinations, showLegend = true }: DestinationRadarProps) {
+export default function DestinationRadar({ destinations, showLegend = true, activeIndex, onActivate }: DestinationRadarProps) {
   // 构建recharts数据
   const data = DIMENSIONS.map((dim) => {
     const entry: Record<string, string | number> = {
@@ -81,17 +83,22 @@ export default function DestinationRadar({ destinations, showLegend = true }: De
               tick={{ fontSize: 9, fill: '#94a3b8' }}
               tickCount={6}
             />
-            {destinations.map((dest, i) => (
-              <Radar
-                key={dest.id}
-                name={dest.name}
-                dataKey={dest.name}
-                stroke={COLORS[i]}
-                fill={COLORS[i]}
-                fillOpacity={isSingle ? 0.15 : 0.08}
-                strokeWidth={2}
-              />
-            ))}
+            {destinations.map((dest, i) => {
+              const isActive = activeIndex === i;
+              const isDimmed = activeIndex !== null && activeIndex !== undefined && !isActive;
+              return (
+                <Radar
+                  key={dest.id}
+                  name={dest.name}
+                  dataKey={dest.name}
+                  stroke={COLORS[i]}
+                  fill={COLORS[i]}
+                  fillOpacity={isSingle ? 0.15 : isActive ? 0.2 : isDimmed ? 0.02 : 0.08}
+                  strokeWidth={isActive ? 3 : isDimmed ? 1 : 2}
+                  strokeOpacity={isDimmed ? 0.3 : 1}
+                />
+              );
+            })}
             <Tooltip
               contentStyle={{
                 backgroundColor: '#fff',
@@ -116,22 +123,27 @@ export default function DestinationRadar({ destinations, showLegend = true }: De
       {/* 多目的地：legend chips */}
       {!isSingle && showLegend && (
         <div className="flex flex-wrap justify-center gap-3 mt-2">
-          {destinations.map((dest, i) => (
-            <span
-              key={dest.id}
-              className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full"
-              style={{
-                backgroundColor: `${COLORS[i]}15`,
-                color: COLORS[i],
-              }}
-            >
-              <span
-                className="inline-block w-3 h-0.5 rounded"
-                style={{ backgroundColor: COLORS[i] }}
-              />
-              {dest.name}
-            </span>
-          ))}
+          {destinations.map((dest, i) => {
+            const isActive = activeIndex === i;
+            return (
+              <button
+                key={dest.id}
+                onClick={() => onActivate?.(isActive ? null : i)}
+                className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full transition-all cursor-pointer"
+                style={{
+                  backgroundColor: isActive ? `${COLORS[i]}25` : `${COLORS[i]}15`,
+                  color: COLORS[i],
+                  outline: isActive ? `2px solid ${COLORS[i]}40` : 'none',
+                }}
+              >
+                <span
+                  className="inline-block w-3 h-0.5 rounded"
+                  style={{ backgroundColor: COLORS[i] }}
+                />
+                {dest.name}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
