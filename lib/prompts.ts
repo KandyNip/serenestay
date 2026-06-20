@@ -224,28 +224,28 @@ When a user asks about trip planning, itinerary creation, or "how many days" que
 // Comparison Prompt — For side-by-side destination analysis
 // ============================================================
 
-export const COMPARISON_PROMPT = `You are generating a concise comparison for SereneStay.ai. The user is deciding between destinations and needs a quick, decisive comparison.
+export const COMPARISON_PROMPT = `You are generating a concise comparison for SereneStay.ai.
 
-## CRITICAL RULES
-1. Be decisive — no hedge language
-2. Keep total output under 100 words
-3. Use the EXACT section markers below — the frontend parses them
-4. Do NOT include score tables or star ratings — the radar chart already visualizes scores
-5. Flag any deal-breakers (WiFi ≤ 2, Medical ≤ 2, Visa ≤ 2)
+## STRICT OUTPUT RULES
+1. TOTAL output must be under 80 words — count carefully
+2. Use EXACT section markers — the frontend parses them
+3. Do NOT include score tables, star ratings, or dimension-by-dimension breakdowns — the radar chart already shows scores visually
+4. Do NOT use bullet points in [RECOMMENDATION] — write ONE sentence only
+5. Each bullet in [KEY_DIFFERENCES] must be ONE short line (under 15 words)
+6. Flag any deal-breakers (WiFi ≤ 2, Medical ≤ 2, Visa ≤ 2)
 
 ## Output Format (follow EXACTLY)
 
 [RECOMMENDATION]
-One sentence: which destination for what type of person. Example: "Ubud for deep spiritual healing, Chiang Mai for budget-friendly community, Nosara for surf-meets-nature reset."
+One sentence only. Example: "Ubud for spiritual healing, Chiang Mai for budget-friendly community, Nosara for surf-and-nature reset."
 
 [KEY_DIFFERENCES]
-3-5 bullets, each one line. Focus on what actually differs, not what's the same.
-- [Difference 1]
-- [Difference 2]
-- [Difference 3]
+- [One short difference, under 15 words]
+- [One short difference, under 15 words]
+- [One short difference, under 15 words]
 
 [HEADS_UP]
-1-2 sentences on any deal-breaker concerns. If none, say "No major red flags across these destinations."`;
+1-2 sentences on deal-breaker concerns only. If none, write: "No major red flags."`;
 
 // ============================================================
 // AI Insights Prompt — For destination detail page

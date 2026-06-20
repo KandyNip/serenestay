@@ -68,10 +68,11 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
       .catch(() => {});
   }, []);
 
-  // 获取已选目的地的完整数据
-  const selectedDestinations = allDestinations.filter(d =>
-    selectedSlugs.includes(d.slug) || d.slug === currentSlug
-  );
+  // 获取已选目的地的完整数据（currentSlug排第一）
+  const selectedDestinations = [
+    ...allDestinations.filter(d => d.slug === currentSlug),
+    ...allDestinations.filter(d => selectedSlugs.includes(d.slug)),
+  ];
   const allCompareSlugs = [currentSlug, ...selectedSlugs];
 
   const toggleSlug = (slug: string) => {
@@ -263,19 +264,19 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
         <div className="mt-4">
           {/* 雷达图 */}
           <div className="bg-surface/50 rounded-xl p-4 mb-4">
-            <DestinationRadar destinations={selectedDestinations} />
+            <DestinationRadar destinations={selectedDestinations} showLegend={false} />
           </div>
 
           {/* 精简AI总结 */}
           {parsedResult.recommendation && (
-            <div className="bg-[#2D6A4F]/5 border-l-3 border-[#2D6A4F] rounded-r-lg px-4 py-3 mb-3">
+            <div className="bg-[#2D6A4F]/5 border-l-[3px] border-[#2D6A4F] rounded-r-lg px-4 py-3 mb-3">
               <div className="text-xs font-semibold text-[#2D6A4F] mb-1" style={{ fontFamily: 'system-ui' }}>🌿 Recommendation</div>
               <p className="text-sm text-primary/80 leading-relaxed" style={{ fontFamily: 'system-ui' }}>{parsedResult.recommendation}</p>
             </div>
           )}
 
           {parsedResult.keyDifferences.length > 0 && (
-            <div className="bg-[#D4A373]/5 border-l-3 border-[#D4A373] rounded-r-lg px-4 py-3 mb-3">
+            <div className="bg-[#D4A373]/5 border-l-[3px] border-[#D4A373] rounded-r-lg px-4 py-3 mb-3">
               <div className="text-xs font-semibold text-[#b8860b] mb-1" style={{ fontFamily: 'system-ui' }}>⚡ Key Differences</div>
               <ul className="text-sm text-primary/80 leading-relaxed space-y-1" style={{ fontFamily: 'system-ui' }}>
                 {parsedResult.keyDifferences.map((diff, i) => (
@@ -286,7 +287,7 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
           )}
 
           {parsedResult.headsUp && (
-            <div className="bg-red-50 border-l-3 border-red-400 rounded-r-lg px-4 py-3 mb-3">
+            <div className="bg-red-50 border-l-[3px] border-red-400 rounded-r-lg px-4 py-3 mb-3">
               <div className="text-xs font-semibold text-red-600 mb-1" style={{ fontFamily: 'system-ui' }}>⚠️ Heads Up</div>
               <p className="text-sm text-primary/80 leading-relaxed" style={{ fontFamily: 'system-ui' }}>{parsedResult.headsUp}</p>
             </div>

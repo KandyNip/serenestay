@@ -30,9 +30,10 @@ const COLORS = ['#2D6A4F', '#D4A373', '#5B8FB9', '#c2785c'];
 
 interface DestinationRadarProps {
   destinations: Destination[];
+  showLegend?: boolean;
 }
 
-export default function DestinationRadar({ destinations }: DestinationRadarProps) {
+export default function DestinationRadar({ destinations, showLegend = true }: DestinationRadarProps) {
   // 构建recharts数据
   const data = DIMENSIONS.map((dim) => {
     const entry: Record<string, string | number> = {
@@ -113,7 +114,7 @@ export default function DestinationRadar({ destinations }: DestinationRadarProps
       )}
 
       {/* 多目的地：legend chips */}
-      {!isSingle && (
+      {!isSingle && showLegend && (
         <div className="flex flex-wrap justify-center gap-3 mt-2">
           {destinations.map((dest, i) => (
             <span
