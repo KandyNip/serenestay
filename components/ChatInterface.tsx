@@ -16,7 +16,6 @@ import {
 } from '@/lib/itinerary-storage';
 import type { SavedItinerary } from '@/lib/itinerary-storage';
 import ItineraryModal from '@/components/ItineraryModal';
-import { getCategoryImage } from '@/lib/itinerary-images';
 
 // Quick reply suggestions
 const quickReplies = [
@@ -197,6 +196,41 @@ Or just share what's on your mind, and we'll explore together.`,
     }
   }, [destinationContext, destinationName, continueSlug, continueName, messages.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Detect if the AI response contains itinerary content but is missing the [ITINERARY:slug] marker
+  // This handles regeneration cases where the AI forgets to include the marker
+  const detectMissingItineraryMarker = (response: string, userMsg: string, allMessages: Message[]): string | null => {
+    // Already has marker — no action needed
+    if (response.match(/\[ITINERARY:[^\]]+\]/)) return null;
+
+    // Check if response contains day-by-day itinerary structure (e.g., **Day 1**, **Day 2**)
+    const dayHeaders = response.match(/\*\*Day\s+\d+/g);
+    if (!dayHeaders || dayHeaders.length < 2) return null;
+
+    // Check if user's message indicates regeneration/modification intent
+    const regenKeywords = /regenerat|not satisfied|try again|change.*days?|make it|modify|revise|redo|different|shorter|longer|more.*focus|less.*focus|adjust|update.*itin|重新|不满意|再[生创]|改[一变]|换.*天|调整/i;
+    const hasRegenKeyword = regenKeywords.test(userMsg);
+
+    // Also check if there's already an itinerary in the conversation (meaning this is a regeneration)
+    const hasExistingItinerary = allMessages.some(m => m._itineraryData);
+
+    if (!hasRegenKeyword && !hasExistingItinerary) return null;
+
+    // Try to extract slug from existing itinerary data in messages
+    for (const msg of allMessages) {
+      if (msg._itineraryData && typeof msg._itineraryData === 'object') {
+        const slug = (msg._itineraryData as SavedItinerary).slug;
+        if (slug) return slug;
+      }
+    }
+
+    // Try to extract slug from [DEST:slug] markers in conversation
+    const allContent = allMessages.map(m => m.content).join(' ') + ' ' + response;
+    const destMatch = allContent.match(/\[DEST:([^\]]+)\]/);
+    if (destMatch) return destMatch[1];
+
+    return null;
+  };
+
   // Handle streaming response
   const handleStreamResponse = useCallback(async (userMessage: string) => {
     setIsStreaming(true);
@@ -244,7 +278,26 @@ Or just share what's on your mind, and we'll explore together.`,
             isAutoTriggerRef.current = false;
 
             // Check for [ITINERARY:slug] marker in the full response
-            const itineraryMatch = fullResponse.match(/\[ITINERARY:([^\]]+)\]/);
+            let itineraryMatch = fullResponse.match(/\[ITINERARY:([^\]]+)\]/);
+
+            // Safety net: detect itinerary content without marker (regeneration case)
+            if (!itineraryMatch) {
+              const detectedSlug = detectMissingItineraryMarker(fullResponse, userMessage, [...messages, { id: 'current', role: 'user' as const, content: userMessage }]);
+              if (detectedSlug) {
+                // Inject the marker so the normal flow handles it
+                fullResponse += `\n\n[ITINERARY:${detectedSlug}]`;
+                itineraryMatch = fullResponse.match(/\[ITINERARY:([^\]]+)\]/);
+                // Update the displayed message to include the cleaned version
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === assistantMessageId
+                      ? { ...msg, content: fullResponse }
+                      : msg
+                  )
+                );
+              }
+            }
+
             if (itineraryMatch) {
               const slug = itineraryMatch[1];
               // Remove marker from display content
@@ -372,13 +425,6 @@ Or just share what's on your mind, and we'll explore together.`,
     // Generate summary of planned days
     const plannedDaysSummary = `Phase ${phase}: Days ${dayRange} - ${focus} focus (${duration} days)`;
 
-    // Extract cover image from first [cat:] or [wiki:] tag
-    let coverImage: string | undefined;
-    const catMatch = content.match(/\[cat:([^\]]+)\]/);
-    if (catMatch) {
-      coverImage = getCategoryImage(catMatch[1]);
-    }
-
     const itinerary = {
       slug,
       name,
@@ -387,7 +433,6 @@ Or just share what's on your mind, and we'll explore together.`,
       savedAt: new Date().toISOString(),
       parsed: { itinerary: content },
       overview,
-      coverImage,
       phase,
       dayRange,
       totalTripDays: duration,
