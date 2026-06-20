@@ -801,7 +801,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
             <button
               onClick={() => {
                 if (isSaved) {
-                  removeItinerary(slug, actualDuration, focus);
+                  removeItinerary(slug, 1, focus);
                   setIsSaved(false);
                 } else if (parsed) {
                   saveItinerary({
@@ -812,6 +812,10 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                     savedAt: new Date().toISOString(),
                     parsed,
                     coverImage: destination?.images[0],
+                    phase: 1,
+                    dayRange: `1-${actualDuration}`,
+                    totalTripDays: actualDuration,
+                    plannedDaysSummary: `Phase 1: Days 1-${actualDuration} - ${focus} focus`,
                   });
                   setIsSaved(true);
                 }
