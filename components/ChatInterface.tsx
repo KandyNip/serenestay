@@ -297,7 +297,14 @@ Or just share what's on your mind, and we'll explore together.`,
   };
 
   // Handle quick reply click
-  const handleQuickReply = async (reply: { label: string; message: string }) => {
+  const handleQuickReply = async (reply: { label: string; message: string }, messageId?: string) => {
+    // Clear quickReplies from the source message so buttons disappear after click
+    if (messageId) {
+      setMessages((prev) => prev.map(m =>
+        m.id === messageId ? { ...m, quickReplies: undefined } : m
+      ));
+    }
+
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       role: 'user',
@@ -694,7 +701,7 @@ Or just share what's on your mind, and we'll explore together.`,
                     {message.quickReplies.map((reply, idx) => (
                       <button
                         key={idx}
-                        onClick={() => handleQuickReply(reply)}
+                        onClick={() => handleQuickReply(reply, message.id)}
                         className="px-3 py-1.5 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-medium rounded-full transition-colors"
                       >
                         {reply.label}
