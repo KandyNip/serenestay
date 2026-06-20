@@ -9,12 +9,14 @@ import DestinationChatCard from '@/components/DestinationChatCard';
 import {
   getSavedItineraries,
   saveItinerary,
+  removeItinerary,
   getNextPhaseForDestination,
   getPlannedPhasesForDestination,
   generatePlannedPhasesSummary,
 } from '@/lib/itinerary-storage';
 import type { SavedItinerary } from '@/lib/itinerary-storage';
 import ItineraryModal from '@/components/ItineraryModal';
+import { getCategoryImage } from '@/lib/itinerary-images';
 
 // Quick reply suggestions
 const quickReplies = [
@@ -371,8 +373,12 @@ Or just share what's on your mind, and we'll explore together.`,
     // Generate summary of planned days
     const plannedDaysSummary = `Phase ${phase}: Days ${dayRange} - ${focus} focus (${duration} days)`;
 
-    // Get cover image from first activity if available
-    const coverImage = undefined; // Could extract from first [cat:] or [wiki:] tag
+    // Extract cover image from first [cat:] or [wiki:] tag
+    let coverImage: string | undefined;
+    const catMatch = content.match(/\[cat:([^\]]+)\]/);
+    if (catMatch) {
+      coverImage = getCategoryImage(catMatch[1]);
+    }
 
     const itinerary = {
       slug,
@@ -424,9 +430,10 @@ Or just share what's on your mind, and we'll explore together.`,
           slug,
           proToken,
           duration: (() => {
-            // Extract duration from recent chat context
-            const recentMessages = messages.slice(-6).map(m => m.content).join(' ');
-            const daysMatch = recentMessages.match(/(\d+)\s*days?/i);
+            // Extract duration from recent USER messages only (avoid matching AI examples)
+            const userMessages = messages.filter(m => m.role === 'user').slice(-4).map(m => m.content).join(' ');
+            // Match: "3 days", "3-day", "3天", "3 day", "3-night" etc.
+            const daysMatch = userMessages.match(/(\d+)\s*[-\s]?\s*(?:days?|nights?|天)/i);
             return daysMatch ? parseInt(daysMatch[1]) : 7;
           })(),
           focus: (() => {
@@ -468,6 +475,8 @@ Or just share what's on your mind, and we'll explore together.`,
                 ...msg,
                 content: `✨ Your ${saved.duration}-day ${saved.focus} itinerary for ${saved.name} is ready! I've saved it for you — click below to explore the full day-by-day plan with activities, tips, and budget details.`,
                 quickReplies: [
+                  { label: '👍 Satisfied', message: "I'm satisfied with this itinerary, thank you!" },
+                  { label: '👎 Not quite', message: "This itinerary doesn't quite match what I was looking for. Can you adjust it?" },
                   { label: '📋 View Full Itinerary', message: `Show me the full itinerary for ${saved.name}` },
                   { label: '🔧 Adjust it', message: "I'd like to adjust some parts of this itinerary. Can you change the activities or focus?" },
                 ],
@@ -841,6 +850,9 @@ Or just share what's on your mind, and we'll explore together.`,
           itinerary={viewingItinerary}
           onClose={() => setViewingItinerary(null)}
           onDelete={() => {
+            if (viewingItinerary) {
+              removeItinerary(viewingItinerary.slug, viewingItinerary.phase, viewingItinerary.focus);
+            }
             setViewingItinerary(null);
           }}
         />

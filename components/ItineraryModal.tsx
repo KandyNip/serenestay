@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { X, Map, Calendar, Target, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import type { SavedItinerary } from '@/lib/itinerary-storage';
+import { getCategoryImage, getCategoryEmoji } from '@/lib/itinerary-images';
 
 interface ItineraryModalProps {
   itinerary: SavedItinerary;
@@ -99,6 +100,58 @@ export default function ItineraryModal({ itinerary, onClose, onDelete }: Itinera
 
   const parsed = parseItinerary();
 
+  // Parse image tags like [wiki:Page_Title] or [cat:category] and render as images
+  const renderLineWithImages = (line: string, key: string) => {
+    // Match [wiki:Page_Title] or [cat:category] tags
+    const imageTagRegex = /\[(wiki|cat):([^\]]+)\]/g;
+    const parts: (string | React.ReactNode)[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = imageTagRegex.exec(line)) !== null) {
+      // Add text before the tag
+      if (match.index > lastIndex) {
+        parts.push(line.substring(lastIndex, match.index));
+      }
+
+      const [, type, value] = match;
+      if (type === 'cat') {
+        // Category image
+        const imageUrl = getCategoryImage(value);
+        const emoji = getCategoryEmoji(value);
+        parts.push(
+          <span key={`${key}-${match.index}`} className="inline-flex items-center gap-1 mx-1">
+            <img
+              src={imageUrl}
+              alt={value}
+              className="w-6 h-6 rounded object-cover inline-block"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+            <span className="text-xs">{emoji} {value}</span>
+          </span>
+        );
+      } else if (type === 'wiki') {
+        // Wikipedia image - use a placeholder or fetch from API
+        parts.push(
+          <span key={`${key}-${match.index}`} className="inline-flex items-center gap-1 mx-1 text-xs text-primary/60">
+            📷 {value.replace(/_/g, ' ')}
+          </span>
+        );
+      }
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    // Add remaining text
+    if (lastIndex < line.length) {
+      parts.push(line.substring(lastIndex));
+    }
+
+    return parts.length > 0 ? <>{parts}</> : line;
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden">
@@ -183,18 +236,18 @@ export default function ItineraryModal({ itinerary, onClose, onDelete }: Itinera
                             if (line.startsWith('- ') || line.startsWith('* ')) {
                               return (
                                 <li key={i} className="ml-4 mb-1">
-                                  {line.substring(2)}
+                                  {renderLineWithImages(line.substring(2), `li-${i}`)}
                                 </li>
                               );
                             }
                             if (line.match(/^\d+\./)) {
                               return (
                                 <li key={i} className="ml-4 mb-1 list-decimal">
-                                  {line.replace(/^\d+\./, '').trim()}
+                                  {renderLineWithImages(line.replace(/^\d+\./, '').trim(), `ol-${i}`)}
                                 </li>
                               );
                             }
-                            return <p key={i} className="mb-2">{line}</p>;
+                            return <p key={i} className="mb-2">{renderLineWithImages(line, `p-${i}`)}</p>;
                           })}
                         </div>
                       </div>
