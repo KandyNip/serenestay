@@ -16,7 +16,7 @@ interface RadarChartPreviewProps {
   destinations: Destination[];
 }
 
-const COLORS = ['#6366f1', '#f59e0b', '#10b981'];
+const COLORS = ['#2D6A4F', '#D4A373', '#5B8FB9'];
 
 const DIMENSION_LABELS: Record<string, string> = {
   serenity: 'Serenity',
@@ -51,10 +51,10 @@ export default function RadarChartPreview({ destinations }: RadarChartPreviewPro
       <div className="container-full px-4">
         <div className="text-center mb-10">
           <h2 className="font-serif text-2xl sm:text-3xl text-primary">
-            Destination Comparison
+            See the Difference
           </h2>
           <p className="mt-2 text-primary/60 text-sm">
-            How our top healing stays score across 9 dimensions
+            Not all healing stays are created equal — see how they compare across 9 dimensions
           </p>
         </div>
 
