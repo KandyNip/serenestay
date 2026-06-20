@@ -13,6 +13,8 @@ import {
   getPlannedPhasesForDestination,
   generatePlannedPhasesSummary,
 } from '@/lib/itinerary-storage';
+import type { SavedItinerary } from '@/lib/itinerary-storage';
+import ItineraryModal from '@/components/ItineraryModal';
 
 // Quick reply suggestions
 const quickReplies = [
@@ -87,6 +89,9 @@ export default function ChatInterface({
       .then((data: { destinations: Destination[] }) => setAllDestinations(data.destinations || []))
       .catch(() => {});
   }, []);
+
+  // State for viewing itinerary in modal
+  const [viewingItinerary, setViewingItinerary] = useState<SavedItinerary | null>(null);
 
   // Welcome message
   const displayName = destinationName || destinationContext || '';
@@ -298,6 +303,18 @@ Or just share what's on your mind, and we'll explore together.`,
 
   // Handle quick reply click
   const handleQuickReply = async (reply: { label: string; message: string }, messageId?: string) => {
+    // Special handling: View Full Itinerary button opens modal
+    if (reply.label === '📋 View Full Itinerary' && messageId) {
+      const sourceMsg = messages.find(m => m.id === messageId);
+      const itData = sourceMsg?._itineraryData as SavedItinerary | undefined;
+      if (itData) {
+        setViewingItinerary(itData);
+        // Clear quickReplies
+        setMessages((prev) => prev.map(m => m.id === messageId ? { ...m, quickReplies: undefined } : m));
+        return;
+      }
+    }
+
     // Clear quickReplies from the source message so buttons disappear after click
     if (messageId) {
       setMessages((prev) => prev.map(m =>
@@ -445,19 +462,12 @@ Or just share what's on your mind, and we'll explore together.`,
           msg.id === assistantMessageId
             ? {
                 ...msg,
-                content: (() => {
-                  // Parse itinerary into readable summary
-                  const dayMatches = [...itineraryContent.matchAll(/\*\*Day\s+(\d+):\s*(.+?)\*\*/g)];
-                  const themeList = dayMatches.map(m => `Day ${m[1]}: ${m[2]}`).join('\n');
-                  const budgetMatch = itineraryContent.match(/\|Total\|[^|]*\|([^|]+)\|([^|]+)\|/);
-                  const budgetLine = budgetMatch ? `\n\n💰 Budget: $${budgetMatch[2].trim()} (budget) / $${budgetMatch[3].trim()} (comfort)` : '';
-
-                  return `✨ Your ${saved.duration}-day ${saved.focus} itinerary for ${saved.name} is ready!\n\n🗓️ Day-by-Day:\n${themeList}${budgetLine}\n\n📌 I've saved this itinerary to your Saved page — you can view the full details there anytime!`;
-                })(),
+                content: `✨ Your ${saved.duration}-day ${saved.focus} itinerary for ${saved.name} is ready! I've saved it for you — click below to explore the full day-by-day plan with activities, tips, and budget details.`,
                 quickReplies: [
-                  { label: '👍 Looks good!', message: 'This itinerary looks great! Thanks for planning this.' },
-                  { label: '🔧 Adjust it', message: 'I\'d like to adjust some parts of this itinerary. Can you change the activities or focus?' },
+                  { label: '📋 View Full Itinerary', message: `Show me the full itinerary for ${saved.name}` },
+                  { label: '🔧 Adjust it', message: "I'd like to adjust some parts of this itinerary. Can you change the activities or focus?" },
                 ],
+                _itineraryData: saved,
               }
             : msg
         )
@@ -821,6 +831,17 @@ Or just share what's on your mind, and we'll explore together.`,
           </p>
         </div>
       </div>
+
+      {/* Itinerary Modal for viewing generated itinerary */}
+      {viewingItinerary && (
+        <ItineraryModal
+          itinerary={viewingItinerary}
+          onClose={() => setViewingItinerary(null)}
+          onDelete={() => {
+            setViewingItinerary(null);
+          }}
+        />
+      )}
     </div>
   );
 }

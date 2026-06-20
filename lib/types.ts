@@ -77,6 +77,7 @@ export interface Message {
   role: 'user' | 'assistant';
   content: string;
   quickReplies?: { label: string; message: string }[];
+  _itineraryData?: any; // SavedItinerary data for View Full Itinerary button
 }
 
 // User preferences for AI matching
