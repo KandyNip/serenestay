@@ -5,7 +5,7 @@ import { Lock, Sparkles, Map, CalendarDays, Compass, Info, MessageCircle, Bookma
 import Link from 'next/link';
 import { checkProStatus } from '@/lib/api';
 import { getCategoryImage, getCategoryEmoji, DEFAULT_IMAGE } from '@/lib/itinerary-images';
-import { saveItinerary, isItinerarySaved, removeItinerary, getSavedItineraries } from '@/lib/itinerary-storage';
+import { saveItinerary, isItinerarySaved, removeItinerary, getSavedItineraries, getPlannedPhasesForDestination, generatePlannedPhasesSummary } from '@/lib/itinerary-storage';
 
 interface ItinerarySectionProps {
   slug: string;
@@ -804,6 +804,20 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                   removeItinerary(slug, actualDuration, focus);
                   setIsSaved(false);
                 } else if (parsed) {
+                  // Calculate phase information
+                  const plannedPhases = getPlannedPhasesForDestination(slug);
+                  const startDay = plannedPhases.length > 0
+                    ? Math.max(...plannedPhases.map(p => {
+                        const range = p.dayRange.split('-').map(Number);
+                        return range[1] || 0;
+                      })) + 1
+                    : 1;
+                  const endDay = startDay + actualDuration - 1;
+                  const dayRange = `${startDay}-${endDay}`;
+                  const phase = plannedPhases.length + 1;
+                  const totalTripDays = endDay;
+                  const plannedPhasesSummary = generatePlannedPhasesSummary(slug);
+
                   saveItinerary({
                     slug,
                     name,
@@ -812,6 +826,10 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                     savedAt: new Date().toISOString(),
                     parsed,
                     coverImage: destination?.images[0],
+                    phase,
+                    dayRange,
+                    totalTripDays,
+                    plannedDaysSummary: plannedPhasesSummary,
                   });
                   setIsSaved(true);
                 }

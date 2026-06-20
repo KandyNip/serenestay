@@ -10,6 +10,7 @@ import {
   getSavedItineraries,
   saveItinerary,
   getNextPhaseForDestination,
+  getPlannedPhasesForDestination,
   generatePlannedPhasesSummary,
 } from '@/lib/itinerary-storage';
 
@@ -328,13 +329,19 @@ Or just share what's on your mind, and we'll explore together.`,
     // Get next phase number
     const phase = getNextPhaseForDestination(slug);
 
-    // Calculate day range
-    const startDay = (phase - 1) * 7 + 1;
-    const endDay = Math.min(phase * 7, duration);
+    // Calculate day range based on previous phases
+    const plannedPhases = getPlannedPhasesForDestination(slug);
+    const startDay = plannedPhases.length > 0
+      ? Math.max(...plannedPhases.map(p => {
+          const range = p.dayRange.split('-').map(Number);
+          return range[1] || 0;
+        })) + 1
+      : 1;
+    const endDay = startDay + duration - 1;
     const dayRange = `${startDay}-${endDay}`;
 
     // Generate summary of planned days
-    const plannedDaysSummary = `Phase ${phase}: Days ${dayRange} - ${focus} focus`;
+    const plannedDaysSummary = `Phase ${phase}: Days ${dayRange} - ${focus} focus (${duration} days)`;
 
     // Get cover image from first activity if available
     const coverImage = undefined; // Could extract from first [cat:] or [wiki:] tag
@@ -388,7 +395,12 @@ Or just share what's on your mind, and we'll explore together.`,
         body: JSON.stringify({
           slug,
           proToken,
-          duration: 7, // Default 7 days per phase
+          duration: (() => {
+            // Extract duration from recent chat context
+            const recentMessages = messages.slice(-6).map(m => m.content).join(' ');
+            const daysMatch = recentMessages.match(/(\d+)\s*days?/i);
+            return daysMatch ? parseInt(daysMatch[1]) : 7;
+          })(),
           focus: 'wellness',
           chatContext,
           plannedPhasesSummary,
@@ -411,11 +423,18 @@ Or just share what's on your mind, and we'll explore together.`,
           msg.id === assistantMessageId
             ? {
                 ...msg,
-                content: itineraryContent,
+                content: (() => {
+                  // Parse itinerary into readable summary
+                  const dayMatches = [...itineraryContent.matchAll(/\*\*Day\s+(\d+):\s*(.+?)\*\*/g)];
+                  const themeList = dayMatches.map(m => `Day ${m[1]}: ${m[2]}`).join('\n');
+                  const budgetMatch = itineraryContent.match(/\|Total\|[^|]*\|([^|]+)\|([^|]+)\|/);
+                  const budgetLine = budgetMatch ? `\n\n💰 Budget: $${budgetMatch[2].trim()} (budget) / $${budgetMatch[3].trim()} (comfort)` : '';
+
+                  return `✨ Your ${saved.duration}-day ${saved.focus} itinerary for ${saved.name} is ready!\n\n🗓️ Day-by-Day:\n${themeList}${budgetLine}\n\n📌 I've saved this itinerary to your Saved page — you can view the full details there anytime!`;
+                })(),
                 quickReplies: [
-                  { label: '👍 Looks good', message: `itinerary_satisfied:${slug}:${saved.phase}` },
-                  { label: '🔄 Regenerate', message: `itinerary_regenerate:${slug}` },
-                  { label: '👎 Not what I wanted', message: `itinerary_feedback:${slug}:Please adjust the itinerary` },
+                  { label: '👍 Looks good!', message: 'This itinerary looks great! Thanks for planning this.' },
+                  { label: '🔧 Adjust it', message: 'I\'d like to adjust some parts of this itinerary. Can you change the activities or focus?' },
                 ],
               }
             : msg
@@ -562,7 +581,7 @@ Or just share what's on your mind, and we'll explore together.`,
             onClick={() => {
               // Only show confirmation if there are messages beyond the welcome message
               if (messages.length > 1) {
-                if (!confirm('Start a new chat? Your current conversation will be cleared.')) {
+                if (!confirm('Start a new conversation? Your current chat history and any unsaved itinerary drafts will be cleared. Saved itineraries won\'t be affected.')) {
                   return;
                 }
               }
