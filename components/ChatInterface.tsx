@@ -319,8 +319,8 @@ Or just share what's on your mind, and we'll explore together.`,
     const duration = durationMatch ? parseInt(durationMatch[1]) : 7;
 
     // Extract focus from content or default
-    const focusMatch = content.match(/###\s*🧘\s*Wellness\s+Focus:\s*(.+)/i);
-    const focus = focusMatch ? focusMatch[1].trim().toLowerCase() : 'wellness';
+    const focusMatch = content.match(/###\s*🧘\s*(?:Wellness\s+)?Focus:\s*(.+)/i);
+    const focus = focusMatch ? focusMatch[1].trim().replace(/[^a-z\s]/gi, '').trim().toLowerCase() || 'wellness' : 'wellness';
 
     // Extract overview
     const overviewMatch = content.match(/###\s*✨\s*Trip\s+Overview\s*\n([\s\S]*?)(?=###|$)/i);
@@ -401,7 +401,21 @@ Or just share what's on your mind, and we'll explore together.`,
             const daysMatch = recentMessages.match(/(\d+)\s*days?/i);
             return daysMatch ? parseInt(daysMatch[1]) : 7;
           })(),
-          focus: 'wellness',
+          focus: (() => {
+            // Extract focus from recent chat context
+            const recentMessages = messages.slice(-6).map(m => m.content).join(' ');
+            // Match user's explicit focus keywords
+            const focusPatterns = [
+              /(?:focus|focused)\s+on\s+(wellness|nature|culture|nomad|adventure|spiritual|detox|yoga|meditation)/i,
+              /(?:looking\s+for|want|prefer|interested\s+in)\s+(?:a\s+)?(wellness|nature|culture|nomad|adventure|spiritual|detox|yoga|meditation)/i,
+              /(wellness|nature|culture|nomad|adventure|spiritual|detox|yoga|meditation)\s+(?:focus|trip|retreat|experience)/i,
+            ];
+            for (const pattern of focusPatterns) {
+              const match = recentMessages.match(pattern);
+              if (match) return match[1].toLowerCase();
+            }
+            return 'wellness';
+          })(),
           chatContext,
           plannedPhasesSummary,
         }),
