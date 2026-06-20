@@ -267,12 +267,16 @@ Or just share what's on your mind, and we'll explore together.`,
       );
     } catch (error) {
       console.error('Chat error:', error);
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+      const isTimeout = errorMsg.includes('timed out');
       setMessages((prev) =>
         prev.map((msg) =>
           msg.id === assistantMessageId
             ? {
                 ...msg,
-                content: 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment, or feel free to reach out to us directly.'
+                content: isTimeout
+                  ? 'I apologize, but the request took too long to process. Please try again — if the issue persists, the AI service may be temporarily busy.'
+                  : 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment, or feel free to reach out to us directly.'
               }
             : msg
         )

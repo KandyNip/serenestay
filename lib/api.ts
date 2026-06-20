@@ -108,68 +108,83 @@ export async function streamChat(
   isProUser?: boolean,
   proToken?: string
 ): Promise<void> {
-  const response = await fetch(`${API_BASE}/api/chat`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      messages,
-      stream: true,
-      isProUser,
-      proToken,
-    }),
-  });
-  
-  if (!response.ok) {
-    throw new Error(`Chat error: ${response.status}`);
-  }
-  
-  if (!response.body) {
-    throw new Error('No response body');
-  }
-  
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = '';
-  
+  // 30秒超时：如果DeepSeek 30秒内没返回任何数据，自动中断
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
+
   try {
-    while (true) {
-      const { done, value } = await reader.read();
-      
-      if (done) {
-        onDone(true);
-        break;
-      }
-      
-      buffer += decoder.decode(value, { stream: true });
-      
-      // Process complete lines
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-      
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          
-          if (data === '[DONE]') {
-            onDone(true);
-            return;
-          }
-          
-          try {
-            const parsed = JSON.parse(data);
-            if (parsed.content) {
-              onChunk(parsed.content);
+    const response = await fetch(`${API_BASE}/api/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        messages,
+        stream: true,
+        isProUser,
+        proToken,
+      }),
+      signal: controller.signal,
+    });
+
+    // 收到响应后清除连接超时
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Chat error: ${response.status}`);
+    }
+
+    if (!response.body) {
+      throw new Error('No response body');
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+          onDone(true);
+          break;
+        }
+
+        buffer += decoder.decode(value, { stream: true });
+
+        // Process complete lines
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+
+            if (data === '[DONE]') {
+              onDone(true);
+              return;
             }
-          } catch {
-            // Skip invalid JSON
+
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.content) {
+                onChunk(parsed.content);
+              }
+            } catch {
+              // Skip invalid JSON
+            }
           }
         }
       }
+    } finally {
+      reader.releaseLock();
     }
-  } finally {
-    reader.releaseLock();
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw new Error('Chat request timed out. Please try again.');
+    }
+    throw error;
   }
 }
 
