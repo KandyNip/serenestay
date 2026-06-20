@@ -5,6 +5,7 @@ import { ArrowRight, Check, Sparkles, RotateCcw, Save, Share2, Plus, MapPin, Cal
 import MoodChips, { MOOD_CHIPS, getMoodLabels } from './MoodChips';
 import ItineraryDayCard from './ItineraryDayCard';
 import ItineraryChatInput from './ItineraryChatInput';
+import DisclaimerNote from './DisclaimerNote';
 import type { ItinerarySession, DaySummary } from '@/lib/itinerary-session';
 import { getSession, saveSession, clearSession, initSession, addDayToSession, isSessionComplete, getPreviousDaysContext } from '@/lib/itinerary-session';
 import { saveDayByDayItinerary } from '@/lib/itinerary-storage';
@@ -282,7 +283,7 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
               What's your focus?
             </label>
             <div className="flex flex-wrap gap-2">
-              {['wellness', 'adventure', 'culture', 'relaxation', 'digital-nomad'].map(f => (
+              {['wellness', 'adventure', 'culture', 'relaxation'].map(f => (
                 <button
                   key={f}
                   onClick={() => setFocus(f)}
@@ -292,7 +293,7 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
                       : 'bg-primary/5 text-primary/70 hover:bg-primary/10'
                   }`}
                 >
-                  {f === 'digital-nomad' ? 'Digital Nomad' : f}
+                  {f}
                 </button>
               ))}
             </div>
@@ -578,6 +579,9 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
           </button>
         </div>
       )}
+
+      {/* AI disclaimer */}
+      <DisclaimerNote />
     </div>
   );
 }

@@ -94,7 +94,7 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
             </Link>
 
             <p className="mt-3 text-xs text-primary/40">
-              Pro also unlocks unlimited AI chat, destination matching & more
+              Pro also unlocks 5 AI-matched healing destinations, day-by-day itineraries & more
             </p>
           </div>
         </div>

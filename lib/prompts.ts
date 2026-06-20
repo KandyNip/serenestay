@@ -654,7 +654,10 @@ Use this context to:
 {One practical tip specific to today's activities — transport, cultural etiquette, what to pack, etc.}
 
 ### 🎯 Mood Check
-{1-2 sentences on how today's activities reflect the selected mood chips and contribute to the overall healing journey}`;
+{1-2 sentences on how today's activities reflect the selected mood chips and contribute to the overall healing journey}
+
+### 📝 Note
+This itinerary is AI-generated based on destination data and wellness expertise. Specific venues and programs may vary — we recommend verifying details before booking.`;
 
 /**
  * Build AI messages for generating a single day of an itinerary
