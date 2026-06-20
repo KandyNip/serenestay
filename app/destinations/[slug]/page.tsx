@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ChevronLeft, Calendar, MessageCircle, Plane, Wifi, Heart, Clock, AlertTriangle, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { ChevronLeft, Calendar, Plane, Wifi, Heart, Clock, AlertTriangle, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { getDestinationBySlug, loadDestinations } from '@/lib/destinations';
 import ScoreBar from '@/components/ScoreBar';
 import VetoWarning from '@/components/VetoWarning';
@@ -362,29 +362,6 @@ export default async function DestinationDetailPage({ params }: PageProps) {
               </Link>
             </div>
 
-            {/* Chat CTA */}
-            <div className="bg-gradient-to-br from-secondary to-primary rounded-2xl p-6 text-white">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                  <MessageCircle className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-serif text-xl">Chat with Serene</h3>
-                  <p className="text-white/70 text-sm">AI Wellness Guide</p>
-                </div>
-              </div>
-              <p className="text-white/80 text-sm mb-4">
-                Want to dive deeper? Return to your conversation with Serene and explore {destination.name} together.
-              </p>
-              <Link
-                href={`/chat?continue=${destination.slug}&name=${encodeURIComponent(destination.name)}`}
-                className="block w-full py-3 bg-white text-primary text-center rounded-xl font-medium hover:bg-surface transition-colors"
-              >
-                Continue Chat About {destination.name}
-              </Link>
-            </div>
-
-            {/* Compare Destinations */}
             <Suspense fallback={<div className="h-32" />}>
               <CompareSection currentSlug={destination.slug} currentName={destination.name} />
             </Suspense>
