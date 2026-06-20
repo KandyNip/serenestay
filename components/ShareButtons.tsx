@@ -13,7 +13,7 @@ export default function ShareButtons({ destinationName, destinationSlug }: Share
   const [expanded, setExpanded] = useState(false);
 
   const shareUrl = `https://howistoday.online/destinations/${destinationSlug}`;
-  const shareText = `Check out ${destinationName} on SereneStay.ai — AI-powered healing retreat matching!`;
+  const shareText = `Check out ${destinationName} on SereneStay.ai — AI-powered healing stay matching!`;
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedText = encodeURIComponent(shareText);
 

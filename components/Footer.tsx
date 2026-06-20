@@ -47,7 +47,7 @@ export default function Footer() {
               SereneStay.ai
             </Link>
             <p className="mt-4 text-white/70 text-sm leading-relaxed">
-              Discover your perfect healing retreat with AI-powered matching.
+              Discover your perfect healing stay with AI-powered matching.
               Find tranquility, connect with nature, and begin your wellness journey.
             </p>
           </div>

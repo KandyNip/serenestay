@@ -59,7 +59,7 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
           </div>
         </div>
         <p className="text-primary/60 text-sm mb-4">
-          See how {currentName} stacks up against other retreats — AI-powered head-to-head comparison.
+          See how {currentName} stacks up against other healing stays — AI-powered head-to-head comparison.
         </p>
         <Link
           href="/pricing"

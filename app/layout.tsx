@@ -29,20 +29,18 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://howistoday.online'),
   title: {
-    default: 'SereneStay.ai - Find Your Perfect Healing Retreat',
+    default: 'SereneStay.ai — AI-Matched Healing Stays',
     template: '%s | SereneStay.ai',
   },
   description:
-    'Discover tranquility with AI-powered healing retreat matching. Find your perfect sanctuary for wellness, nature, and serenity around the world.',
+    'Tell us how you feel. Get AI-matched to a healing stay — yoga in Bali, temple stays in Thailand, forest bathing in Japan. 56 curated places, 9-dimension scoring, free to start.',
   keywords: [
-    'healing retreat',
+    'healing stay',
     'wellness travel',
     'serenity',
-    'nature retreat',
+    'nature healing stay',
     'wellness destination',
     'mindfulness travel',
-    'digital nomad',
-    'remote work travel',
   ],
   authors: [{ name: 'SereneStay.ai' }],
   creator: 'SereneStay.ai',
@@ -51,23 +49,23 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://howistoday.online',
     siteName: 'SereneStay.ai',
-    title: 'SereneStay.ai - Find Your Perfect Healing Retreat',
+    title: 'SereneStay.ai — AI-Matched Healing Stays',
     description:
-      'Discover tranquility with AI-powered healing retreat matching. Find your perfect sanctuary for wellness, nature, and serenity.',
+      'Tell us how you feel. Get AI-matched to a healing stay — yoga in Bali, temple stays in Thailand, forest bathing in Japan.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'SereneStay.ai - AI-Powered Healing Retreat Matching',
+        alt: 'SereneStay.ai — AI-Powered Healing Stay Matching',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SereneStay.ai - Find Your Perfect Healing Retreat',
+    title: 'SereneStay.ai — AI-Matched Healing Stays',
     description:
-      'Discover tranquility with AI-powered healing retreat matching.',
+      'Tell us how you feel. Get AI-matched to a healing stay — yoga in Bali, temple stays in Thailand, forest bathing in Japan.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -106,7 +104,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "SereneStay.ai",
               url: "https://howistoday.online",
-              description: "AI-powered healing retreat matching platform",
+              description: "AI-powered healing stay matching platform",
               email: "support@howistoday.online",
             }),
           }}

@@ -6,7 +6,7 @@ import type { Destination } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Explore Destinations',
-  description: 'Browse our curated collection of healing retreats and wellness destinations around the world.',
+  description: 'Browse our curated collection of healing stays and wellness destinations around the world.',
 };
 
 interface PageProps {
@@ -33,7 +33,7 @@ export default async function DestinationsPage({ searchParams }: PageProps) {
         {/* Header */}
         <div className="py-12 text-center">
           <h1 className="font-serif text-4xl sm:text-5xl text-primary">
-            Healing Retreats
+            Healing Stays
           </h1>
           <p className="mt-4 text-primary/60 max-w-2xl mx-auto">
             Discover sanctuaries around the world, carefully curated for your wellness journey.

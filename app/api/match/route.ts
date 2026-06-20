@@ -337,7 +337,7 @@ function generateFollowUpQuestions(
   }
 
   if (!preferences?.healingFocus) {
-    questions.push('What\'s your primary goal — burnout recovery, yoga retreat, or something else?');
+    questions.push('What\'s your primary goal — burnout recovery, yoga healing stay, or something else?');
   }
 
   if (!preferences?.nature) {

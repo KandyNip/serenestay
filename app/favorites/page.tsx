@@ -107,7 +107,7 @@ export default function FavoritesPage() {
           Saved
         </h1>
         <p className="mt-4 text-primary/60 max-w-xl mx-auto">
-          Your curated collection of wellness retreats and personalized itineraries.
+          Your curated collection of healing stays and personalized itineraries.
         </p>
 
         {/* Tab Switcher */}

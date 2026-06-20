@@ -229,7 +229,7 @@ export default async function DestinationDetailPage({ params }: PageProps) {
             {/* Description */}
             <div>
               <h2 className="font-serif text-2xl text-primary mb-4">
-                About This Retreat
+                About This Healing Stay
               </h2>
               <p className="text-primary/70 leading-relaxed">
                 {destination.description}

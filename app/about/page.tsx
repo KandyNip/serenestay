@@ -3,8 +3,8 @@ import { Heart, Compass, Shield, Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'About SereneStay.ai | Our Mission',
-  description: 'Built by a solo maker who believes healing should be easy to find. Learn about our mission to connect wellness travelers with transformative retreats worldwide.',
-  keywords: 'wellness travel, healing retreats, solo maker, mindful travel, digital nomad wellness',
+  description: 'Built by a solo maker who believes healing should be easy to find. Learn about our mission to connect wellness travelers with transformative healing stays worldwide.',
+  keywords: 'wellness travel, healing stays, solo maker, mindful travel',
 };
 
 export default function AboutPage() {
@@ -43,7 +43,7 @@ export default function AboutPage() {
             <div className="space-y-4 text-primary/80 leading-relaxed">
               <p>
                 After years of burnout and searching for places to recover, I noticed something:
-                the wellness travel industry was full of options but empty of clarity. Retreats
+                the wellness travel industry was full of options but empty of clarity. Healing stays
                 promised transformation, but how do you know which one is right for <em>you</em>?
               </p>
 
@@ -78,7 +78,7 @@ export default function AboutPage() {
             <div className="space-y-4 text-primary/80 leading-relaxed">
               <p>
                 <strong>To make healing accessible.</strong> Not everyone can afford a $5,000
-                retreat package. Not everyone has the time to research 50 destinations. We believe
+                healing stay package. Not everyone has the time to research 50 destinations. We believe
                 that finding your sanctuary should be as simple as having a conversation.
               </p>
 
@@ -112,7 +112,7 @@ export default function AboutPage() {
 
             <div className="space-y-4 text-primary/80 leading-relaxed">
               <p>
-                We don't take commissions from retreats. We don't rank destinations by who pays
+                We don't take commissions from healing stays. We don't rank destinations by who pays
                 us. Our recommendations are based on real data, real scores, and real traveler
                 needs.
               </p>

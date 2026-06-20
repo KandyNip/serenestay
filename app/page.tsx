@@ -20,7 +20,7 @@ const steps = [
   {
     icon: Compass,
     title: 'Get Matched',
-    description: 'Our AI matches your emotional state with healing stays — temples, hot springs, ocean retreats — across 9 dimensions.',
+    description: 'Our AI matches your emotional state with healing stays — temples, hot springs, ocean sanctuaries — across 9 dimensions.',
   },
   {
     icon: MapPin,

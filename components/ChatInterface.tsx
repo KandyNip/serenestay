@@ -21,7 +21,7 @@ import ItineraryModal from '@/components/ItineraryModal';
 const quickReplies = [
   { label: '🌿 Looking for peace and quiet', message: 'Looking for peace and quiet' },
   { label: '🏖️ Beach and nature combined', message: 'Beach and nature combined' },
-  { label: '🏔️ Mountain retreat vibes', message: 'Mountain retreat vibes' },
+  { label: '🏔️ Mountain healing vibes', message: 'Mountain healing vibes' },
   { label: '💼 Good WiFi for remote work', message: 'Good WiFi for remote work' },
   { label: '💰 Budget-friendly option', message: 'Budget-friendly option' },
   { label: '🧘 Focus on wellness', message: 'Focus on wellness' },
@@ -102,8 +102,8 @@ export default function ChatInterface({
     content: destinationContext
       ? `Let me tell you about ${displayName} ✨`
       : isProUser
-        ? `Hello! I'm Serene, your personal wellness travel guide ✨ I'll help you find a healing retreat that's truly matched to how you're feeling — not just a popular destination, but one that speaks to YOUR needs.\n\nTo give you the most personalized recommendation, I'd love to understand you better. Tap one of the emotion cards below to get started, or simply tell me what's on your mind 💫`
-        : `Hello! I'm Serene, your AI wellness travel guide. 🌿 I'm here to help you find the perfect healing retreat that matches your needs and dreams.
+        ? `Hello! I'm Serene, your personal wellness travel guide ✨ I'll help you find a healing stay that's truly matched to how you're feeling — not just a popular destination, but one that speaks to YOUR needs.\n\nTo give you the most personalized recommendation, I'd love to understand you better. Tap one of the emotion cards below to get started, or simply tell me what's on your mind 💫`
+        : `Hello! I'm Serene, your AI wellness travel guide. 🌿 I'm here to help you find the perfect healing stay that matches your needs and dreams.
 
 What matters most to you in a wellness destination? You can tell me about:
 • Your budget and preferred climate
@@ -393,7 +393,7 @@ Or just share what's on your mind, and we'll explore together.`,
   // Parse itinerary content and save to localStorage
   const parseItineraryForChat = (content: string, slug: string) => {
     // Extract destination name from content
-    const nameMatch = content.match(/#\s*(?:🌿\s*)?(?:Your\s+)?\d+-Day\s+Wellness\s+Retreat\s+in\s+(.+)/i);
+    const nameMatch = content.match(/#\s*(?:🌿\s*)?(?:Your\s+)?\d+-Day\s+Wellness\s+(?:Retreat|Stay)\s+in\s+(.+)/i);
     const name = nameMatch ? nameMatch[1].trim() : slug;
 
     // Extract duration
