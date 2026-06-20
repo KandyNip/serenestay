@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Sparkles, MessageCircle, MapPin, Compass, ArrowRight, CheckCircle } from 'lucide-react';
 import DestinationCard from '@/components/DestinationCard';
+import RadarChartPreview from '@/components/RadarChartPreview';
 import { loadDestinations } from '@/lib/destinations';
 import type { Destination } from '@/lib/types';
 
@@ -263,6 +264,11 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+      )}
+
+      {/* Radar Chart Preview */}
+      {featuredDestinations.length > 0 && (
+        <RadarChartPreview destinations={featuredDestinations} />
       )}
 
       {/* Features Section */}
