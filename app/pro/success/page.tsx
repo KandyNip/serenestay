@@ -108,7 +108,7 @@ function ProSuccessContent() {
             Your SereneStay Pro subscription is now active.
           </p>
           <p className="text-primary/60 mb-8">
-            You now have unlimited AI conversations to find your perfect sanctuary.
+            You now have 5 AI-matched healing destinations to find your perfect sanctuary.
           </p>
 
           {/* Features Unlocked */}
@@ -116,12 +116,12 @@ function ProSuccessContent() {
             <h3 className="font-medium text-primary mb-4">You&apos;ve unlocked:</h3>
             <ul className="space-y-3">
               {[
-                'Unlimited AI conversations',
-                'AI emotional matching & healing insights',
-                'Compare destinations head-to-head',
+                '5 AI-matched healing destinations',
+                'Talk to AI — adjust your compass naturally',
+                'Full Why You Match + Mind the Gap insights',
+                'Compare destinations head-to-head with AI',
                 'Save favorites & build a shortlist',
                 'Personalized AI travel itineraries',
-                'All 56+ destinations with full details',
               ].map((feature, i) => (
                 <li key={i} className="flex items-center gap-3">
                   <div className="flex-shrink-0 w-5 h-5 rounded-full bg-secondary/20 flex items-center justify-center">

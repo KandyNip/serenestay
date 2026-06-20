@@ -124,14 +124,14 @@ export default function AboutPage() {
               </p>
 
               <p>
-                <strong>Free tier is genuinely useful.</strong> Two AI matches are enough to
+                <strong>Free tier is genuinely useful.</strong> The Healing DNA test plus 1 AI match is enough to
                 experience our matching technology. We're not gating features to frustrate you
                 into upgrading — we're building trust through value.
               </p>
 
               <p>
-                <strong>Pro exists for depth, not scarcity.</strong> Unlimited conversations,
-                emotional matching, and detailed healing insights are for people who
+                <strong>Pro exists for depth, not scarcity.</strong> 5 AI-matched destinations,
+                full Why You Match insights, and detailed healing analysis are for people who
                 want to go deeper. The free tier isn't a demo — it's a complete experience.
               </p>
             </div>

@@ -21,12 +21,12 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-serif text-xl text-primary mb-3">2. Free Tier</h2>
-            <p>Free users receive 2 AI-powered destination matches. Usage is tracked via browser local storage.</p>
+            <p>Free users receive 1 AI match after taking the Healing DNA test. Usage is tracked via browser local storage.</p>
           </section>
 
           <section>
             <h2 className="font-serif text-xl text-primary mb-3">3. Pro Subscription</h2>
-            <p>Pro subscribers receive unlimited AI conversations. Subscriptions can be cancelled at any time. We offer a 7-day money-back guarantee for annual plans.</p>
+            <p>Pro subscribers receive 5 AI-matched healing destinations with full insights. Subscriptions can be cancelled at any time. We offer a 7-day money-back guarantee for annual plans.</p>
           </section>
 
           <section>

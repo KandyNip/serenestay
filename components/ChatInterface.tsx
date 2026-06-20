@@ -710,9 +710,9 @@ Or just share what's on your mind, and we'll explore together.`,
               <Zap className="w-5 h-5 text-gold" />
             </div>
             <div className="flex-1">
-              <h4 className="font-medium text-primary">Unlock Unlimited Matches</h4>
+              <h4 className="font-medium text-primary">Unlock 5 AI Matches</h4>
               <p className="mt-1 text-sm text-primary/70">
-                You&apos;ve used your free matches. Upgrade to Pro for unlimited AI-powered matching, 
+                You&apos;ve used your free match. Upgrade to Pro for 5 AI-matched destinations,
                 detailed insights, and exclusive destination guides.
               </p>
               <div className="mt-3 flex items-center gap-3">
@@ -845,7 +845,7 @@ Or just share what's on your mind, and we'll explore together.`,
               <Link href="/pricing" className="text-secondary font-medium hover:underline">
                 Upgrade to Pro
               </Link>{' '}
-              for unlimited conversations.
+              for 5 AI-matched destinations.
             </p>
           </div>
         )}

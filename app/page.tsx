@@ -77,7 +77,7 @@ export default async function HomePage() {
                 name: "What does Pro include?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Pro users get unlimited AI healing destination matches, detailed wellness scores, and personalized emotional matching with guided 4-step wellness consultations. Pro is $14.99/month or $119.88/year.",
+                  text: "Pro users get 5 AI-matched healing destinations with full Why You Match insights, head-to-head comparison, saved favorites, and personalized AI travel itineraries. Pro is $14.99/month or $119.88/year.",
                 },
               },
               {
@@ -341,7 +341,7 @@ export default async function HomePage() {
                 How Are You Feeling?
               </Link>
               <p className="mt-4 text-sm text-primary/50">
-                Free: 2 AI matches + all destination scores + 9-dimension breakdowns
+                Free: Healing DNA test + 1 AI match + all destination scores
               </p>
             </div>
           </div>

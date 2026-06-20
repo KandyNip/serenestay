@@ -5,22 +5,22 @@ import PricingCard from '@/components/PricingCard';
 
 export const metadata: Metadata = {
   title: 'Pricing',
-  description: 'Choose your path to serenity. Start free or unlock unlimited matches with SereneStay Pro.',
+  description: 'Discover your Healing DNA for free, or unlock full AI matching with SereneStay Pro.',
 };
 
 // Pricing data — only real, existing features
 const freeFeatures = [
-  '2 AI-powered destination matches',
+  'Healing DNA test + 1 AI match',
   'Browse all 56+ destinations',
   '9-dimension wellness scoring',
   'View full destination details',
 ];
 
 const proFeatures = [
-  'Unlimited AI conversations',
-  'AI emotional matching — tell Serene how you feel',
-  'AI Healing Insights — why a destination heals & who it\'s best for',
-  'Compare destinations head-to-head with AI analysis',
+  '5 AI-matched healing destinations',
+  'Talk to AI — adjust your compass naturally',
+  'Full Why You Match + Mind the Gap insights',
+  'Compare destinations head-to-head with AI',
   'Save favorites & build a shortlist',
   'Personalized AI travel itineraries',
 ];
@@ -31,7 +31,7 @@ const comingSoonFeatures: string[] = [];
 const faqs = [
   {
     question: 'How does the free tier work?',
-    answer: 'Free users get 2 AI-powered destination matches to experience our matching technology. Both free and Pro use the same 9-dimension scoring system — the only difference is the number of conversations.',
+    answer: 'Free users get 1 AI match after taking the Healing DNA test. Both free and Pro use the same 9-dimension scoring system — the difference is the number of matches and advanced AI insights.',
   },
   {
     question: 'Can I cancel my Pro subscription anytime?',
@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     question: 'What\'s the difference between Free and Pro?',
-    answer: 'Pro includes unlimited conversations, exclusive emotional matching, AI Healing Insights, head-to-head destination comparison, saved favorites & shortlist, and personalized AI travel itineraries. Free users get 2 matches with standard recommendations without emotional analysis, insights, or itinerary planning.',
+    answer: 'Pro includes 5 AI-matched destinations, full Why You Match + Mind the Gap insights, head-to-head destination comparison, saved favorites & shortlist, and personalized AI travel itineraries. Free users get 1 match with the Healing DNA test.',
   },
   {
     question: 'Do you offer refunds?',
@@ -61,7 +61,7 @@ export default function PricingPage() {
           Choose Your Path to Serenity
         </h1>
         <p className="mt-4 text-primary/60 max-w-xl mx-auto">
-          Start your wellness journey for free, or unlock unlimited matching and premium features with Pro.
+          Start your wellness journey for free, or unlock full AI matching and premium features with Pro.
         </p>
       </div>
 
@@ -140,12 +140,13 @@ export default function PricingPage() {
               </thead>
               <tbody>
                 {[
-                  ['AI Destination Matches', '2', 'Unlimited'],
+                  ['AI Destination Matches', '1', '5'],
+                  ['Healing DNA Test', true, true],
                   ['Browse 56+ Destinations', true, true],
                   ['9-Dimension Wellness Scoring', true, true],
                   ['View Full Destination Details', true, true],
                   ['Veto Warnings (WiFi/Medical Alerts)', true, true],
-                  ['Emotional Matching & Healing Insights', false, true],
+                  ['Why You Match + Mind the Gap Insights', false, true],
                   ['Compare Destinations Head-to-Head', false, true],
                   ['Save Favorites & Shortlist', false, true],
                   ['AI Travel Itineraries', false, true],
@@ -219,7 +220,7 @@ export default function PricingPage() {
             Ready to Find Your Sanctuary?
           </h2>
           <p className="mt-4 text-primary/60">
-            Start with 2 free AI matches. No credit card required.
+            Take the free Healing DNA test and get 1 AI match. No credit card required.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
