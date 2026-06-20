@@ -808,7 +808,7 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                   const plannedPhases = getPlannedPhasesForDestination(slug);
                   const startDay = plannedPhases.length > 0
                     ? Math.max(...plannedPhases.map(p => {
-                        const range = p.dayRange.split('-').map(Number);
+                        const range = (p.dayRange || '1-1').split('-').map(Number);
                         return range[1] || 0;
                       })) + 1
                     : 1;

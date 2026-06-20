@@ -77,7 +77,7 @@ export function generatePlannedPhasesSummary(slug: string): string {
   if (phases.length === 0) return '';
 
   const summaries = phases.map(p => {
-    return `Phase ${p.phase} (Days ${p.dayRange}): ${p.plannedDaysSummary || 'No summary available'}`;
+    return `Phase ${p.phase} (Days ${p.dayRange || 'N/A'}): ${p.plannedDaysSummary || 'No summary available'}`;
   });
 
   return `Previously planned phases for this destination:\n${summaries.join('\n')}\n\nPlease avoid repeating these activities and locations in the new phase.`;
