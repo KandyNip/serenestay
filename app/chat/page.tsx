@@ -1,41 +1,77 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { Suspense } from 'react';
-import ChatInterface from '@/components/ChatInterface';
+import DNAQuiz from '@/components/DNAQuiz';
+import DNAResult from '@/components/DNAResult';
+import CompassMatch from '@/components/CompassMatch';
+import { calculateDNAProfile, saveDNAProfile, loadDNAProfile, type DNAProfile, type ScoreKey } from '@/lib/dna-quiz';
 
-function ChatContent() {
-  const searchParams = useSearchParams();
-  const destinationContext = searchParams.get('context') || undefined;
-  const destinationName = searchParams.get('name') || undefined;
-  const continueSlug = searchParams.get('continue') || undefined;
-  const continueName = destinationName;
+type Phase = 'quiz' | 'result' | 'matches';
 
-  // Lock body scroll on chat page so only the chat container scrolls
+function DNAFlowContent() {
+  const [phase, setPhase] = useState<Phase>('quiz');
+  const [profile, setProfile] = useState<DNAProfile | null>(null);
+
+  // 检查是否已有保存的画像
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = '';
-    };
+    const saved = loadDNAProfile();
+    if (saved) {
+      setProfile(saved);
+      setPhase('result');  // 有画像直接到结果页（可继续调整）
+    }
   }, []);
 
+  const handleQuizComplete = (answers: number[]) => {
+    const newProfile = calculateDNAProfile(answers);
+    setProfile(newProfile);
+    saveDNAProfile(newProfile);
+    setPhase('result');
+  };
+
+  const handleRetake = () => {
+    setProfile(null);
+    setPhase('quiz');
+  };
+
+  const handleWeightsChange = (weights: Record<ScoreKey, number>) => {
+    if (!profile) return;
+    const updated = { ...profile, weights };
+    setProfile(updated);
+    saveDNAProfile(updated);
+  };
+
+  const handleViewMatches = () => {
+    setPhase('matches');
+  };
+
   return (
-    <div className="pt-16">
-      <ChatInterface
-        destinationContext={destinationContext}
-        destinationName={destinationName}
-        continueSlug={continueSlug}
-        continueName={continueName}
-      />
+    <div className="min-h-screen pt-16 bg-[#FEFAE0]">
+      {phase === 'quiz' && (
+        <DNAQuiz onComplete={handleQuizComplete} />
+      )}
+      {phase === 'result' && profile && (
+        <DNAResult
+          profile={profile}
+          onWeightsChange={handleWeightsChange}
+          onRetake={handleRetake}
+          onViewMatches={handleViewMatches}
+        />
+      )}
+      {phase === 'matches' && profile && (
+        <CompassMatch
+          profile={profile}
+          onWeightsChange={handleWeightsChange}
+        />
+      )}
     </div>
   );
 }
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
-      <ChatContent />
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#FEFAE0]">Loading...</div>}>
+      <DNAFlowContent />
     </Suspense>
   );
 }

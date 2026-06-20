@@ -15,6 +15,7 @@ import InsightsSection from '@/components/InsightsSection';
 import CompareSection from '@/components/CompareSection';
 import FavoriteButton from '@/components/FavoriteButton';
 import DestinationRadar from '@/components/DestinationRadar';
+import WhyYouMatch from '@/components/WhyYouMatch';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -259,6 +260,12 @@ export default async function DestinationDetailPage({ params }: PageProps) {
                 ))}
               </div>
             </div>
+
+            {/* Why You Match — DNA Profile */}
+            <WhyYouMatch
+              destinationScores={destination.scores as unknown as Record<import('@/lib/dna-quiz').ScoreKey, number>}
+              destinationName={destination.name}
+            />
 
             {/* AI Healing Insights */}
             <InsightsSection slug={destination.slug} />
