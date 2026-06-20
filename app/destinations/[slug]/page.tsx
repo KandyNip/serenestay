@@ -11,7 +11,6 @@ import ProsConsCard from '@/components/ProsConsCard';
 import HealingTagsCard from '@/components/HealingTagsCard';
 import YouTubeEmbed from '@/components/YouTubeEmbed';
 import ShareButtons from '@/components/ShareButtons';
-import ItinerarySection from '@/components/ItinerarySection';
 import InsightsSection from '@/components/InsightsSection';
 import CompareSection from '@/components/CompareSection';
 import FavoriteButton from '@/components/FavoriteButton';
@@ -256,9 +255,6 @@ export default async function DestinationDetailPage({ params }: PageProps) {
 
             {/* AI Healing Insights */}
             <InsightsSection slug={destination.slug} />
-
-            {/* AI Travel Itinerary */}
-            <ItinerarySection slug={destination.slug} name={destination.name} />
 
             {/* Best Season */}
             <div>

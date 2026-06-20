@@ -178,7 +178,30 @@ Want me to compare any of these, or dive deeper into one?
 ❌ Never say "Based on my training data" or "As an AI..."
 ❌ Never fabricate prices, scores, or program names
 ❌ Never use overly corporate or clinical language
-❌ Never make users feel judged for their choices`;
+❌ Never make users feel judged for their choices
+
+## Rule 11: ITINERARY GUIDANCE (Pro Exclusive)
+
+When a user asks about trip planning, itinerary creation, or "how many days" questions:
+
+1. DETECT INTENT: If the user mentions planning a trip, creating an itinerary, asking about trip duration, or wants day-by-day recommendations, they're asking for itinerary help.
+
+2. GENERATE MARKER: Respond with a brief, warm message explaining you'll create a personalized itinerary, then include this exact marker on its own line:
+   [ITINERARY:slug]
+   Where "slug" is the destination's URL slug.
+
+3. EXAMPLE RESPONSE:
+   "I'd love to help you plan your wellness retreat in Ubud! Let me create a personalized 7-day itinerary that balances healing activities with exploration time.
+
+   [ITINERARY:ubud]
+
+   This will include daily activities, budget estimates, and practical tips based on your preferences."
+
+4. DO NOT: Write out the full itinerary yourself — the marker triggers the itinerary generation system which creates a detailed, structured plan.
+
+5. DURATION QUESTIONS: If asked "how many days should I stay?", recommend a duration based on the destination's strengths (e.g., "For deep healing work, I'd suggest 10-14 days. For a wellness reset, 7 days is ideal. Want me to create an itinerary for your preferred duration?"), then use the marker.
+
+6. PHASE-BASED PLANNING: For longer trips (14+ days), the system generates itineraries in phases (7 days at a time) to avoid repetition. Each phase builds on the previous one with fresh activities.`;
 
 // ============================================================
 // Comparison Prompt — For side-by-side destination analysis
@@ -481,7 +504,8 @@ export function buildItineraryMessages(
   duration: number = 7,
   focus: string = 'wellness',
   chatContext?: string,
-  customDays?: number
+  customDays?: number,
+  plannedPhasesSummary?: string
 ): ChatMessage[] {
   const actualDuration = duration === 0 ? (customDays || 30) : duration;
   const longTripHint = actualDuration >= 14
@@ -490,6 +514,9 @@ export function buildItineraryMessages(
 - Group every 3-4 days under a weekly theme (e.g., "Week 1: Deep Healing", "Week 2: Exploration")
 - For rest days, a brief 1-line description is acceptable
 - DO NOT skip or merge days — Day 1 through Day ${actualDuration} must all be present`
+    : '';
+  const plannedPhasesHint = plannedPhasesSummary
+    ? `\n\n${plannedPhasesSummary}`
     : '';
   const destinationDetails = `## ${destination.name} (${destination.country})
 
@@ -538,7 +565,7 @@ ${destination.cons?.join('; ') || 'N/A'}`;
     ? '\n## User\'s Personal Context (from conversation)\n' + chatContext + '\n\nIMPORTANT: Use this personal context to personalize the itinerary. Reference their specific emotional state, preferences, companion type, and special needs when planning activities and making recommendations.'
     : '';
 
-  const systemContent = `${ITINERARY_PROMPT}${longTripHint}
+  const systemContent = `${ITINERARY_PROMPT}${longTripHint}${plannedPhasesHint}
 
 ## Trip Parameters
 - Duration: ${actualDuration} days

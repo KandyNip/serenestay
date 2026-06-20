@@ -2,10 +2,16 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { Send, MessageCircle, Sparkles, ChevronDown, Lock, Zap, RotateCcw } from 'lucide-react';
+import { Send, MessageCircle, Sparkles, ChevronDown, Lock, Zap, RotateCcw, Map, ThumbsUp, ThumbsDown, RefreshCw } from 'lucide-react';
 import { Message, Destination } from '@/lib/types';
 import { streamChat, getRemainingMatches, incrementMatchCount, checkProStatus } from '@/lib/api';
 import DestinationChatCard from '@/components/DestinationChatCard';
+import {
+  getSavedItineraries,
+  saveItinerary,
+  getNextPhaseForDestination,
+  generatePlannedPhasesSummary,
+} from '@/lib/itinerary-storage';
 
 // Quick reply suggestions
 const quickReplies = [
@@ -228,6 +234,26 @@ Or just share what's on your mind, and we'll explore together.`,
             }
             // Reset flag after response completes
             isAutoTriggerRef.current = false;
+
+            // Check for [ITINERARY:slug] marker in the full response
+            const itineraryMatch = fullResponse.match(/\[ITINERARY:([^\]]+)\]/);
+            if (itineraryMatch) {
+              const slug = itineraryMatch[1];
+              // Remove marker from display content
+              const cleanContent = fullResponse.replace(/\[ITINERARY:[^\]]+\]/, '').trim();
+
+              // Update message with clean content
+              setMessages((prev) =>
+                prev.map((msg) =>
+                  msg.id === assistantMessageId
+                    ? { ...msg, content: cleanContent }
+                    : msg
+                )
+              );
+
+              // Trigger itinerary generation
+              handleGenerateItinerary(slug, cleanContent);
+            }
           }
         },
         isProUser,
@@ -279,6 +305,137 @@ Or just share what's on your mind, and we'll explore together.`,
 
     setMessages((prev) => [...prev, userMessage]);
     await handleStreamResponse(reply.message);
+  };
+
+  // Parse itinerary content and save to localStorage
+  const parseItineraryForChat = (content: string, slug: string) => {
+    // Extract destination name from content
+    const nameMatch = content.match(/#\s*(?:🌿\s*)?(?:Your\s+)?\d+-Day\s+Wellness\s+Retreat\s+in\s+(.+)/i);
+    const name = nameMatch ? nameMatch[1].trim() : slug;
+
+    // Extract duration
+    const durationMatch = content.match(/(\d+)-Day/i);
+    const duration = durationMatch ? parseInt(durationMatch[1]) : 7;
+
+    // Extract focus from content or default
+    const focusMatch = content.match(/###\s*🧘\s*Wellness\s+Focus:\s*(.+)/i);
+    const focus = focusMatch ? focusMatch[1].trim().toLowerCase() : 'wellness';
+
+    // Extract overview
+    const overviewMatch = content.match(/###\s*✨\s*Trip\s+Overview\s*\n([\s\S]*?)(?=###|$)/i);
+    const overview = overviewMatch ? overviewMatch[1].trim() : '';
+
+    // Get next phase number
+    const phase = getNextPhaseForDestination(slug);
+
+    // Calculate day range
+    const startDay = (phase - 1) * 7 + 1;
+    const endDay = Math.min(phase * 7, duration);
+    const dayRange = `${startDay}-${endDay}`;
+
+    // Generate summary of planned days
+    const plannedDaysSummary = `Phase ${phase}: Days ${dayRange} - ${focus} focus`;
+
+    // Get cover image from first activity if available
+    const coverImage = undefined; // Could extract from first [cat:] or [wiki:] tag
+
+    const itinerary = {
+      slug,
+      name,
+      duration,
+      focus,
+      savedAt: new Date().toISOString(),
+      parsed: { itinerary: content },
+      overview,
+      coverImage,
+      phase,
+      dayRange,
+      totalTripDays: duration,
+      plannedDaysSummary,
+    };
+
+    saveItinerary(itinerary);
+    return itinerary;
+  };
+
+  // Handle itinerary generation
+  const handleGenerateItinerary = async (slug: string, chatContext: string) => {
+    if (!isProUser) {
+      // Show upgrade prompt
+      setShowUpgradePrompt(true);
+      return;
+    }
+
+    setIsStreaming(true);
+
+    const assistantMessageId = `assistant-${Date.now()}`;
+    setMessages((prev) => [
+      ...prev,
+      { id: assistantMessageId, role: 'assistant', content: 'Generating your personalized itinerary...' },
+    ]);
+
+    try {
+      const proToken = typeof window !== 'undefined'
+        ? localStorage.getItem('serenestay_pro_token') || undefined
+        : undefined;
+
+      // Get planned phases summary to avoid repetition
+      const plannedPhasesSummary = generatePlannedPhasesSummary(slug);
+
+      const response = await fetch('/api/itinerary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slug,
+          proToken,
+          duration: 7, // Default 7 days per phase
+          focus: 'wellness',
+          chatContext,
+          plannedPhasesSummary,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate itinerary');
+      }
+
+      const data = await response.json();
+      const itineraryContent = data.itinerary;
+
+      // Parse and save itinerary
+      const saved = parseItineraryForChat(itineraryContent, slug);
+
+      // Update message with itinerary content and satisfaction buttons
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantMessageId
+            ? {
+                ...msg,
+                content: itineraryContent,
+                quickReplies: [
+                  { label: '👍 Looks good', message: `itinerary_satisfied:${slug}:${saved.phase}` },
+                  { label: '🔄 Regenerate', message: `itinerary_regenerate:${slug}` },
+                  { label: '👎 Not what I wanted', message: `itinerary_feedback:${slug}:Please adjust the itinerary` },
+                ],
+              }
+            : msg
+        )
+      );
+    } catch (error) {
+      console.error('Itinerary generation error:', error);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantMessageId
+            ? {
+                ...msg,
+                content: 'I apologize, but I encountered an issue generating your itinerary. Please try again.',
+              }
+            : msg
+        )
+      );
+    } finally {
+      setIsStreaming(false);
+    }
   };
 
   // Handle keyboard input
@@ -403,14 +560,20 @@ Or just share what's on your mind, and we'll explore together.`,
           {/* New Chat button */}
           <button
             onClick={() => {
+              // Only show confirmation if there are messages beyond the welcome message
+              if (messages.length > 1) {
+                if (!confirm('Start a new chat? Your current conversation will be cleared.')) {
+                  return;
+                }
+              }
               localStorage.removeItem('serenestay_chat_history');
               setMessages([welcomeMessage]);
             }}
-            title="Start new conversation"
+            title={messages.length > 1 ? '⚠️ This will clear your current conversation' : 'Start new conversation'}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary text-xs font-medium rounded-full hover:bg-primary/20 transition-colors"
           >
             <RotateCcw className="w-3 h-3" />
-            <span>New</span>
+            <span>New Chat</span>
           </button>
 
           {!isProUser && (
@@ -491,6 +654,21 @@ Or just share what's on your mind, and we'll explore together.`,
                     <span className="inline-block w-2 h-4 ml-1 bg-secondary/50 animate-pulse-soft" />
                   )}
                 </div>
+
+                {/* Quick Replies / Satisfaction Buttons */}
+                {message.quickReplies && message.quickReplies.length > 0 && !isStreaming && (
+                  <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-primary/10">
+                    {message.quickReplies.map((reply, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleQuickReply(reply)}
+                        className="px-3 py-1.5 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-medium rounded-full transition-colors"
+                      >
+                        {reply.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ))}

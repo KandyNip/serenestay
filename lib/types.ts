@@ -76,6 +76,7 @@ export interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
+  quickReplies?: { label: string; message: string }[];
 }
 
 // User preferences for AI matching

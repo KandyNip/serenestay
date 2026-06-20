@@ -9,6 +9,7 @@ import { getFavorites, removeFavorite, clearFavorites } from '@/lib/favorites';
 import { getSavedItineraries, removeItinerary, clearItineraries } from '@/lib/itinerary-storage';
 import type { SavedItinerary } from '@/lib/itinerary-storage';
 import type { Destination } from '@/lib/types';
+import ItineraryModal from '@/components/ItineraryModal';
 
 export default function FavoritesPage() {
   const [isPro, setIsPro] = useState(false);
@@ -17,6 +18,7 @@ export default function FavoritesPage() {
   const [itineraries, setItineraries] = useState<SavedItinerary[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'destinations' | 'itineraries'>('destinations');
+  const [selectedItinerary, setSelectedItinerary] = useState<SavedItinerary | null>(null);
 
   useEffect(() => {
     const pro = checkProStatus();
@@ -52,8 +54,8 @@ export default function FavoritesPage() {
     }
   };
 
-  const handleRemoveItinerary = (slug: string, duration: number, focus: string) => {
-    removeItinerary(slug, duration, focus);
+  const handleRemoveItinerary = (slug: string, phase: number, focus: string) => {
+    removeItinerary(slug, phase, focus);
     setItineraries(getSavedItineraries());
   };
 
@@ -257,9 +259,9 @@ export default function FavoritesPage() {
               <div className="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {itineraries.map((it) => (
                   <div key={`${it.slug}-${it.duration}-${it.focus}`} className="relative group">
-                    <Link
-                      href={`/destinations/${it.slug}?tab=itinerary`}
-                      className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow"
+                    <div
+                      onClick={() => setSelectedItinerary(it)}
+                      className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
                     >
                       {/* Cover image or gradient */}
                       <div className="relative aspect-[16/10] overflow-hidden">
@@ -301,7 +303,7 @@ export default function FavoritesPage() {
                           Saved {new Date(it.savedAt).toLocaleDateString()}
                         </p>
                       </div>
-                    </Link>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -309,6 +311,20 @@ export default function FavoritesPage() {
           )
         )}
       </div>
+
+      {/* Itinerary Modal */}
+      {selectedItinerary && (
+        <ItineraryModal
+          itinerary={selectedItinerary}
+          onClose={() => setSelectedItinerary(null)}
+          onDelete={() => {
+            if (selectedItinerary) {
+              handleRemoveItinerary(selectedItinerary.slug, selectedItinerary.phase, selectedItinerary.focus);
+              setSelectedItinerary(null);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }
