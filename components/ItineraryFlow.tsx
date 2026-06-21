@@ -288,9 +288,9 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
     });
   };
 
-  const currentDayNumber = session?.currentDay || 1;
+  const nextDayNumber = session ? session.daysGenerated.length + 1 : 1;
   const currentPortrait: ExperiencePortraitType | null = session ? getHealingExperiencePortrait(session) : null;
-  const phase: JourneyPhase = computeJourneyPhase(currentDayNumber, currentPortrait || { coveredIntentions: [], uncoveredIntentions: [], daysGenerated: currentDayNumber - 1 }, session?.chatContext || undefined);
+  const phase: JourneyPhase = computeJourneyPhase(nextDayNumber, currentPortrait || { coveredIntentions: [], uncoveredIntentions: [], daysGenerated: session?.daysGenerated.length || 0 }, session?.chatContext || undefined);
 
   // ─── WELCOME STEP ───
   if (step === 'welcome') {
@@ -441,7 +441,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
   if (step === 'checkin' && session) {
     const lastDay = days[days.length - 1];
     const checkinPortrait = getHealingExperiencePortrait(session);
-    const checkinPhase = computeJourneyPhase(session.currentDay, checkinPortrait, session.chatContext || undefined);
+    const checkinPhase = computeJourneyPhase(session.daysGenerated.length + 1, checkinPortrait, session.chatContext || undefined);
 
     return (
       <div className="max-w-2xl mx-auto space-y-6">
@@ -535,7 +535,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
   if (step === 'result') {
     const resultPortrait = session ? getHealingExperiencePortrait(session) : null;
     const resultPhase = resultPortrait
-      ? computeJourneyPhase(currentDayNumber, resultPortrait, session?.chatContext || undefined)
+      ? computeJourneyPhase(nextDayNumber, resultPortrait, session?.chatContext || undefined)
       : phase;
 
     return (
