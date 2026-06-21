@@ -1,15 +1,39 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, RefreshCw, Pencil, Loader2, Info } from 'lucide-react';
+import { ChevronDown, ChevronUp, RefreshCw, Pencil, Loader2 } from 'lucide-react';
 import { MOOD_CHIPS } from '@/components/MoodChips';
 import { getCategoryEmoji } from '@/lib/itinerary-images';
 
 // Re-export getCategoryEmoji from itinerary-images for convenience
 export { getCategoryEmoji } from '@/lib/itinerary-images';
 
-// Dual format: old data has plain string, new data has structured object
+// JSON format types for structured day content
+export interface DayActivity {
+  name: string;
+  imageTags: string[];
+  description: string;
+  duration: string;
+  cost: string;
+}
+
+export interface DaySection {
+  period: string;
+  emoji: string;
+  activities: DayActivity[];
+}
+
 export interface DayContent {
+  title: string;
+  summary: string;
+  sections: DaySection[];
+  tip: string;
+  moodCheck: string;
+  note: string;
+}
+
+// Old format from storage: { content: string, note?: string }
+interface DayContentData {
   content: string;
   note?: string;
 }
@@ -17,7 +41,7 @@ export interface DayContent {
 interface ItineraryDayCardProps {
   dayNumber: number;
   title: string;
-  content: string | DayContent;
+  content: string | DayContent | DayContentData;
   moodChips: string[];
   isExpanded: boolean;
   onToggle: () => void;
@@ -37,10 +61,24 @@ export default function ItineraryDayCard({
   onEdit,
   isGenerating = false,
 }: ItineraryDayCardProps) {
-  // Normalize content: support both string (legacy) and DayContent (new) formats
-  const markdownContent = typeof content === 'string' ? content : content.content;
-  const note = typeof content === 'object' ? content.note : undefined;
-  // Parse image tags and render with emoji indicators
+  // Handle three content formats:
+  // 1. string (markdown)
+  // 2. DayContentData (old format: { content: string, note?: string })
+  // 3. DayContent (new structured format with sections)
+  const isOldFormat = typeof content === 'object' && content !== null && 'content' in content && typeof (content as any).content === 'string';
+  const isJsonContent = typeof content === 'object' && content !== null && 'sections' in content;
+  const dayData = isJsonContent ? (content as DayContent) : null;
+
+  // For old format, extract the string content
+  const actualContent = isOldFormat ? (content as any).content : content;
+
+  // Get mood chip display info
+  const getMoodDisplay = (id: string) => {
+    const chip = MOOD_CHIPS.find(c => c.id === id);
+    return chip ? { emoji: chip.emoji, label: chip.label } : { emoji: '✨', label: id };
+  };
+
+  // Parse image tags for markdown fallback rendering
   const renderLineWithImages = (line: string, key: string) => {
     const imageTagRegex = /\[(wiki|cat):([^\]]+)\]/g;
     const parts: (string | React.ReactNode)[] = [];
@@ -76,12 +114,6 @@ export default function ItineraryDayCard({
     }
 
     return parts.length > 0 ? <>{parts}</> : line;
-  };
-
-  // Get mood chip display info
-  const getMoodDisplay = (id: string) => {
-    const chip = MOOD_CHIPS.find(c => c.id === id);
-    return chip ? { emoji: chip.emoji, label: chip.label } : { emoji: '✨', label: id };
   };
 
   return (
@@ -135,56 +167,107 @@ export default function ItineraryDayCard({
       {isExpanded && (
         <div className="px-4 pb-4 pt-2 border-t border-primary/10">
           {/* Content */}
-          <div className="prose prose-sm max-w-none text-primary/70">
-            {markdownContent.split('\n').map((line, i) => {
-              const trimmed = line.trim();
-              if (!trimmed) return null;
+          {isJsonContent && dayData ? (
+            <div className="space-y-4">
+              {/* Summary */}
+              {dayData.summary && (
+                <p className="text-primary/60 text-sm italic">{dayData.summary}</p>
+              )}
 
-              // Section headers (### 🌅 Morning, etc.)
-              if (trimmed.startsWith('### ')) {
-                return (
-                  <h4 key={i} className="font-serif text-base text-primary mt-4 mb-2">
-                    {renderLineWithImages(trimmed.replace('### ', ''), `h-${i}`)}
+              {/* Sections: Morning / Afternoon / Evening */}
+              {dayData.sections.map((section, si) => (
+                <div key={si}>
+                  <h4 className="font-serif text-base text-primary mt-4 mb-2">
+                    {section.emoji} {section.period.charAt(0).toUpperCase() + section.period.slice(1)}
                   </h4>
-                );
-              }
+                  {section.activities.map((activity, ai) => (
+                    <div key={ai} className="ml-2 mb-3">
+                      <p className="font-medium text-primary mb-1">
+                        {activity.name}
+                        {activity.imageTags && activity.imageTags.map((tag, ti) => {
+                          const isWiki = tag.startsWith('wiki:');
+                          const value = tag.split(':')[1] || tag;
+                          return isWiki ? (
+                            <span key={ti} className="inline-flex items-center gap-0.5 mx-1 text-xs text-primary/60">
+                              📍 {value.replace(/_/g, ' ')}
+                            </span>
+                          ) : (
+                            <span key={ti} className="inline-flex items-center gap-0.5 mx-1 text-xs text-primary/60">
+                              {getCategoryEmoji(value)} {value}
+                            </span>
+                          );
+                        })}
+                      </p>
+                      <p className="text-sm text-primary/70 mb-1">{activity.description}</p>
+                      {(activity.duration || activity.cost) && (
+                        <div className="flex gap-3 text-xs text-primary/50">
+                          {activity.duration && <span>⏰ {activity.duration}</span>}
+                          {activity.cost && <span>💰 {activity.cost}</span>}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
 
-              // Bold activity names
-              if (trimmed.startsWith('**')) {
-                return (
-                  <p key={i} className="mb-2 font-medium text-primary">
-                    {renderLineWithImages(trimmed, `b-${i}`)}
-                  </p>
-                );
-              }
+              {/* Tip */}
+              {dayData.tip && (
+                <div className="bg-accent/10 rounded-lg p-3">
+                  <p className="text-sm text-primary/70"><span className="font-medium">💡 Tip:</span> {dayData.tip}</p>
+                </div>
+              )}
 
-              // Bullet points
-              if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-                return (
-                  <li key={i} className="ml-4 mb-1 list-disc">
-                    {renderLineWithImages(trimmed.substring(2), `li-${i}`)}
-                  </li>
-                );
-              }
+              {/* Mood Check */}
+              {dayData.moodCheck && (
+                <p className="text-sm text-primary/50 mt-2">🎯 {dayData.moodCheck}</p>
+              )}
 
-              // Numbered lists
-              if (trimmed.match(/^\d+\./)) {
-                return (
-                  <li key={i} className="ml-4 mb-1 list-decimal">
-                    {renderLineWithImages(trimmed.replace(/^\d+\./, '').trim(), `ol-${i}`)}
-                  </li>
-                );
-              }
+              {/* Disclaimer */}
+              {dayData.note && (
+                <p className="text-xs text-primary/30 mt-3 italic">📝 {dayData.note}</p>
+              )}
+            </div>
+          ) : (
+            /* Fallback: markdown rendering (original logic preserved) */
+            <div className="prose prose-sm max-w-none text-primary/70">
+              {(actualContent as string).split('\n').map((line, i) => {
+                const trimmed = line.trim();
+                if (!trimmed) return null;
 
-              return <p key={i} className="mb-2">{renderLineWithImages(trimmed, `p-${i}`)}</p>;
-            })}
-          </div>
+                if (trimmed.startsWith('### ')) {
+                  return (
+                    <h4 key={i} className="font-serif text-base text-primary mt-4 mb-2">
+                      {renderLineWithImages(trimmed.replace('### ', ''), `h-${i}`)}
+                    </h4>
+                  );
+                }
 
-          {/* AI note (new format only) */}
-          {note && (
-            <div className="flex items-start gap-2 mt-3 p-2.5 bg-amber-50 border border-amber-100 rounded-lg">
-              <Info className="w-3.5 h-3.5 text-amber-500 mt-0.5 flex-shrink-0" />
-              <p className="text-xs text-amber-700/80">{note}</p>
+                if (trimmed.startsWith('**')) {
+                  return (
+                    <p key={i} className="mb-2 font-medium text-primary">
+                      {renderLineWithImages(trimmed, `b-${i}`)}
+                    </p>
+                  );
+                }
+
+                if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+                  return (
+                    <li key={i} className="ml-4 mb-1 list-disc">
+                      {renderLineWithImages(trimmed.substring(2), `li-${i}`)}
+                    </li>
+                  );
+                }
+
+                if (trimmed.match(/^\d+\./)) {
+                  return (
+                    <li key={i} className="ml-4 mb-1 list-decimal">
+                      {renderLineWithImages(trimmed.replace(/^\d+\./, '').trim(), `ol-${i}`)}
+                    </li>
+                  );
+                }
+
+                return <p key={i} className="mb-2">{renderLineWithImages(trimmed, `p-${i}`)}</p>;
+              })}
             </div>
           )}
 

@@ -11,7 +11,6 @@ export interface DaySummary {
 export interface ItinerarySession {
   slug: string;
   destinationName: string;
-  totalDays: number;
   focus: string;
   daysGenerated: DaySummary[];
   currentDay: number;
@@ -51,13 +50,11 @@ export function clearSession(): void {
 export function initSession(
   slug: string,
   destinationName: string,
-  totalDays: number,
   focus: string
 ): ItinerarySession {
   const session: ItinerarySession = {
     slug,
     destinationName,
-    totalDays,
     focus,
     daysGenerated: [],
     currentDay: 1,
@@ -78,10 +75,6 @@ export function addDayToSession(
   };
   saveSession(updated);
   return updated;
-}
-
-export function isSessionComplete(session: ItinerarySession): boolean {
-  return session.daysGenerated.length >= session.totalDays;
 }
 
 export function getPreviousDaysContext(session: ItinerarySession): string {

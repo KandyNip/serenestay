@@ -589,7 +589,7 @@ ${destinationDetails}`;
 export const ITINERARY_DAY_PROMPT = `You are Serene, a warm and knowledgeable AI wellness travel guide for SereneStay.ai. You are generating ONE DAY of a multi-day healing stay itinerary.
 
 ## Your Task
-Generate a detailed itinerary for **Day {dayNumber}** of a {totalDays}-day healing stay in {destinationName}. The user has selected mood preferences for this day and you should tailor activities accordingly.
+Generate a detailed itinerary for **Day {dayNumber}** of a healing stay in {destinationName}. The user has selected mood preferences for this day and you should tailor activities accordingly.
 
 ## Mood Chips
 The user selected these mood chips for today: {moodChips}
@@ -626,50 +626,63 @@ Use this context to:
 
 ## Output Format for Day {dayNumber}
 
-You MUST respond with valid JSON only — no markdown code fences, no extra text. The JSON object must have this exact structure:
+You MUST respond with ONLY a valid JSON object. No markdown formatting, no code fences, no extra commentary.
 
+Required JSON structure:
 {
-  "title": "Day {dayNumber}: {Day Title}",
-  "content": "...markdown body...",
+  "title": "Evocative day title, e.g. Awakening & Grounding",
+  "summary": "One-line evocative summary of the day's theme",
+  "sections": [
+    {
+      "period": "morning",
+      "emoji": "🌅",
+      "activities": [
+        {
+          "name": "Activity Name",
+          "imageTags": ["wiki:Wikipedia_Page_Title"],
+          "description": "2-3 sentences: what it is, why it fits today's mood, practical tips",
+          "duration": "e.g. 1.5 hours",
+          "cost": "e.g. $10-15"
+        }
+      ]
+    },
+    {
+      "period": "afternoon",
+      "emoji": "☀️",
+      "activities": [
+        {
+          "name": "Activity Name",
+          "imageTags": ["cat:category"],
+          "description": "description",
+          "duration": "estimated time",
+          "cost": "estimated cost"
+        }
+      ]
+    },
+    {
+      "period": "evening",
+      "emoji": "🌙",
+      "activities": [
+        {
+          "name": "Activity Name",
+          "imageTags": ["cat:category"],
+          "description": "description",
+          "duration": "estimated time",
+          "cost": "estimated cost"
+        }
+      ]
+    }
+  ],
+  "tip": "One practical tip — transport, cultural etiquette, what to pack",
+  "moodCheck": "1-2 sentences on how activities reflect the mood chips and healing journey",
   "note": "This itinerary is AI-generated based on destination data and wellness expertise. Specific venues and programs may vary — we recommend verifying details before booking."
 }
 
-The "content" field should contain the markdown body of the day (everything except the title line and the note). Use this format for the content:
-
-{A one-line evocative summary of the day's theme}
-
-### 🌅 Morning
-**{Activity Name}** {image tags}
-{2-3 sentences describing the activity, why it fits today's mood, practical tips}
-- ⏰ Duration: {estimated time}
-- 💰 Cost: {estimated cost}
-
-**{Optional second morning activity}** {image tags}
-{description}
-
-### ☀️ Afternoon
-**{Activity Name}** {image tags}
-{description}
-- ⏰ Duration: {estimated time}
-- 💰 Cost: {estimated cost}
-
-### 🌙 Evening
-**{Activity Name}** {image tags}
-{description}
-- ⏰ Duration: {estimated time}
-- 💰 Cost: {estimated cost}
-
-### 💡 Today's Tip
-{One practical tip specific to today's activities — transport, cultural etiquette, what to pack, etc.}
-
-### 🎯 Mood Check
-{1-2 sentences on how today's activities reflect the selected mood chips and contribute to the overall healing journey}
-
-IMPORTANT:
-- The "title" field should be like "Day {dayNumber}: Sunrise Temple & Rice Terrace Morning"
-- The "content" field is a string containing the markdown body (escape newlines as \\n, quotes as \\" etc.)
-- The "note" field is the AI disclaimer text
-- Output ONLY the JSON object, nothing else`;
+JSON rules:
+- Each period (morning/afternoon/evening) must have 1-2 activities
+- imageTags: ["wiki:Page_Title"] FIRST CHOICE for identifiable places, ["cat:category"] FALLBACK for generic
+- At least 60% of all imageTags should be wiki tags
+- Response must be valid JSON — no trailing commas, no comments, no markdown code fences`;
 
 /**
  * Build AI messages for generating a single day of an itinerary
@@ -677,7 +690,6 @@ IMPORTANT:
 export function buildItineraryDayMessages(
   destination: Destination,
   dayNumber: number,
-  totalDays: number,
   moodChips: string[],
   previousDaysContext: string,
   focus: string = 'wellness',
@@ -729,7 +741,6 @@ ${destination.highlights.join('; ')}
 
   const systemContent = ITINERARY_DAY_PROMPT
     .replace(/\{dayNumber\}/g, String(dayNumber))
-    .replace(/\{totalDays\}/g, String(totalDays))
     .replace(/\{destinationName\}/g, destination.name)
     .replace(/\{moodChips\}/g, moodChipsStr)
     .replace('{previousDaysContext}', prevDaysStr);

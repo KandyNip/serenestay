@@ -5,15 +5,13 @@ import { ArrowRight, Check, Sparkles, RotateCcw, Save, Plus, MapPin, Calendar, T
 import MoodChips, { MOOD_CHIPS, getMoodLabels } from './MoodChips';
 import ItineraryDayCard, { type DayContent } from './ItineraryDayCard';
 import ItineraryChatInput from './ItineraryChatInput';
-import DisclaimerNote from './DisclaimerNote';
 import type { ItinerarySession, DaySummary } from '@/lib/itinerary-session';
-import { getSession, saveSession, clearSession, initSession, addDayToSession, isSessionComplete, getPreviousDaysContext } from '@/lib/itinerary-session';
+import { getSession, saveSession, clearSession, initSession, addDayToSession, getPreviousDaysContext } from '@/lib/itinerary-session';
 import { saveDayByDayItinerary } from '@/lib/itinerary-storage';
 import type { Destination } from '@/lib/types';
 
 interface ItineraryFlowProps {
   destination: Destination;
-  initialDays?: number;
   initialFocus?: string;
   proToken?: string;
 }
@@ -27,9 +25,8 @@ interface DayData {
 
 type FlowStep = 'setup' | 'mood' | 'generating' | 'review' | 'complete';
 
-export default function ItineraryFlow({ destination, initialDays = 3, initialFocus = 'wellness', proToken }: ItineraryFlowProps) {
+export default function ItineraryFlow({ destination, initialFocus = 'wellness', proToken }: ItineraryFlowProps) {
   const [step, setStep] = useState<FlowStep>('setup');
-  const [totalDays, setTotalDays] = useState(initialDays);
   const [focus, setFocus] = useState(initialFocus);
   const [session, setSession] = useState<ItinerarySession | null>(null);
   const [days, setDays] = useState<DayData[]>([]);
@@ -45,7 +42,6 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
     const saved = getSession();
     if (saved && saved.slug === destination.slug) {
       setSession(saved);
-      setTotalDays(saved.totalDays);
       setFocus(saved.focus);
       // Rebuild days from session
       if (saved.daysGenerated.length > 0) {
@@ -61,7 +57,7 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
   };
 
   const handleStartTrip = () => {
-    const newSession = initSession(destination.slug, destination.name, totalDays, focus);
+    const newSession = initSession(destination.slug, destination.name, focus);
     setSession(newSession);
     setDays([]);
     setStep('mood');
@@ -85,7 +81,6 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
           slug: destination.slug,
           proToken: token,
           dayNumber,
-          totalDays,
           moodChips: moodLabels,
           previousDaysContext: prevContext,
           focus,
@@ -99,31 +94,43 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
       }
 
       const data = await response.json();
-      const dayContentStr: string = data.dayContent || '';
-      const apiTitle: string | undefined = data.title;
-      const apiNote: string | undefined = data.note;
+      const format: 'json' | 'markdown' = data.format || 'markdown';
 
-      // Use title from API if available, otherwise extract from content
-      let title: string;
-      if (apiTitle) {
-        // Strip "Day N:" prefix if present
-        title = apiTitle.replace(/^Day\s+\d+[:\s]*/, '').trim() || `Day ${dayNumber}`;
+      let dayData: DayData;
+
+      if (format === 'json' && typeof data.dayContent === 'object' && data.dayContent !== null) {
+        // Structured JSON format from API
+        const dayContent: DayContent = data.dayContent;
+        const title = dayContent.title || `Day ${dayNumber}`;
+
+        dayData = {
+          dayNumber,
+          title,
+          content: dayContent,
+          moodChips: moodIds,
+        };
       } else {
-        const titleMatch = dayContentStr.match(/\*\*Day\s+\d+[:\s]*(.+?)\*\*/);
-        title = titleMatch ? titleMatch[1].trim() : `Day ${dayNumber}`;
+        // Fallback: markdown string format
+        const dayContentStr: string = data.dayContent || '';
+        const apiTitle: string | undefined = data.title;
+
+        // Use title from API if available, otherwise extract from content
+        let title: string;
+        if (apiTitle) {
+          // Strip "Day N:" prefix if present
+          title = apiTitle.replace(/^Day\s+\d+[:\s]*/, '').trim() || `Day ${dayNumber}`;
+        } else {
+          const titleMatch = dayContentStr.match(/\*\*Day\s+\d+[:\s]*(.+?)\*\*/);
+          title = titleMatch ? titleMatch[1].trim() : `Day ${dayNumber}`;
+        }
+
+        dayData = {
+          dayNumber,
+          title,
+          content: dayContentStr,
+          moodChips: moodIds,
+        };
       }
-
-      // Build content: use structured format if note is present
-      const content: string | DayContent = apiNote
-        ? { content: dayContentStr, note: apiNote }
-        : dayContentStr;
-
-      const dayData: DayData = {
-        dayNumber,
-        title,
-        content,
-        moodChips: moodIds,
-      };
 
       // Update local state
       setDays(prev => {
@@ -141,8 +148,8 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
       if (session) {
         const daySummary: DaySummary = {
           dayNumber,
-          title,
-          activities: extractActivities(content),
+          title: dayData.title,
+          activities: extractActivities(dayData.content),
           mood: moodLabels,
         };
         const updatedSession = addDayToSession(session, daySummary);
@@ -152,13 +159,8 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
       // Expand the newly generated day
       setExpandedDays(prev => new Set([...prev, dayNumber]));
 
-      // Check if all days are done
-      const completedCount = (session?.daysGenerated.length || 0) + (days.some(d => d.dayNumber === dayNumber) ? 0 : 1);
-      if (dayNumber >= totalDays) {
-        setStep('complete');
-      } else {
-        setStep('review');
-      }
+      // Always go back to review - user can keep generating more days
+      setStep('review');
     } catch (err) {
       console.error('[ItineraryFlow] Error generating day:', err);
       setError(err instanceof Error ? err.message : 'Failed to generate day');
@@ -166,7 +168,7 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
     } finally {
       setIsGenerating(false);
     }
-  }, [session, destination.slug, totalDays, focus, days]);
+  }, [session, destination.slug, focus, days]);
 
   const handleGenerateNext = () => {
     if (!session) return;
@@ -196,7 +198,7 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
       id: `${destination.slug}-${session.createdAt}`,
       slug: destination.slug,
       destinationName: destination.name,
-      totalDays,
+      totalDays: days.length,
       focus,
       days: days.map(d => ({
         dayNumber: d.dayNumber,
@@ -224,7 +226,20 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
 
   // Extract activity names from content for the session summary
   function extractActivities(content: string | DayContent): string[] {
-    const markdown = typeof content === 'string' ? content : content.content;
+    if (typeof content === 'object' && content !== null && 'sections' in content) {
+      // Structured JSON format - extract from sections
+      const activities: string[] = [];
+      for (const section of content.sections) {
+        for (const activity of section.activities) {
+          if (activity.name) {
+            activities.push(activity.name);
+          }
+        }
+      }
+      return activities.slice(0, 5);
+    }
+    // Fallback: markdown string format
+    const markdown = typeof content === 'string' ? content : (content as any).content || '';
     const activities: string[] = [];
     const boldMatches = markdown.matchAll(/\*\*([^*]+)\*\*/g);
     for (const match of boldMatches) {
@@ -238,7 +253,6 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
   }
 
   const currentDayNumber = session?.currentDay || 1;
-  const allDaysGenerated = session ? isSessionComplete(session) : false;
 
   // ─── SETUP STEP ───
   if (step === 'setup') {
@@ -255,45 +269,29 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
             </div>
           </div>
 
-          {/* Duration */}
-          <div className="mb-5">
-            <label className="block text-sm font-medium text-primary mb-2">
-              How many days?
-            </label>
-            <div className="flex items-center gap-3">
-              {[3, 5, 7, 10, 14].map(d => (
-                <button
-                  key={d}
-                  onClick={() => setTotalDays(d)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    totalDays === d
-                      ? 'bg-secondary text-white'
-                      : 'bg-primary/5 text-primary/70 hover:bg-primary/10'
-                  }`}
-                >
-                  {d} days
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Focus */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-primary mb-2">
               What's your focus?
             </label>
             <div className="flex flex-wrap gap-2">
-              {['wellness', 'adventure', 'culture', 'relaxation', 'spiritual'].map(f => (
+              {[
+                { id: 'wellness', label: 'Wellness' },
+                { id: 'adventure', label: 'Adventure' },
+                { id: 'culture', label: 'Culture' },
+                { id: 'relaxation', label: 'Relaxation' },
+                { id: 'spiritual', label: 'Spiritual Growth' },
+              ].map(({ id, label }) => (
                 <button
-                  key={f}
-                  onClick={() => setFocus(f)}
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors capitalize ${
-                    focus === f
+                  key={id}
+                  onClick={() => setFocus(id)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    focus === id
                       ? 'bg-secondary text-white'
                       : 'bg-primary/5 text-primary/70 hover:bg-primary/10'
                   }`}
                 >
-                  {f === 'spiritual' ? 'Spiritual Growth' : f}
+                  {label}
                 </button>
               ))}
             </div>
@@ -334,7 +332,7 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
   }
 
   // ─── MOOD SELECTION STEP (before generating next day) ───
-  if (step === 'mood' && !allDaysGenerated) {
+  if (step === 'mood') {
     return (
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Progress */}
@@ -342,17 +340,11 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-secondary" />
             <span className="text-sm font-medium text-primary">
-              Day {currentDayNumber} of {totalDays}
+              Day {currentDayNumber}
             </span>
           </div>
-          <div className="flex-1 mx-4 h-2 bg-primary/10 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-secondary rounded-full transition-all duration-500"
-              style={{ width: `${((currentDayNumber - 1) / totalDays) * 100}%` }}
-            />
-          </div>
           <span className="text-sm text-primary/60">
-            {currentDayNumber - 1}/{totalDays} done
+            {days.length} {days.length === 1 ? 'day' : 'days'} generated
           </span>
         </div>
 
@@ -425,14 +417,14 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
             <MapPin className="w-5 h-5 text-secondary" />
             <div className="text-left">
               <h3 className="font-serif text-lg text-primary">
-                {destination.name} — {totalDays} Days
+                {destination.name}
               </h3>
               <p className="text-xs text-primary/60 capitalize">{focus} focus</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-sm text-primary/60">
-              {days.length}/{totalDays} days
+              {days.length} {days.length === 1 ? 'day' : 'days'}
             </span>
             {expandedOverview ? (
               <ChevronUp className="w-5 h-5 text-primary/40" />
@@ -466,19 +458,10 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
                   </div>
                 </button>
               ))}
-              {/* Remaining days placeholder */}
-              {Array.from({ length: totalDays - days.length }, (_, i) => days.length + i + 1).map(d => (
-                <div key={d} className="flex items-center gap-3 p-2 opacity-40">
-                  <span className="flex items-center justify-center w-7 h-7 bg-primary/5 text-primary/40 rounded-full text-xs font-semibold">
-                    {d}
-                  </span>
-                  <span className="text-sm text-primary/40">Not yet generated</span>
-                </div>
-              ))}
             </div>
 
             {/* Action buttons */}
-            {allDaysGenerated && (
+            {days.length > 0 && (
               <div className="flex items-center gap-3 mt-4 pt-3 border-t border-primary/10">
                 <button
                   onClick={handleSaveTrip}
@@ -518,46 +501,16 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
         ))}
       </div>
 
-      {/* Continue generating or completion */}
-      {!allDaysGenerated && !isGenerating && (
+      {/* Generate next day */}
+      {!isGenerating && (
         <div className="text-center py-4">
           <button
             onClick={() => setStep('mood')}
             className="btn-secondary px-6 py-3 inline-flex items-center gap-2"
           >
             <Sparkles className="w-5 h-5" />
-            Continue to Day {currentDayNumber}
+            Generate Day {currentDayNumber}
           </button>
-        </div>
-      )}
-
-      {allDaysGenerated && (
-        <div className="bg-secondary/5 border border-secondary/20 rounded-2xl p-6 text-center">
-          <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-3">
-            <Check className="w-6 h-6 text-secondary" />
-          </div>
-          <h3 className="font-serif text-xl text-primary mb-2">
-            Your {totalDays}-Day Itinerary is Ready!
-          </h3>
-          <p className="text-sm text-primary/60 mb-4">
-            Review your days above, regenerate any you'd like to change, or save your trip.
-          </p>
-          <div className="flex items-center justify-center gap-3">
-            <button
-              onClick={handleSaveTrip}
-              className="btn-secondary px-5 py-2 inline-flex items-center gap-2 text-sm"
-            >
-              <Save className="w-4 h-4" />
-              Save Trip
-            </button>
-            <button
-              onClick={handleNewTrip}
-              className="btn-outline px-5 py-2 inline-flex items-center gap-2 text-sm"
-            >
-              <Plus className="w-4 h-4" />
-              New Trip
-            </button>
-          </div>
         </div>
       )}
 
@@ -572,9 +525,6 @@ export default function ItineraryFlow({ destination, initialDays = 3, initialFoc
           </button>
         </div>
       )}
-
-      {/* AI disclaimer */}
-      <DisclaimerNote />
     </div>
   );
 }

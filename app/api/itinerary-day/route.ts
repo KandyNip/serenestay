@@ -36,10 +36,10 @@ function verifyProToken(token: string): boolean {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { slug, proToken, dayNumber, totalDays, moodChips, previousDaysContext, focus, chatContext } = body;
+    const { slug, proToken, dayNumber, moodChips, previousDaysContext, focus, chatContext } = body;
 
     if (!slug) return Response.json({ error: 'slug is required' }, { status: 400 });
-    if (!dayNumber || !totalDays) return Response.json({ error: 'dayNumber and totalDays are required' }, { status: 400 });
+    if (!dayNumber) return Response.json({ error: 'dayNumber is required' }, { status: 400 });
 
     const isPro = proToken ? verifyProToken(proToken) : false;
     if (!isPro) return Response.json({ error: 'Pro access required' }, { status: 403 });
@@ -53,7 +53,6 @@ export async function POST(request: Request) {
     const messages = buildItineraryDayMessages(
       destination,
       dayNumber,
-      totalDays,
       moodChips || ['Chill'],
       previousDaysContext || '',
       focus || 'wellness',
@@ -65,28 +64,37 @@ export async function POST(request: Request) {
 
     const raw = await createChatCompletion(messages, { apiKey, maxTokens });
 
-    // Try to parse JSON response from AI
-    let dayContent: string;
-    let title: string | undefined;
-    let note: string | undefined;
-
+    // Parse JSON from AI response
+    let dayData;
+    let format: 'json' | 'markdown' = 'markdown';
     try {
-      // Strip markdown code fences if present
-      const cleaned = raw.replace(/^```(?:json)?\s*\n?/m, '').replace(/\n?```\s*$/m, '').trim();
-      const parsed = JSON.parse(cleaned);
-      if (parsed && typeof parsed === 'object') {
-        title = parsed.title;
-        note = parsed.note;
-        dayContent = parsed.content || raw;
-      } else {
-        dayContent = raw;
+      let jsonStr = raw.trim();
+      // Strip markdown code fences if AI wrapped the JSON
+      if (jsonStr.startsWith('```')) {
+        jsonStr = jsonStr.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
       }
-    } catch {
-      // Fallback: treat entire response as markdown content
-      dayContent = raw;
+      const parsed = JSON.parse(jsonStr);
+
+      // Validate required fields
+      if (parsed && typeof parsed === 'object' && parsed.sections && Array.isArray(parsed.sections)) {
+        dayData = parsed;
+        format = 'json';
+      } else {
+        throw new Error('Missing required sections field');
+      }
+    } catch (parseError) {
+      console.error('[api/itinerary-day] JSON parse failed, returning raw markdown:', parseError);
+      // Fallback: return raw content as markdown
+      return Response.json({
+        dayContent: raw,
+        format: 'markdown',
+      });
     }
 
-    return Response.json({ dayContent, title, note });
+    return Response.json({
+      dayContent: dayData,
+      format: 'json',
+    });
   } catch (error) {
     console.error('[api/itinerary-day] Error:', error);
     return Response.json({ error: 'Failed to generate day itinerary' }, { status: 500 });

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Lock, ArrowLeft, Sparkles, MapPin, Calendar, Compass } from 'lucide-react';
 import ItineraryFlow from '@/components/ItineraryFlow';
 import DisclaimerNote from '@/components/DisclaimerNote';
+import ShareButtons from '@/components/ShareButtons';
 import { checkProStatus } from '@/lib/api';
 import type { Destination } from '@/lib/types';
 
@@ -49,6 +50,11 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
               <ArrowLeft className="w-4 h-4" />
               Back
             </Link>
+            <div className="flex-1" />
+            <ShareButtons
+              destinationName={destination.name}
+              destinationSlug={destination.slug}
+            />
           </div>
         </div>
 
@@ -125,6 +131,11 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
             <MapPin className="w-4 h-4 text-secondary" />
             <span className="font-serif text-lg text-primary">{destination.name}</span>
           </div>
+          <div className="flex-1" />
+          <ShareButtons
+            destinationName={destination.name}
+            destinationSlug={destination.slug}
+          />
         </div>
       </div>
 
@@ -132,7 +143,6 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
       <div className="max-w-4xl mx-auto px-4 py-8">
         <ItineraryFlow
           destination={destination}
-          initialDays={3}
           initialFocus="wellness"
         />
 

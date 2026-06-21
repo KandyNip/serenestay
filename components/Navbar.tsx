@@ -43,7 +43,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 pointer-events-auto ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled || isMobileMenuOpen
             ? 'bg-surface shadow-soft'
             : 'bg-transparent'
@@ -108,7 +108,6 @@ export default function Navbar() {
         <div
           id="mobile-menu"
           className="fixed inset-0 top-16 md:hidden z-40 bg-surface overflow-y-auto"
-          aria-hidden={!isMobileMenuOpen}
         >
           <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-6 py-8 space-y-6">
             {navLinks.map((link) => (

@@ -89,16 +89,36 @@ export function generatePlannedPhasesSummary(slug: string): string {
 
 const DAYBYDAY_KEY = 'serenestay_daybyday_itineraries';
 
-// Dual format: old data has plain string, new data has structured object
+// Content format: plain string (markdown), old structured {content, note}, or new full structured DayContent
 export interface DayContentData {
   content: string;
   note?: string;
 }
 
+// Full structured day content (matches ItineraryDayCard's DayContent)
+export interface StructuredDayContent {
+  title: string;
+  summary: string;
+  sections: Array<{
+    period: string;
+    emoji: string;
+    activities: Array<{
+      name: string;
+      imageTags: string[];
+      description: string;
+      duration: string;
+      cost: string;
+    }>;
+  }>;
+  tip: string;
+  moodCheck: string;
+  note: string;
+}
+
 export interface SavedDaySummary {
   dayNumber: number;
   title: string;
-  content: string | DayContentData;
+  content: string | DayContentData | StructuredDayContent;
   moodChips: string[];
 }
 
