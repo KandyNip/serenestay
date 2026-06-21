@@ -222,7 +222,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
       ...session,
       intentions: mergedIntentions,
       chatContext: updatedChatContext,
-      currentDay: session.currentDay + 1,
+      currentDay: session.currentDay,
       daysGenerated: session.daysGenerated.map((d, i) =>
         i === session.daysGenerated.length - 1
           ? { ...d, checkinFeeling, checkinNote: checkinFeelingNote || undefined }
