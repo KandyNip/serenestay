@@ -61,6 +61,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
   const [checkinFeeling, setCheckinFeeling] = useState<CheckinFeeling | null>(null);
   const [checkinFeelingNote, setCheckinFeelingNote] = useState('');
   const [generatingDayNumber, setGeneratingDayNumber] = useState<number>(1);
+  const [isFinalDayGeneration, setIsFinalDayGeneration] = useState(false);
 
   // Clear session on mount — fresh start each time
   useEffect(() => {
@@ -178,8 +179,14 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
         setCheckinFeeling(null);
         setCheckinFeelingNote('');
 
-        // Go to checkin step
-        setStep('checkin');
+        // Round 5 Fix 2: If this is the final "going home" day, skip to complete
+        if (isFinalDayGeneration) {
+          setIsFinalDayGeneration(false);
+          setStep('complete');
+        } else {
+          // Go to checkin step
+          setStep('checkin');
+        }
       } else {
         throw new Error('Unexpected response format');
       }
@@ -243,6 +250,32 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
 
   const handleCompleteJourney = () => {
     setStep('complete');
+  };
+
+  // Round 5 Fix 2: Generate integration day before completing
+  const handleCompleteAndReturnHome = () => {
+    if (!session) return;
+
+    // Add "going home" signal to chatContext to trigger integration phase
+    const homeSignal = 'User is preparing to go home. This is the final day of the journey.';
+    const updatedChatContext = session.chatContext
+      ? session.chatContext + '\n' + homeSignal
+      : homeSignal;
+
+    const updatedSession: HealingJourneySession = {
+      ...session,
+      chatContext: updatedChatContext,
+    };
+
+    setSession(updatedSession);
+    saveHealingSession(updatedSession);
+
+    // Set flag to skip to complete after generation
+    setIsFinalDayGeneration(true);
+
+    // Generate the final integration day
+    const finalDayNumber = updatedSession.daysGenerated.length + 1;
+    generateDay(finalDayNumber, updatedSession);
   };
 
   const handleSaveJourney = () => {
@@ -520,15 +553,37 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
           </div>
         )}
 
-        {/* Option to complete journey */}
-        <div className="text-center">
-          <button
-            onClick={handleCompleteJourney}
-            className="text-sm text-primary/50 hover:text-primary/70 underline transition-colors"
-          >
-            Or complete your journey here
-          </button>
-        </div>
+        {/* Round 5 Fix 1: "Feeling Healed?" card — only show from Day 2 onwards */}
+        {session.daysGenerated.length >= 2 && (
+          <div className="bg-white rounded-2xl border-2 border-accent/30 p-6 shadow-sm space-y-4">
+            <div className="text-center">
+              <h3 className="font-serif text-lg text-primary mb-1">
+                Feeling Healed?
+              </h3>
+              <p className="text-sm text-primary/60">
+                Ready to carry this peace home with you?
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handleCompleteAndReturnHome}
+                className="w-full px-4 py-3 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg text-sm font-medium text-primary transition-colors flex items-center justify-center gap-2"
+              >
+                <span>🌿</span>
+                Complete & Return Home
+              </button>
+              <button
+                onClick={handleShapeToday}
+                disabled={!checkinFeeling}
+                className="w-full px-4 py-3 bg-white hover:bg-primary/5 border border-primary/10 rounded-lg text-sm font-medium text-primary transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Continue Tomorrow
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -574,10 +629,10 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
               Save Journey
             </button>
             <button
-              onClick={handleCompleteJourney}
+              onClick={handleCompleteAndReturnHome}
               className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium border border-primary/10 text-primary hover:bg-primary/5 rounded-lg transition-colors"
             >
-              Complete Journey
+              🌿 Complete & Return Home
             </button>
           </div>
         )}
