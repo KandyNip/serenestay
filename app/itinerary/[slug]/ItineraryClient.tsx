@@ -127,6 +127,7 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
             <ArrowLeft className="w-4 h-4" />
             Back
           </Link>
+          <span className="text-primary/20">|</span>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-secondary" />
             <span className="font-serif text-lg text-primary">{destination.name}</span>

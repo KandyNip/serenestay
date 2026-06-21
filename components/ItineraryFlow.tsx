@@ -6,7 +6,7 @@ import MoodChips, { MOOD_CHIPS, getMoodLabels } from './MoodChips';
 import ItineraryDayCard, { type DayContent } from './ItineraryDayCard';
 import ItineraryChatInput from './ItineraryChatInput';
 import type { ItinerarySession, DaySummary } from '@/lib/itinerary-session';
-import { getSession, saveSession, clearSession, initSession, addDayToSession, getPreviousDaysContext } from '@/lib/itinerary-session';
+import { clearSession, initSession, addDayToSession, getPreviousDaysContext } from '@/lib/itinerary-session';
 import { saveDayByDayItinerary } from '@/lib/itinerary-storage';
 import type { Destination } from '@/lib/types';
 
@@ -37,19 +37,11 @@ export default function ItineraryFlow({ destination, initialFocus = 'wellness', 
   const [expandedOverview, setExpandedOverview] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Restore session on mount
+  // Clear session on mount - no auto-restore in day-by-day append mode
   useEffect(() => {
-    const saved = getSession();
-    if (saved && saved.slug === destination.slug) {
-      setSession(saved);
-      setFocus(saved.focus);
-      // Rebuild days from session
-      if (saved.daysGenerated.length > 0) {
-        setStep('review');
-      } else {
-        setStep('mood');
-      }
-    }
+    // 每次进入行程页都从setup开始，不恢复旧session
+    // 已保存的行程在Favorites页管理
+    clearSession();
   }, [destination.slug]);
 
   const getProToken = (): string => {
@@ -376,8 +368,8 @@ export default function ItineraryFlow({ destination, initialFocus = 'wellness', 
             disabled={isGenerating}
             className="w-full mt-4 btn-secondary py-3 flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            <Sparkles className="w-5 h-5" />
-            Generate Day {currentDayNumber}
+            <Plus className="w-5 h-5" />
+            {days.length > 0 ? 'Add Another Day' : 'Start Your Trip'}
           </button>
         </div>
 
@@ -419,7 +411,7 @@ export default function ItineraryFlow({ destination, initialFocus = 'wellness', 
               <h3 className="font-serif text-lg text-primary">
                 {destination.name}
               </h3>
-              <p className="text-xs text-primary/60 capitalize">{focus} focus</p>
+              <p className="text-xs text-primary/60">{focus ? focus.charAt(0).toUpperCase() + focus.slice(1) : ''} focus</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -508,8 +500,8 @@ export default function ItineraryFlow({ destination, initialFocus = 'wellness', 
             onClick={() => setStep('mood')}
             className="btn-secondary px-6 py-3 inline-flex items-center gap-2"
           >
-            <Sparkles className="w-5 h-5" />
-            Generate Day {currentDayNumber}
+            <Plus className="w-5 h-5" />
+            {days.length > 0 ? 'Add Another Day' : 'Start Your Trip'}
           </button>
         </div>
       )}
