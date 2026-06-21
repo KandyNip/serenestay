@@ -115,6 +115,7 @@ export interface EnergyBlock {
   whyNote: string; // 1-2 sentences on why this activity fits the user's state/intention
   venue?: string; // where this takes place
   isIntegrationTime?: boolean; // special "Protected Space" rendering
+  integrationNote?: string; // note for integration time blocks
 }
 
 export interface HealingDayContent {
@@ -128,6 +129,9 @@ export interface HealingDayContent {
   returnTransition?: string[]; // 3 return transition suggestions (integration phase only)
   note: string; // disclaimer
 }
+
+// Backward-compatible alias — some components reference HealingEnergyBlock
+export type HealingEnergyBlock = EnergyBlock;
 
 // ─── Experience Portrait ───
 
@@ -164,20 +168,34 @@ export interface HealingJourneySession {
 /**
  * Determine journey phase based on experience portrait (intention coverage).
  * Portrait-driven: phase transitions happen based on how many intentions are covered.
- * - All intentions covered → integration
+ * - ≥70% covered AND day ≥ 3 → integration
+ * - User signals "home" in chatContext → integration (early trigger)
  * - ≥50% covered or day ≥ 3 → deepening
  * - Otherwise → arrival
  */
 export function computeJourneyPhase(
   dayNumber: number,
-  portrait?: { coveredIntentions: UserIntention[]; uncoveredIntentions: UserIntention[] }
+  portrait?: { coveredIntentions: UserIntention[]; uncoveredIntentions: UserIntention[] },
+  chatContext?: string,
 ): JourneyPhase {
+  // Check for "home" signal in chatContext — early integration trigger
+  if (chatContext) {
+    const homeKeywords = ['home', 'going home', 'back home', 'return home', 'go home', 'returning home', 'heading home'];
+    const hasHomeSignal = homeKeywords.some(kw => chatContext.toLowerCase().includes(kw));
+    if (hasHomeSignal) return 'integration';
+  }
+
   if (portrait) {
     const totalIntentions = portrait.coveredIntentions.length + portrait.uncoveredIntentions.length;
     const allCovered = portrait.uncoveredIntentions.length === 0 && totalIntentions > 0;
-    const majorityCovered = totalIntentions > 0 && portrait.coveredIntentions.length >= totalIntentions / 2;
+    const coverageRatio = totalIntentions > 0 ? portrait.coveredIntentions.length / totalIntentions : 0;
 
+    // Integration: ≥70% covered AND day ≥ 3, or all covered
     if (allCovered) return 'integration';
+    if (coverageRatio >= 0.7 && dayNumber >= 3) return 'integration';
+
+    // Deepening: ≥50% covered or day ≥ 3
+    const majorityCovered = totalIntentions > 0 && portrait.coveredIntentions.length >= totalIntentions / 2;
     if (majorityCovered || dayNumber >= 3) return 'deepening';
     return 'arrival';
   }

@@ -99,7 +99,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
       const token = getProToken();
       const prevContext = getHealingPreviousDaysContext(currentSession);
       const portrait = getHealingExperiencePortrait(currentSession);
-      const phase = computeJourneyPhase(dayNumber, portrait);
+      const phase = computeJourneyPhase(dayNumber, portrait, currentSession.chatContext || undefined);
 
       const response = await fetch('/api/itinerary-day', {
         method: 'POST',
@@ -293,14 +293,25 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
 
   const currentDayNumber = session?.currentDay || 1;
   const currentPortrait: ExperiencePortraitType | null = session ? getHealingExperiencePortrait(session) : null;
-  const phase: JourneyPhase = computeJourneyPhase(currentDayNumber, currentPortrait || { coveredIntentions: [], uncoveredIntentions: [], daysGenerated: currentDayNumber - 1 });
+  const phase: JourneyPhase = computeJourneyPhase(currentDayNumber, currentPortrait || { coveredIntentions: [], uncoveredIntentions: [], daysGenerated: currentDayNumber - 1 }, session?.chatContext || undefined);
 
   // ─── WELCOME STEP ───
   if (step === 'welcome') {
     return (
       <div className="max-w-lg mx-auto space-y-6">
         <div className="bg-white rounded-2xl border border-primary/10 p-8 shadow-sm text-center">
-          <div className="text-5xl mb-4">🌿</div>
+          {/* Breathing Circle */}
+          <div className="flex justify-center mb-6">
+            <div className="relative w-24 h-24">
+              <div className="absolute inset-0 rounded-full bg-secondary/20 animate-gentle-pulse" />
+              <div className="absolute inset-3 rounded-full bg-secondary/30 animate-gentle-pulse" style={{ animationDelay: '0.5s' }} />
+              <div className="absolute inset-6 rounded-full bg-secondary/40 animate-gentle-pulse" style={{ animationDelay: '1s' }} />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-3xl">🌿</span>
+              </div>
+            </div>
+          </div>
+
           <h2 className="font-serif text-2xl text-primary mb-2">
             Begin Your Healing Journey
           </h2>
@@ -308,6 +319,31 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
             A personalized, day-by-day companion for your stay in {destination.name}.
             Move at your own pace through arrival, deepening, and integration.
           </p>
+
+          {/* Value Props */}
+          <div className="space-y-3 mb-6 text-left">
+            <div className="flex items-start gap-3">
+              <span className="text-lg flex-shrink-0">🎯</span>
+              <div>
+                <p className="text-sm font-medium text-primary">State-Aware Design</p>
+                <p className="text-xs text-primary/60">Activities adapt to how you feel right now — not a generic itinerary</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-lg flex-shrink-0">🌊</span>
+              <div>
+                <p className="text-sm font-medium text-primary">Intention-Driven</p>
+                <p className="text-xs text-primary/60">Each day serves your healing goals — grounding, release, connection, and more</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-lg flex-shrink-0">🔄</span>
+              <div>
+                <p className="text-sm font-medium text-primary">Adaptive Arc</p>
+                <p className="text-xs text-primary/60">Your journey evolves through arrival, deepening, and integration phases</p>
+              </div>
+            </div>
+          </div>
 
           {/* Journey Arc Preview */}
           <div className="mb-6">
@@ -408,7 +444,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
   if (step === 'checkin' && session) {
     const lastDay = days[days.length - 1];
     const checkinPortrait = getHealingExperiencePortrait(session);
-    const checkinPhase = computeJourneyPhase(session.currentDay, checkinPortrait);
+    const checkinPhase = computeJourneyPhase(session.currentDay, checkinPortrait, session.chatContext || undefined);
 
     return (
       <div className="max-w-2xl mx-auto space-y-6">
@@ -502,7 +538,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
   if (step === 'result') {
     const resultPortrait = session ? getHealingExperiencePortrait(session) : null;
     const resultPhase = resultPortrait
-      ? computeJourneyPhase(currentDayNumber, resultPortrait)
+      ? computeJourneyPhase(currentDayNumber, resultPortrait, session?.chatContext || undefined)
       : phase;
 
     return (

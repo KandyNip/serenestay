@@ -25,7 +25,7 @@ export default function ReturnGuide({
   className = '',
 }: ReturnGuideProps) {
   const [showDays, setShowDays] = React.useState(false);
-  const phase: JourneyPhase = computeJourneyPhase(session.currentDay, portrait);
+  const phase: JourneyPhase = computeJourneyPhase(session.currentDay, portrait, session.chatContext || undefined);
 
   return (
     <div className={`space-y-6 ${className}`}>

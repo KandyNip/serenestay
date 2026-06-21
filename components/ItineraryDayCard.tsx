@@ -13,9 +13,13 @@ const MOOD_CHIPS = [
 ];
 import { getCategoryEmoji } from '@/lib/itinerary-images';
 import { ENERGY_SLOTS, USER_INTENTIONS } from '@/lib/healing-types';
+import type { HealingDayContent, HealingEnergyBlock } from '@/lib/healing-types';
 
 // Re-export getCategoryEmoji from itinerary-images for convenience
 export { getCategoryEmoji } from '@/lib/itinerary-images';
+
+// Re-export healing types for backward compatibility
+export type { HealingDayContent, HealingEnergyBlock } from '@/lib/healing-types';
 
 // JSON format types for structured day content
 export interface DayActivity {
@@ -38,29 +42,6 @@ export interface DayContent {
   sections: DaySection[];
   tip: string;
   moodCheck: string;
-  note: string;
-}
-
-// Healing journey format types
-export interface HealingEnergyBlock {
-  slot: string;
-  title: string;
-  energyLevel: 'gentle' | 'moderate' | 'deep';
-  intention: string;
-  whyNote: string;
-  venue?: string;
-  isIntegrationTime?: boolean;
-}
-
-export interface HealingDayContent {
-  dayNumber?: number;
-  journeyPhase?: string;
-  phaseTitle?: string;
-  title: string;
-  summary: string;
-  energyBlocks: HealingEnergyBlock[];
-  reflection: string;
-  returnTransition?: string[];
   note: string;
 }
 
@@ -236,6 +217,9 @@ export default function ItineraryDayCard({
                       </p>
                       {block.venue && (
                         <p className="text-xs text-primary/40 mt-1">📍 {block.venue}</p>
+                      )}
+                      {block.integrationNote && (
+                        <p className="text-xs text-primary/50 mt-1 italic">🌿 {block.integrationNote}</p>
                       )}
                       {intention && (
                         <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-secondary/10 text-secondary text-[10px] font-medium rounded-full mt-1">
