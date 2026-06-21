@@ -555,7 +555,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
 
         {/* Round 5 Fix 1: "Feeling Healed?" card — only show from Day 2 onwards */}
         {session.daysGenerated.length >= 2 && (
-          <div className="bg-white rounded-2xl border-2 border-accent/30 p-6 shadow-sm space-y-4">
+          <div className="bg-surface rounded-2xl border border-accent/20 p-6 shadow-sm space-y-4">
             <div className="text-center">
               <h3 className="font-serif text-lg text-primary mb-1">
                 Feeling Healed?
@@ -629,7 +629,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
               Save Journey
             </button>
             <button
-              onClick={handleCompleteAndReturnHome}
+              onClick={handleCompleteJourney}
               className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium border border-primary/10 text-primary hover:bg-primary/5 rounded-lg transition-colors"
             >
               🌿 Complete & Return Home
