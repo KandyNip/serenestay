@@ -171,10 +171,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
 
         // Pre-fill check-in intentions with uncovered intentions for Day 2+ (Fix 9)
         const updatedPortrait = getHealingExperiencePortrait(updatedSession);
-        setCheckinIntentions(updatedPortrait.uncoveredIntentions.length > 0
-          ? updatedPortrait.uncoveredIntentions
-          : updatedSession.intentions
-        );
+        setCheckinIntentions(updatedPortrait.uncoveredIntentions);
         setCheckinNote('');
         setCheckinFeeling(null);
         setCheckinFeelingNote('');
@@ -234,7 +231,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
     saveHealingSession(updatedSession);
 
     // Generate next day
-    generateDay(updatedSession.currentDay, updatedSession);
+    generateDay(updatedSession.daysGenerated.length + 1, updatedSession);
   };
 
   const handleRegenerateDay = (dayNumber: number) => {
@@ -422,7 +419,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
           <Loader2 className="w-8 h-8 text-secondary animate-spin" />
         </div>
         <h3 className="font-serif text-xl text-primary mb-2">
-          Crafting Day {currentDayNumber}...
+          Crafting Day {days.length + 1}...
         </h3>
         <p className="text-primary/60 text-sm">
           Weaving your intentions into a gentle day in {destination.name}
@@ -491,7 +488,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
                 Shape Day {session.daysGenerated.length + 1}
               </h3>
               <p className="text-sm text-primary/60 mb-3">
-                Select intentions for your next day. We&apos;ve pre-selected what you haven&apos;t explored yet.
+                Adjust your focus for tomorrow, or let your journey guide you.
               </p>
               <IntentionChips selected={checkinIntentions} onChange={setCheckinIntentions} />
             </div>

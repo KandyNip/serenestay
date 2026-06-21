@@ -64,10 +64,22 @@ export function addDayToHealingSession(
   session: HealingJourneySession,
   daySummary: HealingDaySummary
 ): HealingJourneySession {
+  const existingIdx = session.daysGenerated.findIndex(d => d.dayNumber === daySummary.dayNumber);
+  let newDaysGenerated: HealingDaySummary[];
+  let newCurrentDay: number;
+  if (existingIdx >= 0) {
+    // Replace existing day (regenerate case) — don't increment currentDay
+    newDaysGenerated = session.daysGenerated.map((d, i) => i === existingIdx ? daySummary : d);
+    newCurrentDay = session.currentDay;
+  } else {
+    // New day — append and increment
+    newDaysGenerated = [...session.daysGenerated, daySummary];
+    newCurrentDay = session.currentDay + 1;
+  }
   const updated: HealingJourneySession = {
     ...session,
-    daysGenerated: [...session.daysGenerated, daySummary],
-    currentDay: session.currentDay + 1,
+    daysGenerated: newDaysGenerated,
+    currentDay: newCurrentDay,
   };
   saveHealingSession(updated);
   return updated;
