@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -39,6 +41,9 @@ export default function Navbar() {
       document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
+
+  // 行程页有自己的导航header，不渲染全局Navbar
+  if (pathname?.startsWith('/itinerary/')) return null;
 
   return (
     <>

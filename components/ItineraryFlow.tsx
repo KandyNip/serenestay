@@ -456,18 +456,10 @@ export default function ItineraryFlow({ destination, initialFocus = 'wellness', 
             {days.length > 0 && (
               <div className="flex items-center gap-3 mt-4 pt-3 border-t border-primary/10">
                 <button
-                  onClick={handleSaveTrip}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-secondary hover:bg-secondary/5 rounded-lg transition-colors"
-                >
-                  <Save className="w-4 h-4" />
-                  Save Trip
-                </button>
-                <div className="flex-1" />
-                <button
                   onClick={handleNewTrip}
                   className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-primary/60 hover:bg-primary/5 rounded-lg transition-colors"
                 >
-                  <Plus className="w-4 h-4" />
+                  <RotateCcw className="w-4 h-4" />
                   New Trip
                 </button>
               </div>
@@ -493,15 +485,35 @@ export default function ItineraryFlow({ destination, initialFocus = 'wellness', 
         ))}
       </div>
 
-      {/* Generate next day */}
-      {!isGenerating && (
+      {/* Action buttons */}
+      {!isGenerating && days.length > 0 && (
+        <div className="flex items-center gap-3 py-4">
+          <button
+            onClick={handleSaveTrip}
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-colors"
+          >
+            <Save className="w-4 h-4" />
+            Save Trip
+          </button>
+          <button
+            onClick={() => setStep('mood')}
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium border border-primary/10 text-primary hover:bg-primary/5 rounded-lg transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Add Another Day
+          </button>
+        </div>
+      )}
+
+      {/* First day - show start button */}
+      {!isGenerating && days.length === 0 && (
         <div className="text-center py-4">
           <button
             onClick={() => setStep('mood')}
             className="btn-secondary px-6 py-3 inline-flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
-            {days.length > 0 ? 'Add Another Day' : 'Start Your Trip'}
+            Start Your Trip
           </button>
         </div>
       )}
