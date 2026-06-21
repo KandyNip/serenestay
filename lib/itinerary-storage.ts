@@ -91,16 +91,12 @@ const DAYBYDAY_KEY = 'serenestay_daybyday_itineraries';
 
 import type { DayContent } from '@/components/ItineraryDayCard';
 
-// Content format: plain string (markdown), old structured {content, note}, or new full structured DayContent
-export interface DayContentData {
-  content: string;
-  note?: string;
-}
-
+// Content format: DayContent (structured with sections)
+// Legacy formats (string, DayContentData) still supported at runtime for backward compatibility
 export interface SavedDaySummary {
   dayNumber: number;
   title: string;
-  content: string | DayContentData | DayContent;
+  content: DayContent;
   moodChips: string[];
 }
 

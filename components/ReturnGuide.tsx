@@ -10,7 +10,7 @@ import { computeJourneyPhase } from '@/lib/healing-types';
 interface ReturnGuideProps {
   session: HealingJourneySession;
   portrait: ExperiencePortraitType;
-  days: { dayNumber: number; title: string }[];
+  days: { dayNumber: number; title: string; returnTransition?: string[] }[];
   onSave: () => void;
   onNewJourney: () => void;
   className?: string;
@@ -25,7 +25,7 @@ export default function ReturnGuide({
   className = '',
 }: ReturnGuideProps) {
   const [showDays, setShowDays] = React.useState(false);
-  const phase: JourneyPhase = computeJourneyPhase(session.currentDay);
+  const phase: JourneyPhase = computeJourneyPhase(session.currentDay, portrait);
 
   return (
     <div className={`space-y-6 ${className}`}>
@@ -89,6 +89,21 @@ export default function ReturnGuide({
           </div>
         )}
       </div>
+
+      {/* Return transition suggestions */}
+      {days.some(d => d.returnTransition && d.returnTransition.length > 0) && (
+        <div className="bg-white rounded-2xl border border-primary/10 p-6 shadow-sm">
+          <h4 className="font-serif text-base text-primary mb-3">🌅 Carrying It Forward</h4>
+          <div className="space-y-2">
+            {days.flatMap(d => d.returnTransition || []).map((tip, i) => (
+              <div key={i} className="flex items-start gap-2">
+                <span className="text-secondary mt-0.5">•</span>
+                <span className="text-sm text-primary/70">{tip}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Action buttons */}
       <div className="flex items-center gap-3 py-2">

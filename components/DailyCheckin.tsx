@@ -3,19 +3,13 @@
 import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import type { CheckinFeeling } from '@/lib/healing-types';
+import { CHECKIN_FEELINGS } from '@/lib/healing-types';
 
 interface DailyCheckinProps {
   dayNumber: number;
   onCheckin: (feeling: CheckinFeeling, note?: string) => void;
   className?: string;
 }
-
-const FEELINGS: { id: CheckinFeeling; label: string; emoji: string; color: string }[] = [
-  { id: 'better', label: 'Better', emoji: '😊', color: 'border-emerald-400 hover:bg-emerald-50' },
-  { id: 'same', label: 'Same', emoji: '😐', color: 'border-amber-400 hover:bg-amber-50' },
-  { id: 'mixed', label: 'Mixed', emoji: '🌗', color: 'border-blue-400 hover:bg-blue-50' },
-  { id: 'worse', label: 'Worse', emoji: '😔', color: 'border-rose-400 hover:bg-rose-50' },
-];
 
 export default function DailyCheckin({ dayNumber, onCheckin, className = '' }: DailyCheckinProps) {
   const [feeling, setFeeling] = useState<CheckinFeeling | null>(null);
@@ -42,8 +36,8 @@ export default function DailyCheckin({ dayNumber, onCheckin, className = '' }: D
       </p>
 
       {/* Feeling buttons */}
-      <div className="grid grid-cols-4 gap-2 mb-4">
-        {FEELINGS.map(f => (
+      <div className="grid grid-cols-5 gap-2 mb-4">
+        {CHECKIN_FEELINGS.map(f => (
           <button
             key={f.id}
             onClick={() => handleFeelingSelect(f.id)}
@@ -51,7 +45,7 @@ export default function DailyCheckin({ dayNumber, onCheckin, className = '' }: D
               flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all
               ${feeling === f.id
                 ? 'bg-secondary/10 border-secondary shadow-sm'
-                : `bg-white ${f.color}`
+                : 'bg-white border-primary/10 hover:border-secondary/40 hover:bg-secondary/5'
               }
             `}
           >

@@ -24,7 +24,7 @@ export type JourneyPhase = 'arrival' | 'deepening' | 'integration';
 
 export type EnergyLevel = 'gentle' | 'moderate' | 'deep' | 'integration';
 
-export type CheckinFeeling = 'better' | 'same' | 'worse' | 'mixed';
+export type CheckinFeeling = 'calm' | 'neutral' | 'energized' | 'flowing' | 'sparkling';
 
 // ─── Energy Slots ───
 
@@ -40,7 +40,7 @@ export const ENERGY_SLOTS: EnergySlot[] = [
   { id: 'mid-morning-practice', label: 'Core Practice', emoji: '🧘', borderColor: 'border-amber-400' },
   { id: 'integration', label: 'Integration', emoji: '🌿', borderColor: 'border-amber-300' },
   { id: 'afternoon-exploration', label: 'Afternoon', emoji: '☀️', borderColor: 'border-sky-400' },
-  { id: 'evening-winddown', label: 'Evening Wind-Down', emoji: '🌙', borderColor: 'border-violet-400' },
+  { id: 'evening-winddown', label: 'Evening Wind-Down', emoji: '🌙', borderColor: 'border-secondary/40' },
 ];
 
 // ─── User State Constants ───
@@ -79,6 +79,23 @@ export const USER_INTENTIONS: UserIntentionOption[] = [
   { id: 'clarity', label: 'Clarity', emoji: '💎', description: 'See clearly, gain insight, find direction' },
 ];
 
+// ─── Checkin Feeling Constants ───
+
+export interface CheckinFeelingOption {
+  id: CheckinFeeling;
+  label: string;
+  emoji: string;
+  description: string;
+}
+
+export const CHECKIN_FEELINGS: CheckinFeelingOption[] = [
+  { id: 'calm', label: 'Calm', emoji: '🌊', description: 'At peace, settled, relaxed' },
+  { id: 'neutral', label: 'Neutral', emoji: '🍃', description: 'Balanced, neither up nor down' },
+  { id: 'energized', label: 'Energized', emoji: '☀️', description: 'Vital, awake, ready for more' },
+  { id: 'flowing', label: 'Flowing', emoji: '🌿', description: 'Moving gently, in rhythm' },
+  { id: 'sparkling', label: 'Sparkling', emoji: '✨', description: 'Bright, uplifted, joyful' },
+];
+
 // ─── Activity & Energy Block Types ───
 
 export interface ActivityRecord {
@@ -92,15 +109,23 @@ export interface ActivityRecord {
 
 export interface EnergyBlock {
   slot: string; // matches EnergySlot.id
+  title: string; // activity title
+  energyLevel: 'gentle' | 'moderate' | 'deep';
+  intention: UserIntention; // primary intention this activity serves
   whyNote: string; // 1-2 sentences on why this activity fits the user's state/intention
-  activities: ActivityRecord[];
+  venue?: string; // where this takes place
+  isIntegrationTime?: boolean; // special "Protected Space" rendering
 }
 
 export interface HealingDayContent {
+  dayNumber: number;
+  journeyPhase: JourneyPhase;
+  phaseTitle: string; // e.g. "Arrival — Day 1"
   title: string;
   summary: string;
   energyBlocks: EnergyBlock[];
   reflection: string; // end-of-day reflection prompt
+  returnTransition?: string[]; // 3 return transition suggestions (integration phase only)
   note: string; // disclaimer
 }
 
@@ -137,12 +162,26 @@ export interface HealingJourneySession {
 // ─── Helper Functions ───
 
 /**
- * Determine journey phase based on day number.
- * Days 1-2: arrival (gentle, grounding)
- * Days 3-5: deepening (core work, going deeper)
- * Days 6+: integration (synthesis, preparing to return)
+ * Determine journey phase based on experience portrait (intention coverage).
+ * Portrait-driven: phase transitions happen based on how many intentions are covered.
+ * - All intentions covered → integration
+ * - ≥50% covered or day ≥ 3 → deepening
+ * - Otherwise → arrival
  */
-export function computeJourneyPhase(dayNumber: number): JourneyPhase {
+export function computeJourneyPhase(
+  dayNumber: number,
+  portrait?: { coveredIntentions: UserIntention[]; uncoveredIntentions: UserIntention[] }
+): JourneyPhase {
+  if (portrait) {
+    const totalIntentions = portrait.coveredIntentions.length + portrait.uncoveredIntentions.length;
+    const allCovered = portrait.uncoveredIntentions.length === 0 && totalIntentions > 0;
+    const majorityCovered = totalIntentions > 0 && portrait.coveredIntentions.length >= totalIntentions / 2;
+
+    if (allCovered) return 'integration';
+    if (majorityCovered || dayNumber >= 3) return 'deepening';
+    return 'arrival';
+  }
+  // Fallback for backward compat (no portrait provided)
   if (dayNumber <= 2) return 'arrival';
   if (dayNumber <= 5) return 'deepening';
   return 'integration';

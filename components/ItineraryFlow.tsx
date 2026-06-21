@@ -6,6 +6,7 @@ import StateChips from './StateChips';
 import IntentionChips from './IntentionChips';
 import ItineraryDayCard, { type HealingDayContent } from './ItineraryDayCard';
 import JourneyArc from './JourneyArc';
+import ExperiencePortrait from './ExperiencePortrait';
 import DailyCheckin from './DailyCheckin';
 import ReturnGuide from './ReturnGuide';
 import type {
@@ -15,7 +16,7 @@ import type {
   CheckinFeeling,
   HealingJourneySession,
   HealingDaySummary,
-  ExperiencePortrait,
+  ExperiencePortrait as ExperiencePortraitType,
 } from '@/lib/healing-types';
 import { computeJourneyPhase } from '@/lib/healing-types';
 import {
@@ -54,6 +55,11 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
   const [expandedDays, setExpandedDays] = useState<Set<number>>(new Set());
   const [error, setError] = useState<string | null>(null);
   const [chatNote, setChatNote] = useState('');
+  // Check-in step state: intentions for next day + free-text note
+  const [checkinIntentions, setCheckinIntentions] = useState<UserIntention[]>([]);
+  const [checkinNote, setCheckinNote] = useState('');
+  const [checkinFeeling, setCheckinFeeling] = useState<CheckinFeeling | null>(null);
+  const [checkinFeelingNote, setCheckinFeelingNote] = useState('');
 
   // Clear session on mount — fresh start each time
   useEffect(() => {
@@ -93,7 +99,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
       const token = getProToken();
       const prevContext = getHealingPreviousDaysContext(currentSession);
       const portrait = getHealingExperiencePortrait(currentSession);
-      const phase = computeJourneyPhase(dayNumber);
+      const phase = computeJourneyPhase(dayNumber, portrait);
 
       const response = await fetch('/api/itinerary-day', {
         method: 'POST',
@@ -141,15 +147,11 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
           return updated.sort((a, b) => a.dayNumber - b.dayNumber);
         });
 
-        // Extract intentions covered from energy blocks
+        // Extract intentions covered from energy blocks (new structure: one block = one activity with .intention)
         const coveredIntentions = new Set<UserIntention>();
         for (const block of healingContent.energyBlocks) {
-          for (const activity of block.activities) {
-            for (const tag of activity.intentionTags || []) {
-              if (currentSession.intentions.includes(tag as UserIntention)) {
-                coveredIntentions.add(tag as UserIntention);
-              }
-            }
+          if (block.intention && currentSession.intentions.includes(block.intention as UserIntention)) {
+            coveredIntentions.add(block.intention as UserIntention);
           }
         }
 
@@ -157,7 +159,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
         const daySummary: HealingDaySummary = {
           dayNumber,
           title,
-          activities: healingContent.energyBlocks.flatMap(b => b.activities.map(a => a.name)),
+          activities: healingContent.energyBlocks.map(b => b.title),
           intentions: Array.from(coveredIntentions),
         };
         const updatedSession = addDayToHealingSession(currentSession, daySummary);
@@ -166,6 +168,16 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
 
         // Expand the newly generated day
         setExpandedDays(prev => new Set([...prev, dayNumber]));
+
+        // Pre-fill check-in intentions with uncovered intentions for Day 2+ (Fix 9)
+        const updatedPortrait = getHealingExperiencePortrait(updatedSession);
+        setCheckinIntentions(updatedPortrait.uncoveredIntentions.length > 0
+          ? updatedPortrait.uncoveredIntentions
+          : updatedSession.intentions
+        );
+        setCheckinNote('');
+        setCheckinFeeling(null);
+        setCheckinFeelingNote('');
 
         // Go to checkin step
         setStep('checkin');
@@ -181,22 +193,39 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
     }
   }, [destination.slug]);
 
-  const handleCheckin = (feeling: CheckinFeeling, note?: string) => {
-    if (!session) return;
+  // Expanded check-in handler: collects feeling + intentions + note, then generates next day
+  const handleCheckinFeeling = (feeling: CheckinFeeling, note?: string) => {
+    setCheckinFeeling(feeling);
+    setCheckinFeelingNote(note || '');
+  };
+
+  const handleShapeToday = () => {
+    if (!session || !checkinFeeling) return;
 
     // Build check-in context for the next day's prompt
-    const checkinText = `Day ${session.daysGenerated.length} check-in: Feeling ${feeling}${note ? ` — ${note}` : ''}`;
+    const feelingText = `Day ${session.daysGenerated.length} check-in: Feeling ${checkinFeeling}${checkinFeelingNote ? ` — ${checkinFeelingNote}` : ''}`;
+    const intentionText = checkinIntentions.length > 0
+      ? `Intentions for next day: ${checkinIntentions.join(', ')}`
+      : '';
+    const freeText = checkinNote.trim() ? `Notes: ${checkinNote.trim()}` : '';
+    const newContextParts = [feelingText, intentionText, freeText].filter(Boolean);
+    const newContext = newContextParts.join('\n');
+
     const updatedChatContext = session.chatContext
-      ? session.chatContext + '\n' + checkinText
-      : checkinText;
+      ? session.chatContext + '\n' + newContext
+      : newContext;
+
+    // Merge check-in intentions into session intentions (expand if new ones selected)
+    const mergedIntentions = Array.from(new Set([...session.intentions, ...checkinIntentions])) as UserIntention[];
 
     const updatedSession: HealingJourneySession = {
       ...session,
+      intentions: mergedIntentions,
       chatContext: updatedChatContext,
       currentDay: session.currentDay + 1,
       daysGenerated: session.daysGenerated.map((d, i) =>
         i === session.daysGenerated.length - 1
-          ? { ...d, checkinFeeling: feeling, checkinNote: note }
+          ? { ...d, checkinFeeling, checkinNote: checkinFeelingNote || undefined }
           : d
       ),
     };
@@ -231,6 +260,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
         dayNumber: d.dayNumber,
         title: d.title,
         content: d.content as any,
+        returnTransition: d.content.returnTransition,
       })),
       savedAt: new Date().toISOString(),
     });
@@ -262,7 +292,8 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
   };
 
   const currentDayNumber = session?.currentDay || 1;
-  const phase: JourneyPhase = computeJourneyPhase(currentDayNumber);
+  const currentPortrait: ExperiencePortraitType | null = session ? getHealingExperiencePortrait(session) : null;
+  const phase: JourneyPhase = computeJourneyPhase(currentDayNumber, currentPortrait || { coveredIntentions: [], uncoveredIntentions: [], daysGenerated: currentDayNumber - 1 });
 
   // ─── WELCOME STEP ───
   if (step === 'welcome') {
@@ -360,6 +391,10 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
         <p className="text-primary/60 text-sm">
           Weaving your intentions into a gentle day in {destination.name}
         </p>
+        {/* Journey Arc progress */}
+        <div className="mt-6">
+          <JourneyArc currentPhase={phase} />
+        </div>
         {error && (
           <div className="mt-4 p-3 bg-rose-50 border border-rose-200 rounded-lg text-sm text-rose-700">
             {error}
@@ -369,11 +404,19 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
     );
   }
 
-  // ─── CHECKIN STEP ───
+  // ─── CHECKIN STEP (Fix 2, 3, 4: ExperiencePortrait + JourneyArc + expanded check-in) ───
   if (step === 'checkin' && session) {
     const lastDay = days[days.length - 1];
+    const checkinPortrait = getHealingExperiencePortrait(session);
+    const checkinPhase = computeJourneyPhase(session.currentDay, checkinPortrait);
+
     return (
       <div className="max-w-2xl mx-auto space-y-6">
+        {/* Journey Arc progress */}
+        <div className="bg-white rounded-2xl border border-primary/10 p-4 shadow-sm">
+          <JourneyArc currentPhase={checkinPhase} />
+        </div>
+
         {/* Show the just-generated day */}
         {lastDay && (
           <ItineraryDayCard
@@ -388,11 +431,59 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
           />
         )}
 
-        {/* Daily Check-in */}
+        {/* Experience Portrait (Fix 2) */}
+        <div className="bg-white rounded-2xl border border-primary/10 p-5 shadow-sm">
+          <ExperiencePortrait
+            intentions={session.intentions}
+            coveredIntentions={checkinPortrait.coveredIntentions}
+            uncoveredIntentions={checkinPortrait.uncoveredIntentions}
+            daysGenerated={checkinPortrait.daysGenerated}
+          />
+        </div>
+
+        {/* Daily Check-in — feeling */}
         <DailyCheckin
           dayNumber={session.daysGenerated.length}
-          onCheckin={handleCheckin}
+          onCheckin={handleCheckinFeeling}
         />
+
+        {/* Intention chips for next day — pre-filled with uncovered (Fix 4, 9) */}
+        {checkinFeeling && (
+          <div className="bg-white rounded-2xl border border-primary/10 p-6 shadow-sm space-y-4">
+            <div>
+              <h3 className="font-serif text-lg text-primary mb-1">
+                Shape Day {session.daysGenerated.length + 1}
+              </h3>
+              <p className="text-sm text-primary/60 mb-3">
+                Select intentions for your next day. We&apos;ve pre-selected what you haven&apos;t explored yet.
+              </p>
+              <IntentionChips selected={checkinIntentions} onChange={setCheckinIntentions} />
+            </div>
+
+            {/* Optional free-text note */}
+            <div>
+              <label className="block text-sm font-medium text-primary mb-2">
+                Anything else for tomorrow? <span className="text-primary/40 font-normal">(optional)</span>
+              </label>
+              <textarea
+                value={checkinNote}
+                onChange={(e) => setCheckinNote(e.target.value)}
+                placeholder="e.g. I'd like something gentler tomorrow, or I want to explore the coast..."
+                className="w-full px-3 py-2 border border-primary/15 rounded-lg text-sm text-primary placeholder:text-primary/30 focus:outline-none focus:border-secondary/40 resize-none"
+                rows={2}
+              />
+            </div>
+
+            {/* Shape Today button */}
+            <button
+              onClick={handleShapeToday}
+              className="w-full btn-secondary py-2.5 flex items-center justify-center gap-2"
+            >
+              <ArrowRight className="w-4 h-4" />
+              Shape Day {session.daysGenerated.length + 1}
+            </button>
+          </div>
+        )}
 
         {/* Option to complete journey */}
         <div className="text-center">
@@ -409,8 +500,18 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
 
   // ─── RESULT STEP (fallback / error state) ───
   if (step === 'result') {
+    const resultPortrait = session ? getHealingExperiencePortrait(session) : null;
+    const resultPhase = resultPortrait
+      ? computeJourneyPhase(currentDayNumber, resultPortrait)
+      : phase;
+
     return (
       <div className="max-w-2xl mx-auto space-y-6">
+        {/* Journey Arc progress */}
+        <div className="bg-white rounded-2xl border border-primary/10 p-4 shadow-sm">
+          <JourneyArc currentPhase={resultPhase} />
+        </div>
+
         {/* Day Cards */}
         <div className="space-y-3">
           {days.map(day => (
@@ -460,13 +561,17 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
 
   // ─── COMPLETE STEP ───
   if (step === 'complete' && session) {
-    const portrait: ExperiencePortrait = getHealingExperiencePortrait(session);
+    const portrait: ExperiencePortraitType = getHealingExperiencePortrait(session);
     return (
       <div className="max-w-2xl mx-auto">
         <ReturnGuide
           session={session}
           portrait={portrait}
-          days={days.map(d => ({ dayNumber: d.dayNumber, title: d.title }))}
+          days={days.map(d => ({
+            dayNumber: d.dayNumber,
+            title: d.title,
+            returnTransition: d.content.returnTransition,
+          }))}
           onSave={handleSaveJourney}
           onNewJourney={handleNewJourney}
         />

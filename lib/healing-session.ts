@@ -9,7 +9,7 @@ import type {
 } from './healing-types';
 import { computeExperiencePortrait } from './healing-types';
 
-const SESSION_KEY = 'serenestay_healing_journey_session';
+const SESSION_KEY = 'serenestay_itinerary_session';
 
 export function getHealingSession(): HealingJourneySession | null {
   if (typeof window === 'undefined') return null;

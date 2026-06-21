@@ -42,26 +42,25 @@ export interface DayContent {
 }
 
 // Healing journey format types
-export interface HealingActivity {
-  name: string;
-  description: string;
-  duration?: string;
-  cost?: string;
-  imageTags?: string[];
-  intentionTags: string[];
-}
-
 export interface HealingEnergyBlock {
   slot: string;
+  title: string;
+  energyLevel: 'gentle' | 'moderate' | 'deep';
+  intention: string;
   whyNote: string;
-  activities: HealingActivity[];
+  venue?: string;
+  isIntegrationTime?: boolean;
 }
 
 export interface HealingDayContent {
+  dayNumber?: number;
+  journeyPhase?: string;
+  phaseTitle?: string;
   title: string;
   summary: string;
   energyBlocks: HealingEnergyBlock[];
   reflection: string;
+  returnTransition?: string[];
   note: string;
 }
 
@@ -74,7 +73,7 @@ interface DayContentData {
 interface ItineraryDayCardProps {
   dayNumber: number;
   title: string;
-  content: string | DayContent | DayContentData | HealingDayContent;
+  content: DayContent | HealingDayContent;
   moodChips: string[];
   isExpanded: boolean;
   onToggle: () => void;
@@ -94,19 +93,19 @@ export default function ItineraryDayCard({
   onEdit,
   isGenerating = false,
 }: ItineraryDayCardProps) {
-  // Handle four content formats:
-  // 1. string (markdown)
-  // 2. DayContentData (old format: { content: string, note?: string })
-  // 3. DayContent (structured format with sections)
-  // 4. HealingDayContent (healing journey format with energyBlocks)
-  const isOldFormat = typeof content === 'object' && content !== null && 'content' in content && typeof (content as any).content === 'string';
+  // Handle content formats:
+  // Primary: DayContent (structured with sections) or HealingDayContent (with energyBlocks)
+  // Legacy fallback: string or DayContentData for backward compatibility with old saved data
   const isHealingContent = typeof content === 'object' && content !== null && 'energyBlocks' in content;
   const isJsonContent = !isHealingContent && typeof content === 'object' && content !== null && 'sections' in content;
+  const isOldFormat = typeof content === 'object' && content !== null && 'content' in content && typeof (content as any).content === 'string';
+  const isStringFormat = typeof content === 'string';
+
   const dayData = isJsonContent ? (content as DayContent) : null;
   const healingData = isHealingContent ? (content as HealingDayContent) : null;
 
-  // For old format, extract the string content
-  const actualContent = isOldFormat ? (content as any).content : content;
+  // For old formats, extract the string content
+  const actualContent = isOldFormat ? (content as any).content : isStringFormat ? content : '';
 
   // Get mood chip display info
   const getMoodDisplay = (id: string) => {
@@ -205,6 +204,11 @@ export default function ItineraryDayCard({
           {/* Content */}
           {isHealingContent && healingData ? (
             <div className="space-y-4">
+              {/* Phase title */}
+              {healingData.phaseTitle && (
+                <p className="text-xs font-medium text-secondary uppercase tracking-wide">{healingData.phaseTitle}</p>
+              )}
+
               {/* Summary */}
               {healingData.summary && (
                 <p className="text-primary/60 text-sm italic">{healingData.summary}</p>
@@ -213,14 +217,44 @@ export default function ItineraryDayCard({
               {/* Energy Blocks */}
               {healingData.energyBlocks.map((block, bi) => {
                 const slotInfo = ENERGY_SLOTS.find(s => s.id === block.slot);
+                const isIntegration = block.isIntegrationTime;
+                const intention = USER_INTENTIONS.find(i => i.id === block.intention);
+
+                if (isIntegration) {
+                  // Special "Protected Space" rendering
+                  return (
+                    <div key={bi} className="border-l-[3px] border-dashed border-secondary/40 pl-4 py-2">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-base">🕯️</span>
+                        <span className="font-serif text-sm text-primary font-medium">Protected Space</span>
+                      </div>
+                      {block.whyNote && (
+                        <p className="text-xs text-primary/50 italic mb-1">{block.whyNote}</p>
+                      )}
+                      <p className="text-sm text-primary/70">
+                        {block.title || 'A quiet moment for yourself — no agenda, no expectation.'}
+                      </p>
+                      {block.venue && (
+                        <p className="text-xs text-primary/40 mt-1">📍 {block.venue}</p>
+                      )}
+                      {intention && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-secondary/10 text-secondary text-[10px] font-medium rounded-full mt-1">
+                          {intention.emoji} {intention.label}
+                        </span>
+                      )}
+                    </div>
+                  );
+                }
+
                 return (
-                  <div key={bi} className={`border-l-3 ${slotInfo?.borderColor || 'border-primary/20'} pl-4`}>
+                  <div key={bi} className={`border-l-[3px] ${slotInfo?.borderColor || 'border-primary/20'} pl-4`}>
                     {/* Block header */}
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-base">{slotInfo?.emoji || '✨'}</span>
                       <span className="font-serif text-sm text-primary font-medium">
                         {slotInfo?.label || block.slot}
                       </span>
+                      <span className="text-[10px] text-primary/30 ml-auto">{block.energyLevel}</span>
                     </div>
 
                     {/* Why note */}
@@ -228,38 +262,38 @@ export default function ItineraryDayCard({
                       <p className="text-xs text-primary/50 italic mb-2">{block.whyNote}</p>
                     )}
 
-                    {/* Activities */}
-                    {block.activities.map((activity, ai) => (
-                      <div key={ai} className="mb-3">
-                        <p className="font-medium text-primary text-sm mb-1">{activity.name}</p>
-                        <p className="text-sm text-primary/70 mb-1">{activity.description}</p>
-                        <div className="flex flex-wrap items-center gap-2 mt-1">
-                          {(activity.duration || activity.cost) && (
-                            <div className="flex gap-2 text-xs text-primary/50">
-                              {activity.duration && <span>⏰ {activity.duration}</span>}
-                              {activity.cost && <span>💰 {activity.cost}</span>}
-                            </div>
-                          )}
-                          {/* Intention tags as pills */}
-                          {activity.intentionTags?.map((tag, ti) => {
-                            const intention = USER_INTENTIONS.find(i => i.id === tag);
-                            return (
-                              <span key={ti} className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-secondary/10 text-secondary text-[10px] font-medium rounded-full">
-                                {intention?.emoji} {intention?.label || tag}
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
+                    {/* Activity */}
+                    <div className="mb-1">
+                      <p className="font-medium text-primary text-sm mb-1">{block.title}</p>
+                      {block.venue && (
+                        <p className="text-xs text-primary/40 mb-1">📍 {block.venue}</p>
+                      )}
+                    </div>
+
+                    {/* Intention pill */}
+                    {intention && (
+                      <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-secondary/10 text-secondary text-[10px] font-medium rounded-full">
+                        {intention.emoji} {intention.label}
+                      </span>
+                    )}
                   </div>
                 );
               })}
 
               {/* Reflection */}
               {healingData.reflection && (
-                <div className="bg-violet-50 rounded-lg p-3">
+                <div className="bg-secondary/5 rounded-lg p-3">
                   <p className="text-sm text-primary/70"><span className="font-medium">🪞 Reflection:</span> {healingData.reflection}</p>
+                </div>
+              )}
+
+              {/* Return transition suggestions */}
+              {healingData.returnTransition && healingData.returnTransition.length > 0 && (
+                <div className="bg-amber-50/50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-primary/60 mb-1">🌅 Carrying It Forward</p>
+                  {healingData.returnTransition.map((tip, i) => (
+                    <p key={i} className="text-xs text-primary/50">• {tip}</p>
+                  ))}
                 </div>
               )}
 

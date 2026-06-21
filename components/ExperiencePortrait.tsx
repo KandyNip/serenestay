@@ -19,7 +19,7 @@ export default function ExperiencePortrait({
   daysGenerated,
   className = '',
 }: ExperiencePortraitProps) {
-  const phase = computeJourneyPhase(daysGenerated + 1);
+  const phase = computeJourneyPhase(daysGenerated + 1, { coveredIntentions, uncoveredIntentions });
   const coveredSet = new Set(coveredIntentions);
 
   return (
@@ -32,7 +32,7 @@ export default function ExperiencePortrait({
         <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
           phase === 'arrival' ? 'bg-emerald-50 text-emerald-700' :
           phase === 'deepening' ? 'bg-amber-50 text-amber-700' :
-          'bg-violet-50 text-violet-700'
+          'bg-secondary/10 text-secondary'
         }`}>
           {phase === 'arrival' && '🌱 Arrival Phase'}
           {phase === 'deepening' && '🌿 Deepening Phase'}

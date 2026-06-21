@@ -62,8 +62,8 @@ export async function POST(request: Request) {
 
     if (isHealing) {
       // ── Healing Journey Path ──
-      const phase = journeyPhase || computeJourneyPhase(dayNumber);
-      const portrait = experiencePortrait || { coveredIntentions: [], uncoveredIntentions: intentions || [] };
+      const portrait = experiencePortrait || { coveredIntentions: [], uncoveredIntentions: intentions || [], daysGenerated: 0 };
+      const phase = journeyPhase || computeJourneyPhase(dayNumber, portrait);
 
       const messages = buildHealingDayMessages(
         destination,
