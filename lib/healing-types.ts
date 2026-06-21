@@ -167,9 +167,9 @@ export interface HealingJourneySession {
 
 /**
  * Determine journey phase based on experience portrait (intention coverage).
- * Portrait-driven: phase transitions happen based on how many intentions are covered.
- * - ≥70% covered AND day ≥ 3 → integration
- * - User signals "home" in chatContext → integration (early trigger)
+ * Integration phase is ONLY triggered by user explicitly signaling "going home"
+ * or similar in chatContext — never by coverage ratio or day count.
+ * - User signals "home"/"last day"/"leaving" in chatContext → integration
  * - ≥50% covered or day ≥ 3 → deepening
  * - Otherwise → arrival
  */
@@ -178,21 +178,15 @@ export function computeJourneyPhase(
   portrait?: { coveredIntentions: UserIntention[]; uncoveredIntentions: UserIntention[] },
   chatContext?: string,
 ): JourneyPhase {
-  // Check for "home" signal in chatContext — early integration trigger
+  // Only integration trigger: user explicitly signals going home or last day
   if (chatContext) {
-    const homeKeywords = ['home', 'going home', 'back home', 'return home', 'go home', 'returning home', 'heading home'];
+    const homeKeywords = ['home', 'going home', 'back home', 'return home', 'go home', 'returning home', 'heading home', 'last day', 'final day', 'leaving'];
     const hasHomeSignal = homeKeywords.some(kw => chatContext.toLowerCase().includes(kw));
     if (hasHomeSignal) return 'integration';
   }
 
   if (portrait) {
     const totalIntentions = portrait.coveredIntentions.length + portrait.uncoveredIntentions.length;
-    const allCovered = portrait.uncoveredIntentions.length === 0 && totalIntentions > 0;
-    const coverageRatio = totalIntentions > 0 ? portrait.coveredIntentions.length / totalIntentions : 0;
-
-    // Integration: ≥70% covered AND day ≥ 3, or all covered
-    if (allCovered) return 'integration';
-    if (coverageRatio >= 0.7 && dayNumber >= 3) return 'integration';
 
     // Deepening: ≥50% covered or day ≥ 3
     const majorityCovered = totalIntentions > 0 && portrait.coveredIntentions.length >= totalIntentions / 2;
@@ -201,8 +195,7 @@ export function computeJourneyPhase(
   }
   // Fallback for backward compat (no portrait provided)
   if (dayNumber <= 2) return 'arrival';
-  if (dayNumber <= 5) return 'deepening';
-  return 'integration';
+  return 'deepening';
 }
 
 /**

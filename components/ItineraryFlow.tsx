@@ -60,6 +60,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
   const [checkinNote, setCheckinNote] = useState('');
   const [checkinFeeling, setCheckinFeeling] = useState<CheckinFeeling | null>(null);
   const [checkinFeelingNote, setCheckinFeelingNote] = useState('');
+  const [generatingDayNumber, setGeneratingDayNumber] = useState<number>(1);
 
   // Clear session on mount — fresh start each time
   useEffect(() => {
@@ -92,6 +93,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
 
   const generateDay = useCallback(async (dayNumber: number, currentSession: HealingJourneySession) => {
     setIsGenerating(true);
+    setGeneratingDayNumber(dayNumber);
     setError(null);
     setStep('generating');
 
@@ -419,7 +421,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
           <Loader2 className="w-8 h-8 text-secondary animate-spin" />
         </div>
         <h3 className="font-serif text-xl text-primary mb-2">
-          Crafting Day {days.length + 1}...
+          Crafting Day {generatingDayNumber}...
         </h3>
         <p className="text-primary/60 text-sm">
           Weaving your intentions into a gentle day in {destination.name}

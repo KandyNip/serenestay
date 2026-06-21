@@ -782,9 +782,9 @@ Current Phase: {journeyPhase}
 
 - ARRIVAL (Day 1): Always gentle. The nervous system needs safety before depth. Recommend light, grounding, familiarizing activities. Energy mostly "gentle", max one "moderate".
 - DEEPENING (Day 2+): The system has safety. Go deeper based on uncovered intentions. Can include "deep" energy activities. Read the portrait to decide direction.
-- INTEGRATION (Final day): Winding down. Reflective, gentle activities. Include a closing ritual. Prepare for transition home. Include returnTransition with 3 concrete tips.
+- INTEGRATION (User signals going home): Deep inner integration — reflective, gentle activities that help the user carry their healing forward. Include a grounding ritual for the transition ahead. Include returnTransition with 3 concrete tips for the first 24-48 hours.
 
-Phase transitions are PORTRAIT-DRIVEN, not day-number driven. If most intentions are covered → suggest integration. If many are uncovered → continue deepening.
+Phase transitions: arrival and deepening are PORTRAIT-DRIVEN. Integration is ONLY triggered when the user explicitly signals they are going home or it is their last day — never auto-triggered by coverage or day count.
 
 ## LAYER 4: EXPERIENCE PORTRAIT
 {portraitContext}
@@ -805,7 +805,7 @@ Destination: {destinationName}
 4. Every non-integration activity MUST have an energyLevel (gentle/moderate/deep).
 5. Every non-integration activity MUST have an intention tag showing which intention it serves.
 6. ARRIVAL phase: All activities "gentle" or at most one "moderate". Never "deep".
-7. INTEGRATION phase: All activities "gentle". Include a closing ritual or reflection activity.
+7. INTEGRATION phase: All activities "gentle". Include a reflection or grounding activity that helps carry the healing forward.
 8. Do NOT repeat the same venue or same type of experience across days. Use the activityHistory in the portrait to avoid duplicates.
 9. If journeyPhase is "integration", also include a "returnTransition" array with 3 concrete, actionable suggestions for the first 24-48 hours home.
 
@@ -815,7 +815,7 @@ Return JSON only. No markdown. No code fences.
 {
   "dayNumber": {dayNumber},
   "journeyPhase": "arrival" | "deepening" | "integration",
-  "phaseTitle": "string (e.g. 'Gentle Arrival', 'Going Deeper', 'Coming Home')",
+  "phaseTitle": "string (e.g. 'Gentle Arrival', 'Going Deeper', 'Deep Integration')",
   "title": "string (poetic, max 8 words)",
   "summary": "string (warm 2-3 sentence narrative)",
   "energyBlocks": [
