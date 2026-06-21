@@ -67,20 +67,20 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
             </div>
 
             <h1 className="font-serif text-2xl text-primary mb-2">
-              Pro Feature: Day-by-Day Itinerary
+              Pro Feature: Healing Journey Companion
             </h1>
             <p className="text-primary/60 mb-6">
-              Create a personalized {destination.name} itinerary, one day at a time.
-              Choose your mood, add special requests, and let AI craft the perfect plan.
+              A personalized, day-by-day healing journey in {destination.name}.
+              Share your state and intentions, and let AI craft a gentle plan that adapts to you.
             </p>
 
             {/* Feature list */}
             <div className="space-y-3 text-left mb-8">
               {[
-                { icon: Calendar, text: 'Day-by-day planning with mood selection' },
-                { icon: Compass, text: 'AI adapts to your preferences each day' },
-                { icon: MapPin, text: 'Context-aware — no repeated activities' },
-                { icon: Sparkles, text: 'Regenerate or edit any day' },
+                { icon: Calendar, text: 'Day-by-day journey with energy-aware pacing' },
+                { icon: Compass, text: 'Adapts to daily check-ins and your evolving needs' },
+                { icon: MapPin, text: 'Intention-driven — grounding, release, connection & more' },
+                { icon: Sparkles, text: 'Journey arc from arrival to deepening to integration' },
               ].map(({ icon: Icon, text }, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-secondary/5 flex items-center justify-center flex-shrink-0">

@@ -1,6 +1,7 @@
 import { createChatCompletion } from '../../../lib/deepseek';
-import { buildItineraryDayMessages } from '../../../lib/prompts';
+import { buildItineraryDayMessages, buildHealingDayMessages } from '../../../lib/prompts';
 import { getDestinationBySlug } from '@/lib/destinations';
+import { computeJourneyPhase } from '@/lib/healing-types';
 import crypto from 'crypto';
 
 export const maxDuration = 60;
@@ -36,7 +37,13 @@ function verifyProToken(token: string): boolean {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { slug, proToken, dayNumber, moodChips, previousDaysContext, focus, chatContext } = body;
+    const {
+      slug, proToken, dayNumber,
+      // Legacy fields
+      moodChips, previousDaysContext, focus, chatContext,
+      // Healing journey fields
+      currentState, intentions, journeyPhase, experiencePortrait, previousDaysContext: healingPrevDays, chatContext: healingChatContext,
+    } = body;
 
     if (!slug) return Response.json({ error: 'slug is required' }, { status: 400 });
     if (!dayNumber) return Response.json({ error: 'dayNumber is required' }, { status: 400 });
@@ -50,51 +57,96 @@ export async function POST(request: Request) {
     const apiKey = process.env.DEEPSEEK_API_KEY;
     if (!apiKey) return Response.json({ error: 'AI service not configured' }, { status: 500 });
 
-    const messages = buildItineraryDayMessages(
-      destination,
-      dayNumber,
-      moodChips || ['Chill'],
-      previousDaysContext || '',
-      focus || 'wellness',
-      chatContext
-    );
+    // Determine which path to take: healing journey or legacy mood chips
+    const isHealing = !!currentState;
 
-    // Single day needs fewer tokens
-    const maxTokens = 2000;
+    if (isHealing) {
+      // ── Healing Journey Path ──
+      const phase = journeyPhase || computeJourneyPhase(dayNumber);
+      const portrait = experiencePortrait || { coveredIntentions: [], uncoveredIntentions: intentions || [] };
 
-    const raw = await createChatCompletion(messages, { apiKey, maxTokens });
+      const messages = buildHealingDayMessages(
+        destination,
+        dayNumber,
+        currentState,
+        intentions || [],
+        phase,
+        portrait,
+        healingPrevDays || '',
+        healingChatContext,
+      );
 
-    // Parse JSON from AI response
-    let dayData;
-    let format: 'json' | 'markdown' = 'markdown';
-    try {
-      let jsonStr = raw.trim();
-      // Strip markdown code fences if AI wrapped the JSON
-      if (jsonStr.startsWith('```')) {
-        jsonStr = jsonStr.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+      const maxTokens = 3000;
+      const raw = await createChatCompletion(messages, { apiKey, maxTokens });
+
+      // Parse JSON from AI response
+      let dayData;
+      try {
+        let jsonStr = raw.trim();
+        if (jsonStr.startsWith('```')) {
+          jsonStr = jsonStr.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+        }
+        const parsed = JSON.parse(jsonStr);
+
+        if (parsed && typeof parsed === 'object' && parsed.energyBlocks && Array.isArray(parsed.energyBlocks)) {
+          dayData = parsed;
+        } else {
+          throw new Error('Missing required energyBlocks field');
+        }
+      } catch (parseError) {
+        console.error('[api/itinerary-day] Healing JSON parse failed:', parseError);
+        return Response.json({
+          dayContent: raw,
+          format: 'markdown',
+        });
       }
-      const parsed = JSON.parse(jsonStr);
 
-      // Validate required fields
-      if (parsed && typeof parsed === 'object' && parsed.sections && Array.isArray(parsed.sections)) {
-        dayData = parsed;
-        format = 'json';
-      } else {
-        throw new Error('Missing required sections field');
-      }
-    } catch (parseError) {
-      console.error('[api/itinerary-day] JSON parse failed, returning raw markdown:', parseError);
-      // Fallback: return raw content as markdown
       return Response.json({
-        dayContent: raw,
-        format: 'markdown',
+        dayContent: dayData,
+        format: 'healing-json',
+      });
+    } else {
+      // ── Legacy Mood Chips Path ──
+      const messages = buildItineraryDayMessages(
+        destination,
+        dayNumber,
+        moodChips || ['Chill'],
+        previousDaysContext || '',
+        focus || 'wellness',
+        chatContext,
+      );
+
+      const maxTokens = 2000;
+      const raw = await createChatCompletion(messages, { apiKey, maxTokens });
+
+      let dayData;
+      let format: 'json' | 'markdown' = 'markdown';
+      try {
+        let jsonStr = raw.trim();
+        if (jsonStr.startsWith('```')) {
+          jsonStr = jsonStr.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+        }
+        const parsed = JSON.parse(jsonStr);
+
+        if (parsed && typeof parsed === 'object' && parsed.sections && Array.isArray(parsed.sections)) {
+          dayData = parsed;
+          format = 'json';
+        } else {
+          throw new Error('Missing required sections field');
+        }
+      } catch (parseError) {
+        console.error('[api/itinerary-day] JSON parse failed, returning raw markdown:', parseError);
+        return Response.json({
+          dayContent: raw,
+          format: 'markdown',
+        });
+      }
+
+      return Response.json({
+        dayContent: dayData,
+        format: 'json',
       });
     }
-
-    return Response.json({
-      dayContent: dayData,
-      format: 'json',
-    });
   } catch (error) {
     console.error('[api/itinerary-day] Error:', error);
     return Response.json({ error: 'Failed to generate day itinerary' }, { status: 500 });

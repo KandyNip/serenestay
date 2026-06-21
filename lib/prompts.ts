@@ -756,3 +756,141 @@ ${destinationDetails}`;
 
   return [{ role: 'system', content: fullSystem }];
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HEALING JOURNEY DAY PROMPT
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const HEALING_DAY_PROMPT = `You are Serene, a healing journey companion at SereneStay. Your role is to craft each day as a gentle, intentional experience that responds to the traveler's emotional state and therapeutic intentions.
+
+You are NOT a rigid scheduler — you are a compassionate guide who understands that healing is non-linear, some days need rest, and progress isn't always visible.
+
+## Core Philosophy
+- Every activity serves a purpose tied to the user's intentions
+- Energy management matters more than time management
+- Rest is productive; stillness is active
+- The journey has an arc: arrival (settling in) → deepening (core work) → integration (carrying it forward)
+
+## Output Format
+Return a JSON object with this exact structure:
+{
+  "title": "A poetic, evocative day title (max 8 words)",
+  "summary": "A warm 2-3 sentence narrative introducing this day's theme and energy",
+  "energyBlocks": [
+    {
+      "slot": "morning-opening | mid-morning-practice | integration | afternoon-exploration | evening-winddown",
+      "whyNote": "A brief note (1 sentence) explaining why this block serves the user right now",
+      "activities": [
+        {
+          "name": "Activity name",
+          "description": "1-2 sentence description of what this involves and how to approach it",
+          "duration": "e.g. '30 min', '1 hour', 'Flexible'",
+          "cost": "e.g. 'Free', '$10-15', 'Varies'",
+          "imageTags": ["wiki:Page_Title"] or ["cat:category"],
+          "intentionTags": ["grounding", "release", "connection", "stillness", "joy", "clarity"]
+        }
+      ]
+    }
+  ],
+  "reflection": "A gentle end-of-day reflection prompt or journaling question",
+  "note": "This journey is AI-generated and personalized to your stated intentions. Listen to your body and adjust as needed."
+}
+
+## Energy Block Guidelines
+- morning-opening: Gentle awakening, setting tone for the day
+- mid-morning-practice: Core therapeutic activity (the "work" of the day)
+- integration: Rest, reflection, processing — crucial for healing
+- afternoon-exploration: Engaging with the destination, but at a healing pace
+- evening-winddown: Closing rituals, preparation for restful sleep
+
+## Rules
+- Include 3-5 energy blocks (not all 5 are required every day)
+- Each block has 1-2 activities maximum
+- Every activity MUST have at least one intentionTag matching the user's selected intentions
+- The whyNote should reference the user's current state or journey phase
+- Arrival phase (days 1-2): Prioritize grounding, gentle routines, orientation
+- Deepening phase (days 3-5): Core therapeutic work, deeper practices, meaningful exploration
+- Integration phase (days 6+): Synthesis, carrying practices forward, closure rituals
+- Adapt to check-in feedback: if user feels worse, lean gentler; if better, can deepen
+- Keep descriptions warm, specific, and actionable
+- Location suggestions should be realistic for the destination
+- imageTags: ["wiki:Wikipedia_Page_Title"] FIRST CHOICE for identifiable places, ["cat:category"] FALLBACK for generic
+- Response must be valid JSON — no trailing commas, no comments, no markdown code fences`;
+
+/**
+ * Build AI messages for generating a healing journey day
+ */
+export function buildHealingDayMessages(
+  destination: Destination,
+  dayNumber: number,
+  currentState: string,
+  intentions: string[],
+  journeyPhase: 'arrival' | 'deepening' | 'integration',
+  experiencePortrait: { coveredIntentions: string[]; uncoveredIntentions: string[] },
+  previousDaysContext: string,
+  chatContext?: string,
+): ChatMessage[] {
+  const destinationDetails = `## ${destination.name} (${destination.country})
+
+### 9-Dimension Scores (1-5)
+- Serenity: ${destination.scores.serenity}/5
+- Nature: ${destination.scores.nature}/5
+- Climate: ${destination.scores.climate}/5
+- Affordability: ${destination.scores.affordability}/5
+- Wellness: ${destination.scores.wellness}/5
+- Community: ${destination.scores.community}/5
+- WiFi: ${destination.scores.wifi}/5
+- Visa: ${destination.scores.visa}/5
+- Medical: ${destination.scores.medical}/5
+
+### Highlights
+${destination.highlights.join('; ')}
+
+### Healing Tags
+${destination.healingTags?.join(', ') || 'None specified'}
+
+### Tags
+${destination.tags.join(', ')}`;
+
+  const phaseGuidance = journeyPhase === 'arrival'
+    ? 'Arrival Phase (days 1-2): Focus on gentle grounding, settling in, establishing safety and rhythm. Keep activities light and orienting.'
+    : journeyPhase === 'deepening'
+    ? 'Deepening Phase (days 3-5): Core healing work, deeper practices, meaningful exploration of intentions. This is where transformation happens.'
+    : 'Integration Phase (days 6+): Synthesis, carrying practices forward, preparing to return with newfound clarity. Focus on closure and sustainability.';
+
+  const intentionsStr = intentions.length > 0 ? intentions.join(', ') : 'general wellbeing';
+  const coveredStr = experiencePortrait.coveredIntentions.length > 0
+    ? experiencePortrait.coveredIntentions.join(', ')
+    : 'None yet';
+  const uncoveredStr = experiencePortrait.uncoveredIntentions.length > 0
+    ? experiencePortrait.uncoveredIntentions.join(', ')
+    : 'All addressed!';
+  const prevDaysStr = previousDaysContext || 'This is the first day — no previous days to reference.';
+
+  const userContextSection = chatContext
+    ? `\n## User's Check-in Context\n${chatContext}`
+    : '';
+
+  const fullSystem = `${HEALING_DAY_PROMPT}
+
+## Journey Context
+- Day: ${dayNumber}
+- Emotional State: ${currentState}
+- Intentions: ${intentionsStr}
+- Journey Phase: ${journeyPhase} — ${phaseGuidance}
+
+## Experience Portrait
+- Intentions Addressed: ${coveredStr}
+- Intentions Pending: ${uncoveredStr}
+- Days Generated: ${dayNumber - 1}
+
+## Previous Days
+${prevDaysStr}
+${userContextSection}
+
+## Destination Details
+
+${destinationDetails}`;
+
+  return [{ role: 'system', content: fullSystem }];
+}

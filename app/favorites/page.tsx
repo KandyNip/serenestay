@@ -6,8 +6,9 @@ import Image from 'next/image';
 import { Heart, Lock, Trash2, Sparkles, Map, Calendar, X } from 'lucide-react';
 import { checkProStatus } from '@/lib/api';
 import { getFavorites, removeFavorite, clearFavorites } from '@/lib/favorites';
-import { getSavedItineraries, removeItinerary, clearItineraries, getSavedDayByDayItineraries, removeDayByDayItinerary } from '@/lib/itinerary-storage';
-import type { SavedItinerary, SavedDayByDayItinerary } from '@/lib/itinerary-storage';
+import { getSavedItineraries, removeItinerary, clearItineraries, getSavedDayByDayItineraries, removeDayByDayItinerary, getSavedHealingJourneys, removeHealingJourney } from '@/lib/itinerary-storage';
+import type { SavedItinerary, SavedDayByDayItinerary, SavedHealingJourney } from '@/lib/itinerary-storage';
+import { USER_STATES, USER_INTENTIONS } from '@/lib/healing-types';
 import type { Destination } from '@/lib/types';
 import ItineraryModal from '@/components/ItineraryModal';
 import ItineraryDayCard from '@/components/ItineraryDayCard';
@@ -22,6 +23,8 @@ export default function FavoritesPage() {
   const [activeTab, setActiveTab] = useState<'destinations' | 'itineraries'>('destinations');
   const [selectedItinerary, setSelectedItinerary] = useState<SavedItinerary | null>(null);
   const [selectedDayByDay, setSelectedDayByDay] = useState<SavedDayByDayItinerary | null>(null);
+  const [healingJourneys, setHealingJourneys] = useState<SavedHealingJourney[]>([]);
+  const [selectedHealingJourney, setSelectedHealingJourney] = useState<SavedHealingJourney | null>(null);
   const [expandedDays, setExpandedDays] = useState<Set<number>>(new Set());
 
   useEffect(() => {
@@ -32,6 +35,7 @@ export default function FavoritesPage() {
     setFavorites(saved);
     setItineraries(getSavedItineraries());
     setDayByDayItineraries(getSavedDayByDayItineraries());
+    setHealingJourneys(getSavedHealingJourneys());
 
     // Fetch all destinations and filter by saved slugs
     fetch('/api/destinations?fields=card')
@@ -69,11 +73,17 @@ export default function FavoritesPage() {
     setDayByDayItineraries(getSavedDayByDayItineraries());
   };
 
+  const handleRemoveHealingJourney = (id: string) => {
+    removeHealingJourney(id);
+    setHealingJourneys(getSavedHealingJourneys());
+  };
+
   const handleClearItineraries = () => {
     if (confirm('Remove all saved itineraries?')) {
       clearItineraries();
       setItineraries([]);
       setDayByDayItineraries([]);
+      setHealingJourneys([]);
     }
   };
 
@@ -235,7 +245,7 @@ export default function FavoritesPage() {
           )
         ) : (
           /* Itineraries Tab */
-          (itineraries.length === 0 && dayByDayItineraries.length === 0) ? (
+          (itineraries.length === 0 && dayByDayItineraries.length === 0 && healingJourneys.length === 0) ? (
             <div className="max-w-md mx-auto text-center py-12">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/5 rounded-full mb-4">
                 <Map className="w-8 h-8 text-primary/30" />
@@ -256,7 +266,7 @@ export default function FavoritesPage() {
               {/* Actions Bar */}
               <div className="flex items-center justify-between max-w-5xl mx-auto mb-6">
                 <p className="text-sm text-primary/50">
-                  {itineraries.length + dayByDayItineraries.length} trip{(itineraries.length + dayByDayItineraries.length) !== 1 ? 's' : ''} saved
+                  {itineraries.length + dayByDayItineraries.length + healingJourneys.length} trip{(itineraries.length + dayByDayItineraries.length + healingJourneys.length) !== 1 ? 's' : ''} saved
                 </p>
                 <button
                   onClick={handleClearItineraries}
@@ -265,6 +275,72 @@ export default function FavoritesPage() {
                   Clear All
                 </button>
               </div>
+
+              {/* Healing Journeys */}
+              {healingJourneys.length > 0 && (
+                <div className="max-w-5xl mx-auto mb-8">
+                  <h3 className="text-sm font-medium text-primary/60 mb-3 flex items-center gap-2">
+                    <span>🌿</span>
+                    Healing Journeys
+                  </h3>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {healingJourneys.map((j) => {
+                      const stateInfo = USER_STATES.find(s => s.id === j.currentState);
+                      const intentionLabels = j.intentions.map(i => USER_INTENTIONS.find(ii => ii.id === i)?.label || i);
+                      return (
+                        <div key={j.id} className="relative group">
+                          <div
+                            onClick={() => {
+                              setSelectedHealingJourney(j);
+                              setExpandedDays(new Set());
+                            }}
+                            className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                          >
+                            {/* Gradient cover */}
+                            <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50 flex items-center justify-center">
+                              <span className="text-4xl">🌿</span>
+                              {/* Remove button (hover reveal) */}
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  handleRemoveHealingJourney(j.id);
+                                }}
+                                className="absolute top-3 right-3 p-2 bg-white/90 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50"
+                                title="Remove journey"
+                              >
+                                <Trash2 className="w-4 h-4 text-rose-500" />
+                              </button>
+                              {/* Duration badge */}
+                              <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 rounded-full shadow-sm text-xs font-medium text-emerald-700">
+                                {j.totalDays} {j.totalDays === 1 ? 'Day' : 'Days'}
+                              </div>
+                            </div>
+                            {/* Info */}
+                            <div className="p-4">
+                              <h3 className="font-serif text-lg text-primary">{j.destinationName}</h3>
+                              <p className="text-sm text-primary/50 mt-1 flex items-center gap-1">
+                                <span>{stateInfo?.emoji}</span>
+                                <span className="capitalize">{stateInfo?.label || j.currentState}</span>
+                              </p>
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {intentionLabels.slice(0, 3).map(label => (
+                                  <span key={label} className="text-[10px] px-1.5 py-0.5 bg-secondary/10 text-secondary rounded-full">
+                                    {label}
+                                  </span>
+                                ))}
+                              </div>
+                              <p className="text-xs text-primary/40 mt-2">
+                                Saved {new Date(j.savedAt).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Day-by-Day Itineraries */}
               {dayByDayItineraries.length > 0 && (
@@ -448,6 +524,82 @@ export default function FavoritesPage() {
                   title={day.title}
                   content={day.content}
                   moodChips={day.moodChips}
+                  isExpanded={expandedDays.has(day.dayNumber)}
+                  onToggle={() => {
+                    const next = new Set(expandedDays);
+                    if (next.has(day.dayNumber)) next.delete(day.dayNumber);
+                    else next.add(day.dayNumber);
+                    setExpandedDays(next);
+                  }}
+                  onRegenerate={() => {}}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Healing Journey Viewer Modal ─── */}
+      {selectedHealingJourney && (
+        <div className="fixed inset-0 z-50 bg-black/30 flex items-start justify-center overflow-y-auto p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl my-8 overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-emerald-50 to-amber-50 px-6 py-4 flex items-center justify-between border-b border-primary/10">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🌿</span>
+                <div>
+                  <h2 className="font-serif text-xl text-primary">{selectedHealingJourney.destinationName}</h2>
+                  <p className="text-sm text-primary/50 flex items-center gap-1">
+                    {USER_STATES.find(s => s.id === selectedHealingJourney.currentState)?.emoji}{' '}
+                    <span className="capitalize">{USER_STATES.find(s => s.id === selectedHealingJourney.currentState)?.label || selectedHealingJourney.currentState}</span>
+                    <span className="mx-1">·</span>
+                    {selectedHealingJourney.totalDays} {selectedHealingJourney.totalDays === 1 ? 'Day' : 'Days'}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    if (confirm('Delete this healing journey?')) {
+                      handleRemoveHealingJourney(selectedHealingJourney.id);
+                      setSelectedHealingJourney(null);
+                    }
+                  }}
+                  className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                  title="Delete journey"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setSelectedHealingJourney(null)}
+                  className="p-2 text-primary/60 hover:bg-primary/5 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Intentions */}
+            <div className="px-6 py-3 border-b border-primary/5 flex flex-wrap gap-1.5">
+              {selectedHealingJourney.intentions.map(i => {
+                const info = USER_INTENTIONS.find(ii => ii.id === i);
+                return (
+                  <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 bg-secondary/10 text-secondary text-xs rounded-full">
+                    {info?.emoji} {info?.label || i}
+                  </span>
+                );
+              })}
+            </div>
+
+            {/* Days */}
+            <div className="p-6 space-y-3">
+              {selectedHealingJourney.days.map((day) => (
+                <ItineraryDayCard
+                  key={day.dayNumber}
+                  dayNumber={day.dayNumber}
+                  title={day.title}
+                  content={day.content}
+                  moodChips={[]}
                   isExpanded={expandedDays.has(day.dayNumber)}
                   onToggle={() => {
                     const next = new Set(expandedDays);

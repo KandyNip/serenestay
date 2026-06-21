@@ -2,8 +2,17 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, RefreshCw, Pencil, Loader2 } from 'lucide-react';
-import { MOOD_CHIPS } from '@/components/MoodChips';
+// Legacy mood chips — kept inline for backward compat with saved itineraries
+const MOOD_CHIPS = [
+  { id: 'chill', label: 'Chill', emoji: '🧘' },
+  { id: 'active', label: 'Active', emoji: '🏃' },
+  { id: 'ocean', label: 'Ocean', emoji: '🌊' },
+  { id: 'nature', label: 'Nature', emoji: '🌿' },
+  { id: 'food', label: 'Food', emoji: '🍜' },
+  { id: 'coffee', label: 'Coffee', emoji: '☕' },
+];
 import { getCategoryEmoji } from '@/lib/itinerary-images';
+import { ENERGY_SLOTS, USER_INTENTIONS } from '@/lib/healing-types';
 
 // Re-export getCategoryEmoji from itinerary-images for convenience
 export { getCategoryEmoji } from '@/lib/itinerary-images';
@@ -32,6 +41,30 @@ export interface DayContent {
   note: string;
 }
 
+// Healing journey format types
+export interface HealingActivity {
+  name: string;
+  description: string;
+  duration?: string;
+  cost?: string;
+  imageTags?: string[];
+  intentionTags: string[];
+}
+
+export interface HealingEnergyBlock {
+  slot: string;
+  whyNote: string;
+  activities: HealingActivity[];
+}
+
+export interface HealingDayContent {
+  title: string;
+  summary: string;
+  energyBlocks: HealingEnergyBlock[];
+  reflection: string;
+  note: string;
+}
+
 // Old format from storage: { content: string, note?: string }
 interface DayContentData {
   content: string;
@@ -41,7 +74,7 @@ interface DayContentData {
 interface ItineraryDayCardProps {
   dayNumber: number;
   title: string;
-  content: string | DayContent | DayContentData;
+  content: string | DayContent | DayContentData | HealingDayContent;
   moodChips: string[];
   isExpanded: boolean;
   onToggle: () => void;
@@ -61,13 +94,16 @@ export default function ItineraryDayCard({
   onEdit,
   isGenerating = false,
 }: ItineraryDayCardProps) {
-  // Handle three content formats:
+  // Handle four content formats:
   // 1. string (markdown)
   // 2. DayContentData (old format: { content: string, note?: string })
-  // 3. DayContent (new structured format with sections)
+  // 3. DayContent (structured format with sections)
+  // 4. HealingDayContent (healing journey format with energyBlocks)
   const isOldFormat = typeof content === 'object' && content !== null && 'content' in content && typeof (content as any).content === 'string';
-  const isJsonContent = typeof content === 'object' && content !== null && 'sections' in content;
+  const isHealingContent = typeof content === 'object' && content !== null && 'energyBlocks' in content;
+  const isJsonContent = !isHealingContent && typeof content === 'object' && content !== null && 'sections' in content;
   const dayData = isJsonContent ? (content as DayContent) : null;
+  const healingData = isHealingContent ? (content as HealingDayContent) : null;
 
   // For old format, extract the string content
   const actualContent = isOldFormat ? (content as any).content : content;
@@ -135,8 +171,8 @@ export default function ItineraryDayCard({
             <span className="font-medium text-primary block truncate">
               {title || `Day ${dayNumber}`}
             </span>
-            {/* Mood chips */}
-            {moodChips.length > 0 && (
+            {/* Mood chips (only for legacy format, not healing) */}
+            {!isHealingContent && moodChips.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-1">
                 {moodChips.map(id => {
                   const mood = getMoodDisplay(id);
@@ -167,7 +203,72 @@ export default function ItineraryDayCard({
       {isExpanded && (
         <div className="px-4 pb-4 pt-2 border-t border-primary/10">
           {/* Content */}
-          {isJsonContent && dayData ? (
+          {isHealingContent && healingData ? (
+            <div className="space-y-4">
+              {/* Summary */}
+              {healingData.summary && (
+                <p className="text-primary/60 text-sm italic">{healingData.summary}</p>
+              )}
+
+              {/* Energy Blocks */}
+              {healingData.energyBlocks.map((block, bi) => {
+                const slotInfo = ENERGY_SLOTS.find(s => s.id === block.slot);
+                return (
+                  <div key={bi} className={`border-l-3 ${slotInfo?.borderColor || 'border-primary/20'} pl-4`}>
+                    {/* Block header */}
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-base">{slotInfo?.emoji || '✨'}</span>
+                      <span className="font-serif text-sm text-primary font-medium">
+                        {slotInfo?.label || block.slot}
+                      </span>
+                    </div>
+
+                    {/* Why note */}
+                    {block.whyNote && (
+                      <p className="text-xs text-primary/50 italic mb-2">{block.whyNote}</p>
+                    )}
+
+                    {/* Activities */}
+                    {block.activities.map((activity, ai) => (
+                      <div key={ai} className="mb-3">
+                        <p className="font-medium text-primary text-sm mb-1">{activity.name}</p>
+                        <p className="text-sm text-primary/70 mb-1">{activity.description}</p>
+                        <div className="flex flex-wrap items-center gap-2 mt-1">
+                          {(activity.duration || activity.cost) && (
+                            <div className="flex gap-2 text-xs text-primary/50">
+                              {activity.duration && <span>⏰ {activity.duration}</span>}
+                              {activity.cost && <span>💰 {activity.cost}</span>}
+                            </div>
+                          )}
+                          {/* Intention tags as pills */}
+                          {activity.intentionTags?.map((tag, ti) => {
+                            const intention = USER_INTENTIONS.find(i => i.id === tag);
+                            return (
+                              <span key={ti} className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-secondary/10 text-secondary text-[10px] font-medium rounded-full">
+                                {intention?.emoji} {intention?.label || tag}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })}
+
+              {/* Reflection */}
+              {healingData.reflection && (
+                <div className="bg-violet-50 rounded-lg p-3">
+                  <p className="text-sm text-primary/70"><span className="font-medium">🪞 Reflection:</span> {healingData.reflection}</p>
+                </div>
+              )}
+
+              {/* Disclaimer */}
+              {healingData.note && (
+                <p className="text-xs text-primary/30 mt-3 italic">📝 {healingData.note}</p>
+              )}
+            </div>
+          ) : isJsonContent && dayData ? (
             <div className="space-y-4">
               {/* Summary */}
               {dayData.summary && (

@@ -145,3 +145,59 @@ export function removeDayByDayItinerary(id: string): SavedDayByDayItinerary[] {
 export function getDayByDayForDestination(slug: string): SavedDayByDayItinerary[] {
   return getSavedDayByDayItineraries().filter(i => i.slug === slug);
 }
+
+// ============================================================
+// Healing Journey Storage
+// ============================================================
+
+const HEALING_JOURNEYS_KEY = 'serenestay_healing_journeys';
+
+import type { HealingDayContent, UserState, UserIntention } from '@/lib/healing-types';
+
+export interface SavedHealingJourneyDay {
+  dayNumber: number;
+  title: string;
+  content: HealingDayContent;
+}
+
+export interface SavedHealingJourney {
+  id: string;
+  slug: string;
+  destinationName: string;
+  currentState: UserState;
+  intentions: UserIntention[];
+  totalDays: number;
+  days: SavedHealingJourneyDay[];
+  savedAt: string;
+}
+
+export function getSavedHealingJourneys(): SavedHealingJourney[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    return JSON.parse(localStorage.getItem(HEALING_JOURNEYS_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+export function saveHealingJourney(journey: SavedHealingJourney): SavedHealingJourney[] {
+  const list = getSavedHealingJourneys();
+  const idx = list.findIndex(i => i.id === journey.id);
+  if (idx >= 0) {
+    list[idx] = journey;
+  } else {
+    list.unshift(journey);
+  }
+  localStorage.setItem(HEALING_JOURNEYS_KEY, JSON.stringify(list));
+  return list;
+}
+
+export function removeHealingJourney(id: string): SavedHealingJourney[] {
+  const list = getSavedHealingJourneys().filter(i => i.id !== id);
+  localStorage.setItem(HEALING_JOURNEYS_KEY, JSON.stringify(list));
+  return list;
+}
+
+export function getHealingJourneysForDestination(slug: string): SavedHealingJourney[] {
+  return getSavedHealingJourneys().filter(i => i.slug === slug);
+}
