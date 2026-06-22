@@ -11,19 +11,16 @@ export const metadata: Metadata = {
 // Pricing data — only real, existing features
 const freeFeatures = [
   'Healing DNA test + 3 AI matches',
-  'Browse all 56+ destinations',
-  '9-dimension wellness scoring',
-  'View full destination details',
-  'Compare destinations head-to-head',
+  'Browse & compare 56+ destinations',
   'Why You Match + Mind the Gap insights',
-  'Save favorites & build a shortlist',
-  'Talk to AI — adjust your compass',
+  'Save favorites & Talk to AI',
 ];
 
 const proFeatures = [
-  '5 AI-matched healing destinations',
+  'Everything in Free, plus 5 matches per search',
   'Personalized AI travel itineraries',
-  'Day-by-day healing journey companion',
+  'Day-by-day healing journey with daily check-ins',
+  'Adaptive wellness guidance & return integration',
 ];
 
 const comingSoonFeatures: string[] = [];
