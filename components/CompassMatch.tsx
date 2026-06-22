@@ -11,7 +11,6 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
-import { Lock } from 'lucide-react';
 import type { DNAProfile, ScoreKey } from '@/lib/dna-quiz';
 import { addFavorite, removeFavorite, getFavorites } from '@/lib/favorites';
 
@@ -83,10 +82,10 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
   const [adjustMessage, setAdjustMessage] = useState<string | null>(null);
   const [saved, setSaved] = useState<Set<string>>(new Set());
 
-  // Free users see only top 1 match; Pro sees all 5
-  const displayMatches = isPro ? matches : matches.slice(0, 1);
-  // Radar chart: Free shows 1 destination, Pro shows 3
-  const radarDests = isPro ? matches.slice(0, 3) : matches.slice(0, 1);
+  // Free users see top 3 matches; Pro sees all 5
+  const displayMatches = isPro ? matches.slice(0, 5) : matches.slice(0, 3);
+  // Radar chart: show top 3 destinations for all users
+  const radarDests = matches.slice(0, 3);
 
   const fetchMatches = useCallback(async (weights: Record<ScoreKey, number>) => {
     setLoading(true);
@@ -324,12 +323,8 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
                 <div className="text-right shrink-0">
                   <div className="text-xl font-bold text-[#52B788]">{match.matchScore}%</div>
                   <div className="flex gap-1 mt-1">
-                    {/* Save button with Pro paywall */}
-                    {!isPro ? (
-                      <span className="text-[10px] px-2 py-0.5 rounded border border-[#1B433215] text-[#1B4332]/25 flex items-center gap-0.5">
-                        <Lock size={8} /> Save
-                      </span>
-                    ) : !saved.has(match.slug) ? (
+                    {/* Save button */}
+                    {!saved.has(match.slug) ? (
                       <button
                         onClick={() => handleToggleSave(match.slug)}
                         className="text-[10px] px-2 py-0.5 rounded border border-[#1B433230] text-[#1B4332]/50 hover:border-[#52B788] hover:text-[#52B788] transition-colors"
@@ -344,23 +339,17 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
                         ♥ Saved
                       </button>
                     )}
-                    {/* Compare button with Pro paywall */}
-                    {!isPro ? (
-                      <span className="text-[10px] px-2 py-0.5 rounded border border-[#1B433215] text-[#1B4332]/25 flex items-center gap-0.5">
-                        <Lock size={8} /> Compare
-                      </span>
-                    ) : (
-                      <button
-                        onClick={() => toggleCompare(match.slug)}
-                        className={`text-[10px] px-2 py-0.5 rounded border transition-colors ${
-                          selectedForCompare.includes(match.slug)
-                            ? 'border-[#52B788] bg-[#52B78815] text-[#52B788]'
-                            : 'border-[#1B433230] text-[#1B4332]/50 hover:border-[#52B788] hover:text-[#52B788]'
-                        }`}
-                      >
-                        Compare
-                      </button>
-                    )}
+                    {/* Compare button */}
+                    <button
+                      onClick={() => toggleCompare(match.slug)}
+                      className={`text-[10px] px-2 py-0.5 rounded border transition-colors ${
+                        selectedForCompare.includes(match.slug)
+                          ? 'border-[#52B788] bg-[#52B78815] text-[#52B788]'
+                          : 'border-[#1B433230] text-[#1B4332]/50 hover:border-[#52B788] hover:text-[#52B788]'
+                      }`}
+                    >
+                      Compare
+                    </button>
                   </div>
                 </div>
               </div>
@@ -380,24 +369,20 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
           </div>
         )}
 
-        {/* Pro paywall: upgrade prompt for Free users */}
+        {/* Healing journey upgrade prompt for Free users */}
         {!isPro && matches.length > 0 && (
-          <div className="bg-white rounded-xl p-5 shadow-sm mb-8 text-center border-l-4 border-[#D4A373]">
-            <p className="text-[#1B4332] mb-1 font-medium">✨ Unlock Full Compass</p>
-            <p className="text-xs text-[#1B4332]/50 mb-3">
-              See all 5 matches, compare destinations, save favorites & talk to AI
-            </p>
+          <div className="mb-8 text-center">
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-[#1B4332] text-[#FEFAE0] text-sm hover:bg-[#1B4332]/90 transition-colors"
+              className="text-sm text-[#D4A373] hover:text-[#D4A373]/80 transition-colors"
             >
-              Upgrade to Pro →
+              Unlock your personalized healing journey — upgrade to Pro ✦
             </Link>
           </div>
         )}
 
-        {/* Save prompt — only for Pro users */}
-        {isPro && matches.length > 0 && !saved.has(matches[0]?.slug) && (
+        {/* Save prompt */}
+        {matches.length > 0 && !saved.has(matches[0]?.slug) && (
           <div className="bg-white rounded-xl p-5 shadow-sm mb-8 text-center">
             <p className="text-[#1B4332] mb-3">❤️ Love this match? Save to Favorites</p>
             <div className="flex justify-center gap-3">
@@ -421,59 +406,42 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
         <div className="bg-white rounded-xl p-5 shadow-sm">
           <h3 className="font-serif text-lg text-[#1B4332] mb-3">Talk to AI</h3>
 
-          {!isPro ? (
-            <div className="text-center py-4">
-              <Lock className="mx-auto mb-2 text-[#D4A373]" size={24} />
-              <p className="text-sm text-[#1B4332]/50 mb-3">
-                Pro feature — Describe your ideal stay and we'll adjust your compass
-              </p>
-              <Link
-                href="/pricing"
-                className="text-sm font-medium text-[#52B788] hover:text-[#52B788]/80 transition-colors"
+          <p className="text-xs text-[#1B4332]/50 mb-3">
+            Adjust your preferences in natural language
+          </p>
+
+          {/* Suggestion chips */}
+          <div className="flex flex-wrap gap-2 mb-3">
+            {SUGGESTION_CHIPS.map((chip) => (
+              <button
+                key={chip}
+                onClick={() => handleChipClick(chip)}
+                className="text-xs px-3 py-1.5 rounded-full border border-[#1B433230] text-[#1B4332]/60 hover:border-[#52B788] hover:text-[#52B788] hover:bg-[#52B78810] transition-all"
               >
-                Upgrade to Pro →
-              </Link>
-            </div>
-          ) : (
-            <>
-              <p className="text-xs text-[#1B4332]/50 mb-3">
-                Adjust your preferences in natural language
-              </p>
+                {chip}
+              </button>
+            ))}
+          </div>
 
-              {/* Suggestion chips */}
-              <div className="flex flex-wrap gap-2 mb-3">
-                {SUGGESTION_CHIPS.map((chip) => (
-                  <button
-                    key={chip}
-                    onClick={() => handleChipClick(chip)}
-                    className="text-xs px-3 py-1.5 rounded-full border border-[#1B433230] text-[#1B4332]/60 hover:border-[#52B788] hover:text-[#52B788] hover:bg-[#52B78810] transition-all"
-                  >
-                    {chip}
-                  </button>
-                ))}
-              </div>
-
-              {/* Input */}
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Tell me what you're looking for..."
-                  className="flex-1 px-4 py-2.5 rounded-lg bg-[#FEFAE0] border border-[#1B433220] text-sm text-[#1B4332] placeholder:text-[#1B4332]/30 focus:outline-none focus:border-[#52B788]"
-                  disabled={adjusting}
-                />
-                <button
-                  onClick={handleSend}
-                  disabled={adjusting || !chatInput.trim()}
-                  className="px-4 py-2.5 rounded-lg bg-[#1B4332] text-[#FEFAE0] text-sm hover:bg-[#1B4332]/90 disabled:opacity-40 transition-colors"
-                >
-                  {adjusting ? '...' : '→'}
-                </button>
-              </div>
-            </>
-          )}
+          {/* Input */}
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={chatInput}
+              onChange={(e) => setChatInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+              placeholder="Tell me what you're looking for..."
+              className="flex-1 px-4 py-2.5 rounded-lg bg-[#FEFAE0] border border-[#1B433220] text-sm text-[#1B4332] placeholder:text-[#1B4332]/30 focus:outline-none focus:border-[#52B788]"
+              disabled={adjusting}
+            />
+            <button
+              onClick={handleSend}
+              disabled={adjusting || !chatInput.trim()}
+              className="px-4 py-2.5 rounded-lg bg-[#1B4332] text-[#FEFAE0] text-sm hover:bg-[#1B4332]/90 disabled:opacity-40 transition-colors"
+            >
+              {adjusting ? '...' : '→'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

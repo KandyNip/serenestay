@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Lock, GitCompare, X, Sparkles, Check } from 'lucide-react';
-import Link from 'next/link';
-import { checkProStatus } from '@/lib/api';
+import { GitCompare, X, Check } from 'lucide-react';
 import DestinationRadar from '@/components/DestinationRadar';
 import type { Destination } from '@/lib/types';
 
@@ -54,15 +52,12 @@ function parseCompareResult(raw: string): CompareResult {
 
 export default function CompareSection({ currentSlug, currentName }: CompareSectionProps) {
   const searchParams = useSearchParams();
-  const [isPro, setIsPro] = useState(false);
   const [allDestinations, setAllDestinations] = useState<Destination[]>([]);
   const [showPicker, setShowPicker] = useState(false);
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>([]);
   const [rawComparison, setRawComparison] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeRadarIndex, setActiveRadarIndex] = useState<number | null>(null);
-
-  useEffect(() => { setIsPro(checkProStatus()); }, []);
 
   useEffect(() => {
     const compareParam = searchParams.get('compare');
@@ -101,12 +96,11 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
     if (allCompareSlugs.length < 2) return;
     setLoading(true);
     setRawComparison(null);
-    const proToken = localStorage.getItem('serenestay_pro_token') || '';
     try {
       const res = await fetch('/api/compare', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slugs: allCompareSlugs, proToken }),
+        body: JSON.stringify({ slugs: allCompareSlugs }),
       });
       const data = await res.json();
       if (data.comparison) setRawComparison(data.comparison);
@@ -117,33 +111,6 @@ export default function CompareSection({ currentSlug, currentName }: CompareSect
     setSelectedSlugs([]);
     setRawComparison(null);
   };
-
-  // Free用户锁定卡片
-  if (!isPro) {
-    return (
-      <div className="bg-gradient-to-br from-secondary/5 to-primary/5 rounded-2xl p-6 border border-secondary/20">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center">
-            <Lock className="w-5 h-5 text-secondary" />
-          </div>
-          <div>
-            <h3 className="font-serif text-lg text-primary">Compare Destinations</h3>
-            <p className="text-sm text-primary/50">Pro exclusive</p>
-          </div>
-        </div>
-        <p className="text-primary/60 text-sm mb-4">
-          See how {currentName} stacks up against other healing stays — AI-powered head-to-head comparison.
-        </p>
-        <Link
-          href="/pricing"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg text-sm hover:bg-secondary-600 transition-colors"
-        >
-          <Sparkles className="w-4 h-4" />
-          Upgrade to Pro
-        </Link>
-      </div>
-    );
-  }
 
   // 按region分组
   const regions = [...new Set(allDestinations.map(d => d.region))];

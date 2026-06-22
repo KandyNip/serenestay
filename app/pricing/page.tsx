@@ -10,18 +10,18 @@ export const metadata: Metadata = {
 
 // Pricing data — only real, existing features
 const freeFeatures = [
-  'Healing DNA test + 1 AI match',
+  'Healing DNA test + 3 AI matches',
   'Browse all 56+ destinations',
   '9-dimension wellness scoring',
   'View full destination details',
+  'Compare destinations head-to-head',
+  'Why You Match + Mind the Gap insights',
+  'Save favorites & build a shortlist',
+  'Talk to AI — adjust your compass',
 ];
 
 const proFeatures = [
   '5 AI-matched healing destinations',
-  'Talk to AI — adjust your compass naturally',
-  'Full Why You Match + Mind the Gap insights',
-  'Compare destinations head-to-head with AI',
-  'Save favorites & build a shortlist',
   'Personalized AI travel itineraries',
 ];
 
@@ -31,7 +31,7 @@ const comingSoonFeatures: string[] = [];
 const faqs = [
   {
     question: 'How does the free tier work?',
-    answer: 'Free users get 1 AI match after taking the Healing DNA test. Both free and Pro use the same 9-dimension scoring system — the difference is the number of matches and advanced AI insights.',
+    answer: 'Free users get 3 AI matches after taking the Healing DNA test, plus destination comparison, favorites, Why You Match insights, and Talk to AI. Both free and Pro use the same 9-dimension scoring system.',
   },
   {
     question: 'Can I cancel my Pro subscription anytime?',
@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     question: 'What\'s the difference between Free and Pro?',
-    answer: 'Pro includes 5 AI-matched destinations, full Why You Match + Mind the Gap insights, head-to-head destination comparison, saved favorites & shortlist, and personalized AI travel itineraries. Free users get 1 match with the Healing DNA test.',
+    answer: 'Free users get 3 AI matches, comparison, favorites, insights, and Talk to AI. Pro unlocks 5 AI matches and personalized AI travel itineraries (Healing Journey Companion).',
   },
   {
     question: 'Do you offer refunds?',
@@ -140,15 +140,16 @@ export default function PricingPage() {
               </thead>
               <tbody>
                 {[
-                  ['AI Destination Matches', '1', '5'],
+                  ['AI Destination Matches', '3', '5'],
                   ['Healing DNA Test', true, true],
                   ['Browse 56+ Destinations', true, true],
                   ['9-Dimension Wellness Scoring', true, true],
                   ['View Full Destination Details', true, true],
                   ['Veto Warnings (WiFi/Medical Alerts)', true, true],
-                  ['Why You Match + Mind the Gap Insights', false, true],
-                  ['Compare Destinations Head-to-Head', false, true],
-                  ['Save Favorites & Shortlist', false, true],
+                  ['Why You Match + Mind the Gap Insights', true, true],
+                  ['Compare Destinations Head-to-Head', true, true],
+                  ['Save Favorites & Shortlist', true, true],
+                  ['Talk to AI — Adjust Your Compass', true, true],
                   ['AI Travel Itineraries', false, true],
                 ].map(([feature, free, pro], index) => (
                   <tr key={feature as string} className={index % 2 === 0 ? 'bg-surface/50' : ''}>
@@ -220,7 +221,7 @@ export default function PricingPage() {
             Ready to Find Your Sanctuary?
           </h2>
           <p className="mt-4 text-primary/60">
-            Take the free Healing DNA test and get 1 AI match. No credit card required.
+            Take the free Healing DNA test and get 3 AI matches. No credit card required.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Heart, Star } from 'lucide-react';
 import type { Destination } from '@/lib/types';
-import { checkProStatus } from '@/lib/api';
 import { addFavorite, removeFavorite, isFavorite } from '@/lib/favorites';
 
 interface DestinationChatCardProps {
@@ -15,7 +14,6 @@ interface DestinationChatCardProps {
 }
 
 export default function DestinationChatCard({ dest, emotionMatch, isTopPick }: DestinationChatCardProps) {
-  const [isPro] = useState(() => checkProStatus());
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -49,7 +47,7 @@ export default function DestinationChatCard({ dest, emotionMatch, isTopPick }: D
       {/* Image */}
       <div className="relative aspect-[16/9] w-full overflow-hidden">
         {/* Pro Pick Badge */}
-        {isTopPick && isPro && (
+        {isTopPick && (
           <div className="absolute top-2 left-2 z-10 flex items-center gap-1 px-2 py-1 bg-purple-600 text-white text-[10px] font-semibold rounded-full">
             <Star className="w-3 h-3 fill-white" />
             Pro Pick
@@ -95,19 +93,17 @@ export default function DestinationChatCard({ dest, emotionMatch, isTopPick }: D
           <p className="text-xs text-secondary font-medium group-hover:underline">
             View Details →
           </p>
-          {isPro && (
-            <button
-              onClick={toggleFavorite}
-              className={`p-1.5 rounded-full transition-colors ${
-                saved
-                  ? 'text-rose-500 hover:bg-rose-50'
-                  : 'text-primary/30 hover:text-rose-400 hover:bg-rose-50'
-              }`}
-              title={saved ? 'Remove from favorites' : 'Save to favorites'}
-            >
-              <Heart className={`w-4 h-4 ${saved ? 'fill-rose-500' : ''}`} />
-            </button>
-          )}
+          <button
+            onClick={toggleFavorite}
+            className={`p-1.5 rounded-full transition-colors ${
+              saved
+                ? 'text-rose-500 hover:bg-rose-50'
+                : 'text-primary/30 hover:text-rose-400 hover:bg-rose-50'
+            }`}
+            title={saved ? 'Remove from favorites' : 'Save to favorites'}
+          >
+            <Heart className={`w-4 h-4 ${saved ? 'fill-rose-500' : ''}`} />
+          </button>
         </div>
       </div>
     </Link>

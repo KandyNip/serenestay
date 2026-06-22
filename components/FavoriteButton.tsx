@@ -1,9 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Heart, Lock } from 'lucide-react';
-import { checkProStatus } from '@/lib/api';
+import { Heart } from 'lucide-react';
 import { getFavorites, addFavorite, removeFavorite, isFavorite } from '@/lib/favorites';
 
 interface FavoriteButtonProps {
@@ -12,12 +10,10 @@ interface FavoriteButtonProps {
 }
 
 export default function FavoriteButton({ slug, name }: FavoriteButtonProps) {
-  const [isPro, setIsPro] = useState(false);
   const [saved, setSaved] = useState(false);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setIsPro(checkProStatus());
     setSaved(isFavorite(slug));
     setCount(getFavorites().length);
   }, [slug]);
@@ -36,22 +32,6 @@ export default function FavoriteButton({ slug, name }: FavoriteButtonProps) {
     setCount(getFavorites().length);
   };
 
-  // Free users: locked button linking to /pricing
-  if (!isPro) {
-    return (
-      <Link
-        href="/pricing"
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = '/pricing'; }}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 border border-primary/10 rounded-full text-xs text-primary/50 hover:border-primary/20 transition-colors"
-        title="Upgrade to Pro to save favorites"
-      >
-        <Lock className="w-3 h-3" />
-        <span>Save</span>
-      </Link>
-    );
-  }
-
-  // Pro users: toggle heart button with count badge
   return (
     <button
       onClick={toggleFavorite}
