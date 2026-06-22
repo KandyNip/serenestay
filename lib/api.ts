@@ -218,24 +218,4 @@ export function checkProStatus(): boolean {
   }
 }
 
-/**
- * Get remaining free matches
- */
-export function getRemainingMatches(): number {
-  if (typeof window === 'undefined') return 2;
-  
-  const used = parseInt(localStorage.getItem('serenestay_matches_used') || '0', 10);
-  return Math.max(0, 2 - used);
-}
 
-/**
- * Increment match count
- */
-export function incrementMatchCount(): number {
-  if (typeof window === 'undefined') return 0;
-  
-  const used = parseInt(localStorage.getItem('serenestay_matches_used') || '0', 10);
-  const newCount = used + 1;
-  localStorage.setItem('serenestay_matches_used', newCount.toString());
-  return newCount;
-}

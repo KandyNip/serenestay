@@ -23,6 +23,7 @@ const freeFeatures = [
 const proFeatures = [
   '5 AI-matched healing destinations',
   'Personalized AI travel itineraries',
+  'Day-by-day healing journey companion',
 ];
 
 const comingSoonFeatures: string[] = [];
@@ -140,7 +141,8 @@ export default function PricingPage() {
               </thead>
               <tbody>
                 {[
-                  ['AI Destination Matches', '3', '5'],
+                  ['AI Destination Matches', 'Unlimited', 'Unlimited'],
+                  ['Matches per Search', '3', '5'],
                   ['Healing DNA Test', true, true],
                   ['Browse 56+ Destinations', true, true],
                   ['9-Dimension Wellness Scoring', true, true],
@@ -151,6 +153,7 @@ export default function PricingPage() {
                   ['Save Favorites & Shortlist', true, true],
                   ['Talk to AI — Adjust Your Compass', true, true],
                   ['AI Travel Itineraries', false, true],
+                  ['Day-by-Day Healing Journey Companion', false, true],
                 ].map(([feature, free, pro], index) => (
                   <tr key={feature as string} className={index % 2 === 0 ? 'bg-surface/50' : ''}>
                     <td className="p-4 text-primary">{feature}</td>

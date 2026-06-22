@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart, Lock, Trash2, Sparkles, Map, Calendar, X } from 'lucide-react';
-import { checkProStatus } from '@/lib/api';
+import { Heart, Trash2, Sparkles, Map, Calendar, X } from 'lucide-react';
 import { getFavorites, removeFavorite, clearFavorites } from '@/lib/favorites';
 import { getSavedItineraries, removeItinerary, clearItineraries, getSavedDayByDayItineraries, removeDayByDayItinerary, getSavedHealingJourneys, removeHealingJourney } from '@/lib/itinerary-storage';
 import type { SavedItinerary, SavedDayByDayItinerary, SavedHealingJourney } from '@/lib/itinerary-storage';
@@ -14,7 +13,6 @@ import ItineraryModal from '@/components/ItineraryModal';
 import ItineraryDayCard from '@/components/ItineraryDayCard';
 
 export default function FavoritesPage() {
-  const [isPro, setIsPro] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [itineraries, setItineraries] = useState<SavedItinerary[]>([]);
@@ -28,9 +26,6 @@ export default function FavoritesPage() {
   const [expandedDays, setExpandedDays] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-    const pro = checkProStatus();
-    setIsPro(pro);
-
     const saved = getFavorites();
     setFavorites(saved);
     setItineraries(getSavedItineraries());
@@ -87,35 +82,7 @@ export default function FavoritesPage() {
     }
   };
 
-  // Free users: locked page
-  if (!isPro) {
-    return (
-      <div className="min-h-screen pt-20 pb-16">
-        <div className="container-full px-4 py-16 text-center">
-          <div className="max-w-md mx-auto">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-primary/5 rounded-full mb-6">
-              <Lock className="w-10 h-10 text-primary/30" />
-            </div>
-            <h1 className="font-serif text-3xl sm:text-4xl text-primary mb-4">
-              Pro Feature
-            </h1>
-            <p className="text-primary/60 mb-8">
-              Save your favorite destinations and build a personalized shortlist with SereneStay Pro.
-            </p>
-            <Link
-              href="/pricing"
-              className="btn-secondary px-8 py-3 inline-flex items-center gap-2"
-            >
-              <Sparkles className="w-4 h-4" />
-              Upgrade to Pro
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Pro users: favorites page with tabs
+  // Favorites page with tabs
   return (
     <div className="min-h-screen pt-20 pb-16">
       {/* Header */}

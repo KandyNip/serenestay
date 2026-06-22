@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Send, MessageCircle, Sparkles, ChevronDown, Lock, Zap, RotateCcw, Map, ThumbsUp, ThumbsDown, RefreshCw } from 'lucide-react';
 import { Message, Destination } from '@/lib/types';
-import { streamChat, getRemainingMatches, incrementMatchCount, checkProStatus } from '@/lib/api';
+import { streamChat, checkProStatus } from '@/lib/api';
 import DestinationChatCard from '@/components/DestinationChatCard';
 import {
   getSavedItineraries,
@@ -134,14 +134,7 @@ Or just share what's on your mind, and we'll explore together.`,
     const isPro = checkProStatus();
     setIsProUser(isPro);
 
-    if (!isPro) {
-      const used = parseInt(localStorage.getItem('serenestay_matches_used') || '0', 10);
-      setMatchCount(used);
-      if (used >= 2) {
-        setShowUpgradePrompt(true);
-        setChatDisabled(true);
-      }
-    }
+    // No more match limit for free users — unlimited matches
   }, []);
 
   // Track if user is near bottom
@@ -265,15 +258,7 @@ Or just share what's on your mind, and we'll explore together.`,
         (done) => {
           if (done) {
             // Auto-triggered destination overview is FREE — doesn't count toward limit
-            if (!isProUser && !isAutoTriggerRef.current) {
-              const newUsed = incrementMatchCount();
-              setMatchCount(newUsed);
-              onMatchCountChange?.(newUsed);
-              if (newUsed >= 2) {
-                setShowUpgradePrompt(true);
-                setChatDisabled(true);
-              }
-            }
+            // No more match limit for free users
             // Reset flag after response completes
             isAutoTriggerRef.current = false;
 
