@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ArrowRight, Loader2, Sparkles } from 'lucide-react';
 import StateChips from './StateChips';
 import IntentionChips from './IntentionChips';
@@ -61,7 +61,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
   const [checkinFeeling, setCheckinFeeling] = useState<CheckinFeeling | null>(null);
   const [checkinFeelingNote, setCheckinFeelingNote] = useState('');
   const [generatingDayNumber, setGeneratingDayNumber] = useState<number>(1);
-  const [isFinalDayGeneration, setIsFinalDayGeneration] = useState(false);
+  const isFinalDayGenerationRef = useRef(false);
 
   // Clear session on mount — fresh start each time
   useEffect(() => {
@@ -180,8 +180,8 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
         setCheckinFeelingNote('');
 
         // Round 5 Fix 2: If this is the final "going home" day, skip to complete
-        if (isFinalDayGeneration) {
-          setIsFinalDayGeneration(false);
+        if (isFinalDayGenerationRef.current) {
+          isFinalDayGenerationRef.current = false;
           setStep('complete');
         } else {
           // Go to checkin step
@@ -271,7 +271,7 @@ export default function ItineraryFlow({ destination, proToken }: ItineraryFlowPr
     saveHealingSession(updatedSession);
 
     // Set flag to skip to complete after generation
-    setIsFinalDayGeneration(true);
+    isFinalDayGenerationRef.current = true;
 
     // Generate the final integration day
     const finalDayNumber = updatedSession.daysGenerated.length + 1;
