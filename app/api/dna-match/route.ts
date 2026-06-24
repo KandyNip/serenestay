@@ -4,7 +4,7 @@
 // Response: { matches: Array, filteredByGeoTags?: string[] }
 
 import { loadDestinations } from '../../../lib/destinations';
-import { calculateBatchMatchScores, type ScoreKey, type DNAProfile } from '../../../lib/dna-quiz';
+import { calculateMatchScore, type ScoreKey, type DNAProfile } from '../../../lib/dna-quiz';
 import type { Destination } from '../../../lib/types';
 
 interface HardFilters {
@@ -75,15 +75,15 @@ export async function POST(request: Request) {
       }
     }
 
-    // 第二步：批量计算每个目的地的匹配度（分布感知映射）
-    const profile = { type: '', emoji: '', description: '', traits: [], weights, createdAt: 0 } as DNAProfile;
-    const batchScores = calculateBatchMatchScores(profile, filteredDestinations);
-
-    const scored = filteredDestinations.map((d: Destination, i: number) => ({
+    // 第二步：计算每个目的地的匹配度
+    const scored = filteredDestinations.map((d: Destination) => ({
       slug: d.slug,
       name: d.name,
       country: d.country,
-      matchScore: batchScores[i],
+      matchScore: calculateMatchScore(
+        { type: '', emoji: '', description: '', traits: [], weights, createdAt: 0 } as DNAProfile,
+        d.scores
+      ),
       topTags: d.healingTags.slice(0, 3),
       monthlyCostMid: d.monthlyCost.mid,
       scores: d.scores,
