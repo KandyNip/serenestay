@@ -159,9 +159,9 @@ export function calculateDNAProfile(answers: number[]): DNAProfile {
 }
 
 /**
- * 计算用户画像与目的地的匹配度（Pearson相关系数）
- * Pearson r ∈ [-1, 1]，映射到 0-100
- * 相比余弦相似度，Pearson能拉开区分度（基于均值偏移而非绝对方向）
+ * 计算用户画像与目的地的匹配度（余弦相似度 + 偏移映射）
+ * 余弦值通常在0.7-1.0区间（因为都是正向量），直接映射会挤在70-100%没区分度
+ * 所以把0.7-1.0展开到59-96%，低于0.7的按比例映射到0-59%
  * @param profile - 用户DNA画像
  * @param destinationScores - 目的地9维评分 (1-5)
  * @returns 匹配度百分比 0-100
@@ -177,40 +177,29 @@ export function calculateMatchScore(
   const userVals = dims.map(d => profile.weights[d]);
   const destVals = dims.map(d => destinationScores[d]);
 
-  // 计算均值
-  const userMean = userVals.reduce((a, b) => a + b, 0) / n;
-  const destMean = destVals.reduce((a, b) => a + b, 0) / n;
-
-  // Pearson相关系数
-  let numerator = 0;
-  let userSumSq = 0;
-  let destSumSq = 0;
+  // 计算余弦相似度
+  let dotProduct = 0;
+  let userNorm = 0;
+  let destNorm = 0;
 
   for (let i = 0; i < n; i++) {
-    const userDiff = userVals[i] - userMean;
-    const destDiff = destVals[i] - destMean;
-    numerator += userDiff * destDiff;
-    userSumSq += userDiff * userDiff;
-    destSumSq += destDiff * destDiff;
+    dotProduct += userVals[i] * destVals[i];
+    userNorm += userVals[i] * userVals[i];
+    destNorm += destVals[i] * destVals[i];
   }
 
-  const denominator = Math.sqrt(userSumSq) * Math.sqrt(destSumSq);
-  if (denominator === 0) {
-    // 所有维度值完全相同 = 完美匹配，回退到原始余弦
-    let rawDot = 0, rawUN = 0, rawDN = 0;
-    for (let i = 0; i < n; i++) {
-      rawDot += userVals[i] * destVals[i];
-      rawUN += userVals[i] * userVals[i];
-      rawDN += destVals[i] * destVals[i];
-    }
-    const rawDenom = Math.sqrt(rawUN) * Math.sqrt(rawDN);
-    if (rawDenom === 0) return 0;
-    return Math.round((rawDot / rawDenom) * 100);
-  }
+  const denominator = Math.sqrt(userNorm) * Math.sqrt(destNorm);
+  if (denominator === 0) return 0;
 
-  // Pearson r ∈ [-1, 1]：正相关→高匹配，负相关→0%
-  const r = numerator / denominator;
-  return Math.round(Math.max(0, r) * 100);
+  const cosine = dotProduct / denominator;
+
+  // 偏移映射：把0.7-1.0展开到59-96%
+  // 低于0.7的按比例映射到0-59%
+  if (cosine >= 0.7) {
+    return Math.round(59 + ((cosine - 0.7) / 0.3) * 37);
+  } else {
+    return Math.round(cosine * 84);
+  }
 }
 
 // localStorage 操作
