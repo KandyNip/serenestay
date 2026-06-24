@@ -81,20 +81,25 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
   const [adjusting, setAdjusting] = useState(false);
   const [adjustMessage, setAdjustMessage] = useState<string | null>(null);
   const [saved, setSaved] = useState<Set<string>>(new Set());
-  const [requiredGeoTags, setRequiredGeoTags] = useState<string[]>([]);
+  const [hardFilters, setHardFilters] = useState<{
+    requiredGeoTags: string[];
+    excludedGeoTags: string[];
+    budgetMax: number | null;
+    requiredTags: string[];
+  }>({ requiredGeoTags: [], excludedGeoTags: [], budgetMax: null, requiredTags: [] });
 
   // Free users see top 3 matches; Pro sees all 5
   const displayMatches = isPro ? matches.slice(0, 5) : matches.slice(0, 3);
   // Radar chart: show top 3 destinations for all users
   const radarDests = matches.slice(0, 3);
 
-  const fetchMatches = useCallback(async (weights: Record<ScoreKey, number>, geoTags: string[] = []) => {
+  const fetchMatches = useCallback(async (weights: Record<ScoreKey, number>, filters: { requiredGeoTags?: string[]; excludedGeoTags?: string[]; budgetMax?: number | null; requiredTags?: string[] } | null = null) => {
     setLoading(true);
     try {
       const res = await fetch('/api/dna-match', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ weights, requiredGeoTags: geoTags }),
+        body: JSON.stringify({ weights, hardFilters: filters || {} }),
       });
       const data = await res.json();
       if (data.matches) {
@@ -108,7 +113,7 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
   }, []);
 
   useEffect(() => {
-    fetchMatches(profile.weights, []);
+    fetchMatches(profile.weights, null);
     // Load saved favorites
     const favs = getFavorites();
     setSaved(new Set(favs));
@@ -130,18 +135,21 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
       if (data.adjustedWeights) {
         onWeightsChange(data.adjustedWeights);
 
-        // 更新硬约束（geoTags）
-        const newGeoTags = data.requiredGeoTags || [];
-        setRequiredGeoTags(newGeoTags);
+        // 更新硬约束
+        const newFilters = data.hardFilters || { requiredGeoTags: [], excludedGeoTags: [], budgetMax: null, requiredTags: [] };
+        setHardFilters(newFilters);
 
         // 重新获取匹配结果
-        fetchMatches(data.adjustedWeights, newGeoTags);
+        fetchMatches(data.adjustedWeights, newFilters);
 
         // 构建消息
         let message = `🔄 Compass Updated — ${data.explanation}`;
-        if (newGeoTags.length > 0) {
-          message += ` 📍 Filtering for: ${newGeoTags.join(', ')}`;
-        }
+        const filterParts: string[] = [];
+        if (newFilters.requiredGeoTags?.length) filterParts.push(newFilters.requiredGeoTags.join(' + '));
+        if (newFilters.excludedGeoTags?.length) filterParts.push(`no ${newFilters.excludedGeoTags.join('/no ')}`);
+        if (newFilters.budgetMax) filterParts.push(`under $${newFilters.budgetMax}/mo`);
+        if (newFilters.requiredTags?.length) filterParts.push(newFilters.requiredTags.join(', '));
+        if (filterParts.length > 0) message += ` 📍 Filtering for: ${filterParts.join(', ')}`;
         setAdjustMessage(message);
       }
       setChatInput('');
@@ -296,16 +304,21 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
           </div>
         )}
 
-        {/* Geo filter indicator */}
-        {requiredGeoTags.length > 0 && (
+        {/* Hard filter indicator */}
+        {(hardFilters.requiredGeoTags.length > 0 || hardFilters.excludedGeoTags.length > 0 || hardFilters.budgetMax || hardFilters.requiredTags.length > 0) && (
           <div className="bg-[#D4A37315] border border-[#D4A37340] rounded-lg px-4 py-3 mb-6 flex items-center justify-between">
             <span className="text-sm text-[#1B4332]">
-              📍 Filtering for: {requiredGeoTags.join(', ')}
+              📍 Filtering for: {[
+                ...hardFilters.requiredGeoTags,
+                ...hardFilters.excludedGeoTags.map(t => `no ${t}`),
+                ...(hardFilters.budgetMax ? [`under $${hardFilters.budgetMax}/mo`] : []),
+                ...hardFilters.requiredTags,
+              ].join(', ')}
             </span>
             <button
               onClick={() => {
-                setRequiredGeoTags([]);
-                fetchMatches(profile.weights, []);
+                setHardFilters({ requiredGeoTags: [], excludedGeoTags: [], budgetMax: null, requiredTags: [] });
+                fetchMatches(profile.weights, null);
               }}
               className="text-xs px-3 py-1 rounded border border-[#1B433230] text-[#1B4332]/60 hover:border-red-400 hover:text-red-400 transition-colors"
             >
@@ -313,7 +326,6 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
             </button>
           </div>
         )}
-
         {/* Top match cards */}
         {!loading && (
           <div className="space-y-3 mb-8">
