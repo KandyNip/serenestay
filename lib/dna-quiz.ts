@@ -159,7 +159,9 @@ export function calculateDNAProfile(answers: number[]): DNAProfile {
 }
 
 /**
- * 计算用户画像与目的地的匹配度（余弦相似度 × 100）
+ * 计算用户画像与目的地的匹配度（Pearson相关系数）
+ * Pearson r ∈ [-1, 1]，映射到 0-100
+ * 相比余弦相似度，Pearson能拉开区分度（基于均值偏移而非绝对方向）
  * @param profile - 用户DNA画像
  * @param destinationScores - 目的地9维评分 (1-5)
  * @returns 匹配度百分比 0-100
@@ -169,25 +171,35 @@ export function calculateMatchScore(
   destinationScores: Record<ScoreKey, number>
 ): number {
   const dims: ScoreKey[] = ['serenity', 'nature', 'climate', 'affordability', 'wellness', 'community', 'wifi', 'visa', 'medical'];
+  const n = dims.length;
 
-  let dotProduct = 0;
-  let userNorm = 0;
-  let destNorm = 0;
+  // 提取原始值（用户权重 1-10，目的地评分 1-5）
+  const userVals = dims.map(d => profile.weights[d]);
+  const destVals = dims.map(d => destinationScores[d]);
 
-  for (const dim of dims) {
-    const userVal = profile.weights[dim] / 10;  // 归一化到0-1
-    const destVal = destinationScores[dim] / 5;  // 归一化到0-1
-    dotProduct += userVal * destVal;
-    userNorm += userVal * userVal;
-    destNorm += destVal * destVal;
+  // 计算均值
+  const userMean = userVals.reduce((a, b) => a + b, 0) / n;
+  const destMean = destVals.reduce((a, b) => a + b, 0) / n;
+
+  // Pearson相关系数
+  let numerator = 0;
+  let userSumSq = 0;
+  let destSumSq = 0;
+
+  for (let i = 0; i < n; i++) {
+    const userDiff = userVals[i] - userMean;
+    const destDiff = destVals[i] - destMean;
+    numerator += userDiff * destDiff;
+    userSumSq += userDiff * userDiff;
+    destSumSq += destDiff * destDiff;
   }
 
-  const denominator = Math.sqrt(userNorm) * Math.sqrt(destNorm);
-  if (denominator === 0) return 0;
+  const denominator = Math.sqrt(userSumSq) * Math.sqrt(destSumSq);
+  if (denominator === 0) return 50; // 无变化 = 中性匹配
 
-  // 余弦相似度范围0-1，映射到0-100
-  const similarity = dotProduct / denominator;
-  return Math.round(similarity * 100);
+  // r ∈ [-1, 1] → 映射到 0-100
+  const r = numerator / denominator;
+  return Math.round((r + 1) * 50);
 }
 
 // localStorage 操作

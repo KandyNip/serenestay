@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import {
   Radar,
@@ -88,12 +88,18 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
     requiredTags: string[];
   }>({ requiredGeoTags: [], excludedGeoTags: [], budgetMax: null, requiredTags: [] });
 
+  // Bug 1 fix: useRef to store latest hardFilters so useEffect doesn't overwrite with stale empty filters
+  const hardFiltersRef = useRef(hardFilters);
+  // Bug 1 fix: fetchId to prevent race conditions
+  const fetchIdRef = useRef(0);
+
   // Free users see top 3 matches; Pro sees all 5
   const displayMatches = isPro ? matches.slice(0, 5) : matches.slice(0, 3);
   // Radar chart: show top 3 destinations for all users
   const radarDests = matches.slice(0, 3);
 
   const fetchMatches = useCallback(async (weights: Record<ScoreKey, number>, filters: { requiredGeoTags?: string[]; excludedGeoTags?: string[]; budgetMax?: number | null; requiredTags?: string[] } | null = null) => {
+    const currentFetchId = ++fetchIdRef.current;
     setLoading(true);
     try {
       const res = await fetch('/api/dna-match', {
@@ -102,18 +108,22 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
         body: JSON.stringify({ weights, hardFilters: filters || {} }),
       });
       const data = await res.json();
-      if (data.matches) {
+      // Only update if this is still the latest fetch
+      if (currentFetchId === fetchIdRef.current && data.matches) {
         setMatches(data.matches);
       }
     } catch (err) {
       console.error('[CompassMatch] fetch error:', err);
     } finally {
-      setLoading(false);
+      if (currentFetchId === fetchIdRef.current) {
+        setLoading(false);
+      }
     }
   }, []);
 
   useEffect(() => {
-    fetchMatches(profile.weights, null);
+    // Use ref to get latest hardFilters, not stale closure
+    fetchMatches(profile.weights, hardFiltersRef.current);
     // Load saved favorites
     const favs = getFavorites();
     setSaved(new Set(favs));
@@ -133,11 +143,13 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
       const data = await res.json();
 
       if (data.adjustedWeights) {
-        onWeightsChange(data.adjustedWeights);
-
-        // 更新硬约束
+        // 更新硬约束 — set ref BEFORE triggering state change
         const newFilters = data.hardFilters || { requiredGeoTags: [], excludedGeoTags: [], budgetMax: null, requiredTags: [] };
+        hardFiltersRef.current = newFilters;
         setHardFilters(newFilters);
+
+        // This triggers onWeightsChange → useEffect, which now reads the ref
+        onWeightsChange(data.adjustedWeights);
 
         // 重新获取匹配结果
         fetchMatches(data.adjustedWeights, newFilters);
@@ -317,8 +329,10 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
             </span>
             <button
               onClick={() => {
-                setHardFilters({ requiredGeoTags: [], excludedGeoTags: [], budgetMax: null, requiredTags: [] });
-                fetchMatches(profile.weights, null);
+                const emptyFilters = { requiredGeoTags: [], excludedGeoTags: [], budgetMax: null, requiredTags: [] };
+                hardFiltersRef.current = emptyFilters;
+                setHardFilters(emptyFilters);
+                fetchMatches(profile.weights, emptyFilters);
               }}
               className="text-xs px-3 py-1 rounded border border-[#1B433230] text-[#1B4332]/60 hover:border-red-400 hover:text-red-400 transition-colors"
             >
