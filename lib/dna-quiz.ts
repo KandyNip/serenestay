@@ -195,11 +195,22 @@ export function calculateMatchScore(
   }
 
   const denominator = Math.sqrt(userSumSq) * Math.sqrt(destSumSq);
-  if (denominator === 0) return 50; // 无变化 = 中性匹配
+  if (denominator === 0) {
+    // 所有维度值完全相同 = 完美匹配，回退到原始余弦
+    let rawDot = 0, rawUN = 0, rawDN = 0;
+    for (let i = 0; i < n; i++) {
+      rawDot += userVals[i] * destVals[i];
+      rawUN += userVals[i] * userVals[i];
+      rawDN += destVals[i] * destVals[i];
+    }
+    const rawDenom = Math.sqrt(rawUN) * Math.sqrt(rawDN);
+    if (rawDenom === 0) return 0;
+    return Math.round((rawDot / rawDenom) * 100);
+  }
 
-  // r ∈ [-1, 1] → 映射到 0-100
+  // Pearson r ∈ [-1, 1]：正相关→高匹配，负相关→0%
   const r = numerator / denominator;
-  return Math.round((r + 1) * 50);
+  return Math.round(Math.max(0, r) * 100);
 }
 
 // localStorage 操作
