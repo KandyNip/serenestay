@@ -159,9 +159,64 @@ export function calculateDNAProfile(answers: number[]): DNAProfile {
 }
 
 /**
- * 计算用户画像与目的地的匹配度（余弦相似度 + 偏移映射）
- * 余弦值通常在0.7-1.0区间（因为都是正向量），直接映射会挤在70-100%没区分度
- * 所以把0.7-1.0展开到59-96%，低于0.7的按比例映射到0-59%
+ * 维度顺序常量（与IDF权重对应）
+ */
+export const DIM_ORDER: ScoreKey[] = [
+  'serenity', 'nature', 'climate', 'affordability',
+  'wellness', 'community', 'wifi', 'visa', 'medical'
+];
+
+/**
+ * IDF维度权重（基于56个目的地评分方差预计算）
+ * 方差大的维度区分力强 → 权重高；方差小的维度区分力弱 → 权重低
+ * nature(方差0.46)→0.71  wifi(方差1.26)→1.18  medical(方差1.31)→1.20
+ */
+export const DIM_IDF_WEIGHTS: Record<ScoreKey, number> = {
+  serenity: 0.90,    // variance 0.69
+  nature: 0.71,      // variance 0.46 — weakest discriminator (most dests are 4-5)
+  climate: 0.83,     // variance 0.57
+  affordability: 0.97, // variance 0.81
+  wellness: 0.94,    // variance 0.77
+  community: 0.90,   // variance 0.81
+  wifi: 1.18,        // variance 1.26 — strong discriminator (range 1-5)
+  visa: 0.94,        // variance 0.77
+  medical: 1.20,     // variance 1.31 — strongest discriminator (range 1-5)
+};
+
+/**
+ * 计算原始加权余弦相似度（内部辅助函数）
+ * 使用IDF维度加权，区分力强的维度贡献更大
+ */
+function computeRawWeightedCosine(
+  userWeights: Record<ScoreKey, number>,
+  destScores: Record<ScoreKey, number>
+): number {
+  const n = DIM_ORDER.length;
+  let dot = 0, uNorm = 0, dNorm = 0;
+
+  for (let i = 0; i < n; i++) {
+    const dim = DIM_ORDER[i];
+    const idf = DIM_IDF_WEIGHTS[dim];
+    // 组合权重 = 用户偏好 × 维度IDF权重
+    const w = (userWeights[dim] || 3) * idf;
+    const d = destScores[dim] || 3;
+    dot += w * d;
+    uNorm += w * w;
+    dNorm += d * d;
+  }
+
+  const denom = Math.sqrt(uNorm) * Math.sqrt(dNorm);
+  return denom === 0 ? 0 : dot / denom;
+}
+
+/**
+ * 计算用户画像与目的地的匹配度（客户端单目的地版本）
+ * 三层算法：IDF维度加权 → 加权余弦相似度 → 偏好鲜明度自适应映射
+ *
+ * 自适应映射基于用户偏好标准差：
+ * - 鲜明偏好（stdDev高）→ 余弦值天然分散 → floor低(0.60)
+ * - 平衡偏好（stdDev低）→ 余弦值挤在一起 → floor高(0.88)展开窄区间
+ *
  * @param profile - 用户DNA画像
  * @param destinationScores - 目的地9维评分 (1-5)
  * @returns 匹配度百分比 0-100
@@ -170,36 +225,60 @@ export function calculateMatchScore(
   profile: DNAProfile,
   destinationScores: Record<ScoreKey, number>
 ): number {
-  const dims: ScoreKey[] = ['serenity', 'nature', 'climate', 'affordability', 'wellness', 'community', 'wifi', 'visa', 'medical'];
-  const n = dims.length;
+  const cosine = computeRawWeightedCosine(profile.weights, destinationScores);
 
-  // 提取原始值（用户权重 1-10，目的地评分 1-5）
-  const userVals = dims.map(d => profile.weights[d]);
-  const destVals = dims.map(d => destinationScores[d]);
+  // 偏好鲜明度：用户9维权重的标准差
+  const vals = DIM_ORDER.map(d => profile.weights[d]);
+  const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+  const stdDev = Math.sqrt(vals.reduce((s, v) => s + (v - mean) ** 2, 0) / vals.length);
 
-  // 计算余弦相似度
-  let dotProduct = 0;
-  let userNorm = 0;
-  let destNorm = 0;
+  // 自适应floor：stdDev 0.5(平衡) → floor 0.88; stdDev 3.0(鲜明) → floor 0.60
+  const t = Math.min(1, Math.max(0, (stdDev - 0.5) / 2.5));
+  const floor = 0.88 - t * 0.28;
 
-  for (let i = 0; i < n; i++) {
-    dotProduct += userVals[i] * destVals[i];
-    userNorm += userVals[i] * userVals[i];
-    destNorm += destVals[i] * destVals[i];
-  }
+  // 线性映射 [floor, 1.0] → [55, 96]
+  const mapped = 55 + ((cosine - floor) / (1 - floor)) * 41;
+  return Math.round(Math.max(0, Math.min(100, mapped)));
+}
 
-  const denominator = Math.sqrt(userNorm) * Math.sqrt(destNorm);
-  if (denominator === 0) return 0;
+/**
+ * 批量计算匹配度（服务端版本 — 分布感知映射）
+ * 先计算所有加权余弦值，再根据实际分布线性映射到目标区间
+ * 目标区间基于偏好鲜明度动态调整：
+ * - 鲜明偏好 → [55, 96]（宽区间）
+ * - 平衡偏好 → [72, 92]（窄区间，但展开实际分布）
+ *
+ * @param profile - 用户DNA画像
+ * @param destinations - 目的地数组（已过滤）
+ * @returns 匹配度数组，与destinations顺序一致
+ */
+export function calculateBatchMatchScores(
+  profile: DNAProfile,
+  destinations: { scores: Record<ScoreKey, number> }[]
+): number[] {
+  // Step 1: 计算所有原始加权余弦值
+  const rawCosines = destinations.map(d =>
+    computeRawWeightedCosine(profile.weights, d.scores)
+  );
 
-  const cosine = dotProduct / denominator;
+  // Step 2: 找实际分布范围
+  const minC = Math.min(...rawCosines);
+  const maxC = Math.max(...rawCosines);
 
-  // 偏移映射：把0.7-1.0展开到59-96%
-  // 低于0.7的按比例映射到0-59%
-  if (cosine >= 0.7) {
-    return Math.round(59 + ((cosine - 0.7) / 0.3) * 37);
-  } else {
-    return Math.round(cosine * 84);
-  }
+  // Step 3: 偏好鲜明度 → 目标输出区间
+  const vals = DIM_ORDER.map(d => profile.weights[d]);
+  const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+  const stdDev = Math.sqrt(vals.reduce((s, v) => s + (v - mean) ** 2, 0) / vals.length);
+  const t = Math.min(1, Math.max(0, (stdDev - 0.5) / 2.5));
+  const targetFloor = 55 + t * 17;  // 55(鲜明) to 72(平衡)
+  const targetCeil = 96;
+
+  // Step 4: 线性映射 [minC, maxC] → [targetFloor, targetCeil]
+  const range = maxC - minC;
+  return rawCosines.map(c => {
+    if (range < 0.0001) return Math.round((targetFloor + targetCeil) / 2);
+    return Math.round(targetFloor + ((c - minC) / range) * (targetCeil - targetFloor));
+  });
 }
 
 // localStorage 操作
