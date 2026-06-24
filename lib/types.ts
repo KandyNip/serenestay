@@ -37,6 +37,8 @@ export interface PracticalInfo {
   tips: string;          // 实用建议（整段文字）
 }
 
+export type GeoTag = 'coastal' | 'mountain' | 'island' | 'forest' | 'lake' | 'river' | 'city' | 'countryside';
+
 export interface Destination {
   id: string;                    // "th-chiangmai"
   slug: string;                  // "chiang-mai"
@@ -58,6 +60,7 @@ export interface Destination {
   healingTags: string[];         // 疗愈标签
   emotionalTagline: string;      // 情感标语
   youtubeId?: string;            // YouTube视频ID（可选，用于嵌入视频）
+  geoTags: GeoTag[];             // 地理标签（用于硬约束过滤）
 }
 
 // ============================================================

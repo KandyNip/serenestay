@@ -83,7 +83,12 @@
       "digital-detox"
     ],
     "emotionalTagline": "In Chiang Mai's ancient temples, find the stillness your soul has been seeking",
-    "youtubeId": "phGHpOGwrGo"
+    "youtubeId": "phGHpOGwrGo",
+    "geoTags": [
+      "mountain",
+      "city",
+      "river"
+    ]
   },
   {
     "id": "th-pai",
@@ -168,7 +173,12 @@
       "digital-detox"
     ],
     "emotionalTagline": "Where mountain mist and hot springs wash away everything you carried here",
-    "youtubeId": "tfj0UofuPT0"
+    "youtubeId": "tfj0UofuPT0",
+    "geoTags": [
+      "mountain",
+      "countryside",
+      "forest"
+    ]
   },
   {
     "id": "th-kohphangan",
@@ -254,7 +264,11 @@
       "breathwork"
     ],
     "emotionalTagline": "Trade the Full Moon noise for silent mornings — this island heals both ways",
-    "youtubeId": "qA6g1ZdksN8"
+    "youtubeId": "qA6g1ZdksN8",
+    "geoTags": [
+      "island",
+      "coastal"
+    ]
   },
   {
     "id": "th-kohlanta",
@@ -339,7 +353,11 @@
       "digital-detox"
     ],
     "emotionalTagline": "Let Koh Lanta's slow island rhythm recalibrate your pace of living",
-    "youtubeId": "K10yw0fqyHg"
+    "youtubeId": "K10yw0fqyHg",
+    "geoTags": [
+      "island",
+      "coastal"
+    ]
   },
   {
     "id": "th-chiangrai",
@@ -424,7 +442,11 @@
       "forest-bathing"
     ],
     "emotionalTagline": "At Chiang Rai's white temple gates, silence speaks louder than any mantra",
-    "youtubeId": "apvclfkNe-M"
+    "youtubeId": "apvclfkNe-M",
+    "geoTags": [
+      "mountain",
+      "countryside"
+    ]
   },
   {
     "id": "id-ubud",
@@ -511,7 +533,12 @@
       "breathwork"
     ],
     "emotionalTagline": "Where Ubud's rice terraces meet your inner peace beneath volcanic skies",
-    "youtubeId": "vvao-j6LWvg"
+    "youtubeId": "vvao-j6LWvg",
+    "geoTags": [
+      "forest",
+      "mountain",
+      "countryside"
+    ]
   },
   {
     "id": "id-canggu",
@@ -597,7 +624,10 @@
       "nomad-community"
     ],
     "emotionalTagline": "Ride Canggu's dawn waves, then let the coconuts and community restore you",
-    "youtubeId": "vBeguQiKF2Y"
+    "youtubeId": "vBeguQiKF2Y",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "id-giliair",
@@ -683,7 +713,11 @@
       "sunset-meditation"
     ],
     "emotionalTagline": "No engines, no rush — just turquoise water teaching you how to breathe",
-    "youtubeId": "ruWliiWbGpE"
+    "youtubeId": "ruWliiWbGpE",
+    "geoTags": [
+      "island",
+      "coastal"
+    ]
   },
   {
     "id": "id-lovina",
@@ -769,7 +803,11 @@
       "ocean-therapy"
     ],
     "emotionalTagline": "Wake with the dolphins at dawn — Bali's quietest coast rewards early risers",
-    "youtubeId": "F9E70aPLqqQ"
+    "youtubeId": "F9E70aPLqqQ",
+    "geoTags": [
+      "coastal",
+      "lake"
+    ]
   },
   {
     "id": "vn-hoian",
@@ -853,7 +891,11 @@
       "lantern-ceremony"
     ],
     "emotionalTagline": "Float a lantern down Hoi An's river and watch your worries drift away",
-    "youtubeId": "rbNZbC2IqLs"
+    "youtubeId": "rbNZbC2IqLs",
+    "geoTags": [
+      "coastal",
+      "river"
+    ]
   },
   {
     "id": "vn-danang",
@@ -937,7 +979,11 @@
       "thai-massage"
     ],
     "emotionalTagline": "Climb Marble Mountain at dawn, then let the sea wash the world clean",
-    "youtubeId": "tQCXGrp2Y9w"
+    "youtubeId": "tQCXGrp2Y9w",
+    "geoTags": [
+      "coastal",
+      "city"
+    ]
   },
   {
     "id": "vn-dalat",
@@ -1023,7 +1069,11 @@
       "mindfulness"
     ],
     "emotionalTagline": "In Da Lat's pine-scented highlands, the cool air clears what city heat cannot",
-    "youtubeId": "TZFsvLS-QBM"
+    "youtubeId": "TZFsvLS-QBM",
+    "geoTags": [
+      "mountain",
+      "countryside"
+    ]
   },
   {
     "id": "kh-siemreap",
@@ -1108,7 +1158,10 @@
       "volunteer-healing"
     ],
     "emotionalTagline": "Sit with the stones at Angkor Wat — a thousand years of silence heals",
-    "youtubeId": "eHc7UDRBeZE"
+    "youtubeId": "eHc7UDRBeZE",
+    "geoTags": [
+      "countryside"
+    ]
   },
   {
     "id": "kh-kampot",
@@ -1193,7 +1246,11 @@
       "mindfulness"
     ],
     "emotionalTagline": "Kampot's pepper farms and river sunsets ask nothing of you but presence",
-    "youtubeId": "EDEBk9hwLv8"
+    "youtubeId": "EDEBk9hwLv8",
+    "geoTags": [
+      "river",
+      "countryside"
+    ]
   },
   {
     "id": "la-luangprabang",
@@ -1278,7 +1335,12 @@
       "mindfulness"
     ],
     "emotionalTagline": "Give alms at dawn in Luang Prabang — generosity heals the giver most",
-    "youtubeId": "CG9yX515ksU"
+    "youtubeId": "CG9yX515ksU",
+    "geoTags": [
+      "river",
+      "mountain",
+      "countryside"
+    ]
   },
   {
     "id": "la-vangvieng",
@@ -1362,7 +1424,12 @@
       "wild-swimming"
     ],
     "emotionalTagline": "Beyond the tubing crowds, Vang Vieng's karst valleys hold real solitude",
-    "youtubeId": "QliHbSr7FcQ"
+    "youtubeId": "QliHbSr7FcQ",
+    "geoTags": [
+      "river",
+      "mountain",
+      "countryside"
+    ]
   },
   {
     "id": "ph-siargao",
@@ -1448,7 +1515,11 @@
       "island-meditation"
     ],
     "emotionalTagline": "Siargao's Cloud 9 breaks aren't just waves — they're invitations to start over",
-    "youtubeId": "7tAep71PBSU"
+    "youtubeId": "7tAep71PBSU",
+    "geoTags": [
+      "island",
+      "coastal"
+    ]
   },
   {
     "id": "ph-palawan",
@@ -1534,7 +1605,12 @@
       "island-meditation"
     ],
     "emotionalTagline": "Palawan's hidden lagoons don't appear on maps — or in your anxious thoughts",
-    "youtubeId": "Twn0393XwBQ"
+    "youtubeId": "Twn0393XwBQ",
+    "geoTags": [
+      "island",
+      "coastal",
+      "forest"
+    ]
   },
   {
     "id": "my-penang",
@@ -1620,7 +1696,12 @@
       "mindfulness"
     ],
     "emotionalTagline": "Wander Penang's spice streets — every scent is a doorway to the present moment",
-    "youtubeId": "4VpZC81aaMA"
+    "youtubeId": "4VpZC81aaMA",
+    "geoTags": [
+      "island",
+      "coastal",
+      "city"
+    ]
   },
   {
     "id": "my-langkawi",
@@ -1707,7 +1788,12 @@
       "digital-detox"
     ],
     "emotionalTagline": "Langkawi's ancient mangroves whisper what the city never could — slow down",
-    "youtubeId": "FW2d8A-Tbss"
+    "youtubeId": "FW2d8A-Tbss",
+    "geoTags": [
+      "island",
+      "coastal",
+      "forest"
+    ]
   },
   {
     "id": "in-rishikesh",
@@ -1793,7 +1879,12 @@
       "sound-healing"
     ],
     "emotionalTagline": "At Rishikesh's riverbanks, the Ganges carries a thousand years of prayers — and yours",
-    "youtubeId": "cXRx20LDtJA"
+    "youtubeId": "cXRx20LDtJA",
+    "geoTags": [
+      "mountain",
+      "forest",
+      "river"
+    ]
   },
   {
     "id": "in-goa",
@@ -1877,7 +1968,10 @@
       "kirtan"
     ],
     "emotionalTagline": "Goa's Portuguese churches and palm-fringed beaches hold space for every kind of healing",
-    "youtubeId": "ankw-Eiutzc"
+    "youtubeId": "ankw-Eiutzc",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "in-dharamshala",
@@ -1962,7 +2056,11 @@
       "tea-ceremony"
     ],
     "emotionalTagline": "In the shadow of the Himalayas, Dharamshala teaches stillness the mountain way",
-    "youtubeId": "5kdXMZjEozs"
+    "youtubeId": "5kdXMZjEozs",
+    "geoTags": [
+      "mountain",
+      "forest"
+    ]
   },
   {
     "id": "in-auroville",
@@ -2046,7 +2144,11 @@
       "community-healing"
     ],
     "emotionalTagline": "Step into Auroville's Matrimandir — a golden sphere built for nothing but inner silence",
-    "youtubeId": "eaQepDfH1A4"
+    "youtubeId": "eaQepDfH1A4",
+    "geoTags": [
+      "coastal",
+      "countryside"
+    ]
   },
   {
     "id": "lk-unawatuna",
@@ -2129,7 +2231,10 @@
       "mindfulness"
     ],
     "emotionalTagline": "Let Unawatuna's cinnamon-scented breezes carry the weight you forgot you were holding",
-    "youtubeId": "6zxI6gOW8GE"
+    "youtubeId": "6zxI6gOW8GE",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "lk-weligama",
@@ -2212,7 +2317,10 @@
       "ocean-therapy"
     ],
     "emotionalTagline": "Weligama's stilt fishermen wait in stillness — the ocean's oldest meditation practice",
-    "youtubeId": "gIjpI7zd39Q"
+    "youtubeId": "gIjpI7zd39Q",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "lk-ella",
@@ -2296,7 +2404,12 @@
       "mindfulness"
     ],
     "emotionalTagline": "Hike Ella's Nine Arches at first light — every step is a breath released",
-    "youtubeId": "ZDyEeHyO-RA"
+    "youtubeId": "ZDyEeHyO-RA",
+    "geoTags": [
+      "mountain",
+      "forest",
+      "countryside"
+    ]
   },
   {
     "id": "jp-okinawa",
@@ -2382,7 +2495,11 @@
       "meditation"
     ],
     "emotionalTagline": "Okinawa's centenarians know the secret — breathe deeply, move slowly, live long",
-    "youtubeId": "ukZXZhr9otg"
+    "youtubeId": "ukZXZhr9otg",
+    "geoTags": [
+      "island",
+      "coastal"
+    ]
   },
   {
     "id": "jp-kyoto",
@@ -2466,7 +2583,11 @@
       "forest-bathing"
     ],
     "emotionalTagline": "In Kyoto's moss gardens, each stone and stream arranges your scattered thoughts",
-    "youtubeId": "dd-Fy3LHJF8"
+    "youtubeId": "dd-Fy3LHJF8",
+    "geoTags": [
+      "city",
+      "mountain"
+    ]
   },
   {
     "id": "jp-koyasan",
@@ -2549,7 +2670,11 @@
       "sound-healing"
     ],
     "emotionalTagline": "Sleep among a thousand Buddhas at Koyasan — even dreams find peace here",
-    "youtubeId": "7ommgrYmxzg"
+    "youtubeId": "7ommgrYmxzg",
+    "geoTags": [
+      "mountain",
+      "forest"
+    ]
   },
   {
     "id": "kr-jeju",
@@ -2635,7 +2760,12 @@
       "digital-detox"
     ],
     "emotionalTagline": "Jeju's volcanic shores and stone walls guard an island that time forgot",
-    "youtubeId": "6bsMPVwwAeg"
+    "youtubeId": "6bsMPVwwAeg",
+    "geoTags": [
+      "island",
+      "coastal",
+      "mountain"
+    ]
   },
   {
     "id": "pt-lagos",
@@ -2719,7 +2849,11 @@
       "sunrise-hiking"
     ],
     "emotionalTagline": "Lagos' golden cliffs and Atlantic swells reshape more than the coastline",
-    "youtubeId": "5A5cfU3Tz_w"
+    "youtubeId": "5A5cfU3Tz_w",
+    "geoTags": [
+      "coastal",
+      "city"
+    ]
   },
   {
     "id": "pt-madeira",
@@ -2805,7 +2939,12 @@
       "wild-swimming"
     ],
     "emotionalTagline": "Walk Madeira's levada trails — ancient waterways that irrigate both land and soul",
-    "youtubeId": "3YNqNoC4umY"
+    "youtubeId": "3YNqNoC4umY",
+    "geoTags": [
+      "island",
+      "coastal",
+      "mountain"
+    ]
   },
   {
     "id": "pt-ericeira",
@@ -2889,7 +3028,10 @@
       "digital-detox"
     ],
     "emotionalTagline": "Ericeira's Atlantic breaks wash clean whatever you arrived carrying inside",
-    "youtubeId": "keEr2uDzZGY"
+    "youtubeId": "keEr2uDzZGY",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "es-tenerife",
@@ -2978,7 +3120,12 @@
       "meditation"
     ],
     "emotionalTagline": "Above Tenerife's clouds on Teide, perspective shifts — problems shrink to specks",
-    "youtubeId": "CsDlD-WsN80"
+    "youtubeId": "CsDlD-WsN80",
+    "geoTags": [
+      "island",
+      "coastal",
+      "mountain"
+    ]
   },
   {
     "id": "es-granada",
@@ -3065,7 +3212,11 @@
       "sound-healing"
     ],
     "emotionalTagline": "In Granada's Albaicín at sunset, the Alhambra glows and time simply stops",
-    "youtubeId": "THcbaLlCtHU"
+    "youtubeId": "THcbaLlCtHU",
+    "geoTags": [
+      "mountain",
+      "city"
+    ]
   },
   {
     "id": "es-ibiza",
@@ -3150,7 +3301,11 @@
       "breathwork"
     ],
     "emotionalTagline": "Beyond the bass drops, Ibiza's north hides the island your spirit came for",
-    "youtubeId": "2yEXFLc-UMI"
+    "youtubeId": "2yEXFLc-UMI",
+    "geoTags": [
+      "island",
+      "coastal"
+    ]
   },
   {
     "id": "gr-crete",
@@ -3236,7 +3391,12 @@
       "mediterranean-diet-wellness"
     ],
     "emotionalTagline": "Crete's olive groves and turquoise coves have been healing wanderers for millennia",
-    "youtubeId": "HbVs2T6D8pk"
+    "youtubeId": "HbVs2T6D8pk",
+    "geoTags": [
+      "island",
+      "coastal",
+      "mountain"
+    ]
   },
   {
     "id": "gr-milos",
@@ -3320,7 +3480,11 @@
       "meditation"
     ],
     "emotionalTagline": "Milos carves cathedrals from white stone — nature's therapy needs no appointment",
-    "youtubeId": "dm3evbm0QFI"
+    "youtubeId": "dm3evbm0QFI",
+    "geoTags": [
+      "island",
+      "coastal"
+    ]
   },
   {
     "id": "it-cagliari",
@@ -3406,7 +3570,11 @@
       "mindfulness"
     ],
     "emotionalTagline": "From Cagliari's hilltop, the Mediterranean stretches endlessly — so does your breathing room",
-    "youtubeId": "dfVyQlPl3Ew"
+    "youtubeId": "dfVyQlPl3Ew",
+    "geoTags": [
+      "coastal",
+      "city"
+    ]
   },
   {
     "id": "gr-thessaloniki",
@@ -3492,7 +3660,11 @@
       "mindfulness"
     ],
     "emotionalTagline": "Thessaloniki's waterfront sunsets paint the sky in shades you forgot existed",
-    "youtubeId": "bKI2iLAN_oo"
+    "youtubeId": "bKI2iLAN_oo",
+    "geoTags": [
+      "coastal",
+      "city"
+    ]
   },
   {
     "id": "mx-oaxaca",
@@ -3579,7 +3751,12 @@
       "volunteer-healing"
     ],
     "emotionalTagline": "In Oaxaca's temazcal steam, ancient Zapotec heat melts what modern life hardened",
-    "youtubeId": "mKvKSHhbjW0"
+    "youtubeId": "mKvKSHhbjW0",
+    "geoTags": [
+      "mountain",
+      "countryside",
+      "city"
+    ]
   },
   {
     "id": "mx-tulum",
@@ -3665,7 +3842,10 @@
       "ecstatic-dance"
     ],
     "emotionalTagline": "Tulum's cenotes are gateways to the underworld — and to your own depths",
-    "youtubeId": "zh2_xLRLOu4"
+    "youtubeId": "zh2_xLRLOu4",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "mx-sancristobal",
@@ -3750,7 +3930,11 @@
       "volunteer-healing"
     ],
     "emotionalTagline": "San Cristóbal's highland air and indigenous markets ground you in something older",
-    "youtubeId": "OM4gmWHz2BA"
+    "youtubeId": "OM4gmWHz2BA",
+    "geoTags": [
+      "mountain",
+      "countryside"
+    ]
   },
   {
     "id": "mx-sayulita",
@@ -3836,7 +4020,10 @@
       "ecstatic-dance"
     ],
     "emotionalTagline": "Sayulita's surf and sunset drums sync your heartbeat back to natural rhythm",
-    "youtubeId": "JOY6Z9Kq0aY"
+    "youtubeId": "JOY6Z9Kq0aY",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "gt-atitlan",
@@ -3922,7 +4109,11 @@
       "volunteer-healing"
     ],
     "emotionalTagline": "Three volcanoes guard Lake Atitlán — their silence becomes your meditation",
-    "youtubeId": "E6lQguEPOTc"
+    "youtubeId": "E6lQguEPOTc",
+    "geoTags": [
+      "lake",
+      "mountain"
+    ]
   },
   {
     "id": "cr-nosara",
@@ -4008,7 +4199,10 @@
       "ecstatic-dance"
     ],
     "emotionalTagline": "Nosara's Blue Zone tides pull you toward the longest, fullest version of yourself",
-    "youtubeId": "oJrLzRVfZ5o"
+    "youtubeId": "oJrLzRVfZ5o",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "br-florianopolis",
@@ -4092,7 +4286,11 @@
       "nature-therapy"
     ],
     "emotionalTagline": "Florianópolis' forty-two beaches mean forty-two chances to start your day differently",
-    "youtubeId": "V1GzTXBhV4g"
+    "youtubeId": "V1GzTXBhV4g",
+    "geoTags": [
+      "island",
+      "coastal"
+    ]
   },
   {
     "id": "br-pipa",
@@ -4179,7 +4377,10 @@
       "digital-detox"
     ],
     "emotionalTagline": "Pipa's dolphin pods and red cliffs — Brazil's northeast heals without trying",
-    "youtubeId": "d6qhomgK5gY"
+    "youtubeId": "d6qhomgK5gY",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "co-medellin",
@@ -4265,7 +4466,11 @@
       "mindfulness"
     ],
     "emotionalTagline": "Medellín's eternal spring air and reinvented streets breathe possibility into every morning",
-    "youtubeId": "GKZKrbpOAtI"
+    "youtubeId": "GKZKrbpOAtI",
+    "geoTags": [
+      "mountain",
+      "city"
+    ]
   },
   {
     "id": "co-minca",
@@ -4351,7 +4556,11 @@
       "birdwatching-meditation"
     ],
     "emotionalTagline": "In Minca's cloud forest, hummingbirds hover at eye level — even they are present",
-    "youtubeId": "5vHCiNAtA_0"
+    "youtubeId": "5vHCiNAtA_0",
+    "geoTags": [
+      "mountain",
+      "forest"
+    ]
   },
   {
     "id": "ec-vilcabamba",
@@ -4436,7 +4645,11 @@
       "digital-detox"
     ],
     "emotionalTagline": "Vilcabamba's valley of centenarians — where time moves slowly and people move slower",
-    "youtubeId": "IaiednGM2ls"
+    "youtubeId": "IaiednGM2ls",
+    "geoTags": [
+      "mountain",
+      "countryside"
+    ]
   },
   {
     "id": "ma-essaouira",
@@ -4523,7 +4736,10 @@
       "breathwork"
     ],
     "emotionalTagline": "Let Essaouira's Atlantic winds and Gnawa rhythms carry your worries out to sea",
-    "youtubeId": "U5u3sCbcWrE"
+    "youtubeId": "U5u3sCbcWrE",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "ma-taghazout",
@@ -4610,7 +4826,10 @@
       "breathwork"
     ],
     "emotionalTagline": "Taghazout's dawn patrol — Atlantic swells and Berber tea before the world wakes",
-    "youtubeId": "Y6G5S-GnA0k"
+    "youtubeId": "Y6G5S-GnA0k",
+    "geoTags": [
+      "coastal"
+    ]
   },
   {
     "id": "tz-zanzibar",
@@ -4696,7 +4915,11 @@
       "digital-detox"
     ],
     "emotionalTagline": "Zanzibar's clove-scented shores and turquoise tides dissolve borders between rest and wonder",
-    "youtubeId": "Opdd5JblPOM"
+    "youtubeId": "Opdd5JblPOM",
+    "geoTags": [
+      "island",
+      "coastal"
+    ]
   },
   {
     "id": "za-capetown",
@@ -4781,6 +5004,11 @@
       "mindfulness"
     ],
     "emotionalTagline": "Climb Lion's Head at dawn and Cape Town gives you back your perspective",
-    "youtubeId": "26coRzH1Eow"
+    "youtubeId": "26coRzH1Eow",
+    "geoTags": [
+      "coastal",
+      "mountain",
+      "city"
+    ]
   }
 ]

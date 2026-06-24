@@ -81,19 +81,20 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
   const [adjusting, setAdjusting] = useState(false);
   const [adjustMessage, setAdjustMessage] = useState<string | null>(null);
   const [saved, setSaved] = useState<Set<string>>(new Set());
+  const [requiredGeoTags, setRequiredGeoTags] = useState<string[]>([]);
 
   // Free users see top 3 matches; Pro sees all 5
   const displayMatches = isPro ? matches.slice(0, 5) : matches.slice(0, 3);
   // Radar chart: show top 3 destinations for all users
   const radarDests = matches.slice(0, 3);
 
-  const fetchMatches = useCallback(async (weights: Record<ScoreKey, number>) => {
+  const fetchMatches = useCallback(async (weights: Record<ScoreKey, number>, geoTags: string[] = []) => {
     setLoading(true);
     try {
       const res = await fetch('/api/dna-match', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ weights }),
+        body: JSON.stringify({ weights, requiredGeoTags: geoTags }),
       });
       const data = await res.json();
       if (data.matches) {
@@ -107,7 +108,7 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
   }, []);
 
   useEffect(() => {
-    fetchMatches(profile.weights);
+    fetchMatches(profile.weights, []);
     // Load saved favorites
     const favs = getFavorites();
     setSaved(new Set(favs));
@@ -128,7 +129,20 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
 
       if (data.adjustedWeights) {
         onWeightsChange(data.adjustedWeights);
-        setAdjustMessage(`🔄 Compass Updated — ${data.explanation}`);
+
+        // 更新硬约束（geoTags）
+        const newGeoTags = data.requiredGeoTags || [];
+        setRequiredGeoTags(newGeoTags);
+
+        // 重新获取匹配结果
+        fetchMatches(data.adjustedWeights, newGeoTags);
+
+        // 构建消息
+        let message = `🔄 Compass Updated — ${data.explanation}`;
+        if (newGeoTags.length > 0) {
+          message += ` 📍 Filtering for: ${newGeoTags.join(', ')}`;
+        }
+        setAdjustMessage(message);
       }
       setChatInput('');
     } catch (err) {
@@ -279,6 +293,24 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
         {adjustMessage && (
           <div className="bg-[#52B78815] border border-[#52B78840] rounded-lg px-4 py-3 mb-6 text-sm text-[#1B4332]">
             {adjustMessage}
+          </div>
+        )}
+
+        {/* Geo filter indicator */}
+        {requiredGeoTags.length > 0 && (
+          <div className="bg-[#D4A37315] border border-[#D4A37340] rounded-lg px-4 py-3 mb-6 flex items-center justify-between">
+            <span className="text-sm text-[#1B4332]">
+              📍 Filtering for: {requiredGeoTags.join(', ')}
+            </span>
+            <button
+              onClick={() => {
+                setRequiredGeoTags([]);
+                fetchMatches(profile.weights, []);
+              }}
+              className="text-xs px-3 py-1 rounded border border-[#1B433230] text-[#1B4332]/60 hover:border-red-400 hover:text-red-400 transition-colors"
+            >
+              Clear Filter
+            </button>
           </div>
         )}
 
