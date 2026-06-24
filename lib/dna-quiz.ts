@@ -245,7 +245,7 @@ export function calculateMatchScore(
   if (cosine >= clampedFloor) {
     return Math.round(52 + ((cosine - clampedFloor) / (1.0 - clampedFloor)) * 43);
   } else {
-    return Math.round(Math.max(0, 52 * cosine / clampedFloor));
+    return Math.round(Math.max(52, 52 * cosine / clampedFloor));
   }
 }
 
