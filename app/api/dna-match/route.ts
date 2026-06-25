@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
         // 月费用不超过预算上限
         if (hardFilters.budgetMax) {
-          if (d.monthlyCost.mid > hardFilters.budgetMax) {
+          if (d.monthlyCost.budget > hardFilters.budgetMax) {
             return false;
           }
         }
@@ -69,9 +69,12 @@ export async function POST(request: Request) {
         return true;
       });
 
-      // 如果过滤后为空，fallback到全量（避免0结果）
+      // 如果过滤后为空，返回空结果+提示，不静默回退全量
       if (filteredDestinations.length === 0) {
-        filteredDestinations = destinations;
+        return Response.json({
+          matches: [],
+          noMatchReason: 'No destinations match your current filters. Try adjusting your budget or location requirements.',
+        });
       }
     }
 

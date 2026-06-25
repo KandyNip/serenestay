@@ -81,6 +81,7 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
   const [adjusting, setAdjusting] = useState(false);
   const [adjustMessage, setAdjustMessage] = useState<string | null>(null);
   const [saved, setSaved] = useState<Set<string>>(new Set());
+  const [noMatchReason, setNoMatchReason] = useState<string | null>(null);
   const [hardFilters, setHardFilters] = useState<{
     requiredGeoTags: string[];
     excludedGeoTags: string[];
@@ -109,8 +110,9 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
       });
       const data = await res.json();
       // Only update if this is still the latest fetch
-      if (currentFetchId === fetchIdRef.current && data.matches) {
-        setMatches(data.matches);
+      if (currentFetchId === fetchIdRef.current) {
+        setMatches(data.matches || []);
+        setNoMatchReason(data.noMatchReason || null);
       }
     } catch (err) {
       console.error('[CompassMatch] fetch error:', err);
@@ -238,6 +240,21 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
             {profile.emoji} {profile.type} — Top matches based on your DNA
           </p>
         </div>
+
+        {/* No match warning */}
+        {!loading && matches.length === 0 && noMatchReason && (
+          <div style={{
+            background: '#FFF3E0',
+            border: '1px solid #FFB74D',
+            borderRadius: '12px',
+            padding: '20px',
+            textAlign: 'center',
+            color: '#E65100',
+            marginBottom: '16px',
+          }}>
+            <p style={{ fontSize: '15px', fontWeight: 500, margin: 0 }}>{noMatchReason}</p>
+          </div>
+        )}
 
         {/* Radar overlay chart */}
         {!loading && matches.length > 0 && (
