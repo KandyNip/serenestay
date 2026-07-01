@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import NewsletterSignup from './NewsletterSignup';
 
 export default function Footer() {
   return (
@@ -12,7 +11,7 @@ export default function Footer() {
       role="contentinfo"
     >
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
           <div>
             <Link
               href="/"
@@ -66,30 +65,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/journal"
+                  href="/contact"
                   className="text-sm transition-colors duration-300 hover:text-white"
                   style={{ color: 'var(--color-white-60)' }}
                 >
-                  Journal
+                  Contact
                 </Link>
               </li>
             </ul>
-          </div>
-
-          <div>
-            <h4
-              className="text-sm font-semibold tracking-widest uppercase mb-4"
-              style={{ color: 'var(--color-white-80)', fontFamily: 'var(--font-body)' }}
-            >
-              Healing Inspiration
-            </h4>
-            <p
-              className="text-sm mb-4"
-              style={{ color: 'var(--color-white-60)' }}
-            >
-              Weekly retreat picks and wellness wisdom, delivered gently.
-            </p>
-            <NewsletterSignup variant="dark" />
           </div>
         </div>
 

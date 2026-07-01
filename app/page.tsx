@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { ArrowRight, MapPin, Compass, Leaf, Heart, Mountain, Waves, Sun } from 'lucide-react';
 import DestinationCard from '@/components/DestinationCard';
 import WaveDivider from '@/components/WaveDivider';
-import NewsletterSignup from '@/components/NewsletterSignup';
 import SampleMatch from '@/components/SampleMatch';
 import { loadDestinations } from '@/lib/destinations';
 import type { Destination } from '@/lib/types';
@@ -68,7 +67,6 @@ const heroImage = '/nature/nat-hero.jpg';
 const forestImage = '/nature/nat-forest.jpg';
 const oceanImage = '/nature/nat-ocean.jpg';
 const mountainImage = '/nature/nat-mountain.jpg';
-const pathImage = '/nature/nat-path.jpg';
 
 export default async function HomePage() {
   let featuredDestinations: Destination[] = [];
@@ -423,11 +421,11 @@ export default async function HomePage() {
       <WaveDivider fill="#0E2419" variant="forest" />
 
       {/* ═══════════════════════════════════════════
-          NEWSLETTER + FINAL CTA — Path full-bleed
+          FINAL CTA — Path full-bleed
           ═══════════════════════════════════════════ */}
       <section
         className="relative py-28 md:py-40 overflow-hidden immersive-section flex items-center justify-center"
-        style={{ backgroundImage: `url(${pathImage})`, minHeight: '80vh' }}
+        style={{ backgroundImage: `url(${heroImage})`, minHeight: '80vh' }}
       >
         <div
           className="absolute inset-0"
@@ -461,16 +459,6 @@ export default async function HomePage() {
             <Link href="/destinations" className="btn-outline-light">
               Browse Destinations
             </Link>
-          </div>
-
-          <div className="mt-16 max-w-md mx-auto reveal">
-            <p
-              className="mb-4 text-sm"
-              style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}
-            >
-              Healing inspiration, once a week.
-            </p>
-            <NewsletterSignup variant="dark" />
           </div>
         </div>
       </section>

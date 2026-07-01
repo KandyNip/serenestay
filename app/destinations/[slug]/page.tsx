@@ -36,9 +36,11 @@ const HEALING_TAGS = [
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ compare?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  // Note: searchParams not used in metadata for now
   const { slug } = await params;
   const destination = await getDestinationBySlug(slug);
   if (!destination) return {};
@@ -53,14 +55,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function DestinationDetailPage({ params }: PageProps) {
+export default async function DestinationDetailPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const { compare } = await searchParams;
   const destination = await getDestinationBySlug(slug);
   if (!destination) notFound();
 
   const healings = HEALING_TAGS;
 
   const allDestinations = await loadDestinations();
+  
+  // Parse compare parameter and load compare destinations
+  const compareSlugs = compare ? compare.split(',').filter(Boolean) : [];
+  const compareDestinations = compareSlugs.length > 0
+    ? compareSlugs
+        .map(s => allDestinations.find((d: Destination) => d.slug === s))
+        .filter((d: unknown): d is Destination => !!d)
+    : [];
   const similar = allDestinations
     .filter((d: Destination) => d.id !== destination.id)
     .map((d: Destination) => {
@@ -311,6 +322,52 @@ export default async function DestinationDetailPage({ params }: PageProps) {
         </section>
 
         <WaveDivider fill="rgba(255,255,255,0.03)" variant="transparent-light" height={30} />
+
+        {compareDestinations.length > 0 && (
+          <section className="mb-16">
+            <h2
+              className="text-2xl md:text-3xl mb-8"
+              style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}
+            >
+              Compare Destinations
+            </h2>
+            <div className="rounded-2xl p-6" style={{
+              background: 'var(--glass-bg-strong)',
+              backdropFilter: 'var(--glass-blur-heavy)',
+              WebkitBackdropFilter: 'var(--glass-blur-heavy)',
+              border: '1px solid var(--glass-border)',
+            }}>
+              {/* Radar comparison chart */}
+              <DestinationRadar destinations={[destination, ...compareDestinations]} />
+              
+              {/* Score comparison table */}
+              <div className="mt-6 overflow-x-auto">
+                <table className="w-full text-sm" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-70)' }}>
+                  <thead>
+                    <tr>
+                      <th className="text-left py-2" style={{ color: 'var(--color-moss)' }}>Dimension</th>
+                      <th className="text-center py-2" style={{ color: 'var(--color-white)' }}>{destination.name}</th>
+                      {compareDestinations.map(d => (
+                        <th key={d.slug} className="text-center py-2" style={{ color: 'var(--color-white)' }}>{d.name}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(scoreLabels).map(([key, label]) => (
+                      <tr key={key}>
+                        <td className="py-2" style={{ color: 'var(--color-white-60)' }}>{label}</td>
+                        <td className="text-center py-2">{Math.round((destination.scores as unknown as Record<string, number>)[key] ?? 0)}</td>
+                        {compareDestinations.map(d => (
+                          <td key={d.slug} className="text-center py-2">{Math.round((d.scores as unknown as Record<string, number>)[key] ?? 0)}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        )}
 
         <JourneyPreview
           destinationName={destination.name}

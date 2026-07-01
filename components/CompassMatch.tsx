@@ -359,12 +359,14 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                   <Link href={`/destinations/${match.slug}`} className="block group">
-                    <div className="flex items-center gap-2 mb-1">
-                      <MapPin className="w-4 h-4 text-[#1B4332]/40" />
-                      <span className="font-medium text-[#1B4332] group-hover:text-[#52B788] transition-colors truncate">
-                        {match.name}
-                      </span>
-                      <span className="text-xs text-[#1B4332]/40">{match.country}</span>
+                    <div className="mb-1">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-[#1B4332]/40 shrink-0" />
+                        <span className="font-medium text-[#1B4332] group-hover:text-[#52B788] transition-colors">
+                          {match.name}
+                        </span>
+                      </div>
+                      <span className="text-xs text-[#1B4332]/40 ml-6">{match.country}</span>
                     </div>
                     <p className="text-xs text-[#1B4332]/50 truncate">{match.emotionalTagline}</p>
                     <div className="flex flex-wrap gap-1 mt-1.5">
@@ -411,6 +413,12 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
                     >
                       Compare
                     </button>
+                    {/* Plan Journey button */}
+                    <Link href={`/itinerary/${match.slug}`}>
+                      <span className="text-[10px] px-2 py-0.5 rounded border border-[#D4A37340] text-[#D4A373] hover:border-[#D4A373] hover:bg-[#D4A37315] transition-colors flex items-center gap-1 cursor-pointer">
+                        <Compass className="w-3 h-3" /> Journey
+                      </span>
+                    </Link>
                   </div>
                 </div>
               </div>

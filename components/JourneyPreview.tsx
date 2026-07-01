@@ -1,6 +1,8 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { checkProStatus } from '@/lib/api';
 import { Sun, Moon, Coffee, Utensils, Lock, Compass, ArrowRight } from 'lucide-react';
 
 interface DayActivity {
@@ -105,7 +107,16 @@ function generateSampleDays(destinationName: string, tags: string[] = []): Sampl
 }
 
 export default function JourneyPreview({ destinationName, destinationSlug, healingTags = [] }: JourneyPreviewProps) {
-  const days = generateSampleDays(destinationName, healingTags);
+  const [isPro, setIsPro] = useState(false);
+  
+  useEffect(() => {
+    setIsPro(checkProStatus());
+  }, []);
+  
+  const days = generateSampleDays(destinationName, healingTags).map(day => ({
+    ...day,
+    unlocked: isPro ? true : day.day === 1,
+  }));
 
   return (
     <section className="my-12">
@@ -261,18 +272,33 @@ export default function JourneyPreview({ destinationName, destinationSlug, heali
         >
           Get 5 personalized days of morning, afternoon, and evening practices — tailored to how you feel.
         </p>
-        <Link
-          href="/pricing"
-          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-          style={{
-            fontFamily: 'var(--font-body)',
-            background: 'var(--color-sky)',
-            color: 'var(--color-white)',
-          }}
-        >
-          Upgrade to Pro
-          <ArrowRight className="w-4 h-4" />
-        </Link>
+        {isPro ? (
+          <Link
+            href={`/itinerary/${destinationSlug}`}
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+            style={{
+              fontFamily: 'var(--font-body)',
+              background: 'var(--color-canopy)',
+              color: 'var(--color-white)',
+            }}
+          >
+            Start Your Healing Journey
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        ) : (
+          <Link
+            href="/pricing"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+            style={{
+              fontFamily: 'var(--font-body)',
+              background: 'var(--color-sky)',
+              color: 'var(--color-white)',
+            }}
+          >
+            Upgrade to Pro
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        )}
       </div>
     </section>
   );
