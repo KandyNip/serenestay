@@ -5,10 +5,16 @@ import { Info } from 'lucide-react';
 
 export default function DisclaimerNote() {
   return (
-    <div className="flex items-start gap-2.5 p-3 bg-primary/[0.03] rounded-xl border border-primary/10">
-      <Info className="w-4 h-4 text-primary/40 flex-shrink-0 mt-0.5" />
-      <p className="text-xs text-primary/50 leading-relaxed">
-        This itinerary is AI-generated based on destination data and wellness expertise.
+    <div style={{
+      display: 'flex', alignItems: 'flex-start', gap: '10px',
+      padding: '12px',
+      background: 'rgba(255,255,255,0.04)',
+      borderRadius: '12px',
+      border: '1px solid rgba(255,255,255,0.08)'
+    }}>
+      <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }} />
+      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>
+        This itinerary is curated based on destination data and wellness expertise.
         Specific venues, programs, and prices may vary — we recommend verifying details before booking.
       </p>
     </div>

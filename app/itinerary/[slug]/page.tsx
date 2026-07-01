@@ -16,12 +16,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       return { title: 'Destination Not Found' };
     }
     return {
-      title: `Plan Your Stay in ${destination.name} | SereneStay.ai`,
-      description: `Create a personalized day-by-day itinerary for your healing stay in ${destination.name}.`,
+      title: `Your Healing Journey in ${destination.name} | Serene Stay`,
+      description: `A curated, day-by-day healing journey for your stay in ${destination.name}.`,
     };
   } catch {
     return {
-      title: 'Plan Your Stay | SereneStay.ai',
+      title: 'Your Healing Journey | Serene Stay',
     };
   }
 }
@@ -34,5 +34,9 @@ export default async function ItineraryPage({ params }: PageProps) {
     notFound();
   }
 
-  return <ItineraryClient destination={destination} />;
+  return (
+    <div style={{ background: 'var(--color-forest-deep)', minHeight: '100vh' }}>
+      <ItineraryClient destination={destination} />
+    </div>
+  );
 }

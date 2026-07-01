@@ -15,12 +15,11 @@ function DNAFlowContent() {
   const [profile, setProfile] = useState<DNAProfile | null>(null);
   const [isPro, setIsPro] = useState(false);
 
-  // 检查是否已有保存的画像
   useEffect(() => {
     const saved = loadDNAProfile();
     if (saved) {
       setProfile(saved);
-      setPhase('result');  // 有画像直接到结果页（可继续调整）
+      setPhase('result');
     }
     setIsPro(checkProStatus());
   }, []);
@@ -49,7 +48,7 @@ function DNAFlowContent() {
   };
 
   return (
-    <div className="min-h-screen pt-16 bg-[#FEFAE0]">
+    <div style={{ background: 'var(--color-forest-deep)', minHeight: '100vh', paddingTop: '80px' }}>
       {phase === 'quiz' && (
         <DNAQuiz onComplete={handleQuizComplete} />
       )}
@@ -75,7 +74,11 @@ function DNAFlowContent() {
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#FEFAE0]">Loading...</div>}>
+    <Suspense fallback={
+      <div style={{ background: 'var(--color-forest-deep)', minHeight: '100vh', paddingTop: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
+        Loading...
+      </div>
+    }>
       <DNAFlowContent />
     </Suspense>
   );

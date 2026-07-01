@@ -3,30 +3,69 @@
 @tailwind utilities;
 
 /* ============================================
-   CSS Variables
+   SereneStay — Nature Immersive Design System
+   "Walk through nature, not a website"
    ============================================ */
 :root {
-  --color-primary: #1B4332;
-  --color-secondary: #52B788;
-  --color-accent: #D4A373;
-  --color-surface: #FEFAE0;
-  --color-gold: #B8860B;
-  --color-danger: #E57373;
-  --color-warning: #FFB74D;
-  --color-success: #81C784;
-  
-  --font-serif: 'DM Serif Display', Georgia, serif;
-  --font-sans: 'DM Sans', system-ui, sans-serif;
+  /* Nature Palette */
+  --color-forest: #1B3A2D;
+  --color-forest-light: #2D5A45;
+  --color-forest-deep: #0E2419;
+  --color-canopy: #3A7D5C;
+  --color-moss: #6B9E7E;
+  --color-sky: #5B8FA8;
+  --color-sky-light: #7EB5CC;
+  --color-sky-pale: #B8D8E8;
+  --color-sky-muted: #9BBCCE;
+  --color-sand: #D4C5A9;
+  --color-sand-light: #E8DECA;
+  --color-sand-warm: #C9B896;
+  --color-cream: #F5F0E6;
+  --color-mist: #E8EDF0;
+  --color-ink: #1A2E23;
+  --color-ink-light: #2A4A3A;
+  --color-ink-muted: #5A7A6A;
+  --color-ink-faint: #8AA89A;
+  --color-white: #FFFFFF;
+  --color-white-80: rgba(255,255,255,0.8);
+  --color-white-70: rgba(255,255,255,0.7);
+  --color-white-60: rgba(255,255,255,0.6);
+  --color-white-40: rgba(255,255,255,0.4);
+  --color-white-20: rgba(255,255,255,0.2);
+  --color-white-10: rgba(255,255,255,0.1);
+
+  /* Glass */
+  --glass-bg: rgba(255,255,255,0.12);
+  --glass-bg-strong: rgba(255,255,255,0.2);
+  --glass-border: rgba(255,255,255,0.18);
+  --glass-blur: blur(16px);
+  --glass-blur-heavy: blur(24px);
+
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  
-  --shadow-soft: 0 4px 20px rgba(27, 67, 50, 0.08);
-  --shadow-card: 0 2px 12px rgba(27, 67, 50, 0.06);
-  --shadow-card-hover: 0 8px 30px rgba(27, 67, 50, 0.12);
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 24px rgba(27, 58, 45, 0.08);
+  --shadow-medium: 0 8px 40px rgba(27, 58, 45, 0.12);
+  --shadow-deep: 0 16px 64px rgba(27, 58, 45, 0.16);
+
+  /* Transitions */
+  --transition-base: 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-smooth: 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-slow: 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Container */
+  --container-max: 1200px;
+  --container-narrow: 720px;
 }
 
 /* ============================================
@@ -37,9 +76,9 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
-  background-color: var(--color-surface);
-  color: var(--color-primary);
+  font-family: var(--font-body);
+  background-color: var(--color-forest-deep);
+  color: var(--color-white);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -49,9 +88,9 @@ body {
    Typography
    ============================================ */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
 }
 
 .font-mono {
@@ -62,44 +101,36 @@ h1, h2, h3, h4, h5, h6 {
    Selection Styling
    ============================================ */
 ::selection {
-  background-color: rgba(82, 183, 136, 0.3);
-  color: var(--color-primary);
+  background-color: rgba(126, 181, 204, 0.3);
+  color: var(--color-white);
 }
 
 /* ============================================
    Scrollbar Styling
    ============================================ */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(27, 67, 50, 0.05);
-  border-radius: 4px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(27, 67, 50, 0.2);
-  border-radius: 4px;
-  transition: background 0.2s ease;
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(27, 67, 50, 0.35);
-}
-
-/* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(27, 67, 50, 0.2) rgba(27, 67, 50, 0.05);
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
 }
 
 /* ============================================
    Focus Styles (Accessibility)
    ============================================ */
 :focus-visible {
-  outline: 2px solid var(--color-secondary);
+  outline: 2px solid var(--color-sky-light);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -107,51 +138,19 @@ h1, h2, h3, h4, h5, h6 {
 /* ============================================
    Custom Animations
    ============================================ */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
 
-@keyframes slideUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(20px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-}
-
-@keyframes slideDown {
-  from { 
-    opacity: 0; 
-    transform: translateY(-10px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-}
-
-@keyframes pulseSoft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes blink {
-  0%, 100% { border-color: transparent; }
-  50% { border-color: var(--color-secondary); }
-}
-
-@keyframes float {
+@keyframes floatGentle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes shimmer {
@@ -159,160 +158,288 @@ h1, h2, h3, h4, h5, h6 {
   100% { background-position: 200% 0; }
 }
 
-@keyframes gentlePulse {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.15); opacity: 1; }
+.animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
 }
 
-.animate-gentle-pulse {
-  animation: gentlePulse 4s ease-in-out infinite;
+.animate-float-gentle {
+  animation: floatGentle 6s ease-in-out infinite;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.5s ease-out forwards;
-}
-
-.animate-slide-down {
-  animation: slideDown 0.3s ease-out forwards;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.5) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 /* ============================================
    Stagger Animation Delays
    ============================================ */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-.stagger-5 { animation-delay: 0.5s; }
+.stagger-1 { animation-delay: 0.15s; opacity: 0; }
+.stagger-2 { animation-delay: 0.3s; opacity: 0; }
+.stagger-3 { animation-delay: 0.45s; opacity: 0; }
+.stagger-4 { animation-delay: 0.6s; opacity: 0; }
 
 /* ============================================
-   Utility Classes
+   Glass Effects
    ============================================ */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
 }
 
-.gradient-primary {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #2D5A47 100%);
-}
-
-.gradient-hero {
-  background: linear-gradient(
-    180deg,
-    rgba(254, 250, 224, 0) 0%,
-    rgba(254, 250, 224, 0.8) 50%,
-    rgba(254, 250, 224, 1) 100%
-  );
-}
-
-.text-gradient {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.glass-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur-heavy);
+  -webkit-backdrop-filter: var(--glass-blur-heavy);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
 }
 
 /* ============================================
-   Card Styles
+   Immersive Section Utility
    ============================================ */
-.card-hover {
-  transition: all 0.3s ease;
+.immersive-section {
+  position: relative;
+  min-height: 80vh;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
+.immersive-hero {
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .immersive-section {
+    background-attachment: scroll;
+    min-height: 70vh;
+  }
+  .immersive-hero {
+    min-height: 100vh;
+  }
 }
 
 /* ============================================
-   Button Base Styles
+   Text Shadows for readability on images
    ============================================ */
-.btn-primary {
-  @apply bg-primary text-white px-6 py-3 rounded-lg font-medium
-         transition-all duration-200 ease-out
-         hover:bg-primary-600 hover:shadow-lg
-         active:scale-[0.98]
-         disabled:opacity-50 disabled:cursor-not-allowed;
+.text-shadow-soft {
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
 }
 
-.btn-secondary {
-  @apply bg-secondary text-white px-6 py-3 rounded-lg font-medium
-         transition-all duration-200 ease-out
-         hover:bg-secondary-600 hover:shadow-lg
-         active:scale-[0.98]
-         disabled:opacity-50 disabled:cursor-not-allowed;
-}
-
-.btn-accent {
-  @apply bg-accent text-white px-6 py-3 rounded-lg font-medium
-         transition-all duration-200 ease-out
-         hover:bg-accent-600 hover:shadow-lg
-         active:scale-[0.98]
-         disabled:opacity-50 disabled:cursor-not-allowed;
-}
-
-.btn-outline {
-  @apply border-2 border-primary text-primary px-6 py-3 rounded-lg font-medium
-         transition-all duration-200 ease-out
-         hover:bg-primary hover:text-white
-         active:scale-[0.98];
+.text-shadow-medium {
+  text-shadow: 0 2px 20px rgba(0,0,0,0.6), 0 4px 40px rgba(0,0,0,0.3);
 }
 
 /* ============================================
-   Input Styles
+   Balance text wrapping
    ============================================ */
-.input-base {
-  @apply w-full px-4 py-3 rounded-lg border border-primary/20 
-         bg-white text-primary placeholder-primary/50
-         transition-all duration-200
-         focus:border-secondary focus:ring-2 focus:ring-secondary/20
-         focus:outline-none;
+.balance-text {
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* ============================================
    Container Max Widths
    ============================================ */
+.container-max {
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .container-narrow {
-  max-width: 640px;
+  max-width: var(--container-narrow);
   margin-left: auto;
   margin-right: auto;
 }
 
-.container-medium {
-  max-width: 768px;
-  margin-left: auto;
-  margin-right: auto;
+/* ============================================
+   Warm Section (cream/sand-light backgrounds)
+   ============================================ */
+.warm-section {
+  background: var(--color-cream);
+  color: var(--color-ink);
 }
 
-.container-wide {
-  max-width: 1024px;
-  margin-left: auto;
-  margin-right: auto;
+.warm-section-sand {
+  background: var(--color-sand-light);
+  color: var(--color-ink);
 }
 
-.container-full {
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
+/* ============================================
+   Button Styles
+   ============================================ */
+.btn-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 36px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: all var(--transition-base);
+}
+
+.btn-glass:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.05);
+}
+
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  background: var(--color-sky);
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  border: none;
+  transition: all var(--transition-base);
+}
+
+.btn-accent:hover {
+  background: var(--color-sky-light);
+  transform: scale(1.05);
+}
+
+.btn-canopy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  background: var(--color-canopy);
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  border: none;
+  transition: all var(--transition-base);
+}
+
+.btn-canopy:hover {
+  background: var(--color-moss);
+  transform: scale(1.05);
+}
+
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: all var(--transition-base);
+}
+
+.btn-outline-light:hover {
+  border-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.05);
+  transform: scale(1.05);
+}
+
+.btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  background: transparent;
+  border: 2px solid var(--color-sky);
+  border-radius: var(--radius-full);
+  color: var(--color-sky);
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: all var(--transition-base);
+}
+
+.btn-outline-dark:hover {
+  background: var(--color-sky);
+  color: var(--color-white);
+  transform: scale(1.05);
+}
+
+.btn-ghost-float {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-full);
+  color: rgba(255,255,255,0.8);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+.btn-ghost-float:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.25);
+  color: var(--color-white);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(91,143,168,0.25);
+}
+
+.btn-ghost-float .arrow-icon {
+  transition: transform 0.3s ease;
+}
+
+.btn-ghost-float:hover .arrow-icon {
+  transform: translateX(6px);
+}
+
+/* ============================================
+   Reveal on scroll — progressive enhancement:
+   Content is VISIBLE by default. Only when JS
+   adds 'js-ready' class do we enable the
+   hidden-then-reveal animation.
+   ============================================ */
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.js-ready .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   Card hover (subtle, no bounce)
+   ============================================ */
+.card-hover-subtle {
+  transition: all 0.5s ease;
+}
+
+.card-hover-subtle:hover {
+  transform: scale(1.03);
+}
+
+/* ============================================
+   Remove old gradient text (AI SaaS look)
+   ============================================ */
+.text-gradient {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
 }

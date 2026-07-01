@@ -1,27 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, RefreshCw, Pencil, Loader2 } from 'lucide-react';
-// Legacy mood chips — kept inline for backward compat with saved itineraries
-const MOOD_CHIPS = [
-  { id: 'chill', label: 'Chill', emoji: '🧘' },
-  { id: 'active', label: 'Active', emoji: '🏃' },
-  { id: 'ocean', label: 'Ocean', emoji: '🌊' },
-  { id: 'nature', label: 'Nature', emoji: '🌿' },
-  { id: 'food', label: 'Food', emoji: '🍜' },
-  { id: 'coffee', label: 'Coffee', emoji: '☕' },
-];
-import { getCategoryEmoji } from '@/lib/itinerary-images';
+import { ChevronDown, ChevronUp, RefreshCw, Pencil, Loader2, Sun, Coffee, Moon, MapPin, Leaf, Sunrise, Lightbulb, HeartPulse, StickyNote, Clock, Wallet } from 'lucide-react';
+import { getCategoryIconName } from '@/lib/itinerary-images';
 import { ENERGY_SLOTS, USER_INTENTIONS } from '@/lib/healing-types';
 import type { HealingDayContent, HealingEnergyBlock } from '@/lib/healing-types';
+import LucideIcon from './LucideIcon';
 
-// Re-export getCategoryEmoji from itinerary-images for convenience
-export { getCategoryEmoji } from '@/lib/itinerary-images';
-
-// Re-export healing types for backward compatibility
+export { getCategoryIconName } from '@/lib/itinerary-images';
 export type { HealingDayContent, HealingEnergyBlock } from '@/lib/healing-types';
 
-// JSON format types for structured day content
 export interface DayActivity {
   name: string;
   imageTags: string[];
@@ -45,7 +33,6 @@ export interface DayContent {
   note: string;
 }
 
-// Old format from storage: { content: string, note?: string }
 interface DayContentData {
   content: string;
   note?: string;
@@ -63,6 +50,30 @@ interface ItineraryDayCardProps {
   isGenerating?: boolean;
 }
 
+const glassCard = {
+  background: 'var(--glass-bg)',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
+  border: '1px solid var(--glass-border)',
+  borderRadius: '20px',
+} as React.CSSProperties;
+
+function getSlotColor(slotId?: string): { line: string; dot: string; icon: React.ReactNode } {
+  if (!slotId) return { line: 'rgba(255,255,255,0.2)', dot: 'var(--color-moss)', icon: <Leaf className="w-4 h-4" /> };
+  
+  const lower = slotId.toLowerCase();
+  if (lower.includes('morning') || lower.includes('sunrise') || lower.includes('dawn')) {
+    return { line: 'var(--color-sand)', dot: 'var(--color-sand)', icon: <Sun className="w-4 h-4" /> };
+  }
+  if (lower.includes('afternoon') || lower.includes('noon') || lower.includes('midday') || lower.includes('coffee') || lower.includes('lunch')) {
+    return { line: 'var(--color-moss)', dot: 'var(--color-moss)', icon: <Coffee className="w-4 h-4" /> };
+  }
+  if (lower.includes('evening') || lower.includes('night') || lower.includes('sunset') || lower.includes('dinner')) {
+    return { line: 'var(--color-sky)', dot: 'var(--color-sky)', icon: <Moon className="w-4 h-4" /> };
+  }
+  return { line: 'var(--color-canopy)', dot: 'var(--color-canopy)', icon: <Leaf className="w-4 h-4" /> };
+}
+
 export default function ItineraryDayCard({
   dayNumber,
   title,
@@ -74,9 +85,6 @@ export default function ItineraryDayCard({
   onEdit,
   isGenerating = false,
 }: ItineraryDayCardProps) {
-  // Handle content formats:
-  // Primary: DayContent (structured with sections) or HealingDayContent (with energyBlocks)
-  // Legacy fallback: string or DayContentData for backward compatibility with old saved data
   const isHealingContent = typeof content === 'object' && content !== null && 'energyBlocks' in content;
   const isJsonContent = !isHealingContent && typeof content === 'object' && content !== null && 'sections' in content;
   const isOldFormat = typeof content === 'object' && content !== null && 'content' in content && typeof (content as any).content === 'string';
@@ -85,16 +93,8 @@ export default function ItineraryDayCard({
   const dayData = isJsonContent ? (content as DayContent) : null;
   const healingData = isHealingContent ? (content as HealingDayContent) : null;
 
-  // For old formats, extract the string content
   const actualContent = isOldFormat ? (content as any).content : isStringFormat ? content : '';
 
-  // Get mood chip display info
-  const getMoodDisplay = (id: string) => {
-    const chip = MOOD_CHIPS.find(c => c.id === id);
-    return chip ? { emoji: chip.emoji, label: chip.label } : { emoji: '✨', label: id };
-  };
-
-  // Parse image tags for markdown fallback rendering
   const renderLineWithImages = (line: string, key: string) => {
     const imageTagRegex = /\[(wiki|cat):([^\]]+)\]/g;
     const parts: (string | React.ReactNode)[] = [];
@@ -108,16 +108,16 @@ export default function ItineraryDayCard({
 
       const [, type, value] = match;
       if (type === 'cat') {
-        const emoji = getCategoryEmoji(value);
+        const iconName = getCategoryIconName(value);
         parts.push(
-          <span key={`${key}-${match.index}`} className="inline-flex items-center gap-0.5 mx-0.5 text-xs text-primary/60">
-            {emoji} {value}
+          <span key={`${key}-${match.index}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', margin: '0 4px', fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
+            <LucideIcon name={iconName} className="w-3.5 h-3.5" /> {value}
           </span>
         );
       } else if (type === 'wiki') {
         parts.push(
-          <span key={`${key}-${match.index}`} className="inline-flex items-center gap-0.5 mx-0.5 text-xs text-primary/60">
-            📍 {value.replace(/_/g, ' ')}
+          <span key={`${key}-${match.index}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '2px', margin: '0 4px', fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
+            <MapPin className="w-3 h-3" /> {value.replace(/_/g, ' ')}
           </span>
         );
       }
@@ -133,195 +133,228 @@ export default function ItineraryDayCard({
   };
 
   return (
-    <div className={`bg-white rounded-xl border transition-all duration-200 ${
-      isGenerating ? 'border-secondary/40 shadow-sm' : 'border-primary/10 hover:border-primary/20'
-    }`}>
-      {/* Header */}
+    <div style={{
+      ...glassCard,
+      overflow: 'hidden',
+      transition: 'all 0.2s ease',
+      borderColor: isGenerating ? 'rgba(91,143,168,0.4)' : 'var(--glass-border)'
+    }}>
       <button
         onClick={onToggle}
-        className="w-full px-4 py-3 flex items-center justify-between hover:bg-primary/[0.02] transition-colors rounded-xl"
+        style={{
+          width: '100%', padding: '16px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          background: 'transparent', border: 'none', cursor: 'pointer',
+          transition: 'background 0.2s'
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
+        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
       >
-        <div className="flex items-center gap-3 min-w-0">
-          {/* Day number badge */}
-          <span className="flex-shrink-0 flex items-center justify-center w-8 h-8 bg-secondary text-white rounded-full text-sm font-semibold">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
+          <span style={{
+            flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: '36px', height: '36px',
+            background: 'var(--color-sky)', color: 'white',
+            borderRadius: '50%', fontSize: '14px', fontWeight: 600
+          }}>
             {dayNumber}
           </span>
 
-          <div className="min-w-0 text-left">
-            <span className="font-medium text-primary block truncate">
+          <div style={{ minWidth: 0, textAlign: 'left' }}>
+            <span style={{ fontWeight: 500, color: 'var(--color-white)', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {title || `Day ${dayNumber}`}
             </span>
-            {/* Mood chips (only for legacy format, not healing) */}
             {!isHealingContent && moodChips.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-1">
-                {moodChips.map(id => {
-                  const mood = getMoodDisplay(id);
-                  return (
-                    <span key={id} className="inline-flex items-center gap-0.5 text-xs text-primary/50">
-                      {mood.emoji} {mood.label}
-                    </span>
-                  );
-                })}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '4px' }}>
+                {moodChips.map(id => (
+                  <span key={id} style={{ display: 'inline-flex', alignItems: 'center', gap: '2px', fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>
+                    {id}
+                  </span>
+                ))}
               </div>
             )}
           </div>
         </div>
 
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
           {isGenerating && (
-            <Loader2 className="w-4 h-4 text-secondary animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" style={{ color: 'var(--color-sky)' }} />
           )}
           {isExpanded ? (
-            <ChevronUp className="w-5 h-5 text-primary/40" />
+            <ChevronUp className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.4)' }} />
           ) : (
-            <ChevronDown className="w-5 h-5 text-primary/40" />
+            <ChevronDown className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.4)' }} />
           )}
         </div>
       </button>
 
-      {/* Expanded Content */}
       {isExpanded && (
-        <div className="px-4 pb-4 pt-2 border-t border-primary/10">
-          {/* Content */}
+        <div style={{ padding: '0 16px 16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           {isHealingContent && healingData ? (
-            <div className="space-y-4">
-              {/* Phase title */}
+            <div style={{ paddingTop: '16px' }}>
               {healingData.phaseTitle && (
-                <p className="text-xs font-medium text-secondary uppercase tracking-wide">{healingData.phaseTitle}</p>
+                <p style={{ fontSize: '11px', fontWeight: 500, color: 'var(--color-sky)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>{healingData.phaseTitle}</p>
               )}
 
-              {/* Summary */}
               {healingData.summary && (
-                <p className="text-primary/60 text-sm italic">{healingData.summary}</p>
+                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontStyle: 'italic', marginBottom: '16px' }}>{healingData.summary}</p>
               )}
 
-              {/* Energy Blocks */}
-              {healingData.energyBlocks.map((block, bi) => {
-                const slotInfo = ENERGY_SLOTS.find(s => s.id === block.slot);
-                const isIntegration = block.isIntegrationTime;
-                const intention = USER_INTENTIONS.find(i => i.id === block.intention);
+              {/* Timeline */}
+              <div style={{ position: 'relative', paddingLeft: '24px' }}>
+                <div style={{
+                  position: 'absolute', left: '7px', top: '8px', bottom: '8px',
+                  width: '2px', background: 'linear-gradient(to bottom, var(--color-sand), var(--color-moss), var(--color-sky))',
+                  opacity: 0.4
+                }} />
 
-                if (isIntegration) {
-                  // Special "Protected Space" rendering
-                  return (
-                    <div key={bi} className="border-l-[3px] border-dashed border-secondary/40 pl-4 py-2">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-base">🕯️</span>
-                        <span className="font-serif text-sm text-primary font-medium">Protected Space</span>
+                {healingData.energyBlocks.map((block, bi) => {
+                  const slotInfo = ENERGY_SLOTS.find(s => s.id === block.slot);
+                  const isIntegration = block.isIntegrationTime;
+                  const intention = USER_INTENTIONS.find(i => i.id === block.intention);
+                  const colors = getSlotColor(block.slot);
+
+                  if (isIntegration) {
+                    return (
+                      <div key={bi} style={{ position: 'relative', marginBottom: '16px' }}>
+                        <div style={{
+                          position: 'absolute', left: '-24px', top: '4px',
+                          width: '8px', height: '8px', borderRadius: '50%',
+                          background: 'var(--color-sand)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center'
+                        }}>
+                        </div>
+                        <div style={{ borderLeft: '3px dashed rgba(91,143,168,0.4)', paddingLeft: '12px', paddingTop: '4px', paddingBottom: '4px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                            <span style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 500, color: 'var(--color-white)' }}>Protected Space</span>
+                          </div>
+                          {block.whyNote && (
+                            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', fontStyle: 'italic', marginBottom: '4px' }}>{block.whyNote}</p>
+                          )}
+                          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>
+                            {block.title || 'A quiet moment for yourself — no agenda, no expectation.'}
+                          </p>
+                          {block.venue && (
+                            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              <MapPin className="w-3 h-3" /> {block.venue}
+                            </p>
+                          )}
+                          {block.integrationNote && (
+                            <p style={{ fontSize: '12px', color: 'rgba(107,158,126,0.8)', marginTop: '4px', fontStyle: 'italic', display: 'flex', alignItems: 'flex-start', gap: '4px' }}>
+                              <Leaf className="w-3 h-3 flex-shrink-0 mt-0.5" /> {block.integrationNote}
+                            </p>
+                          )}
+                          {intention && (
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '2px 8px', background: 'rgba(91,143,168,0.15)', color: 'var(--color-sky)', fontSize: '10px', fontWeight: 500, borderRadius: '9999px', marginTop: '4px' }}>
+                              <LucideIcon name={intention.emoji} className="w-3 h-3" /> {intention.label}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      {block.whyNote && (
-                        <p className="text-xs text-primary/50 italic mb-1">{block.whyNote}</p>
-                      )}
-                      <p className="text-sm text-primary/70">
-                        {block.title || 'A quiet moment for yourself — no agenda, no expectation.'}
-                      </p>
-                      {block.venue && (
-                        <p className="text-xs text-primary/40 mt-1">📍 {block.venue}</p>
-                      )}
-                      {block.integrationNote && (
-                        <p className="text-xs text-primary/50 mt-1 italic">🌿 {block.integrationNote}</p>
-                      )}
-                      {intention && (
-                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-secondary/10 text-secondary text-[10px] font-medium rounded-full mt-1">
-                          {intention.emoji} {intention.label}
-                        </span>
-                      )}
+                    );
+                  }
+
+                  return (
+                    <div key={bi} style={{ position: 'relative', marginBottom: '16px' }}>
+                      <div style={{
+                        position: 'absolute', left: '-24px', top: '4px',
+                        width: '16px', height: '16px', borderRadius: '50%',
+                        background: colors.dot, border: '2px solid var(--color-forest-deep)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        boxShadow: `0 0 0 3px ${colors.dot}20`
+                      }}>
+                        <span style={{ color: 'white' }}>{colors.icon}</span>
+                      </div>
+                      <div style={{ paddingLeft: '4px', paddingTop: '2px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                          <span style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 500, color: 'var(--color-white)' }}>
+                            {slotInfo?.label || block.slot}
+                          </span>
+                          <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', marginLeft: 'auto' }}>{block.energyLevel}</span>
+                        </div>
+
+                        {block.whyNote && (
+                          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', fontStyle: 'italic', marginBottom: '8px' }}>{block.whyNote}</p>
+                        )}
+
+                        <div style={{ marginBottom: '4px' }}>
+                          <p style={{ fontWeight: 500, color: 'var(--color-white)', fontSize: '14px', marginBottom: '4px' }}>{block.title}</p>
+                          {block.venue && (
+                            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              <MapPin className="w-3 h-3" /> {block.venue}
+                            </p>
+                          )}
+                        </div>
+
+                        {intention && (
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '2px 8px', background: 'rgba(91,143,168,0.15)', color: 'var(--color-sky)', fontSize: '10px', fontWeight: 500, borderRadius: '9999px' }}>
+                            <LucideIcon name={intention.emoji} className="w-3 h-3" /> {intention.label}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   );
-                }
+                })}
+              </div>
 
-                return (
-                  <div key={bi} className={`border-l-[3px] ${slotInfo?.borderColor || 'border-primary/20'} pl-4`}>
-                    {/* Block header */}
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-base">{slotInfo?.emoji || '✨'}</span>
-                      <span className="font-serif text-sm text-primary font-medium">
-                        {slotInfo?.label || block.slot}
-                      </span>
-                      <span className="text-[10px] text-primary/30 ml-auto">{block.energyLevel}</span>
-                    </div>
-
-                    {/* Why note */}
-                    {block.whyNote && (
-                      <p className="text-xs text-primary/50 italic mb-2">{block.whyNote}</p>
-                    )}
-
-                    {/* Activity */}
-                    <div className="mb-1">
-                      <p className="font-medium text-primary text-sm mb-1">{block.title}</p>
-                      {block.venue && (
-                        <p className="text-xs text-primary/40 mb-1">📍 {block.venue}</p>
-                      )}
-                    </div>
-
-                    {/* Intention pill */}
-                    {intention && (
-                      <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-secondary/10 text-secondary text-[10px] font-medium rounded-full">
-                        {intention.emoji} {intention.label}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-
-              {/* Reflection */}
               {healingData.reflection && (
-                <div className="bg-secondary/5 rounded-lg p-3">
-                  <p className="text-sm text-primary/70"><span className="font-medium">🪞 Reflection:</span> {healingData.reflection}</p>
+                <div style={{ background: 'rgba(91,143,168,0.08)', borderRadius: '12px', padding: '12px', marginTop: '16px' }}>
+                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                    <Leaf className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'var(--color-sky)' }} />
+                    <span><span style={{ fontWeight: 500 }}>Reflection:</span> {healingData.reflection}</span>
+                  </p>
                 </div>
               )}
 
-              {/* Return transition suggestions */}
               {healingData.returnTransition && healingData.returnTransition.length > 0 && (
-                <div className="bg-amber-50/50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-primary/60 mb-1">🌅 Carrying It Forward</p>
+                <div style={{ background: 'rgba(212,197,169,0.08)', borderRadius: '12px', padding: '12px', marginTop: '12px' }}>
+                  <p style={{ fontSize: '12px', fontWeight: 500, color: 'var(--color-sand)', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Sunrise className="w-3.5 h-3.5" /> Carrying It Forward
+                  </p>
                   {healingData.returnTransition.map((tip, i) => (
-                    <p key={i} className="text-xs text-primary/50">• {tip}</p>
+                    <p key={i} style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>• {tip}</p>
                   ))}
                 </div>
               )}
 
-              {/* Disclaimer */}
               {healingData.note && (
-                <p className="text-xs text-primary/30 mt-3 italic">📝 {healingData.note}</p>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginTop: '12px', fontStyle: 'italic' }}>📝 {healingData.note}</p>
               )}
             </div>
           ) : isJsonContent && dayData ? (
-            <div className="space-y-4">
-              {/* Summary */}
+            <div style={{ paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {dayData.summary && (
-                <p className="text-primary/60 text-sm italic">{dayData.summary}</p>
+                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontStyle: 'italic' }}>{dayData.summary}</p>
               )}
 
-              {/* Sections: Morning / Afternoon / Evening */}
               {dayData.sections.map((section, si) => (
                 <div key={si}>
-                  <h4 className="font-serif text-base text-primary mt-4 mb-2">
-                    {section.emoji} {section.period.charAt(0).toUpperCase() + section.period.slice(1)}
+                  <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '16px', color: 'var(--color-white)', marginTop: '16px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <LucideIcon name={section.emoji} className="w-5 h-5" /> {section.period.charAt(0).toUpperCase() + section.period.slice(1)}
                   </h4>
                   {section.activities.map((activity, ai) => (
-                    <div key={ai} className="ml-2 mb-3">
-                      <p className="font-medium text-primary mb-1">
+                    <div key={ai} style={{ marginLeft: '8px', marginBottom: '12px' }}>
+                      <p style={{ fontWeight: 500, color: 'var(--color-white)', marginBottom: '4px', fontSize: '14px' }}>
                         {activity.name}
                         {activity.imageTags && activity.imageTags.map((tag, ti) => {
                           const isWiki = tag.startsWith('wiki:');
                           const value = tag.split(':')[1] || tag;
                           return isWiki ? (
-                            <span key={ti} className="inline-flex items-center gap-0.5 mx-1 text-xs text-primary/60">
-                              📍 {value.replace(/_/g, ' ')}
+                            <span key={ti} style={{ display: 'inline-flex', alignItems: 'center', gap: '2px', margin: '0 4px', fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
+                              <MapPin className="w-3 h-3" /> {value.replace(/_/g, ' ')}
                             </span>
                           ) : (
-                            <span key={ti} className="inline-flex items-center gap-0.5 mx-1 text-xs text-primary/60">
-                              {getCategoryEmoji(value)} {value}
+                            <span key={ti} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', margin: '0 4px', fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
+                              <LucideIcon name={getCategoryIconName(value)} className="w-3.5 h-3.5" /> {value}
                             </span>
                           );
                         })}
                       </p>
-                      <p className="text-sm text-primary/70 mb-1">{activity.description}</p>
+                      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', marginBottom: '4px' }}>{activity.description}</p>
                       {(activity.duration || activity.cost) && (
-                        <div className="flex gap-3 text-xs text-primary/50">
-                          {activity.duration && <span>⏰ {activity.duration}</span>}
-                          {activity.cost && <span>💰 {activity.cost}</span>}
+                        <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: 'rgba(255,255,255,0.5)', alignItems: 'center' }}>
+                          {activity.duration && <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><Clock className="w-3 h-3" /> {activity.duration}</span>}
+                          {activity.cost && <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><Wallet className="w-3 h-3" /> {activity.cost}</span>}
                         </div>
                       )}
                     </div>
@@ -329,33 +362,38 @@ export default function ItineraryDayCard({
                 </div>
               ))}
 
-              {/* Tip */}
               {dayData.tip && (
-                <div className="bg-accent/10 rounded-lg p-3">
-                  <p className="text-sm text-primary/70"><span className="font-medium">💡 Tip:</span> {dayData.tip}</p>
+                <div style={{ background: 'rgba(91,143,168,0.1)', borderRadius: '12px', padding: '12px' }}>
+                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                    <Lightbulb className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'var(--color-sky)' }} />
+                    <span><span style={{ fontWeight: 500 }}>Tip:</span> {dayData.tip}</span>
+                  </p>
                 </div>
               )}
 
-              {/* Mood Check */}
               {dayData.moodCheck && (
-                <p className="text-sm text-primary/50 mt-2">🎯 {dayData.moodCheck}</p>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', marginTop: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <HeartPulse className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'var(--color-moss)' }} />
+                  {dayData.moodCheck}
+                </p>
               )}
 
-              {/* Disclaimer */}
               {dayData.note && (
-                <p className="text-xs text-primary/30 mt-3 italic">📝 {dayData.note}</p>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginTop: '12px', fontStyle: 'italic', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                  <StickyNote className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+                  {dayData.note}
+                </p>
               )}
             </div>
           ) : (
-            /* Fallback: markdown rendering (original logic preserved) */
-            <div className="prose prose-sm max-w-none text-primary/70">
+            <div style={{ paddingTop: '16px', color: 'rgba(255,255,255,0.7)', fontSize: '14px', lineHeight: 1.7 }}>
               {(actualContent as string).split('\n').map((line, i) => {
                 const trimmed = line.trim();
                 if (!trimmed) return null;
 
                 if (trimmed.startsWith('### ')) {
                   return (
-                    <h4 key={i} className="font-serif text-base text-primary mt-4 mb-2">
+                    <h4 key={i} style={{ fontFamily: 'var(--font-display)', fontSize: '16px', color: 'var(--color-white)', marginTop: '16px', marginBottom: '8px' }}>
                       {renderLineWithImages(trimmed.replace('### ', ''), `h-${i}`)}
                     </h4>
                   );
@@ -363,7 +401,7 @@ export default function ItineraryDayCard({
 
                 if (trimmed.startsWith('**')) {
                   return (
-                    <p key={i} className="mb-2 font-medium text-primary">
+                    <p key={i} style={{ marginBottom: '8px', fontWeight: 500, color: 'var(--color-white)' }}>
                       {renderLineWithImages(trimmed, `b-${i}`)}
                     </p>
                   );
@@ -371,7 +409,7 @@ export default function ItineraryDayCard({
 
                 if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
                   return (
-                    <li key={i} className="ml-4 mb-1 list-disc">
+                    <li key={i} style={{ marginLeft: '16px', marginBottom: '4px', listStyleType: 'disc' }}>
                       {renderLineWithImages(trimmed.substring(2), `li-${i}`)}
                     </li>
                   );
@@ -379,38 +417,45 @@ export default function ItineraryDayCard({
 
                 if (trimmed.match(/^\d+\./)) {
                   return (
-                    <li key={i} className="ml-4 mb-1 list-decimal">
+                    <li key={i} style={{ marginLeft: '16px', marginBottom: '4px', listStyleType: 'decimal' }}>
                       {renderLineWithImages(trimmed.replace(/^\d+\./, '').trim(), `ol-${i}`)}
                     </li>
                   );
                 }
 
-                return <p key={i} className="mb-2">{renderLineWithImages(trimmed, `p-${i}`)}</p>;
+                return <p key={i} style={{ marginBottom: '8px' }}>{renderLineWithImages(trimmed, `p-${i}`)}</p>;
               })}
             </div>
           )}
 
-          {/* Action buttons */}
-          <div className="flex items-center gap-2 mt-4 pt-3 border-t border-primary/5">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onRegenerate();
-              }}
+              onClick={(e) => { e.stopPropagation(); onRegenerate(); }}
               disabled={isGenerating}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary/60 hover:text-secondary hover:bg-secondary/5 rounded-lg transition-colors disabled:opacity-50"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                padding: '6px 12px', fontSize: '12px', fontWeight: 500,
+                color: 'rgba(255,255,255,0.6)', background: 'transparent',
+                border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-sky)'; e.currentTarget.style.background = 'rgba(91,143,168,0.1)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; e.currentTarget.style.background = 'transparent'; }}
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isGenerating ? 'animate-spin' : ''}`} />
               Regenerate
             </button>
             {onEdit && (
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEdit();
-                }}
+                onClick={(e) => { e.stopPropagation(); onEdit(); }}
                 disabled={isGenerating}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary/60 hover:text-secondary hover:bg-secondary/5 rounded-lg transition-colors disabled:opacity-50"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  padding: '6px 12px', fontSize: '12px', fontWeight: 500,
+                  color: 'rgba(255,255,255,0.6)', background: 'transparent',
+                  border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-sky)'; e.currentTarget.style.background = 'rgba(91,143,168,0.1)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; e.currentTarget.style.background = 'transparent'; }}
               >
                 <Pencil className="w-3.5 h-3.5" />
                 Edit

@@ -25,8 +25,7 @@ const DIMENSION_LABELS: Record<string, string> = {
 
 const DIMENSIONS = Object.keys(DIMENSION_LABELS);
 
-// 4个品牌色，按顺序分配给目的地
-const COLORS = ['#2D6A4F', '#D4A373', '#5B8FB9', '#c2785c'];
+const COLORS = ['#7EB5CC', '#6B9E7E', '#D4C5A9', '#c2785c'];
 
 interface DestinationRadarProps {
   destinations: Destination[];
@@ -36,7 +35,6 @@ interface DestinationRadarProps {
 }
 
 export default function DestinationRadar({ destinations, showLegend = true, activeIndex, onActivate }: DestinationRadarProps) {
-  // 构建recharts数据
   const data = DIMENSIONS.map((dim) => {
     const entry: Record<string, string | number> = {
       dimension: DIMENSION_LABELS[dim],
@@ -47,11 +45,9 @@ export default function DestinationRadar({ destinations, showLegend = true, acti
     return entry;
   });
 
-  // 单目的地时显示shape描述
   const isSingle = destinations.length === 1;
   const singleDest = destinations[0];
 
-  // 找出单目的地的最强和最弱维度
   const getShapeHint = () => {
     if (!isSingle || !singleDest) return null;
     const scores = Object.entries(singleDest.scores) as [string, number][];
@@ -60,8 +56,8 @@ export default function DestinationRadar({ destinations, showLegend = true, acti
     const weaknesses = sorted.filter(([, v]) => v <= 2).map(([k]) => DIMENSION_LABELS[k]);
 
     let hint = '';
-    if (strengths.length > 0) hint += `🌿 Strong in ${strengths.slice(0, 2).join(' & ')}`;
-    if (weaknesses.length > 0) hint += `${hint ? ' · ' : ''}⚠️ Low ${weaknesses.join(' & ')}`;
+    if (strengths.length > 0) hint += `Strong in ${strengths.slice(0, 2).join(' & ')}`;
+    if (weaknesses.length > 0) hint += `${hint ? ' · ' : ''}Lower in ${weaknesses.join(' & ')}`;
     return hint || null;
   };
 
@@ -72,15 +68,15 @@ export default function DestinationRadar({ destinations, showLegend = true, acti
       <div style={{ width: '100%', height: isSingle ? 300 : 350 }}>
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={data} cx="50%" cy="50%" outerRadius="72%">
-            <PolarGrid stroke="#e2e8f0" />
+            <PolarGrid stroke="rgba(255,255,255,0.08)" />
             <PolarAngleAxis
               dataKey="dimension"
-              tick={{ fontSize: 11, fill: '#64748b' }}
+              tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.5)', fontFamily: 'var(--font-body)' }}
             />
             <PolarRadiusAxis
               angle={90}
               domain={[0, 5]}
-              tick={{ fontSize: 9, fill: '#94a3b8' }}
+              tick={{ fontSize: 9, fill: 'rgba(255,255,255,0.25)' }}
               tickCount={6}
             />
             {destinations.map((dest, i) => {
@@ -93,7 +89,7 @@ export default function DestinationRadar({ destinations, showLegend = true, acti
                   dataKey={dest.name}
                   stroke={COLORS[i]}
                   fill={COLORS[i]}
-                  fillOpacity={isSingle ? 0.15 : isActive ? 0.2 : isDimmed ? 0.02 : 0.08}
+                  fillOpacity={isSingle ? 0.2 : isActive ? 0.25 : isDimmed ? 0.03 : 0.12}
                   strokeWidth={isActive ? 3 : isDimmed ? 1 : 2}
                   strokeOpacity={isDimmed ? 0.3 : 1}
                 />
@@ -101,11 +97,13 @@ export default function DestinationRadar({ destinations, showLegend = true, acti
             })}
             <Tooltip
               contentStyle={{
-                backgroundColor: '#fff',
-                border: '1px solid #e2e8f0',
+                backgroundColor: 'rgba(14,36,25,0.95)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: '10px',
                 fontSize: '12px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                color: '#fff',
+                fontFamily: 'var(--font-body)',
               }}
               formatter={(value, name) => [`${value}/5`, name]}
             />
@@ -113,14 +111,15 @@ export default function DestinationRadar({ destinations, showLegend = true, acti
         </ResponsiveContainer>
       </div>
 
-      {/* 单目的地：shape hint */}
       {shapeHint && (
-        <p className="text-center text-xs text-primary/50 mt-2" style={{ fontFamily: 'system-ui' }}>
+        <p
+          className="text-center text-xs mt-2"
+          style={{ color: 'var(--color-white-40)', fontFamily: 'var(--font-body)' }}
+        >
           {shapeHint}
         </p>
       )}
 
-      {/* 多目的地：legend chips */}
       {!isSingle && showLegend && (
         <div className="flex flex-wrap justify-center gap-3 mt-2">
           {destinations.map((dest, i) => {
@@ -131,9 +130,10 @@ export default function DestinationRadar({ destinations, showLegend = true, acti
                 onClick={() => onActivate?.(isActive ? null : i)}
                 className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full transition-all cursor-pointer"
                 style={{
-                  backgroundColor: isActive ? `${COLORS[i]}25` : `${COLORS[i]}15`,
+                  backgroundColor: isActive ? `${COLORS[i]}30` : `${COLORS[i]}15`,
                   color: COLORS[i],
-                  outline: isActive ? `2px solid ${COLORS[i]}40` : 'none',
+                  outline: isActive ? `2px solid ${COLORS[i]}50` : 'none',
+                  fontFamily: 'var(--font-body)',
                 }}
               >
                 <span

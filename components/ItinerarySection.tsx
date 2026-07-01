@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Lock, Sparkles, Map, CalendarDays, Compass, Info, MessageCircle, Bookmark, BookmarkCheck, Sun, Sunrise, Sunset, ChevronDown, ChevronUp, ChevronsUpDown, ChevronsDownUp } from 'lucide-react';
+import { Lock, Leaf, Map, CalendarDays, Compass, Info, MessageCircle, Bookmark, BookmarkCheck, Sun, Sunrise, Sunset, ChevronDown, ChevronUp, ChevronsUpDown, ChevronsDownUp, Heart, Trees, Theater, Wifi, DollarSign, Cloud, Star, ClipboardList, Calendar as CalendarIcon, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { checkProStatus } from '@/lib/api';
-import { getCategoryImage, getCategoryEmoji, DEFAULT_IMAGE } from '@/lib/itinerary-images';
-import { saveItinerary, isItinerarySaved, removeItinerary, getSavedItineraries, getPlannedPhasesForDestination, generatePlannedPhasesSummary } from '@/lib/itinerary-storage';
+import { getCategoryImage, getCategoryIconName } from '@/lib/itinerary-images';
+import LucideIcon from './LucideIcon';
+import { saveItinerary, removeItinerary, getSavedItineraries, getPlannedPhasesForDestination, generatePlannedPhasesSummary } from '@/lib/itinerary-storage';
 
 interface ItinerarySectionProps {
   slug: string;
@@ -57,13 +58,12 @@ const DURATION_OPTIONS = [
 ];
 
 const FOCUS_OPTIONS = [
-  { value: 'wellness', label: '🧘 Wellness & Healing' },
-  { value: 'nature', label: '🌿 Nature & Adventure' },
-  { value: 'culture', label: '🎭 Culture & Community' },
-  { value: 'nomad', label: '💻 Digital Nomad' },
+  { value: 'wellness', label: 'Wellness & Healing', icon: Heart },
+  { value: 'nature', label: 'Nature & Adventure', icon: Trees },
+  { value: 'culture', label: 'Culture & Community', icon: Theater },
+  { value: 'nomad', label: 'Digital Nomad', icon: Wifi },
 ];
 
-// Parse markdown itinerary into structured data
 function parseItinerary(markdown: string): ParsedItinerary {
   const result: ParsedItinerary = {
     overview: '',
@@ -75,12 +75,10 @@ function parseItinerary(markdown: string): ParsedItinerary {
     finalNote: '',
   };
 
-  // Extract overview
-  const overviewMatch = markdown.match(/###\s*✨\s*Trip Overview\s*\n([\s\S]*?)(?=###|$)/);
+  const overviewMatch = markdown.match(/###\s*Trip Overview\s*\n([\s\S]*?)(?=###|$)/i);
   if (overviewMatch) result.overview = overviewMatch[1].trim();
 
-  // Extract Before You Go
-  const beforeMatch = markdown.match(/###\s*📋\s*Before You Go\s*\n([\s\S]*?)(?=###|$)/);
+  const beforeMatch = markdown.match(/###\s*Before You Go\s*\n([\s\S]*?)(?=###|$)/i);
   if (beforeMatch) {
     const lines = beforeMatch[1].trim().split('\n');
     lines.forEach(line => {
@@ -89,8 +87,7 @@ function parseItinerary(markdown: string): ParsedItinerary {
     });
   }
 
-  // Extract days
-  const dayRegex = /\*\*Day\s+(\d+):\s*(.+?)\*\*\s*\n([\s\S]*?)(?=\*\*Day\s+\d+:|###\s*💰|$)/g;
+  const dayRegex = /\*\*Day\s+(\d+):\s*(.+?)\*\*\s*\n([\s\S]*?)(?=\*\*Day\s+\d+:|###\s*Budget|$)/g;
   let dayMatch;
   while ((dayMatch = dayRegex.exec(markdown)) !== null) {
     const day: DayPlan = {
@@ -101,18 +98,16 @@ function parseItinerary(markdown: string): ParsedItinerary {
 
     const activityLines = dayMatch[3].trim().split('\n');
     activityLines.forEach(line => {
-      const timeMatch = line.match(/(🌅|☀️|🌙)\s*(.+?):\s*(.+)/);
+      const timeMatch = line.match(/^[•\-\*]?\s*(Morning|Afternoon|Evening)\s*:\s*(.+)/i);
       if (timeMatch) {
-        const timeEmoji = timeMatch[1];
-        const time = timeEmoji === '🌅' ? 'morning' : timeEmoji === '☀️' ? 'afternoon' : 'evening';
-        let title = timeMatch[2].trim();
-        let description = timeMatch[3].trim();
+        const timeLabel = timeMatch[1];
+        const time = timeLabel.toLowerCase() === 'morning' ? 'morning' : timeLabel.toLowerCase() === 'afternoon' ? 'afternoon' : 'evening';
+        let title = timeLabel.trim();
+        let description = timeMatch[2].trim();
 
-        // Strip markdown bold markers
         title = title.replace(/\*\*/g, '');
         description = description.replace(/\*\*/g, '');
 
-        // Extract wiki/cat tags
         let wikiTag: string | undefined;
         let catTag: string | undefined;
         const wikiMatch = description.match(/\[wiki:([^\]]+)\]/);
@@ -133,8 +128,7 @@ function parseItinerary(markdown: string): ParsedItinerary {
     result.days.push(day);
   }
 
-  // Extract budget table
-  const budgetMatch = markdown.match(/###\s*💰\s*Budget Breakdown[\s\S]*?\n\|[\s\S]*?\n\|[-\s|]*\n([\s\S]*?)(?=\n###|\n\*\*)/);
+  const budgetMatch = markdown.match(/###\s*Budget Breakdown[\s\S]*?\n\|[\s\S]*?\n\|[-\s|]*\n([\s\S]*?)(?=\n###|\n\*\*)/);
   if (budgetMatch) {
     const rows = budgetMatch[1].trim().split('\n');
     rows.forEach(row => {
@@ -150,19 +144,15 @@ function parseItinerary(markdown: string): ParsedItinerary {
     });
   }
 
-  // Extract Wellness Focus
-  const wellnessMatch = markdown.match(/###\s*🧘\s*Wellness Focus[\s\S]*?\n([\s\S]*?)(?=###|$)/);
+  const wellnessMatch = markdown.match(/###\s*Wellness Focus[\s\S]*?\n([\s\S]*?)(?=###|$)/i);
   if (wellnessMatch) result.wellnessFocus = wellnessMatch[1].trim();
 
-  // Extract Practical Heads-Up
-  const practicalMatch = markdown.match(/###\s*⚠️\s*Practical Heads-Up\s*\n([\s\S]*?)(?=###|$)/);
+  const practicalMatch = markdown.match(/###\s*Practical Heads-Up\s*\n([\s\S]*?)(?=###|$)/i);
   if (practicalMatch) result.practicalHeadsUp = practicalMatch[1].trim();
 
-  // Extract Final Note
-  const finalMatch = markdown.match(/###\s*💌\s*Final Note[\s\S]*?\n([\s\S]*?)$/);
+  const finalMatch = markdown.match(/###\s*Final Note[\s\S]*?\n([\s\S]*?)$/i);
   if (finalMatch) result.finalNote = finalMatch[1].trim();
 
-  // Strip markdown bold markers from all text fields
   result.overview = result.overview.replace(/\*\*/g, '');
   Object.keys(result.beforeYouGo).forEach(k => {
     result.beforeYouGo[k] = result.beforeYouGo[k].replace(/\*\*/g, '');
@@ -174,22 +164,19 @@ function parseItinerary(markdown: string): ParsedItinerary {
   return result;
 }
 
-// Emoji placeholder when image fails to load
 function ImagePlaceholder({ category }: { category?: string }) {
-  const emoji = category ? getCategoryEmoji(category) : '📍';
+  const iconName = category ? getCategoryIconName(category) : 'map-pin';
   return (
-    <div className="w-[100px] h-[75px] rounded-lg flex-shrink-0 bg-gradient-to-br from-[#6b8f71]/10 to-[#e8b960]/10 flex items-center justify-center">
-      <span className="text-3xl">{emoji}</span>
+    <div className="w-[100px] h-[75px] rounded-lg flex-shrink-0 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(107,143,113,0.1), rgba(232,185,96,0.1))' }}>
+      <LucideIcon name={iconName} className="w-8 h-8 text-[#6b8f71]" />
     </div>
   );
 }
 
-// Activity image component with lazy loading and fallback chain
 function ActivityImage({ activity, loadedImages }: { activity: Activity; loadedImages: Record<string, string> }) {
   const [imgError, setImgError] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
 
-  // Fallback chain: wiki image → cat image → placeholder
   let imageUrl: string | null = null;
   let fallbackCategory: string | undefined;
 
@@ -199,12 +186,10 @@ function ActivityImage({ activity, loadedImages }: { activity: Activity; loadedI
     imageUrl = loadedImages[activity.catTag];
     fallbackCategory = activity.catTag;
   } else if (activity.catTag) {
-    // catTag exists but no image loaded — use getCategoryImage directly
     imageUrl = getCategoryImage(activity.catTag);
     fallbackCategory = activity.catTag;
   }
 
-  // Show emoji placeholder if no image or load error
   if (!imageUrl || imgError) {
     return <ImagePlaceholder category={fallbackCategory || activity.catTag} />;
   }
@@ -221,6 +206,14 @@ function ActivityImage({ activity, loadedImages }: { activity: Activity; loadedI
     />
   );
 }
+
+const glassCard = {
+  background: 'var(--glass-bg)',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
+  border: '1px solid var(--glass-border)',
+  borderRadius: '20px',
+} as React.CSSProperties;
 
 export default function ItinerarySection({ slug, name }: ItinerarySectionProps) {
   const [isPro, setIsPro] = useState(false);
@@ -240,7 +233,6 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
     setIsPro(checkProStatus());
   }, []);
 
-  // Auto-scroll to itinerary section when coming from Saved page
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('tab') === 'itinerary') {
@@ -266,7 +258,6 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
     } catch {}
   }, []);
 
-  // Fetch destination data for visual rendering
   useEffect(() => {
     fetch(`/api/destinations/${slug}`)
       .then(r => r.json())
@@ -276,7 +267,6 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
       .catch(() => {});
   }, [slug]);
 
-  // Auto-load saved itinerary when duration/focus changes
   useEffect(() => {
     if (!slug || loading) return;
     const actualDuration = duration === 0 ? (customDays || 30) : duration;
@@ -292,14 +282,12 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
     }
   }, [slug, duration, customDays, focus]);
 
-  // Reset expanded days when new itinerary is generated
   useEffect(() => {
     if (parsed) {
       setExpandedDays(new Set([1]));
     }
   }, [parsed]);
 
-  // Load images for activities after itinerary is parsed
   useEffect(() => {
     if (!parsed) return;
 
@@ -315,7 +303,6 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
         });
       });
 
-      // Load wiki images first
       for (const title of wikiTags) {
         try {
           const res = await fetch(`/api/wiki-image?title=${encodeURIComponent(title)}`);
@@ -326,7 +313,6 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
         } catch {}
       }
 
-      // Load cat images (always available from local mapping)
       const uniqueCats = [...new Set(catTags)];
       for (const cat of uniqueCats) {
         images[cat] = getCategoryImage(cat);
@@ -366,7 +352,6 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
     setParsed(null);
     const proToken = localStorage.getItem('serenestay_pro_token') || '';
 
-    // Extract user messages from chat history as personalization context
     let chatContext = '';
     try {
       const saved = localStorage.getItem('serenestay_chat_history');
@@ -409,27 +394,33 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
       .finally(() => setLoading(false));
   };
 
-  // Free users: locked card
   if (!isPro) {
     return (
-      <div className="bg-gradient-to-br from-secondary/5 to-primary/5 rounded-2xl p-6 border border-secondary/20">
+      <div style={{ ...glassCard, padding: '24px', background: 'linear-gradient(135deg, rgba(91,143,168,0.08), rgba(107,158,126,0.08))' }}>
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center">
-            <Lock className="w-5 h-5 text-secondary" />
+          <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(91,143,168,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Lock className="w-5 h-5" style={{ color: 'var(--color-sky)' }} />
           </div>
           <div>
-            <h3 className="font-serif text-lg text-primary">AI Travel Itinerary</h3>
-            <p className="text-sm text-primary/50">Pro exclusive</p>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-white)' }}>Your Healing Journey</h3>
+            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)' }}>Pro exclusive</p>
           </div>
         </div>
-        <p className="text-primary/60 text-sm mb-4">
+        <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '16px' }}>
           Get a personalized day-by-day wellness itinerary for {name} — activities, budget breakdown, and practical tips tailored to your travel style.
         </p>
         <Link
           href="/pricing"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg text-sm hover:bg-secondary-600 transition-colors"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            padding: '10px 20px', fontSize: '14px', fontWeight: 500,
+            background: 'var(--color-sky)', color: 'white',
+            borderRadius: '12px', textDecoration: 'none', transition: 'opacity 0.2s'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
         >
-          <Sparkles className="w-4 h-4" />
+          <Leaf className="w-4 h-4" />
           Upgrade to Pro
         </Link>
       </div>
@@ -443,79 +434,90 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
 
   const allExpanded = parsed ? expandedDays.size === parsed.days.length : false;
 
-  // Pro users: itinerary generator with visual rendering
   return (
     <div id="itinerary-section">
-      <h2 className="font-serif text-2xl text-primary mb-4 flex items-center gap-2">
-        <Map className="w-6 h-6 text-secondary" />
-        AI Travel Itinerary
+      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '24px', color: 'var(--color-white)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Map className="w-6 h-6" style={{ color: 'var(--color-sky)' }} />
+        Your Healing Journey
       </h2>
 
-      {/* Preference selectors */}
-      <div className="bg-white rounded-2xl p-6 shadow-card mb-4">
-        <div className="grid sm:grid-cols-2 gap-4 mb-4">
+      <div style={{ ...glassCard, padding: '24px', marginBottom: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px', marginBottom: '16px' }}>
           <div>
-            <label className="flex items-center gap-1.5 text-sm font-medium text-primary/70 mb-2">
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>
               <CalendarDays className="w-4 h-4" />
               Trip Duration
             </label>
-            <div className="flex flex-wrap gap-2">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {DURATION_OPTIONS.map(opt => (
                 <button
                   key={opt.value}
                   onClick={() => setDuration(opt.value)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    duration === opt.value
-                      ? 'bg-[#6b8f71] text-white'
-                      : 'bg-surface text-primary/60 hover:bg-[#6b8f71]/10'
-                  }`}
+                  style={{
+                    padding: '8px 12px', borderRadius: '8px', fontSize: '14px', fontWeight: 500,
+                    transition: 'all 0.2s', border: 'none', cursor: 'pointer',
+                    background: duration === opt.value ? 'var(--color-canopy)' : 'rgba(255,255,255,0.06)',
+                    color: duration === opt.value ? 'white' : 'rgba(255,255,255,0.6)',
+                  }}
                 >
                   {opt.label}
                 </button>
               ))}
             </div>
             {duration === 0 && (
-              <div className="mt-3 flex items-center gap-2">
+              <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <input
                   type="number"
                   min={1}
                   max={90}
                   value={customDays}
                   onChange={e => setCustomDays(Math.min(90, Math.max(1, parseInt(e.target.value) || 1)))}
-                  className="w-20 px-3 py-2 border border-primary/20 rounded-lg text-sm text-primary focus:outline-none focus:border-[#6b8f71]"
+                  style={{
+                    width: '80px', padding: '8px 12px',
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: '8px', fontSize: '14px', color: 'var(--color-white)',
+                    outline: 'none'
+                  }}
                 />
-                <span className="text-sm text-primary/60">days (1-90)</span>
+                <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)' }}>days (1-90)</span>
               </div>
             )}
           </div>
           <div>
-            <label className="flex items-center gap-1.5 text-sm font-medium text-primary/70 mb-2">
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>
               <Compass className="w-4 h-4" />
               Travel Focus
             </label>
-            <div className="grid grid-cols-2 gap-2">
-              {FOCUS_OPTIONS.map(opt => (
-                <button
-                  key={opt.value}
-                  onClick={() => setFocus(opt.value)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left ${
-                    focus === opt.value
-                      ? 'bg-[#6b8f71] text-white'
-                      : 'bg-surface text-primary/60 hover:bg-[#6b8f71]/10'
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+              {FOCUS_OPTIONS.map(opt => {
+                const Icon = opt.icon;
+                return (
+                  <button
+                    key={opt.value}
+                    onClick={() => setFocus(opt.value)}
+                    style={{
+                      padding: '8px 12px', borderRadius: '8px', fontSize: '14px', fontWeight: 500,
+                      transition: 'all 0.2s', border: 'none', cursor: 'pointer', textAlign: 'left',
+                      display: 'flex', alignItems: 'center', gap: '8px',
+                      background: focus === opt.value ? 'var(--color-canopy)' : 'rgba(255,255,255,0.06)',
+                      color: focus === opt.value ? 'white' : 'rgba(255,255,255,0.6)',
+                    }}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {opt.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
 
         {hasChatContext && (
-          <div className="mb-4 flex items-center gap-2 px-3 py-2 bg-[#6b8f71]/5 border border-[#6b8f71]/20 rounded-lg">
-            <MessageCircle className="w-4 h-4 text-[#6b8f71] flex-shrink-0" />
-            <p className="text-xs text-[#6b8f71]">
-              ✨ Personalized based on your conversation with Serene
+          <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', background: 'rgba(107,143,113,0.08)', border: '1px solid rgba(107,143,113,0.2)', borderRadius: '8px' }}>
+            <MessageCircle className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-canopy)' }} />
+            <p style={{ fontSize: '12px', color: 'var(--color-canopy)' }}>
+              Personalized based on your conversation with Serene
             </p>
           </div>
         )}
@@ -523,7 +525,14 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
         <button
           onClick={generateItinerary}
           disabled={loading}
-          className="w-full py-3 bg-[#6b8f71] text-white rounded-xl font-medium hover:bg-[#6b8f71]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          style={{
+            width: '100%', padding: '12px',
+            background: 'var(--color-sky)', color: 'white',
+            borderRadius: '12px', fontSize: '14px', fontWeight: 600,
+            border: 'none', cursor: 'pointer', transition: 'opacity 0.2s',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            opacity: loading ? 0.5 : 1,
+          }}
         >
           {loading ? (
             <>
@@ -532,40 +541,37 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
             </>
           ) : (
             <>
-              <Sparkles className="w-4 h-4" />
+              <Leaf className="w-4 h-4" />
               {parsed ? 'Regenerate' : 'Generate'} {actualDuration}-Day Itinerary
             </>
           )}
         </button>
       </div>
 
-      {/* Loading skeleton */}
       {loading && !itinerary && (
-        <div className="bg-white rounded-2xl p-6 shadow-card animate-pulse">
-          <div className="space-y-3">
-            <div className="h-4 bg-surface rounded w-3/4" />
-            <div className="h-4 bg-surface rounded w-full" />
-            <div className="h-4 bg-surface rounded w-2/3" />
-            <div className="h-4 bg-surface rounded w-5/6" />
-            <div className="h-4 bg-surface rounded w-1/2" />
+        <div style={{ ...glassCard, padding: '24px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ height: '16px', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', width: '75%' }} />
+            <div style={{ height: '16px', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', width: '100%' }} />
+            <div style={{ height: '16px', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', width: '66%' }} />
+            <div style={{ height: '16px', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', width: '83%' }} />
+            <div style={{ height: '16px', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', width: '50%' }} />
           </div>
         </div>
       )}
 
-      {/* Visual itinerary rendering */}
       {parsed && (
-        <div id="itinerary-content" className="bg-[#faf9f7] rounded-2xl overflow-hidden shadow-card">
-          {/* Cover area */}
+        <div id="itinerary-content" style={glassCard} className="overflow-hidden">
           {destination && (
             <div className="relative h-48 sm:h-64 overflow-hidden">
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url(${destination.images[0]})` }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(14,36,25,0.8) 0%, rgba(14,36,25,0.3) 50%, transparent 100%)' }} />
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold">{destination.name}</h3>
-                <div className="flex items-center gap-4 mt-2 text-sm text-white/80">
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 4vw, 28px)', fontWeight: 700, color: 'white' }}>{destination.name}</h3>
+                <div className="flex items-center gap-4 mt-2 text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>
                   <span>{actualDuration} Days</span>
                   <span>•</span>
                   <span className="capitalize">{focus}</span>
@@ -575,68 +581,71 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
           )}
 
           <div className="p-4 sm:p-6 space-y-6">
-            {/* 4-grid overview */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="bg-white rounded-xl p-4 text-center">
-                <CalendarDays className="w-5 h-5 text-[#6b8f71] mx-auto mb-1" />
-                <p className="text-xs text-primary/60">Duration</p>
-                <p className="text-lg font-bold text-primary">{actualDuration} days</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }} className="sm:grid-cols-4">
+              <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
+                <CalendarDays className="w-5 h-5 mx-auto mb-1" style={{ color: 'var(--color-canopy)' }} />
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>Duration</p>
+                <p style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-white)' }}>{actualDuration} days</p>
               </div>
-              <div className="bg-white rounded-xl p-4 text-center">
-                <span className="text-[#e8b960] text-lg">💰</span>
-                <p className="text-xs text-primary/60">Budget Est.</p>
-                <p className="text-lg font-bold text-primary">
+              <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
+                <DollarSign className="w-5 h-5 mx-auto mb-1" style={{ color: 'var(--color-sand)' }} />
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>Budget Est.</p>
+                <p style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-white)' }}>
                   {parsed.beforeYouGo['Budget estimate'] || `$${destination ? Math.round(destination.monthlyCost.mid * actualDuration / 30) : '—'}`}
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-4 text-center">
-                <span className="text-[#6b8f71] text-lg">🌤️</span>
-                <p className="text-xs text-primary/60">Best Season</p>
-                <p className="text-sm font-bold text-primary">
+              <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
+                <Cloud className="w-5 h-5 mx-auto mb-1" style={{ color: 'var(--color-canopy)' }} />
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>Best Season</p>
+                <p style={{ fontSize: '14px', fontWeight: 700, color: 'var(--color-white)' }}>
                   {destination?.bestSeason.months.slice(0, 3).join(', ') || '—'}
                 </p>
               </div>
-              <div className="bg-white rounded-xl p-4 text-center">
-                <span className="text-[#e8b960] text-lg">⭐</span>
-                <p className="text-xs text-primary/60">Rating</p>
-                <p className="text-lg font-bold text-primary">{avgScore}/5</p>
+              <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
+                <Star className="w-5 h-5 mx-auto mb-1" style={{ color: 'var(--color-sand)' }} />
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>Rating</p>
+                <p style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-white)' }}>{avgScore}/5</p>
               </div>
             </div>
 
-            {/* Overview text */}
             {parsed.overview && (
-              <div className="bg-white rounded-xl p-4">
-                <p className="text-primary/80 leading-relaxed text-sm">{parsed.overview}</p>
+              <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '16px' }}>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>{parsed.overview}</p>
               </div>
             )}
 
-            {/* Before You Go - 2x2 grid */}
             {Object.keys(parsed.beforeYouGo).length > 0 && (
               <div>
-                <h4 className="font-serif text-lg text-primary mb-3 flex items-center gap-2">
-                  <span>📋</span> Before You Go
+                <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-white)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <ClipboardList className="w-5 h-5" /> Before You Go
                 </h4>
-                <div className="grid grid-cols-2 gap-3">
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
                   {Object.entries(parsed.beforeYouGo).map(([key, value]) => (
-                    <div key={key} className="bg-white rounded-xl p-3">
-                      <p className="text-xs text-primary/50 mb-1">{key}</p>
-                      <p className="text-sm text-primary/80">{value}</p>
+                    <div key={key} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '12px' }}>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '4px' }}>{key}</p>
+                      <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)' }}>{value}</p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Timeline day cards with accordion */}
             {parsed.days.length > 0 && (
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-serif text-lg text-primary flex items-center gap-2">
-                    <span>🗓️</span> Day-by-Day Itinerary
+                <div className="flex items-center justify-between" style={{ marginBottom: '16px' }}>
+                  <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-white)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CalendarIcon className="w-5 h-5" /> Day-by-Day Itinerary
                   </h4>
                   <button
                     onClick={allExpanded ? collapseAll : expandAll}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#6b8f71] bg-[#6b8f71]/10 rounded-lg hover:bg-[#6b8f71]/20 transition-colors"
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '6px',
+                      padding: '6px 12px', fontSize: '12px', fontWeight: 500,
+                      color: 'var(--color-canopy)', background: 'rgba(107,143,113,0.1)',
+                      borderRadius: '8px', border: 'none', cursor: 'pointer', transition: 'background 0.2s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(107,143,113,0.2)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(107,143,113,0.1)'}
                   >
                     {allExpanded ? (
                       <>
@@ -651,46 +660,47 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                     )}
                   </button>
                 </div>
-                <div className="relative pl-6 border-l-2 border-[#6b8f71]/30 space-y-3">
+                <div className="relative pl-6 space-y-3" style={{ borderLeft: '2px solid rgba(107,143,113,0.3)' }}>
                   {parsed.days.map((day) => {
                     const isExpanded = expandedDays.has(day.day);
-                    const timeEmojis = day.activities
-                      .map(a => a.time === 'morning' ? '🌅' : a.time === 'afternoon' ? '☀️' : '🌙')
-                      .filter((v, i, arr) => arr.indexOf(v) === i) // unique
-                      .join('');
 
                     return (
                       <div key={day.day} className="relative">
-                        {/* Day marker */}
-                        <div className="absolute -left-[31px] w-6 h-6 bg-[#6b8f71] rounded-full flex items-center justify-center text-white text-xs font-bold">
+                        <div className="absolute -left-[31px] w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ background: 'var(--color-canopy)' }}>
                           {day.day}
                         </div>
-                        <div className="bg-white rounded-xl ml-2 overflow-hidden">
-                          {/* Collapsible header */}
+                        <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', marginLeft: '8px', overflow: 'hidden' }}>
                           <button
                             onClick={() => toggleDay(day.day)}
-                            className="w-full flex items-center justify-between p-3 hover:bg-[#6b8f71]/5 transition-colors"
+                            style={{
+                              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                              padding: '12px', background: 'transparent', border: 'none', cursor: 'pointer',
+                              transition: 'background 0.2s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(107,143,113,0.05)'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                           >
                             <div className="flex items-center gap-2 min-w-0">
-                              <h5 className="font-medium text-primary text-sm sm:text-base truncate">
+                              <h5 className="truncate sm:text-base" style={{ fontWeight: 500, color: 'var(--color-white)', fontSize: '14px' }}>
                                 Day {day.day}: {day.theme}
                               </h5>
-                              <span className="text-xs flex-shrink-0">{timeEmojis}</span>
                             </div>
                             {isExpanded ? (
-                              <ChevronUp className="w-4 h-4 text-[#6b8f71] flex-shrink-0" />
+                              <ChevronUp className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-canopy)' }} />
                             ) : (
-                              <ChevronDown className="w-4 h-4 text-[#6b8f71] flex-shrink-0" />
+                              <ChevronDown className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-canopy)' }} />
                             )}
                           </button>
 
-                          {/* Expandable content */}
                           <div
-                            className={`transition-all duration-300 ease-in-out ${
-                              isExpanded ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
-                            }`}
+                            style={{
+                              transition: 'all 0.3s ease-in-out',
+                              maxHeight: isExpanded ? '5000px' : '0',
+                              opacity: isExpanded ? 1 : 0,
+                              overflow: isExpanded ? 'visible' : 'hidden',
+                            }}
                           >
-                            <div className="px-3 pb-3 space-y-2">
+                            <div style={{ padding: '0 12px 12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                               {day.activities.map((activity, idx) => {
                                 const isDining = activity.description.toLowerCase().includes('lunch') ||
                                   activity.description.toLowerCase().includes('dinner') ||
@@ -701,22 +711,24 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                                 return (
                                   <div
                                     key={idx}
-                                    className={`flex gap-3 ${isDining ? 'border-l-2 border-[#e8b960] pl-3' : ''}`}
+                                    style={{
+                                      display: 'flex', gap: '12px',
+                                      borderLeft: isDining ? '2px solid var(--color-sand)' : 'none',
+                                      paddingLeft: isDining ? '12px' : '0'
+                                    }}
                                   >
-                                    {/* Activity image */}
                                     <div className="hidden sm:block">
                                       <ActivityImage activity={activity} loadedImages={loadedImages} />
                                     </div>
-                                    {/* Activity content */}
                                     <div className="flex-1 min-w-0">
-                                      <div className="flex items-center gap-2 mb-1">
-                                        {activity.time === 'morning' && <Sunrise className="w-4 h-4 text-[#e8b960]" />}
-                                        {activity.time === 'afternoon' && <Sun className="w-4 h-4 text-[#e8b960]" />}
-                                        {activity.time === 'evening' && <Sunset className="w-4 h-4 text-[#e8b960]" />}
-                                        <span className="text-xs font-medium text-[#6b8f71] capitalize">{activity.time}</span>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                        {activity.time === 'morning' && <Sunrise className="w-4 h-4" style={{ color: 'var(--color-sand)' }} />}
+                                        {activity.time === 'afternoon' && <Sun className="w-4 h-4" style={{ color: 'var(--color-sand)' }} />}
+                                        {activity.time === 'evening' && <Sunset className="w-4 h-4" style={{ color: 'var(--color-sand)' }} />}
+                                        <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--color-canopy)', textTransform: 'capitalize' }}>{activity.time}</span>
                                       </div>
-                                      <p className="text-sm font-medium text-primary">{activity.title}</p>
-                                      <p className="text-xs text-primary/60 mt-0.5 line-clamp-2">{activity.description}</p>
+                                      <p style={{ fontSize: '14px', fontWeight: 500, color: 'var(--color-white)', marginBottom: '4px' }}>{activity.title}</p>
+                                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginTop: '2px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{activity.description}</p>
                                     </div>
                                   </div>
                                 );
@@ -731,29 +743,28 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
               </div>
             )}
 
-            {/* Budget table */}
             {parsed.budget.length > 0 && (
               <div>
-                <h4 className="font-serif text-lg text-primary mb-3 flex items-center gap-2">
-                  <span>💰</span> Budget Breakdown
+                <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-white)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <DollarSign className="w-5 h-5" /> Budget Breakdown
                 </h4>
-                <div className="bg-white rounded-xl overflow-hidden">
-                  <table className="w-full text-sm">
+                <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', overflow: 'hidden' }}>
+                  <table style={{ width: '100%', fontSize: '14px', borderCollapse: 'collapse' }}>
                     <thead>
-                      <tr className="bg-[#6b8f71]/10">
-                        <th className="text-left p-3 text-primary/70 font-medium">Category</th>
-                        <th className="text-center p-3 text-primary/70 font-medium">Budget</th>
-                        <th className="text-center p-3 text-primary/70 font-medium">Mid</th>
-                        <th className="text-center p-3 text-primary/70 font-medium">Comfort</th>
+                      <tr style={{ background: 'rgba(107,143,113,0.1)' }}>
+                        <th style={{ textAlign: 'left', padding: '12px', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>Category</th>
+                        <th style={{ textAlign: 'center', padding: '12px', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>Budget</th>
+                        <th style={{ textAlign: 'center', padding: '12px', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>Mid</th>
+                        <th style={{ textAlign: 'center', padding: '12px', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>Comfort</th>
                       </tr>
                     </thead>
                     <tbody>
                       {parsed.budget.map((row, idx) => (
-                        <tr key={idx} className="border-t border-primary/5">
-                          <td className="p-3 text-primary/80">{row.category}</td>
-                          <td className="p-3 text-center text-primary/70">{row.budget}</td>
-                          <td className="p-3 text-center text-[#6b8f71] font-medium">{row.mid}</td>
-                          <td className="p-3 text-center text-primary/70">{row.comfort}</td>
+                        <tr key={idx} style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                          <td style={{ padding: '12px', color: 'rgba(255,255,255,0.8)' }}>{row.category}</td>
+                          <td style={{ padding: '12px', textAlign: 'center', color: 'rgba(255,255,255,0.7)' }}>{row.budget}</td>
+                          <td style={{ padding: '12px', textAlign: 'center', color: 'var(--color-canopy)', fontWeight: 500 }}>{row.mid}</td>
+                          <td style={{ padding: '12px', textAlign: 'center', color: 'rgba(255,255,255,0.7)' }}>{row.comfort}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -762,41 +773,36 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
               </div>
             )}
 
-            {/* Wellness Focus */}
             {parsed.wellnessFocus && (
-              <div className="bg-[#6b8f71]/5 rounded-xl p-4">
-                <h4 className="font-serif text-lg text-[#6b8f71] mb-2 flex items-center gap-2">
-                  <span>🧘</span> Wellness Focus
+              <div style={{ background: 'rgba(107,143,113,0.08)', borderRadius: '12px', padding: '16px' }}>
+                <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-canopy)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Heart className="w-5 h-5" /> Wellness Focus
                 </h4>
-                <p className="text-sm text-primary/80 leading-relaxed">{parsed.wellnessFocus}</p>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>{parsed.wellnessFocus}</p>
               </div>
             )}
 
-            {/* Practical Heads-Up */}
             {parsed.practicalHeadsUp && (
-              <div className="bg-[#e8b960]/10 rounded-xl p-4">
-                <h4 className="font-serif text-lg text-[#e8b960] mb-2 flex items-center gap-2">
-                  <span>⚠️</span> Practical Heads-Up
+              <div style={{ background: 'rgba(232,185,96,0.08)', borderRadius: '12px', padding: '16px' }}>
+                <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-sand)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <AlertTriangle className="w-5 h-5" /> Practical Heads-Up
                 </h4>
-                <p className="text-sm text-primary/80 leading-relaxed whitespace-pre-line">{parsed.practicalHeadsUp}</p>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{parsed.practicalHeadsUp}</p>
               </div>
             )}
 
-            {/* Final Note */}
             {parsed.finalNote && (
-              <div className="bg-white rounded-xl p-4 text-center">
-                <p className="text-sm text-primary/70 italic">{parsed.finalNote}</p>
+              <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', fontStyle: 'italic' }}>{parsed.finalNote}</p>
               </div>
             )}
 
-            {/* Disclaimer */}
-            <div className="flex items-start gap-2 px-1 text-xs text-primary/40">
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', padding: '0 4px', fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
               <Info className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-              <p>⚠️ Images are for reference only — some are illustrative and may not exactly represent the actual location. This itinerary is AI-generated; specific venues and details may vary. Please verify before booking.</p>
+              <p>Images are for reference only — some are illustrative and may not exactly represent the actual location. This itinerary is AI-generated; specific venues and details may vary. Please verify before booking.</p>
             </div>
           </div>
 
-          {/* Save button */}
           <div className="p-4 sm:p-6 pt-0">
             <button
               onClick={() => {
@@ -804,7 +810,6 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                   removeItinerary(slug, 1, focus);
                   setIsSaved(false);
                 } else if (parsed) {
-                  // Calculate phase information
                   const plannedPhases = getPlannedPhasesForDestination(slug);
                   const startDay = plannedPhases.length > 0
                     ? Math.max(...plannedPhases.map(p => {
@@ -834,10 +839,13 @@ export default function ItinerarySection({ slug, name }: ItinerarySectionProps) 
                   setIsSaved(true);
                 }
               }}
-              className="w-full py-3 rounded-xl font-medium flex items-center justify-center gap-2 transition-colors"
               style={{
-                background: isSaved ? '#6b8f71' : 'rgba(107, 143, 113, 0.1)',
-                color: isSaved ? '#fff' : '#6b8f71',
+                width: '100%', padding: '12px',
+                borderRadius: '12px', fontSize: '14px', fontWeight: 500,
+                border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                background: isSaved ? 'var(--color-canopy)' : 'rgba(107, 143, 113, 0.1)',
+                color: isSaved ? '#fff' : 'var(--color-canopy)',
               }}
             >
               {isSaved ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}

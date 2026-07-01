@@ -36,11 +36,11 @@ export interface EnergySlot {
 }
 
 export const ENERGY_SLOTS: EnergySlot[] = [
-  { id: 'morning-opening', label: 'Morning Opening', emoji: '🌅', borderColor: 'border-emerald-400' },
-  { id: 'mid-morning-practice', label: 'Core Practice', emoji: '🧘', borderColor: 'border-amber-400' },
-  { id: 'integration', label: 'Integration', emoji: '🌿', borderColor: 'border-amber-300' },
-  { id: 'afternoon-exploration', label: 'Afternoon', emoji: '☀️', borderColor: 'border-sky-400' },
-  { id: 'evening-winddown', label: 'Evening Wind-Down', emoji: '🌙', borderColor: 'border-secondary/40' },
+  { id: 'morning-opening', label: 'Morning Opening', emoji: 'sunrise', borderColor: 'border-emerald-400' },
+  { id: 'mid-morning-practice', label: 'Core Practice', emoji: 'flower-2', borderColor: 'border-amber-400' },
+  { id: 'integration', label: 'Integration', emoji: 'leaf', borderColor: 'border-amber-300' },
+  { id: 'afternoon-exploration', label: 'Afternoon', emoji: 'sun', borderColor: 'border-sky-400' },
+  { id: 'evening-winddown', label: 'Evening Wind-Down', emoji: 'moon', borderColor: 'border-secondary/40' },
 ];
 
 // ─── User State Constants ───
@@ -53,12 +53,12 @@ export interface UserStateOption {
 }
 
 export const USER_STATES: UserStateOption[] = [
-  { id: 'exhausted', label: 'Exhausted', emoji: '😮‍💨', description: 'Burnt out, depleted, need rest' },
-  { id: 'restless', label: 'Restless', emoji: '💨', description: 'Agitated, can\'t settle, seeking movement' },
-  { id: 'numb', label: 'Numb', emoji: '🌫️', description: 'Disconnected, flat, lost the spark' },
-  { id: 'curious', label: 'Curious', emoji: '🌱', description: 'Open to explore, gently seeking' },
-  { id: 'open', label: 'Open', emoji: '✨', description: 'Ready to receive, feeling expansive' },
-  { id: 'anxious', label: 'Anxious', emoji: '🌀', description: 'Worried, tight, need grounding' },
+  { id: 'exhausted', label: 'Exhausted', emoji: 'cloud', description: 'Burnt out, depleted, need rest' },
+  { id: 'restless', label: 'Restless', emoji: 'wind', description: 'Agitated, can\'t settle, seeking movement' },
+  { id: 'numb', label: 'Numb', emoji: 'cloud-fog', description: 'Disconnected, flat, lost the spark' },
+  { id: 'curious', label: 'Curious', emoji: 'sprout', description: 'Open to explore, gently seeking' },
+  { id: 'open', label: 'Open', emoji: 'leaf', description: 'Ready to receive, feeling expansive' },
+  { id: 'anxious', label: 'Anxious', emoji: 'compass', description: 'Worried, tight, need grounding' },
 ];
 
 // ─── User Intention Constants ───
@@ -71,12 +71,12 @@ export interface UserIntentionOption {
 }
 
 export const USER_INTENTIONS: UserIntentionOption[] = [
-  { id: 'grounding', label: 'Grounding', emoji: '🌍', description: 'Feel rooted, stable, present in the body' },
-  { id: 'release', label: 'Release', emoji: '🌊', description: 'Let go of tension, emotions, old patterns' },
-  { id: 'connection', label: 'Connection', emoji: '🤝', description: 'Connect with self, others, or something larger' },
-  { id: 'stillness', label: 'Stillness', emoji: '🧘', description: 'Find inner quiet, peace, spaciousness' },
-  { id: 'joy', label: 'Joy', emoji: '🌸', description: 'Rekindle delight, playfulness, lightness' },
-  { id: 'clarity', label: 'Clarity', emoji: '💎', description: 'See clearly, gain insight, find direction' },
+  { id: 'grounding', label: 'Grounding', emoji: 'tree-pine', description: 'Feel rooted, stable, present in the body' },
+  { id: 'release', label: 'Release', emoji: 'waves', description: 'Let go of tension, emotions, old patterns' },
+  { id: 'connection', label: 'Connection', emoji: 'heart', description: 'Connect with self, others, or something larger' },
+  { id: 'stillness', label: 'Stillness', emoji: 'mountain', description: 'Find inner quiet, peace, spaciousness' },
+  { id: 'joy', label: 'Joy', emoji: 'flower-2', description: 'Rekindle delight, playfulness, lightness' },
+  { id: 'clarity', label: 'Clarity', emoji: 'eye', description: 'See clearly, gain insight, find direction' },
 ];
 
 // ─── Checkin Feeling Constants ───
@@ -89,11 +89,11 @@ export interface CheckinFeelingOption {
 }
 
 export const CHECKIN_FEELINGS: CheckinFeelingOption[] = [
-  { id: 'calm', label: 'Calm', emoji: '🌊', description: 'At peace, settled, relaxed' },
-  { id: 'neutral', label: 'Neutral', emoji: '🍃', description: 'Balanced, neither up nor down' },
-  { id: 'energized', label: 'Energized', emoji: '☀️', description: 'Vital, awake, ready for more' },
-  { id: 'flowing', label: 'Flowing', emoji: '🌿', description: 'Moving gently, in rhythm' },
-  { id: 'sparkling', label: 'Sparkling', emoji: '✨', description: 'Bright, uplifted, joyful' },
+  { id: 'calm', label: 'Calm', emoji: 'waves', description: 'At peace, settled, relaxed' },
+  { id: 'neutral', label: 'Neutral', emoji: 'leaf', description: 'Balanced, neither up nor down' },
+  { id: 'energized', label: 'Energized', emoji: 'sun', description: 'Vital, awake, ready for more' },
+  { id: 'flowing', label: 'Flowing', emoji: 'wind', description: 'Moving gently, in rhythm' },
+  { id: 'sparkling', label: 'Sparkling', emoji: 'flower-2', description: 'Bright, uplifted, joyful' },
 ];
 
 // ─── Activity & Energy Block Types ───

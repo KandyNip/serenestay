@@ -1,6 +1,7 @@
 'use client';
 
 import { USER_INTENTIONS, type UserIntention } from '@/lib/healing-types';
+import LucideIcon from './LucideIcon';
 
 interface IntentionChipsProps {
   selected: UserIntention[];
@@ -19,26 +20,27 @@ export default function IntentionChips({ selected, onChange, className = '' }: I
 
   return (
     <div className={className}>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
         {USER_INTENTIONS.map(intention => {
           const isSelected = selected.includes(intention.id);
           return (
             <button
               key={intention.id}
               onClick={() => toggle(intention.id)}
-              className={`
-                flex flex-col items-start gap-1 p-3 rounded-xl text-left
-                transition-all duration-200 border
-                ${isSelected
-                  ? 'bg-secondary text-white border-secondary shadow-sm'
-                  : 'bg-white text-primary/70 border-primary/15 hover:border-secondary/40 hover:text-secondary'
-                }
-              `}
+              style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '4px',
+                padding: '12px', borderRadius: '12px', textAlign: 'left',
+                transition: 'all 0.2s ease', cursor: 'pointer',
+                border: isSelected ? '1px solid var(--color-sky)' : '1px solid rgba(255,255,255,0.12)',
+                background: isSelected ? 'var(--color-sky)' : 'rgba(255,255,255,0.06)',
+                color: isSelected ? 'white' : 'rgba(255,255,255,0.7)',
+                boxShadow: isSelected ? '0 4px 12px rgba(91,143,168,0.3)' : 'none'
+              }}
               title={intention.description}
             >
-              <span className="text-xl">{intention.emoji}</span>
-              <span className="text-sm font-medium">{intention.label}</span>
-              <span className={`text-xs leading-tight ${isSelected ? 'text-white/80' : 'text-primary/50'}`}>
+              <LucideIcon name={intention.emoji} className="w-6 h-6" />
+              <span style={{ fontSize: '14px', fontWeight: 500 }}>{intention.label}</span>
+              <span style={{ fontSize: '12px', lineHeight: 1.4, color: isSelected ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.5)' }}>
                 {intention.description}
               </span>
             </button>
@@ -46,15 +48,12 @@ export default function IntentionChips({ selected, onChange, className = '' }: I
         })}
       </div>
       {selected.length === 0 && (
-        <p className="mt-2 text-xs text-primary/40">Select one or more intentions for your journey</p>
+        <p style={{ marginTop: '8px', fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>Select one or more intentions for your journey</p>
       )}
     </div>
   );
 }
 
-/**
- * Convert selected intention IDs to labels for the AI prompt
- */
 export function getIntentionLabels(ids: UserIntention[]): string[] {
   return ids.map(id => USER_INTENTIONS.find(i => i.id === id)?.label || id);
 }

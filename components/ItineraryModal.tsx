@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { X, Map, Calendar, Target, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { X, Map, Calendar, Target, Trash2, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
 import type { SavedItinerary } from '@/lib/itinerary-storage';
-import { getCategoryEmoji } from '@/lib/itinerary-images';
+import { getCategoryIconName } from '@/lib/itinerary-images';
+import LucideIcon from './LucideIcon';
 
 interface ItineraryModalProps {
   itinerary: SavedItinerary;
@@ -100,7 +101,7 @@ export default function ItineraryModal({ itinerary, onClose, onDelete }: Itinera
 
   const parsed = parseItinerary();
 
-  // Parse image tags like [wiki:Page_Title] or [cat:category] and render as emoji indicators
+  // Parse image tags like [wiki:Page_Title] or [cat:category] and render as icon indicators
   const renderLineWithImages = (line: string, key: string) => {
     // Match [wiki:Page_Title] or [cat:category] tags
     const imageTagRegex = /\[(wiki|cat):([^\]]+)\]/g;
@@ -116,18 +117,18 @@ export default function ItineraryModal({ itinerary, onClose, onDelete }: Itinera
 
       const [, type, value] = match;
       if (type === 'cat') {
-        // Category emoji indicator (no image — generic images are misleading)
-        const emoji = getCategoryEmoji(value);
+        // Category icon indicator (no image — generic images are misleading)
+        const iconName = getCategoryIconName(value);
         parts.push(
-          <span key={`${key}-${match.index}`} className="inline-flex items-center gap-0.5 mx-0.5 text-xs text-primary/60">
-            {emoji} {value}
+          <span key={`${key}-${match.index}`} className="inline-flex items-center gap-1 mx-1 text-xs text-primary/60">
+            <LucideIcon name={iconName} className="w-3.5 h-3.5" /> {value}
           </span>
         );
       } else if (type === 'wiki') {
         // Wikipedia place reference — show as a styled label
         parts.push(
-          <span key={`${key}-${match.index}`} className="inline-flex items-center gap-0.5 mx-0.5 text-xs text-primary/60">
-            📍 {value.replace(/_/g, ' ')}
+          <span key={`${key}-${match.index}`} className="inline-flex items-center gap-1 mx-1 text-xs text-primary/60">
+            <MapPin className="w-3.5 h-3.5" /> {value.replace(/_/g, ' ')}
           </span>
         );
       }

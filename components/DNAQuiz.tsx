@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { DNA_QUESTIONS } from '@/lib/dna-quiz';
+import LucideIcon from './LucideIcon';
 
 interface DNAQuizProps {
   onComplete: (answers: number[]) => void;
@@ -85,7 +86,7 @@ export default function DNAQuiz({ onComplete }: DNAQuizProps) {
                 className="w-full text-left bg-white rounded-xl p-4 border-2 border-transparent hover:border-[#52B788] transition-all duration-200 shadow-sm hover:shadow-md group"
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-2xl">{option.emoji}</span>
+                  <LucideIcon name={option.emoji} className="w-8 h-8 text-[#1B4332]" />
                   <div className="flex-1">
                     <div className="font-medium text-[#1B4332] group-hover:text-[#52B788] transition-colors">
                       {option.label}

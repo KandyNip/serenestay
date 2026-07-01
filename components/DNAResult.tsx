@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import type { DNAProfile, ScoreKey } from '@/lib/dna-quiz';
 import { QUICK_SHIFTS, applyQuickShift } from '@/lib/dna-quiz';
+import LucideIcon from './LucideIcon';
 
 const DIMENSION_LABELS: Record<ScoreKey, string> = {
   serenity: 'Serenity',
@@ -35,7 +36,7 @@ export default function DNAResult({ profile, onWeightsChange, onRetake, onViewMa
 
   // Share logic
   const shareUrl = 'https://howistoday.online/chat';
-  const shareText = `I'm a ${profile.emoji} ${profile.type}! What's your healing DNA? Discover yours →`;
+  const shareText = `I'm a ${profile.type}! What's your healing DNA? Discover yours →`;
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedText = encodeURIComponent(shareText);
 
@@ -173,7 +174,9 @@ export default function DNAResult({ profile, onWeightsChange, onRetake, onViewMa
 
         {/* Personality type header */}
         <div className="text-center mb-8">
-          <div className="text-5xl mb-3">{profile.emoji}</div>
+          <div className="mb-3 flex justify-center">
+            <LucideIcon name={profile.emoji} className="w-16 h-16 text-[#52B788]" />
+          </div>
           <h1 className="font-serif text-3xl text-[#1B4332] mb-2">
             {profile.type}
           </h1>
@@ -249,7 +252,9 @@ export default function DNAResult({ profile, onWeightsChange, onRetake, onViewMa
           className="rounded-xl p-5 mb-6 text-center"
           style={{ background: 'linear-gradient(135deg, #1B433210, #52B78810)' }}
         >
-          <p className="text-2xl mb-1">{profile.emoji}</p>
+          <div className="mb-1 flex justify-center">
+            <LucideIcon name={profile.emoji} className="w-10 h-10 text-[#52B788]" />
+          </div>
           <p className="font-serif text-lg text-[#1B4332] mb-1">I'm a {profile.type}</p>
           <p className="text-xs text-[#1B4332]/50 mb-4">What's your healing type?</p>
           <div className="flex justify-center gap-3">

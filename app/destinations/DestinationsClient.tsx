@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { Search, Filter, X, Compass, MapPin } from 'lucide-react';
 import DestinationCard from '@/components/DestinationCard';
 import { Destination } from '@/lib/types';
 
-// Region options — must match actual data regions
 const regions = [
   { value: '', label: 'All Regions' },
   { value: 'Southeast Asia', label: 'Southeast Asia' },
@@ -18,13 +17,29 @@ const regions = [
   { value: 'Africa', label: 'Africa' },
 ];
 
-// Sort options
 const sortOptions = [
   { value: 'name', label: 'Name A-Z' },
   { value: 'serenity', label: 'Highest Serenity' },
   { value: 'affordability', label: 'Most Affordable' },
   { value: 'wellness', label: 'Best Wellness' },
 ];
+
+const selectStyles = {
+  appearance: 'none' as const,
+  background: 'rgba(255,255,255,0.08)',
+  border: '1px solid rgba(255,255,255,0.12)',
+  borderRadius: 'var(--radius-xl)',
+  paddingLeft: '1rem',
+  paddingRight: '2.5rem',
+  paddingTop: '0.625rem',
+  paddingBottom: '0.625rem',
+  color: 'var(--color-white)',
+  fontSize: '0.875rem',
+  fontFamily: 'var(--font-body)',
+  cursor: 'pointer',
+  outline: 'none',
+  transition: 'all var(--transition-base)',
+};
 
 export default function DestinationsClient({
   initialDestinations,
@@ -40,16 +55,13 @@ export default function DestinationsClient({
   const [region, setRegion] = useState(initialRegion);
   const [sort, setSort] = useState(initialSort);
 
-  // Client-side filtering and sorting
   const destinations = useMemo(() => {
     let filtered = initialDestinations;
 
-    // Filter by region
     if (region) {
       filtered = filtered.filter((d) => d.region === region);
     }
 
-    // Sort
     const sorted = [...filtered];
     if (sort === 'name') {
       sorted.sort((a, b) => a.name.localeCompare(b.name));
@@ -64,7 +76,6 @@ export default function DestinationsClient({
     return sorted;
   }, [initialDestinations, region, sort]);
 
-  // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
     if (region) params.set('region', region);
@@ -74,7 +85,6 @@ export default function DestinationsClient({
     router.push(`/destinations${queryString ? `?${queryString}` : ''}`, { scroll: false });
   }, [region, sort, router]);
 
-  // Group destinations by region
   const groupedDestinations = destinations.reduce((acc, dest) => {
     const regionName = dest.region || 'Other';
     if (!acc[regionName]) {
@@ -84,7 +94,6 @@ export default function DestinationsClient({
     return acc;
   }, {} as Record<string, Destination[]>);
 
-  // Format region label
   const formatRegionLabel = (regionValue: string): string => {
     const found = regions.find(r => r.value === regionValue);
     return found?.label || regionValue;
@@ -92,53 +101,60 @@ export default function DestinationsClient({
 
   return (
     <div>
-      {/* Filters Bar */}
-      <div className="sticky top-16 lg:top-20 z-30 bg-surface/95 backdrop-blur-sm py-4 -mx-4 px-4 mb-8 border-b border-primary/10">
-        <div className="container-full mx-auto flex flex-wrap items-center justify-between gap-4">
-          {/* Filter Controls */}
+      <div
+        className="sticky z-30 py-4 -mx-4 px-4 mb-10"
+        style={{
+          top: '64px',
+          background: 'rgba(14,36,25,0.85)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+        }}
+      >
+        <div className="container-max mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            {/* Region Select */}
             <div className="relative">
               <select
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
-                className="appearance-none bg-white border border-primary/20 rounded-lg pl-4 pr-10 py-2.5 text-primary text-sm focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 cursor-pointer"
+                style={selectStyles}
                 aria-label="Filter by region"
+                className="hover:border-white/25 focus:border-[var(--color-sky-light)]"
               >
                 {regions.map((r) => (
-                  <option key={r.value} value={r.value}>
+                  <option key={r.value} value={r.value} style={{ background: 'var(--color-forest-deep)', color: 'var(--color-white)' }}>
                     {r.label}
                   </option>
                 ))}
               </select>
-              <SlidersHorizontal className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/50 pointer-events-none" />
+              <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--color-white-40)' }} />
             </div>
 
-            {/* Sort Select */}
             <div className="relative">
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="appearance-none bg-white border border-primary/20 rounded-lg pl-4 pr-10 py-2.5 text-primary text-sm focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 cursor-pointer"
+                style={selectStyles}
                 aria-label="Sort destinations"
+                className="hover:border-white/25 focus:border-[var(--color-sky-light)]"
               >
                 {sortOptions.map((s) => (
-                  <option key={s.value} value={s.value}>
+                  <option key={s.value} value={s.value} style={{ background: 'var(--color-forest-deep)', color: 'var(--color-white)' }}>
                     {s.label}
                   </option>
                 ))}
               </select>
-              <SlidersHorizontal className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/50 pointer-events-none" />
+              <Filter className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--color-white-40)' }} />
             </div>
 
-            {/* Clear Filters */}
             {(region || sort !== 'name') && (
               <button
                 onClick={() => {
                   setRegion('');
                   setSort('name');
                 }}
-                className="flex items-center gap-1.5 px-3 py-2 text-sm text-secondary hover:text-secondary-600 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-2.5 text-sm transition-colors rounded-xl hover:bg-white/5"
+                style={{ color: 'var(--color-white-60)', fontFamily: 'var(--font-body)' }}
               >
                 <X className="w-4 h-4" />
                 Clear
@@ -146,21 +162,31 @@ export default function DestinationsClient({
             )}
           </div>
 
-          {/* Results Count */}
-          <p className="text-sm text-primary/60">
+          <p className="text-sm flex items-center gap-2" style={{ color: 'var(--color-white-60)', fontFamily: 'var(--font-body)' }}>
+            <Compass className="w-4 h-4" style={{ color: 'var(--color-moss)' }} />
             {destinations.length} destination{destinations.length !== 1 ? 's' : ''}
           </p>
         </div>
       </div>
 
-      {/* Empty State */}
       {destinations.length === 0 && (
-        <div className="text-center py-16">
-          <Search className="w-16 h-16 text-primary/20 mx-auto mb-4" />
-          <h3 className="font-serif text-xl text-primary mb-2">
+        <div className="text-center py-20">
+          <div
+            className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+            style={{ background: 'rgba(255,255,255,0.06)' }}
+          >
+            <Search className="w-10 h-10" style={{ color: 'rgba(255,255,255,0.3)' }} />
+          </div>
+          <h3
+            className="text-2xl mb-3"
+            style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}
+          >
             No destinations found
           </h3>
-          <p className="text-primary/60 mb-4">
+          <p
+            className="mb-8 max-w-md mx-auto"
+            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}
+          >
             Try adjusting your filters or exploring a different region.
           </p>
           <button
@@ -168,17 +194,15 @@ export default function DestinationsClient({
               setRegion('');
               setSort('name');
             }}
-            className="btn-outline"
+            className="btn-outline-light"
           >
             Clear All Filters
           </button>
         </div>
       )}
 
-      {/* Destinations Grid */}
       {destinations.length > 0 && (
         <div>
-          {/* If filtering by region, show simple grid */}
           {region ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {destinations.map((destination, index) => (
@@ -190,21 +214,25 @@ export default function DestinationsClient({
               ))}
             </div>
           ) : (
-            /* Grouped by region */
             Object.entries(groupedDestinations).map(([regionName, dests]) => (
-              <div key={regionName} className="mb-12">
-                {/* Region Header */}
+              <div key={regionName} className="mb-14">
                 <div className="flex items-center gap-4 mb-6">
-                  <h2 className="font-serif text-2xl text-primary">
+                  <h2
+                    className="flex items-center gap-2 text-2xl"
+                    style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}
+                  >
+                    <MapPin className="w-5 h-5" style={{ color: 'var(--color-moss)' }} />
                     {formatRegionLabel(regionName)}
                   </h2>
-                  <div className="flex-1 h-px bg-primary/10" />
-                  <span className="text-sm text-primary/50">
+                  <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
+                  <span
+                    className="text-sm"
+                    style={{ color: 'var(--color-white-40)', fontFamily: 'var(--font-body)' }}
+                  >
                     {dests.length} destination{dests.length !== 1 ? 's' : ''}
                   </span>
                 </div>
 
-                {/* Region Grid */}
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {dests.map((destination, index) => (
                     <DestinationCard

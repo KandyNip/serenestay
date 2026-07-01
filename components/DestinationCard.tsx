@@ -1,172 +1,137 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { AlertTriangle, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { Destination } from '@/lib/types';
 
 interface DestinationCardProps {
   destination: Destination;
-  priority?: boolean; // For above-the-fold images
+  priority?: boolean;
 }
 
-/**
- * DestinationCard Component
- * Displays a destination summary with image, name, and key info
- */
+const healingTagLabels: Record<string, string> = {
+  'yoga': 'Yoga',
+  'meditation': 'Meditation',
+  'temple-stay': 'Temple Stay',
+  'forest-bathing': 'Forest Bathing',
+  'hot-springs': 'Hot Springs',
+  'sound-healing': 'Sound Healing',
+  'ayurveda': 'Ayurveda',
+  'thai-massage': 'Thai Massage',
+  'mindfulness': 'Mindfulness',
+  'tea-ceremony': 'Tea Ceremony',
+  'digital-detox': 'Digital Detox',
+  'breathwork': 'Breathwork',
+  'surf-therapy': 'Surf Therapy',
+  'reiki': 'Reiki',
+  'qigong': 'Qigong',
+  'kirtan': 'Kirtan',
+  'ocean-therapy': 'Ocean Therapy',
+  'balinese-massage': 'Balinese Massage',
+  'cacao-ceremony': 'Cacao Ceremony',
+  'detox': 'Detox',
+  'ecstatic-dance': 'Ecstatic Dance',
+  'hiking-meditation': 'Hiking Meditation',
+  'nature-therapy': 'Nature Therapy',
+  'vipassana': 'Vipassana',
+  'wild-swimming': 'Wild Swimming',
+  'zen-retreat': 'Zen Retreat',
+  'yoga-therapy': 'Yoga Therapy',
+  'island-meditation': 'Island Meditation',
+  'sunrise-hiking': 'Sunrise Hiking',
+  'sunset-meditation': 'Sunset Meditation',
+};
+
 export default function DestinationCard({
   destination,
-  priority = false,
 }: DestinationCardProps) {
-  // Healing tag display mapping — covers all 46 tags in the database
-  const healingTagLabels: Record<string, { emoji: string; label: string }> = {
-    // Original 16 that exist in DB
-    'yoga': { emoji: '🧘', label: 'Yoga' },
-    'meditation': { emoji: '🧠', label: 'Meditation' },
-    'temple-stay': { emoji: '🛕', label: 'Temple Stay' },
-    'forest-bathing': { emoji: '🌲', label: 'Forest Bathing' },
-    'hot-springs': { emoji: '♨️', label: 'Hot Springs' },
-    'sound-healing': { emoji: '🔔', label: 'Sound Healing' },
-    'ayurveda': { emoji: '🌿', label: 'Ayurveda' },
-    'thai-massage': { emoji: '💆', label: 'Thai Massage' },
-    'mindfulness': { emoji: '🕯️', label: 'Mindfulness' },
-    'tea-ceremony': { emoji: '🍵', label: 'Tea Ceremony' },
-    'digital-detox': { emoji: '📵', label: 'Digital Detox' },
-    'breathwork': { emoji: '🌬️', label: 'Breathwork' },
-    'surf-therapy': { emoji: '🏄', label: 'Surf Therapy' },
-    'reiki': { emoji: '✋', label: 'Reiki' },
-    'qigong': { emoji: '☯️', label: 'Qigong' },
-    'kirtan': { emoji: '🎶', label: 'Kirtan' },
-    // Additional 30 tags from database
-    'ocean-therapy': { emoji: '🌊', label: 'Ocean Therapy' },
-    'balinese-massage': { emoji: '💆', label: 'Balinese Massage' },
-    'cacao-ceremony': { emoji: '🍫', label: 'Cacao Ceremony' },
-    'detox': { emoji: '🥗', label: 'Detox' },
-    'ecstatic-dance': { emoji: '💃', label: 'Ecstatic Dance' },
-    'hiking-meditation': { emoji: '🥾', label: 'Hiking Meditation' },
-    'nature-therapy': { emoji: '🌿', label: 'Nature Therapy' },
-    'vipassana': { emoji: '🧘', label: 'Vipassana' },
-    'wild-swimming': { emoji: '🏊', label: 'Wild Swimming' },
-    'tantra': { emoji: '🔥', label: 'Tantra' },
-    'shamanic-journey': { emoji: '🔮', label: 'Shamanic Journey' },
-    'community-healing': { emoji: '🤲', label: 'Community Healing' },
-    'coworking-wellness': { emoji: '💻', label: 'Co-working Wellness' },
-    'longevity-wellness': { emoji: '✨', label: 'Longevity' },
-    'nomad-community': { emoji: '🫂', label: 'Nomad Community' },
-    'volunteer-healing': { emoji: '🤝', label: 'Volunteer Healing' },
-    'water-purification': { emoji: '💧', label: 'Water Purification' },
-    'mediterranean-diet-wellness': { emoji: '🫒', label: 'Mediterranean Diet' },
-    'spice-therapy': { emoji: '🌶️', label: 'Spice Therapy' },
-    'island-meditation': { emoji: '🏝️', label: 'Island Meditation' },
-    'sunrise-hiking': { emoji: '🌅', label: 'Sunrise Hiking' },
-    'sunset-meditation': { emoji: '🌇', label: 'Sunset Meditation' },
-    'birdwatching-meditation': { emoji: '🦜', label: 'Birdwatching Meditation' },
-    'volcano-hiking': { emoji: '🌋', label: 'Volcano Hiking' },
-    'alms-ceremony': { emoji: '🙏', label: 'Alms Ceremony' },
-    'lantern-ceremony': { emoji: '🏮', label: 'Lantern Ceremony' },
-    'cold-exposure': { emoji: '❄️', label: 'Cold Exposure' },
-    'temazcal': { emoji: '🔥', label: 'Temazcal' },
-    'zen-retreat': { emoji: '⛩️', label: 'Zen Retreat' },
-    'yoga-therapy': { emoji: '🧘', label: 'Yoga Therapy' },
-  };
-
-  // Get top 2 healing tags for display
-  const topHealingTags = destination.healingTags.slice(0, 2).map(tag => {
-    const mapped = healingTagLabels[tag];
-    return mapped || { emoji: '✨', label: tag.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ') };
+  const topHealingTags = (destination.healingTags ?? []).slice(0, 2).map((tag: string) => {
+    return healingTagLabels[tag] || tag.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
   });
+
+  const imageSrc = destination.images[0];
+  const monthCost = destination.monthlyCost?.budget ?? 800;
+  const bestMonths = (destination.bestSeason?.months ?? []).slice(0, 2).join(', ');
 
   return (
     <Link
       href={`/destinations/${destination.slug}`}
-      className="group block rounded-xl overflow-hidden bg-white shadow-card card-hover"
+      className="group block rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02]"
+      style={{
+        background: 'var(--glass-bg)',
+        backdropFilter: 'var(--glass-blur)',
+        WebkitBackdropFilter: 'var(--glass-blur)',
+        border: '1px solid var(--glass-border)',
+      }}
       aria-label={`View details for ${destination.name}, ${destination.country}`}
     >
-      {/* Image Container */}
-      <div className="relative h-48 sm:h-56 overflow-hidden">
-        <Image
-          src={destination.images[0]}
+      <div className="relative h-52 sm:h-56 overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imageSrc}
           alt={`${destination.name}, ${destination.country}`}
-          fill
-          priority={priority}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent" />
-        
-        {/* Veto Warning Icon */}
-        {destination.vetoWarning && (
-          <div className="absolute top-3 left-3 bg-warning/90 backdrop-blur-sm text-primary text-xs font-medium px-2 py-1 rounded-full flex items-center gap-1">
-            <AlertTriangle className="w-3 h-3" />
-            <span>Heads up</span>
-          </div>
-        )}
-
-        {/* Location Tag */}
-        <div className="absolute bottom-3 left-3 flex items-center gap-1.5 text-white text-sm">
-          <MapPin className="w-4 h-4" />
-          <span>{destination.country}</span>
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to top, rgba(14,36,25,0.85) 0%, rgba(14,36,25,0.3) 40%, transparent 70%)',
+          }}
+        />
+        <div className="absolute bottom-3 left-3 flex items-center gap-1.5 text-sm" style={{ color: 'rgba(255,255,255,0.85)' }}>
+          <MapPin className="w-3.5 h-3.5" />
+          <span style={{ fontFamily: 'var(--font-body)' }}>{destination.country}</span>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-4">
-        <h3 className="font-serif text-xl text-primary group-hover:text-secondary transition-colors">
+      <div className="p-5">
+        <h3
+          className="text-lg transition-colors group-hover:text-[var(--color-sky-light)]"
+          style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}
+        >
           {destination.name}
         </h3>
-        <p className="mt-1 text-sm text-primary/60 line-clamp-2">
+        <p
+          className="mt-1 text-sm line-clamp-2"
+          style={{ color: 'var(--color-white-50)', fontFamily: 'var(--font-body)', fontStyle: 'italic' }}
+        >
           {destination.tagline}
         </p>
 
-        {/* Best For — top 2 healing tags */}
         {topHealingTags.length > 0 && (
-          <div className="mt-2 flex items-center gap-1.5">
-            <span className="text-xs text-primary/40">Best for</span>
-            {topHealingTags.map((tag) => (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {topHealingTags.map((label: string) => (
               <span
-                key={tag.label}
-                className="inline-flex items-center gap-0.5 text-xs bg-secondary/8 text-secondary px-2 py-0.5 rounded-full"
+                key={label}
+                className="text-[11px] px-2 py-0.5 rounded-full"
+                style={{
+                  background: 'rgba(107,158,126,0.15)',
+                  color: 'var(--color-moss)',
+                  fontFamily: 'var(--font-body)',
+                }}
               >
-                <span>{tag.emoji}</span>
-                <span>{tag.label}</span>
+                {label}
               </span>
             ))}
           </div>
         )}
 
-        {/* Tags Preview */}
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {destination.tags.slice(0, 3).map((tag) => (
-            <span
-              key={tag}
-              className="text-xs bg-surface px-2 py-0.5 rounded-full text-primary/70"
-            >
-              {tag}
-            </span>
-          ))}
-          {destination.tags.length > 3 && (
-            <span className="text-xs text-primary/50">
-              +{destination.tags.length - 3}
-            </span>
-          )}
-        </div>
-
-        {/* Quick Stats */}
-        <div className="mt-4 pt-3 border-t border-primary/10 flex items-center justify-between">
+        <div className="mt-4 pt-3 flex items-center justify-between" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="flex items-center gap-1">
-            <span className="text-xs text-primary/50">From</span>
-            <span className="font-mono text-sm font-semibold text-primary">
-              ${destination.monthlyCost.budget}
+            <span className="text-xs" style={{ color: 'var(--color-white-40)' }}>From</span>
+            <span
+              className="font-mono text-sm font-semibold"
+              style={{ color: 'var(--color-sand)' }}
+            >
+              ${monthCost}
             </span>
-            <span className="text-xs text-primary/50">/month</span>
+            <span className="text-xs" style={{ color: 'var(--color-white-40)' }}>/mo</span>
           </div>
-          
-          <div className="flex items-center gap-2 text-xs text-primary/60">
-            <span className="flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-              Best: {destination.bestSeason.months.slice(0, 2).join(', ')}
-            </span>
-          </div>
+
+          {bestMonths && (
+            <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-white-40)' }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--color-canopy)' }} />
+              <span style={{ fontFamily: 'var(--font-body)' }}>{bestMonths}</span>
+            </div>
+          )}
         </div>
       </div>
     </Link>

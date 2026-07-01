@@ -3,6 +3,13 @@
 import { useState, useRef, KeyboardEvent } from 'react';
 import { Send, Loader2 } from 'lucide-react';
 
+const glassInput = {
+  background: 'rgba(255,255,255,0.06)',
+  border: '1px solid rgba(255,255,255,0.12)',
+  borderRadius: '12px',
+  transition: 'all 0.2s'
+} as React.CSSProperties;
+
 interface ItineraryChatInputProps {
   onSend: (message: string) => void;
   placeholder?: string;
@@ -41,7 +48,11 @@ export default function ItineraryChatInput({
   };
 
   return (
-    <div className="relative flex items-end gap-2 p-3 bg-white border border-primary/15 rounded-xl focus-within:border-secondary/40 focus-within:ring-2 focus-within:ring-secondary/10 transition-all">
+    <div style={{
+      ...glassInput,
+      display: 'flex', alignItems: 'flex-end', gap: '8px',
+      padding: '12px'
+    }}>
       <textarea
         ref={textareaRef}
         value={value}
@@ -51,12 +62,25 @@ export default function ItineraryChatInput({
         placeholder={placeholder}
         disabled={disabled || isLoading}
         rows={1}
-        className="flex-1 resize-none bg-transparent text-primary placeholder:text-primary/40 text-sm leading-relaxed focus:outline-none disabled:opacity-50 min-h-[36px] max-h-[120px]"
+        style={{
+          flex: 1, resize: 'none', background: 'transparent',
+          color: 'white', fontSize: '14px', lineHeight: 1.6,
+          outline: 'none', border: 'none',
+          minHeight: '36px', maxHeight: '120px',
+          opacity: disabled || isLoading ? 0.5 : 1
+        }}
+        className="placeholder-white/40"
       />
       <button
         onClick={handleSend}
         disabled={isLoading || disabled}
-        className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-lg bg-secondary text-white hover:bg-secondary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{
+          flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          width: '36px', height: '36px', borderRadius: '8px',
+          background: 'var(--color-sky)', color: 'white',
+          border: 'none', cursor: 'pointer', transition: 'opacity 0.2s',
+          opacity: (isLoading || disabled) ? 0.5 : 1
+        }}
         aria-label="Send"
       >
         {isLoading ? (

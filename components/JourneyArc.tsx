@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Sprout, Leaf, TreeDeciduous } from 'lucide-react';
 import type { JourneyPhase } from '@/lib/healing-types';
 
 interface JourneyArcProps {
@@ -8,10 +9,10 @@ interface JourneyArcProps {
   className?: string;
 }
 
-const PHASES: { id: JourneyPhase; label: string; emoji: string; description: string }[] = [
-  { id: 'arrival', label: 'Arrival', emoji: '🌱', description: 'Gentle grounding & settling in' },
-  { id: 'deepening', label: 'Deepening', emoji: '🌿', description: 'Core healing work & exploration' },
-  { id: 'integration', label: 'Integration', emoji: '🌳', description: 'Synthesis & preparing to return' },
+const PHASES: { id: JourneyPhase; label: string; icon: React.ReactNode; description: string }[] = [
+  { id: 'arrival', label: 'Arrival', icon: <Sprout className="w-5 h-5" />, description: 'Gentle grounding & settling in' },
+  { id: 'deepening', label: 'Deepening', icon: <Leaf className="w-5 h-5" />, description: 'Core healing work & exploration' },
+  { id: 'integration', label: 'Integration', icon: <TreeDeciduous className="w-5 h-5" />, description: 'Synthesis & preparing to return' },
 ];
 
 export default function JourneyArc({ currentPhase, className = '' }: JourneyArcProps) {
@@ -19,13 +20,18 @@ export default function JourneyArc({ currentPhase, className = '' }: JourneyArcP
 
   return (
     <div className={className}>
-      {/* Visual river/path */}
-      <div className="flex items-center justify-between relative">
-        {/* Connecting line */}
-        <div className="absolute top-1/2 left-[15%] right-[15%] h-0.5 bg-primary/10 -translate-y-1/2">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
+        <div style={{
+          position: 'absolute', top: '50%', left: '15%', right: '15%',
+          height: '2px', background: 'rgba(255,255,255,0.08)',
+          transform: 'translateY(-50%)'
+        }}>
           <div
-            className="h-full bg-secondary transition-all duration-500"
-            style={{ width: `${currentIndex === 0 ? 0 : currentIndex === 1 ? 50 : 100}%` }}
+            style={{
+              height: '100%', background: 'var(--color-sky)',
+              transition: 'all 0.5s ease',
+              width: `${currentIndex === 0 ? 0 : currentIndex === 1 ? 50 : 100}%`
+            }}
           />
         </div>
 
@@ -34,35 +40,59 @@ export default function JourneyArc({ currentPhase, className = '' }: JourneyArcP
           const isCurrent = phase.id === currentPhase;
           const isFuture = index > currentIndex;
 
+          let circleBg: string;
+          let circleBorder: string;
+          let textColor: string;
+          let labelColor: string;
+          let descColor: string;
+          let scale = 1;
+
+          if (isCurrent) {
+            circleBg = 'var(--color-sky)';
+            circleBorder = 'var(--color-sky)';
+            textColor = 'white';
+            labelColor = 'var(--color-sky)';
+            descColor = 'rgba(255,255,255,0.6)';
+            scale = 1.1;
+          } else if (isPast) {
+            circleBg = 'rgba(91, 143, 168, 0.2)';
+            circleBorder = 'rgba(91, 143, 168, 0.4)';
+            textColor = 'var(--color-sky)';
+            labelColor = 'rgba(255,255,255,0.6)';
+            descColor = 'rgba(255,255,255,0.3)';
+          } else {
+            circleBg = 'rgba(255,255,255,0.06)';
+            circleBorder = 'rgba(255,255,255,0.12)';
+            textColor = 'rgba(255,255,255,0.3)';
+            labelColor = 'rgba(255,255,255,0.3)';
+            descColor = 'rgba(255,255,255,0.2)';
+          }
+
           return (
-            <div key={phase.id} className="flex flex-col items-center z-10 relative">
-              {/* Phase circle */}
+            <div key={phase.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 10, position: 'relative' }}>
               <div
-                className={`
-                  w-12 h-12 rounded-full flex items-center justify-center text-xl
-                  transition-all duration-300 border-2
-                  ${isCurrent
-                    ? 'bg-secondary text-white border-secondary shadow-md scale-110'
-                    : isPast
-                      ? 'bg-secondary/20 text-secondary border-secondary/40'
-                      : 'bg-white text-primary/30 border-primary/15'
-                  }
-                `}
+                style={{
+                  width: '48px', height: '48px', borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '20px', transition: 'all 0.3s ease',
+                  border: `2px solid ${circleBorder}`,
+                  background: circleBg,
+                  color: textColor,
+                  transform: `scale(${scale})`,
+                  boxShadow: isCurrent ? '0 4px 12px rgba(91,143,168,0.3)' : 'none'
+                }}
               >
-                {phase.emoji}
+                {phase.icon}
               </div>
 
-              {/* Label */}
-              <span className={`mt-2 text-xs font-medium ${
-                isCurrent ? 'text-secondary' : isPast ? 'text-primary/60' : 'text-primary/30'
-              }`}>
+              <span style={{ marginTop: '8px', fontSize: '12px', fontWeight: 500, color: labelColor }}>
                 {phase.label}
               </span>
 
-              {/* Description */}
-              <span className={`text-[10px] text-center max-w-[80px] leading-tight mt-0.5 ${
-                isCurrent ? 'text-primary/60' : 'text-primary/30'
-              }`}>
+              <span style={{
+                fontSize: '10px', textAlign: 'center', maxWidth: '80px',
+                lineHeight: 1.3, marginTop: '2px', color: descColor
+              }}>
                 {phase.description}
               </span>
             </div>

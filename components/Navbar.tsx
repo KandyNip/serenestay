@@ -10,27 +10,22 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 80);
     };
-
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Navigation links
   const navLinks = [
-    { href: '/', label: 'Home' },
     { href: '/destinations', label: 'Destinations' },
-    { href: '/favorites', label: 'Saved' },
     { href: '/pricing', label: 'Pricing' },
     { href: '/about', label: 'About' },
+    { href: '/journal', label: 'Journal' },
     { href: '/contact', label: 'Contact' },
   ];
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -42,99 +37,118 @@ export default function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
-  // 行程页有自己的导航header，不渲染全局Navbar
   if (pathname?.startsWith('/itinerary/')) return null;
+
+  const navBg = isScrolled
+    ? 'rgba(14,36,25,0.88)'
+    : 'rgba(14,36,25,0.7)';
+  const navBlur = isScrolled ? 'blur(24px)' : 'blur(20px)';
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled || isMobileMenuOpen
-            ? 'bg-surface shadow-soft'
-            : 'bg-transparent'
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        style={{
+          background: navBg,
+          backdropFilter: navBlur,
+          WebkitBackdropFilter: navBlur,
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+        }}
         role="banner"
       >
-        <nav className="px-4 sm:px-6 lg:px-8" role="navigation" aria-label="Main navigation">
-          <div className="flex items-center justify-between h-16 lg:h-20">
-            {/* Logo */}
+        <nav className="px-6 md:px-10" role="navigation" aria-label="Main navigation">
+          <div className="flex items-center justify-between h-16 md:h-20">
             <Link
               href="/"
-              className="font-serif text-2xl text-primary hover:text-secondary transition-colors duration-200"
-              aria-label="SereneStay.ai - Home"
+              className="text-xl md:text-2xl italic tracking-wide text-white hover:text-sky-light transition-colors duration-300"
+              style={{ fontFamily: 'var(--font-display)' }}
+              aria-label="SereneStay - Home"
             >
-              SereneStay.ai
+              SereneStay
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-primary/80 hover:text-secondary font-medium transition-colors duration-200 relative group"
+                  className="text-sm tracking-wide text-white/60 hover:text-white transition-colors duration-300"
+                  style={{ fontFamily: 'var(--font-body)' }}
                 >
                   {link.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-200 group-hover:w-full" />
                 </Link>
               ))}
             </div>
 
-            {/* CTA Button - Desktop */}
             <Link
               href="/chat"
-              className="hidden md:inline-flex btn-secondary text-sm"
-              aria-label="Start your journey with Serene AI"
+              className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 hover:scale-105"
+              style={{
+                fontFamily: 'var(--font-body)',
+                background: 'var(--color-sky)',
+                color: 'var(--color-white)',
+              }}
             >
-              Start Your Journey
+              Find Your Retreat
             </Link>
 
-            {/* Mobile Menu Button */}
             <button
               type="button"
-              className="md:hidden p-2 text-primary hover:text-secondary transition-colors"
+              className="md:hidden flex flex-col gap-1.5 p-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 text-white" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <>
+                  <span className="block w-6 h-0.5 rounded bg-white transition-transform" />
+                  <span className="block w-6 h-0.5 rounded bg-white transition-opacity" />
+                  <span className="block w-6 h-0.5 rounded bg-white transition-transform" />
+                </>
               )}
             </button>
           </div>
         </nav>
       </header>
 
-      {/* Mobile Menu Overlay - separate from header to avoid nesting fixed elements */}
-      {isMobileMenuOpen && (
-        <div
-          id="mobile-menu"
-          className="fixed inset-0 top-16 md:hidden z-40 bg-surface overflow-y-auto"
+      <div
+        id="mobile-menu"
+        className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 md:hidden transition-opacity duration-300"
+        style={{
+          background: 'rgba(14,36,25,0.95)',
+          backdropFilter: 'blur(28px)',
+          WebkitBackdropFilter: 'blur(28px)',
+          opacity: isMobileMenuOpen ? 1 : 0,
+          pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
+        }}
+      >
+        {navLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="text-3xl text-white hover:text-sky-light transition-colors duration-300"
+            style={{ fontFamily: 'var(--font-display)' }}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {link.label}
+          </Link>
+        ))}
+        <Link
+          href="/chat"
+          className="mt-4 inline-flex items-center justify-center px-8 py-3 text-base font-semibold rounded-full transition-all duration-300 hover:scale-105"
+          style={{
+            fontFamily: 'var(--font-body)',
+            background: 'var(--color-sky)',
+            color: 'var(--color-white)',
+          }}
+          onClick={() => setIsMobileMenuOpen(false)}
         >
-          <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-6 py-8 space-y-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="font-serif text-2xl text-primary hover:text-secondary transition-colors duration-200 py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/chat"
-              className="btn-secondary text-base px-8 py-3 mt-4"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Start Your Journey
-            </Link>
-          </div>
-        </div>
-      )}
+          Find Your Retreat
+        </Link>
+      </div>
     </>
   );
 }

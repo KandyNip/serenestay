@@ -1,22 +1,23 @@
 import type { Metadata } from 'next';
-import { DM_Serif_Display, DM_Sans, JetBrains_Mono } from 'next/font/google';
+import { Playfair_Display, Nunito, JetBrains_Mono } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
+import ScrollReveal from '@/components/ScrollReveal';
 
-// Font configurations
-const dmSerifDisplay = DM_Serif_Display({
-  weight: '400',
+const playfairDisplay = Playfair_Display({
+  weight: ['400', '500', '700'],
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-serif',
+  variable: '--font-display',
 });
 
-const dmSans = DM_Sans({
+const nunito = Nunito({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-sans',
+  weight: ['300', '400', '600', '700'],
+  variable: '--font-body',
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -25,47 +26,50 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
 });
 
-// Site metadata
 export const metadata: Metadata = {
   metadataBase: new URL('https://howistoday.online'),
   title: {
-    default: 'SereneStay.ai — AI-Matched Healing Stays',
-    template: '%s | SereneStay.ai',
+    default: 'SereneStay — The Place You Need Already Exists',
+    template: '%s | SereneStay',
   },
   description:
-    'Tell us how you feel. Get AI-matched to a healing stay — yoga in Bali, temple stays in Thailand, forest bathing in Japan. 56 curated places, 9-dimension scoring, free to start.',
+    'We find healing retreats that were waiting for you. Tell us how you feel — discover yoga in Bali, temple stays in Thailand, forest bathing in Japan, and hot spring sanctuaries worldwide.',
   keywords: [
-    'healing stay',
+    'healing retreat',
     'wellness travel',
     'serenity',
-    'nature healing stay',
+    'nature retreat',
     'wellness destination',
     'mindfulness travel',
+    'forest bathing',
+    'hot springs',
+    'yoga retreat',
+    'meditation retreat',
   ],
-  authors: [{ name: 'SereneStay.ai' }],
-  creator: 'SereneStay.ai',
+  authors: [{ name: 'SereneStay' }],
+  creator: 'SereneStay',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://howistoday.online',
-    siteName: 'SereneStay.ai',
-    title: 'SereneStay.ai — AI-Matched Healing Stays',
+    siteName: 'SereneStay',
+    title: 'SereneStay — The Place You Need Already Exists',
     description:
-      'Tell us how you feel. Get AI-matched to a healing stay — yoga in Bali, temple stays in Thailand, forest bathing in Japan.',
+      'We find healing retreats that were waiting for you. Tell us how you feel — discover your perfect sanctuary.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'SereneStay.ai — AI-Powered Healing Stay Matching',
+        alt: 'SereneStay — Find Your Healing Retreat',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SereneStay.ai — AI-Matched Healing Stays',
+    title: 'SereneStay — The Place You Need Already Exists',
     description:
-      'Tell us how you feel. Get AI-matched to a healing stay — yoga in Bali, temple stays in Thailand, forest bathing in Japan.',
+      'We find healing retreats that were waiting for you. Tell us how you feel.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -93,18 +97,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSerifDisplay.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      className={`${playfairDisplay.variable} ${nunito.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-screen flex flex-col bg-surface">
+      <body className="min-h-screen flex flex-col bg-forest-deep text-white antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "SereneStay.ai",
+              name: "SereneStay",
               url: "https://howistoday.online",
-              description: "AI-powered healing stay matching platform",
+              description: "Find healing retreats matched to how you feel",
               email: "support@howistoday.online",
             }),
           }}
@@ -115,7 +119,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "SereneStay.ai",
+              name: "SereneStay",
               url: "https://howistoday.online",
               potentialAction: {
                 "@type": "SearchAction",
@@ -128,6 +132,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ScrollReveal />
         <Analytics />
       </body>
     </html>

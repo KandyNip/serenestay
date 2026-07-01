@@ -11,8 +11,10 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
+import { MapPin, Compass, Heart } from 'lucide-react';
 import type { DNAProfile, ScoreKey } from '@/lib/dna-quiz';
 import { addFavorite, removeFavorite, getFavorites } from '@/lib/favorites';
+import LucideIcon from './LucideIcon';
 
 const DIMENSION_LABELS: Record<ScoreKey, string> = {
   serenity: 'Serenity',
@@ -27,23 +29,6 @@ const DIMENSION_LABELS: Record<ScoreKey, string> = {
 };
 
 const DIMENSIONS: ScoreKey[] = ['serenity', 'nature', 'climate', 'affordability', 'wellness', 'community', 'wifi', 'visa', 'medical'];
-
-// Country flag emoji mapping
-const COUNTRY_FLAGS: Record<string, string> = {
-  'Thailand': '🇹🇭', 'Indonesia': '🇮🇩', 'Vietnam': '🇻🇳', 'Japan': '🇯🇵',
-  'Portugal': '🇵🇹', 'Spain': '🇪🇸', 'Mexico': '🇲🇽', 'Costa Rica': '🇨🇷',
-  'Malaysia': '🇲🇾', 'Sri Lanka': '🇱🇰', 'Nepal': '🇳🇵', 'India': '🇮🇳',
-  'Greece': '🇬🇷', 'Italy': '🇮🇹', 'Turkey': '🇹🇷', 'Morocco': '🇲🇦',
-  'Colombia': '🇨🇴', 'Peru': '🇵🇪', 'Argentina': '🇦🇷', 'Brazil': '🇧🇷',
-  'Philippines': '🇵🇭', 'Cambodia': '🇰🇭', 'Laos': '🇱🇦', 'Myanmar': '🇲🇲',
-  'South Korea': '🇰🇷', 'Taiwan': '🇹🇼', 'China': '🇨🇳', 'France': '🇫🇷',
-  'Germany': '🇩🇪', 'Netherlands': '🇳🇱', 'Czech Republic': '🇨🇿',
-  'Hungary': '🇭🇺', 'Poland': '🇵🇱', 'Croatia': '🇭🇷', 'Malta': '🇲🇹',
-  'Cyprus': '🇨🇾', 'Georgia': '🇬🇪', 'Armenia': '🇦🇲', 'Bali': '🇮🇩',
-  'New Zealand': '🇳🇿', 'Australia': '🇦🇺', 'Canada': '🇨🇦', 'USA': '🇺🇸',
-  'South Africa': '🇿🇦', 'Kenya': '🇰🇪', 'Tanzania': '🇹🇿', 'Mauritius': '🇲🇺',
-  'Egypt': '🇪🇬', 'Jordan': '🇯🇴', 'UAE': '🇦🇪', 'Oman': '🇴🇲',
-};
 
 const DEST_COLORS = ['#2D6A4F', '#D4A373', '#5B8FB9', '#c2785c', '#7B68EE'];
 
@@ -157,19 +142,19 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
         fetchMatches(data.adjustedWeights, newFilters);
 
         // 构建消息
-        let message = `🔄 Compass Updated — ${data.explanation}`;
+        let message = `Compass Updated — ${data.explanation}`;
         const filterParts: string[] = [];
         if (newFilters.requiredGeoTags?.length) filterParts.push(newFilters.requiredGeoTags.join(' + '));
         if (newFilters.excludedGeoTags?.length) filterParts.push(`no ${newFilters.excludedGeoTags.join('/no ')}`);
         if (newFilters.budgetMax) filterParts.push(`under $${newFilters.budgetMax}/mo`);
         if (newFilters.requiredTags?.length) filterParts.push(newFilters.requiredTags.join(', '));
-        if (filterParts.length > 0) message += ` 📍 Filtering for: ${filterParts.join(', ')}`;
+        if (filterParts.length > 0) message += ` — Filtering for: ${filterParts.join(', ')}`;
         setAdjustMessage(message);
       }
       setChatInput('');
     } catch (err) {
       console.error('[CompassMatch] adjust error:', err);
-      setAdjustMessage('❌ Something went wrong. Please try again.');
+      setAdjustMessage('Something went wrong. Please try again.');
     } finally {
       setAdjusting(false);
     }
@@ -216,8 +201,6 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
     });
   };
 
-  const getFlag = (country: string) => COUNTRY_FLAGS[country] || '🌍';
-
   return (
     <div className="min-h-screen bg-[#FEFAE0] px-4 py-12">
       <div className="max-w-2xl mx-auto">
@@ -236,9 +219,10 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
           <h1 className="font-serif text-3xl text-[#1B4332] mb-2">
             Your Healing Compass
           </h1>
-          <p className="text-[#1B4332]/60 text-sm">
-            {profile.emoji} {profile.type} — Top matches based on your DNA
-          </p>
+          <div className="flex items-center justify-center gap-2 text-[#1B4332]/60 text-sm">
+            <LucideIcon name={profile.emoji} className="w-5 h-5 text-[#52B788]" />
+            <span>{profile.type} — Top matches based on your DNA</span>
+          </div>
         </div>
 
         {/* No match warning */}
@@ -321,7 +305,9 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
 
         {loading && (
           <div className="text-center py-12 text-[#1B4332]/40">
-            <div className="animate-pulse text-2xl mb-2">🧭</div>
+            <div className="animate-pulse mb-2 flex justify-center">
+              <Compass className="w-8 h-8" />
+            </div>
             Finding your matches...
           </div>
         )}
@@ -337,7 +323,7 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
         {(hardFilters.requiredGeoTags.length > 0 || hardFilters.excludedGeoTags.length > 0 || hardFilters.budgetMax || hardFilters.requiredTags.length > 0) && (
           <div className="bg-[#D4A37315] border border-[#D4A37340] rounded-lg px-4 py-3 mb-6 flex items-center justify-between">
             <span className="text-sm text-[#1B4332]">
-              📍 Filtering for: {[
+              Filtering for: {[
                 ...hardFilters.requiredGeoTags,
                 ...hardFilters.excludedGeoTags.map(t => `no ${t}`),
                 ...(hardFilters.budgetMax ? [`under $${hardFilters.budgetMax}/mo`] : []),
@@ -374,7 +360,7 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
                 <div className="flex-1 min-w-0">
                   <Link href={`/destinations/${match.slug}`} className="block group">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-lg">{getFlag(match.country)}</span>
+                      <MapPin className="w-4 h-4 text-[#1B4332]/40" />
                       <span className="font-medium text-[#1B4332] group-hover:text-[#52B788] transition-colors truncate">
                         {match.name}
                       </span>
@@ -402,16 +388,16 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
                     {!saved.has(match.slug) ? (
                       <button
                         onClick={() => handleToggleSave(match.slug)}
-                        className="text-[10px] px-2 py-0.5 rounded border border-[#1B433230] text-[#1B4332]/50 hover:border-[#52B788] hover:text-[#52B788] transition-colors"
+                        className="text-[10px] px-2 py-0.5 rounded border border-[#1B433230] text-[#1B4332]/50 hover:border-[#52B788] hover:text-[#52B788] transition-colors flex items-center gap-1"
                       >
-                        ♡ Save
+                        <Heart className="w-3 h-3" /> Save
                       </button>
                     ) : (
                       <button
                         onClick={() => handleToggleSave(match.slug)}
-                        className="text-[10px] px-2 py-0.5 rounded border border-[#52B78840] text-[#52B788] hover:text-red-400 hover:border-red-400 transition-colors"
+                        className="text-[10px] px-2 py-0.5 rounded border border-[#52B78840] text-[#52B788] hover:text-red-400 hover:border-red-400 transition-colors flex items-center gap-1"
                       >
-                        ♥ Saved
+                        <Heart className="w-3 h-3 fill-current" /> Saved
                       </button>
                     )}
                     {/* Compare button */}
@@ -451,7 +437,7 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
               href="/pricing"
               className="text-sm text-[#D4A373] hover:text-[#D4A373]/80 transition-colors"
             >
-              Unlock your personalized healing journey — upgrade to Pro ✦
+              Unlock your personalized healing journey — upgrade to Pro
             </Link>
           </div>
         )}
@@ -459,7 +445,7 @@ export default function CompassMatch({ profile, onWeightsChange, onBack, isPro =
         {/* Save prompt */}
         {matches.length > 0 && !saved.has(matches[0]?.slug) && (
           <div className="bg-white rounded-xl p-5 shadow-sm mb-8 text-center">
-            <p className="text-[#1B4332] mb-3">❤️ Love this match? Save to Favorites</p>
+            <p className="text-[#1B4332] mb-3">Love this match? Save to Favorites</p>
             <div className="flex justify-center gap-3">
               <button
                 onClick={() => handleToggleSave(matches[0].slug)}

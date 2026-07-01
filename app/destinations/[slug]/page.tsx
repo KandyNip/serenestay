@@ -1,466 +1,382 @@
-import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
 import Link from 'next/link';
-import { ChevronLeft, Calendar, Plane, Wifi, Heart, Clock, AlertTriangle, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { getDestinationBySlug, loadDestinations } from '@/lib/destinations';
-import ScoreBar from '@/components/ScoreBar';
-import VetoWarning from '@/components/VetoWarning';
-import DestinationCard from '@/components/DestinationCard';
-import ImageGallery from '@/components/ImageGallery';
-import ProsConsCard from '@/components/ProsConsCard';
-import HealingTagsCard from '@/components/HealingTagsCard';
-import YouTubeEmbed from '@/components/YouTubeEmbed';
-import ShareButtons from '@/components/ShareButtons';
-import InsightsSection from '@/components/InsightsSection';
-import CompareSection from '@/components/CompareSection';
-import FavoriteButton from '@/components/FavoriteButton';
+import { notFound } from 'next/navigation';
+import {
+  getDestinationBySlug,
+  loadDestinations,
+} from '@/lib/destinations';
+import { Metadata } from 'next';
 import DestinationRadar from '@/components/DestinationRadar';
-import WhyYouMatch from '@/components/WhyYouMatch';
+import ScoreBar from '@/components/ScoreBar';
+import HealingChips from '@/components/HealingChips';
+import FavoriteButton from '@/components/FavoriteButton';
+import JourneyPreview from '@/components/JourneyPreview';
+import WaveDivider from '@/components/WaveDivider';
+import type { Destination } from '@/lib/types';
+
+const RELATED_LIMIT = 3;
+
+const HEALING_TAGS = [
+  { label: 'Yoga', value: 'yoga' },
+  { label: 'Meditation', value: 'meditation' },
+  { label: 'Forest Bathing', value: 'forest-bathing' },
+  { label: 'Hot Springs', value: 'hot-springs' },
+  { label: 'Temple Stay', value: 'temple-stay' },
+  { label: 'Mindfulness', value: 'mindfulness' },
+  { label: 'Surf Therapy', value: 'surf-therapy' },
+  { label: 'Nature Therapy', value: 'nature-therapy' },
+  { label: 'Zen Retreat', value: 'zen-retreat' },
+  { label: 'Digital Detox', value: 'digital-detox' },
+  { label: 'Breathwork', value: 'breathwork' },
+  { label: 'Sound Healing', value: 'sound-healing' },
+  { label: 'Ayurveda', value: 'ayurveda' },
+  { label: 'Tea Ceremony', value: 'tea-ceremony' },
+  { label: 'Island Meditation', value: 'island-meditation' },
+  { label: 'Ocean Therapy', value: 'ocean-therapy' },
+];
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Generate metadata
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  
-  try {
-    const destination = await getDestinationBySlug(slug);
-    if (!destination) {
-      return { title: 'Destination Not Found' };
-    }
-    return {
+  const destination = await getDestinationBySlug(slug);
+  if (!destination) return {};
+  return {
+    title: `${destination.name}, ${destination.country} — Serene Stay`,
+    description: destination.tagline,
+    openGraph: {
       title: `${destination.name}, ${destination.country}`,
       description: destination.tagline,
-      openGraph: {
-        title: `${destination.name} | SereneStay.ai`,
-        description: destination.tagline,
-        images: [destination.images[0]],
-      },
-    };
-  } catch {
-    return {
-      title: 'Destination Not Found',
-    };
-  }
-}
-
-// Generate static params for popular destinations
-export async function generateStaticParams() {
-  try {
-    const destinations = await loadDestinations();
-    return destinations.slice(0, 20).map((d) => ({
-      slug: d.slug,
-    }));
-  } catch {
-    return [];
-  }
+      images: destination.images?.[0] ? [{ url: destination.images[0] }] : [],
+    },
+  };
 }
 
 export default async function DestinationDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  
   const destination = await getDestinationBySlug(slug);
-  if (!destination) {
-    notFound();
-  }
+  if (!destination) notFound();
 
-  // Load related destinations (same region, exclude current)
-  let relatedDestinations: typeof destination[] = [];
-  try {
-    const all = await loadDestinations();
-    relatedDestinations = all
-      .filter((d) => d.region === destination.region && d.id !== destination.id)
-      .slice(0, 3);
-  } catch {
-    // Ignore related destinations errors
-  }
+  const healings = HEALING_TAGS;
 
-  // Score labels mapping
+  const allDestinations = await loadDestinations();
+  const similar = allDestinations
+    .filter((d: Destination) => d.id !== destination.id)
+    .map((d: Destination) => {
+      const dTags = d.healingTags ?? [];
+      const myTags = destination.healingTags ?? [];
+      const overlap = dTags.filter((t: string) => myTags.includes(t)).length;
+      const sameRegion = d.region === destination.region ? 2 : 0;
+      return { d, score: overlap + sameRegion };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, RELATED_LIMIT)
+    .map((x) => x.d);
+
+  const bestForTags = destination.healingTags ?? [];
+  const notIdealTags: string[] = [];
+
   const scoreLabels: Record<string, string> = {
     serenity: 'Serenity',
-    nature: 'Nature & Scenery',
+    nature: 'Nature',
     climate: 'Climate',
     affordability: 'Affordability',
-    wellness: 'Wellness Facilities',
+    wellness: 'Wellness',
     community: 'Community',
-    wifi: 'WiFi Quality',
-    visa: 'Visa Friendliness',
-    medical: 'Medical Access',
-  };
-
-  // Determine veto warning type
-  const getWarningType = (): 'wifi' | 'medical' | 'general' => {
-    if (destination.vetoWarning?.toLowerCase().includes('wifi')) return 'wifi';
-    if (destination.vetoWarning?.toLowerCase().includes('medical')) return 'medical';
-    return 'general';
   };
 
   return (
-    <div className="min-h-screen pt-16">
-      {/* Schema.org: TouristDestination */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "TouristDestination",
-            name: destination.name,
-            description: destination.tagline,
-            image: destination.images,
-            url: `https://howistoday.online/destinations/${destination.slug}`,
-            address: {
-              "@type": "PostalAddress",
-              addressCountry: destination.country,
-              addressRegion: destination.region,
-            },
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: (
-                Object.values(destination.scores).reduce((a: number, b: number) => a + b, 0) /
-                Object.keys(destination.scores).length
-              ).toFixed(1),
-              bestRating: 5,
-              worstRating: 1,
-              ratingCount: Object.keys(destination.scores).length,
-            },
-            makesOffer: {
-              "@type": "Offer",
-              priceSpecification: {
-                "@type": "PriceSpecification",
-                price: destination.monthlyCost.mid,
-                priceCurrency: destination.monthlyCost.currency,
-                description: "Estimated monthly living cost (mid-range)",
-              },
-            },
-            keywords: destination.tags.join(", "),
-            touristType: ["Wellness travelers", "Digital nomads", "Meditation seekers"],
-          }),
+    <main style={{ background: 'var(--color-forest-deep)', minHeight: '100vh' }}>
+      <div
+        className="relative h-[60vh] md:h-[75vh] flex items-end"
+        style={{
+          backgroundImage: `url(${destination.images[0]})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          paddingTop: '80px',
+          boxSizing: 'border-box',
         }}
-      />
-      {/* Schema.org: BreadcrumbList */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://howistoday.online",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Destinations",
-                item: "https://howistoday.online/destinations",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
-                name: destination.name,
-                item: `https://howistoday.online/destinations/${destination.slug}`,
-              },
-            ],
-          }),
-        }}
-      />
-      {/* Back Navigation */}
-      <div className="container-full px-4 py-4">
-        <Link
-          href="/destinations"
-          className="inline-flex items-center gap-2 text-primary/60 hover:text-secondary transition-colors"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          <span>Back to Destinations</span>
-        </Link>
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(14,36,25,0.2) 0%, rgba(14,36,25,0.5) 50%, rgba(14,36,25,0.95) 100%)',
+          }}
+        />
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-16 md:pb-24">
+          <Link
+            href="/destinations"
+            className="inline-flex items-center gap-2 text-sm mb-6 transition-colors hover:opacity-80"
+            style={{ color: 'var(--color-white-60)', fontFamily: 'var(--font-body)' }}
+          >
+            ← Back to destinations
+          </Link>
+          <div className="flex items-end justify-between gap-6">
+            <div>
+              <p
+                className="text-sm uppercase tracking-widest mb-3"
+                style={{ color: 'var(--color-moss)', fontFamily: 'var(--font-body)' }}
+              >
+                {destination.region} · {destination.country}
+              </p>
+              <h1
+                className="text-4xl md:text-6xl lg:text-7xl mb-4"
+                style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)', fontWeight: 500 }}
+              >
+                {destination.name}
+              </h1>
+              <p
+                className="text-lg md:text-xl max-w-2xl"
+                style={{ color: 'var(--color-white-70)', fontFamily: 'var(--font-body)', fontStyle: 'italic' }}
+              >
+                {destination.tagline}
+              </p>
+            </div>
+            <FavoriteButton slug={destination.slug} size="lg" />
+          </div>
+        </div>
+        <WaveDivider fill="var(--color-forest-deep)" variant="forest" height={60} />
       </div>
 
-      {/* Hero Image Gallery */}
-      <ImageGallery images={destination.images} destinationName={destination.name} />
-
-      {/* Main Content */}
-      <div className="container-full px-4 pb-16">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column - Main Info */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Header */}
+      <div className="max-w-5xl mx-auto px-6 pb-24 -mt-8 relative z-10">
+        <section className="mb-16 grid grid-cols-1 lg:grid-cols-5 gap-10">
+          <div className="lg:col-span-3 space-y-8">
             <div>
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h1 className="font-serif text-4xl sm:text-5xl text-primary">
-                    {destination.name}
-                  </h1>
-                  <p className="mt-3 text-xl text-primary/70">
-                    {destination.tagline}
-                  </p>
-                </div>
-                <FavoriteButton slug={destination.slug} name={destination.name} />
-              </div>
-
-              {/* Tags */}
-              <div className="mt-4 flex flex-wrap gap-2">
-                {destination.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              {/* Share Buttons */}
-              <div className="mt-6">
-                <ShareButtons destinationName={destination.name} destinationSlug={destination.slug} />
-              </div>
-            </div>
-
-            {/* Veto Warning */}
-            {destination.vetoWarning && (
-              <VetoWarning
-                warning={destination.vetoWarning}
-                type={getWarningType()}
-              />
-            )}
-
-            {/* Description */}
-            <div>
-              <h2 className="font-serif text-2xl text-primary mb-4">
-                About This Healing Stay
+              <h2
+                className="text-xl md:text-2xl mb-4"
+                style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}
+              >
+                About this place
               </h2>
-              <p className="text-primary/70 leading-relaxed">
+              <p
+                className="leading-relaxed"
+                style={{ color: 'var(--color-white-70)', fontFamily: 'var(--font-body)' }}
+              >
                 {destination.description}
               </p>
             </div>
 
-            {/* 9-Dimensional Scores */}
-            <div>
-              <h2 className="font-serif text-2xl text-primary mb-6">
-                Rating Breakdown
-              </h2>
-              {/* Radar Chart — Personality Shape */}
-              <div className="bg-white rounded-2xl p-6 shadow-card mb-4">
-                <DestinationRadar destinations={[destination]} />
-              </div>
-
-              {/* Score Bars — Exact Values */}
-              <div className="bg-white rounded-2xl p-6 shadow-card space-y-4">
-                {Object.entries(destination.scores).map(([key, score]) => (
-                  <ScoreBar
-                    key={key}
-                    label={scoreLabels[key] || key}
-                    score={score}
-                    size="lg"
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Why You Match — DNA Profile */}
-            <WhyYouMatch
-              destinationScores={destination.scores as unknown as Record<import('@/lib/dna-quiz').ScoreKey, number>}
-              destinationName={destination.name}
-            />
-
-            {/* AI Healing Insights */}
-            <InsightsSection slug={destination.slug} />
-
-            {/* Best Season */}
-            <div>
-              <h2 className="font-serif text-2xl text-primary mb-4 flex items-center gap-2">
-                <Calendar className="w-6 h-6 text-secondary" />
-                Best Time to Visit
-              </h2>
-              <div className="bg-white rounded-2xl p-6 shadow-card">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {destination.bestSeason.months.map((month) => (
-                    <span
-                      key={month}
-                      className="px-4 py-2 bg-secondary/10 text-secondary font-medium rounded-lg"
-                    >
-                      {month}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-primary/70">{destination.bestSeason.description}</p>
-              </div>
-            </div>
-
-            {/* Highlights */}
-            <div>
-              <h2 className="font-serif text-2xl text-primary mb-4 flex items-center gap-2">
-                <Heart className="w-6 h-6 text-secondary" />
-                Highlights
-              </h2>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {destination.highlights.map((highlight, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-card"
-                  >
-                    <div className="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-secondary font-mono text-sm">{index + 1}</span>
-                    </div>
-                    <p className="text-primary/80">{highlight}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Healing Tags */}
-            {destination.healingTags && destination.healingTags.length > 0 && (
-              <HealingTagsCard
-                healingTags={destination.healingTags}
-                emotionalTagline={destination.emotionalTagline || ''}
-              />
-            )}
-
-            {/* Pros & Cons */}
-            {destination.pros && destination.pros.length > 0 && (
+            {bestForTags.length > 0 && (
               <div>
-                <h2 className="font-serif text-2xl text-primary mb-4 flex items-center gap-2">
-                  <ThumbsUp className="w-6 h-6 text-secondary" />
-                  Pros & Cons
-                </h2>
-                <ProsConsCard pros={destination.pros} cons={destination.cons || []} />
+                <h3
+                  className="text-sm uppercase tracking-widest mb-3"
+                  style={{ color: 'var(--color-moss)', fontFamily: 'var(--font-body)' }}
+                >
+                  Best For
+                </h3>
+                <HealingChips
+                  tags={bestForTags}
+                  healingTags={healings}
+                  size="md"
+                  activeColor="var(--color-canopy)"
+                />
               </div>
             )}
 
-            {/* YouTube Video */}
-            {destination.youtubeId && (
-              <YouTubeEmbed videoId={destination.youtubeId} destinationName={destination.name} />
-            )}
-          </div>
-
-          {/* Right Column - Sidebar */}
-          <div className="space-y-6">
-            {/* Plan Your Stay CTA */}
-            <div className="bg-white rounded-2xl border border-secondary/20 p-6 shadow-sm">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-secondary" />
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg text-primary">Plan Your Stay</h3>
-                  <p className="text-primary/60 text-xs">Day-by-day AI itinerary</p>
-                </div>
+            {notIdealTags.length > 0 && (
+              <div>
+                <h3
+                  className="text-sm uppercase tracking-widest mb-3"
+                  style={{ color: 'rgba(194,120,92,0.8)', fontFamily: 'var(--font-body)' }}
+                >
+                  May not be ideal for
+                </h3>
+                <HealingChips
+                  tags={notIdealTags}
+                  healingTags={healings}
+                  size="md"
+                  activeColor="#c2785c"
+                />
               </div>
-              <p className="text-primary/70 text-sm mb-4">
-                Create a personalized itinerary for {destination.name}. Choose your mood each day and let AI craft the perfect plan.
-              </p>
-              <Link
-                href={`/itinerary/${destination.slug}`}
-                className="block w-full py-2.5 bg-secondary text-white text-center rounded-xl font-medium hover:bg-secondary-600 transition-colors text-sm"
+            )}
+
+            {(destination.bestSeason?.months?.length ?? 0) > 0 && (
+              <div>
+                <h3
+                  className="text-sm uppercase tracking-widest mb-2"
+                  style={{ color: 'var(--color-sand)', fontFamily: 'var(--font-body)' }}
+                >
+                  Best Season
+                </h3>
+                <p style={{ color: 'var(--color-white-60)', fontFamily: 'var(--font-body)' }}>
+                  {destination.bestSeason?.months?.join(' · ')}
+                </p>
+                {destination.bestSeason?.description && (
+                  <p
+                    className="text-sm mt-1"
+                    style={{ color: 'var(--color-white-40)', fontFamily: 'var(--font-body)' }}
+                  >
+                    {destination.bestSeason.description}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {destination.practicalInfo && (
+              <div
+                className="rounded-2xl p-6"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                }}
               >
-                Start Planning →
-              </Link>
+                <h3
+                  className="text-lg mb-4"
+                  style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}
+                >
+                  Practical notes
+                </h3>
+                <div className="space-y-4 text-sm" style={{ color: 'var(--color-white-60)', fontFamily: 'var(--font-body)' }}>
+                  {destination.practicalInfo.gettingThere && (
+                    <div>
+                      <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'var(--color-moss)' }}>Getting There</p>
+                      <p className="leading-relaxed">{destination.practicalInfo.gettingThere}</p>
+                    </div>
+                  )}
+                  {destination.practicalInfo.tips && (
+                    <div>
+                      <p className="text-xs uppercase tracking-widest mb-1" style={{ color: 'var(--color-moss)' }}>Tips</p>
+                      <p className="leading-relaxed">{destination.practicalInfo.tips}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {destination.highlights && destination.highlights.length > 0 && (
+              <div>
+                <h3
+                  className="text-sm uppercase tracking-widest mb-3"
+                  style={{ color: 'var(--color-moss)', fontFamily: 'var(--font-body)' }}
+                >
+                  Highlights
+                </h3>
+                <ul className="space-y-2">
+                  {destination.highlights.map((h, i) => (
+                    <li
+                      key={i}
+                      className="flex gap-3 text-sm"
+                      style={{ color: 'var(--color-white-60)', fontFamily: 'var(--font-body)' }}
+                    >
+                      <span style={{ color: 'var(--color-sky-light)' }}>·</span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          <div className="lg:col-span-2 space-y-8">
+            <div
+              className="rounded-2xl p-6"
+              style={{
+                background: 'var(--glass-bg-strong)',
+                backdropFilter: 'var(--glass-blur-heavy)',
+                WebkitBackdropFilter: 'var(--glass-blur-heavy)',
+                border: '1px solid var(--glass-border)',
+              }}
+            >
+              <h2
+                className="text-lg mb-5"
+                style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}
+              >
+                Healing profile
+              </h2>
+              <DestinationRadar destinations={[destination]} />
             </div>
 
-            <Suspense fallback={<div className="h-32" />}>
-              <CompareSection currentSlug={destination.slug} currentName={destination.name} />
-            </Suspense>
-
-            {/* Monthly Costs */}
-            <div className="bg-white rounded-2xl p-6 shadow-card">
-              <h3 className="font-serif text-xl text-primary mb-4">
-                Monthly Living Costs
+            <div
+              className="rounded-2xl p-6 space-y-3"
+              style={{
+                background: 'var(--glass-bg)',
+                border: '1px solid var(--glass-border)',
+              }}
+            >
+              <h3
+                className="text-sm uppercase tracking-widest mb-2"
+                style={{ color: 'var(--color-moss)', fontFamily: 'var(--font-body)' }}
+              >
+                Scores
               </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-surface rounded-xl">
-                  <span className="text-primary/70">Budget</span>
-                  <span className="font-mono text-lg font-semibold text-primary">
-                    ${destination.monthlyCost.budget}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-secondary/5 border border-secondary/20 rounded-xl">
-                  <span className="text-secondary">Mid-range</span>
-                  <span className="font-mono text-lg font-semibold text-secondary">
-                    ${destination.monthlyCost.mid}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-surface rounded-xl">
-                  <span className="text-primary/70">Comfort</span>
-                  <span className="font-mono text-lg font-semibold text-primary">
-                    ${destination.monthlyCost.comfort}
-                  </span>
-                </div>
-              </div>
-              <p className="mt-4 text-xs text-primary/50 text-center">
-                Estimated costs in {destination.monthlyCost.currency} per month
-              </p>
-            </div>
-
-            {/* Practical Info */}
-            <div className="bg-white rounded-2xl p-6 shadow-card">
-              <h3 className="font-serif text-xl text-primary mb-4">
-                Practical Information
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm font-medium text-primary/60 mb-1 flex items-center gap-2">
-                    <Plane className="w-4 h-4" />
-                    Getting There
-                  </h4>
-                  <p className="text-sm text-primary/80">{destination.practicalInfo.gettingThere}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-primary/60 mb-1 flex items-center gap-2">
-                    <Wifi className="w-4 h-4" />
-                    WiFi
-                  </h4>
-                  <p className="text-sm text-primary/80">{destination.practicalInfo.wifi}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-primary/60 mb-1 flex items-center gap-2">
-                    <Heart className="w-4 h-4" />
-                    Medical
-                  </h4>
-                  <p className="text-sm text-primary/80">{destination.practicalInfo.medical}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-primary/60 mb-1 flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    Visa
-                  </h4>
-                  <p className="text-sm text-primary/80">{destination.practicalInfo.visa}</p>
-                </div>
-              </div>
-              
-              {/* Tips */}
-              <div className="mt-6 pt-4 border-t border-primary/10">
-                <h4 className="text-sm font-medium text-primary/60 mb-2 flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 text-warning" />
-                  Local Tips
-                </h4>
-                <p className="text-sm text-primary/80">{destination.practicalInfo.tips}</p>
-              </div>
+              {Object.entries(scoreLabels).map(([key, label]) => {
+                const score = (destination.scores as unknown as Record<string, number>)[key] ?? 0;
+                return (
+                  <ScoreBar key={key} label={label} score={Math.round(score)} />
+                );
+              })}
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Related Destinations */}
-        {relatedDestinations.length > 0 && (
-          <section className="mt-16">
-            <div className="flex items-center gap-4 mb-6">
-              <h2 className="font-serif text-2xl text-primary">
-                More in {destination.region}
-              </h2>
-              <div className="flex-1 h-px bg-primary/10" />
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {relatedDestinations.map((dest) => (
-                <DestinationCard key={dest.id} destination={dest} />
+        <WaveDivider fill="rgba(255,255,255,0.03)" variant="transparent-light" height={30} />
+
+        <JourneyPreview
+          destinationName={destination.name}
+          destinationSlug={destination.slug}
+          healingTags={bestForTags}
+        />
+
+        {similar.length > 0 && (
+          <section className="mt-20">
+            <h2
+              className="text-2xl md:text-3xl mb-8"
+              style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}
+            >
+              You may also feel drawn to
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {similar.map((d) => (
+                <Link
+                  key={d.id}
+                  href={`/destinations/${d.slug}`}
+                  className="group block rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02]"
+                  style={{
+                    background: 'var(--glass-bg)',
+                    border: '1px solid var(--glass-border)',
+                  }}
+                >
+                  <div className="relative h-48 overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={d.images[0]}
+                      alt={d.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: 'linear-gradient(to top, rgba(14,36,25,0.7), transparent 60%)',
+                      }}
+                    />
+                  </div>
+                  <div className="p-5">
+                    <p
+                      className="text-xs uppercase tracking-widest mb-1"
+                      style={{ color: 'var(--color-moss)', fontFamily: 'var(--font-body)' }}
+                    >
+                      {d.country}
+                    </p>
+                    <h3
+                      className="text-lg mb-1"
+                      style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}
+                    >
+                      {d.name}
+                    </h3>
+                    <p
+                      className="text-sm line-clamp-2"
+                      style={{ color: 'var(--color-white-50)', fontFamily: 'var(--font-body)', fontStyle: 'italic' }}
+                    >
+                      {d.tagline}
+                    </p>
+                  </div>
+                </Link>
               ))}
             </div>
           </section>
         )}
       </div>
-    </div>
+    </main>
   );
 }

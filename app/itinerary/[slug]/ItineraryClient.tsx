@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Lock, ArrowLeft, Sparkles, MapPin, Calendar, Compass } from 'lucide-react';
+import { Lock, ArrowLeft, Leaf, MapPin, Calendar, Compass, TreeDeciduous } from 'lucide-react';
 import ItineraryFlow from '@/components/ItineraryFlow';
 import DisclaimerNote from '@/components/DisclaimerNote';
 import ShareButtons from '@/components/ShareButtons';
@@ -13,6 +13,14 @@ interface ItineraryClientProps {
   destination: Destination;
 }
 
+const glassCard = {
+  background: 'var(--glass-bg)',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
+  border: '1px solid var(--glass-border)',
+  borderRadius: '20px',
+} as React.CSSProperties;
+
 export default function ItineraryClient({ destination }: ItineraryClientProps) {
   const [isPro, setIsPro] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -22,35 +30,46 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
     setChecked(true);
   }, []);
 
-  // Loading state
   if (!checked) {
     return (
-      <div className="min-h-screen bg-surface flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-3">
-            <Sparkles className="w-5 h-5 text-secondary animate-pulse" />
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: '48px', height: '48px', borderRadius: '50%',
+            background: 'rgba(91, 143, 168, 0.15)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto 12px'
+          }}>
+            <Leaf className="w-6 h-6 animate-pulse" style={{ color: 'var(--color-sky)' }} />
           </div>
-          <p className="text-sm text-primary/60">Loading...</p>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)' }}>Loading...</p>
         </div>
       </div>
     );
   }
 
-  // Pro paywall for free users
   if (!isPro) {
     return (
-      <div className="min-h-screen bg-surface">
-        {/* Header */}
-        <div className="bg-white border-b border-primary/10">
-          <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
+      <div style={{ minHeight: '100vh' }}>
+        <div style={{
+          padding: '16px',
+          borderBottom: '1px solid rgba(255,255,255,0.08)'
+        }}>
+          <div style={{ maxWidth: '896px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
             <Link
               href={`/destinations/${destination.slug}`}
-              className="flex items-center gap-1.5 text-sm text-primary/60 hover:text-secondary transition-colors"
+              style={{
+                display: 'flex', alignItems: 'center', gap: '6px',
+                fontSize: '14px', color: 'rgba(255,255,255,0.6)',
+                textDecoration: 'none', transition: 'color 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}
             >
               <ArrowLeft className="w-4 h-4" />
               Back
             </Link>
-            <div className="flex-1" />
+            <div style={{ flex: 1 }} />
             <ShareButtons
               destinationName={destination.name}
               destinationSlug={destination.slug}
@@ -58,55 +77,71 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
           </div>
         </div>
 
-        {/* Paywall Content */}
-        <div className="max-w-lg mx-auto px-4 py-16 text-center">
-          <div className="bg-white rounded-2xl border border-primary/10 shadow-sm p-8">
-            {/* Hero icon */}
-            <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-5">
-              <Lock className="w-7 h-7 text-secondary" />
+        <div style={{ maxWidth: '480px', margin: '0 auto', padding: '64px 16px', textAlign: 'center' }}>
+          <div style={{ ...glassCard, padding: '32px' }}>
+            <div style={{
+              width: '64px', height: '64px', borderRadius: '50%',
+              background: 'rgba(91, 143, 168, 0.15)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 20px'
+            }}>
+              <Lock className="w-7 h-7" style={{ color: 'var(--color-sky)' }} />
             </div>
 
-            <h1 className="font-serif text-2xl text-primary mb-2">
-              Pro Feature: Healing Journey Companion
+            <h1 style={{
+              fontFamily: 'var(--font-display)', fontSize: '24px',
+              color: 'var(--color-white)', marginBottom: '8px'
+            }}>
+              Healing Journey Companion
             </h1>
-            <p className="text-primary/60 mb-6">
+            <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '24px' }}>
               A personalized, day-by-day healing journey in {destination.name}.
-              Share your state and intentions, and let AI craft a gentle plan that adapts to you.
+              Share your state and intentions, and let a gentle plan unfold that adapts to you.
             </p>
 
-            {/* Feature list */}
-            <div className="space-y-3 text-left mb-8">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'left', marginBottom: '32px' }}>
               {[
                 { icon: Calendar, text: 'Day-by-day journey with energy-aware pacing' },
                 { icon: Compass, text: 'Adapts to daily check-ins and your evolving needs' },
                 { icon: MapPin, text: 'Intention-driven — grounding, release, connection & more' },
-                { icon: Sparkles, text: 'Journey arc from arrival to deepening to integration' },
+                { icon: TreeDeciduous, text: 'Journey arc from arrival to deepening to integration' },
               ].map(({ icon: Icon, text }, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-secondary/5 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 text-secondary" />
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{
+                    width: '32px', height: '32px', borderRadius: '10px',
+                    background: 'rgba(91, 143, 168, 0.1)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    <Icon className="w-4 h-4" style={{ color: 'var(--color-sky)' }} />
                   </div>
-                  <span className="text-sm text-primary/70">{text}</span>
+                  <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>{text}</span>
                 </div>
               ))}
             </div>
 
-            {/* CTA */}
             <Link
               href="/pricing"
-              className="btn-secondary w-full py-3 flex items-center justify-center gap-2 text-lg"
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                width: '100%', padding: '12px',
+                background: 'var(--color-sky)', color: 'white',
+                borderRadius: '12px', fontSize: '18px', fontWeight: 600,
+                textDecoration: 'none', transition: 'opacity 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
-              <Sparkles className="w-5 h-5" />
+              <Leaf className="w-5 h-5" />
               Upgrade to Pro
             </Link>
 
-            <p className="mt-3 text-xs text-primary/40">
-              Pro also unlocks 5 AI-matched healing destinations, day-by-day itineraries & more
+            <p style={{ marginTop: '12px', fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
+              Pro also unlocks 5 curated healing destinations, day-by-day journeys & more
             </p>
           </div>
 
-          {/* AI disclaimer */}
-          <div className="mt-4">
+          <div style={{ marginTop: '16px' }}>
             <DisclaimerNote />
           </div>
         </div>
@@ -114,25 +149,32 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
     );
   }
 
-  // Pro user — show the itinerary flow
   return (
-    <div className="min-h-screen bg-surface">
-      {/* Header */}
-      <div className="bg-white border-b border-primary/10">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
+    <div style={{ minHeight: '100vh' }}>
+      <div style={{
+        padding: '16px',
+        borderBottom: '1px solid rgba(255,255,255,0.08)'
+      }}>
+        <div style={{ maxWidth: '896px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
           <Link
             href={`/destinations/${destination.slug}`}
-            className="flex items-center gap-1.5 text-sm text-primary/60 hover:text-secondary transition-colors"
+            style={{
+              display: 'flex', alignItems: 'center', gap: '6px',
+              fontSize: '14px', color: 'rgba(255,255,255,0.6)',
+              textDecoration: 'none', transition: 'color 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}
           >
             <ArrowLeft className="w-4 h-4" />
             Back
           </Link>
-          <span className="text-primary/20">|</span>
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-secondary" />
-            <span className="font-serif text-lg text-primary">{destination.name}</span>
+          <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <MapPin className="w-4 h-4" style={{ color: 'var(--color-sky)' }} />
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-white)' }}>{destination.name}</span>
           </div>
-          <div className="flex-1" />
+          <div style={{ flex: 1 }} />
           <ShareButtons
             destinationName={destination.name}
             destinationSlug={destination.slug}
@@ -140,15 +182,13 @@ export default function ItineraryClient({ destination }: ItineraryClientProps) {
         </div>
       </div>
 
-      {/* Flow */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div style={{ maxWidth: '896px', margin: '0 auto', padding: '32px 16px' }}>
         <ItineraryFlow
           destination={destination}
           initialFocus="wellness"
         />
 
-        {/* AI disclaimer */}
-        <div className="mt-6">
+        <div style={{ marginTop: '24px' }}>
           <DisclaimerNote />
         </div>
       </div>

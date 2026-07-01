@@ -1,99 +1,127 @@
 import Link from 'next/link';
+import NewsletterSignup from './NewsletterSignup';
 
 export default function Footer() {
-  // Footer columns data
-  const footerSections = [
-    {
-      title: 'Brand',
-      links: [
-        { label: 'About Us', href: '/about' },
-      ],
-    },
-    {
-      title: 'Explore',
-      links: [
-        { label: 'Destinations', href: '/destinations' },
-        { label: 'Pricing', href: '/pricing' },
-        { label: 'AI Matching', href: '/chat' },
-      ],
-    },
-    {
-      title: 'Company',
-      links: [
-        { label: 'Privacy Policy', href: '/privacy' },
-        { label: 'Terms of Service', href: '/terms' },
-        { label: 'Contact Us', href: '/contact' },
-      ],
-    },
-    {
-      title: 'Support',
-      links: [
-        { label: 'support@howistoday.online', href: 'mailto:support@howistoday.online' },
-      ],
-    },
-  ];
-
   return (
-    <footer className="bg-primary text-white" role="contentinfo">
-      <div className="container-full px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* Brand Column */}
-          <div className="lg:col-span-1">
+    <footer
+      className="py-10"
+      style={{
+        background: '#0E2419',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
+      }}
+      role="contentinfo"
+    >
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+          <div>
             <Link
               href="/"
-              className="font-serif text-2xl text-white hover:text-secondary transition-colors"
+              className="text-xl md:text-2xl italic text-white"
+              style={{ fontFamily: 'var(--font-display)' }}
             >
-              SereneStay.ai
+              SereneStay
             </Link>
-            <p className="mt-4 text-white/70 text-sm leading-relaxed">
-              Discover your perfect healing stay with AI-powered matching.
-              Find tranquility, connect with nature, and begin your wellness journey.
+            <p
+              className="mt-4 text-sm leading-relaxed max-w-xs"
+              style={{ color: 'var(--color-white-60)' }}
+            >
+              We believe the right place can change everything. Not a vacation — a return to yourself.
             </p>
           </div>
 
-          {/* Link Columns */}
-          {footerSections.map((section) => (
-            <div key={section.title}>
-              <h3 className="font-serif text-lg mb-4">{section.title}</h3>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-white/70 hover:text-secondary transition-colors text-sm"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div>
+            <h4
+              className="text-sm font-semibold tracking-widest uppercase mb-4"
+              style={{ color: 'var(--color-white-80)', fontFamily: 'var(--font-body)' }}
+            >
+              Explore
+            </h4>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  href="/destinations"
+                  className="text-sm transition-colors duration-300 hover:text-white"
+                  style={{ color: 'var(--color-white-60)' }}
+                >
+                  Destinations
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/pricing"
+                  className="text-sm transition-colors duration-300 hover:text-white"
+                  style={{ color: 'var(--color-white-60)' }}
+                >
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-sm transition-colors duration-300 hover:text-white"
+                  style={{ color: 'var(--color-white-60)' }}
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/journal"
+                  className="text-sm transition-colors duration-300 hover:text-white"
+                  style={{ color: 'var(--color-white-60)' }}
+                >
+                  Journal
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-          {/* Newsletter Column */}
-          <div className="lg:col-span-1">
-            <h3 className="font-serif text-lg mb-4">Stay Updated</h3>
-            <p className="text-white/70 text-sm">
-              We&apos;re building something special. Newsletter coming soon.
+          <div>
+            <h4
+              className="text-sm font-semibold tracking-widest uppercase mb-4"
+              style={{ color: 'var(--color-white-80)', fontFamily: 'var(--font-body)' }}
+            >
+              Healing Inspiration
+            </h4>
+            <p
+              className="text-sm mb-4"
+              style={{ color: 'var(--color-white-60)' }}
+            >
+              Weekly retreat picks and wellness wisdom, delivered gently.
             </p>
+            <NewsletterSignup variant="dark" />
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/50 text-sm">
-              © {new Date().getFullYear()} SereneStay.ai. All rights reserved.
-            </p>
-            <div className="flex items-center gap-6 text-white/50 text-sm">
-              <Link href="/privacy" className="hover:text-secondary transition-colors">
-                Privacy
-              </Link>
-              <Link href="/terms" className="hover:text-secondary transition-colors">
-                Terms
-              </Link>
-            </div>
+        <div
+          className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+        >
+          <span style={{ color: 'var(--color-white-40)' }}>
+            © {new Date().getFullYear()} SereneStay. All rights reserved.
+          </span>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/privacy"
+              className="transition-colors duration-300 hover:text-white"
+              style={{ color: 'var(--color-white-60)' }}
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="transition-colors duration-300 hover:text-white"
+              style={{ color: 'var(--color-white-60)' }}
+            >
+              Terms
+            </Link>
+            <Link
+              href="/contact"
+              className="transition-colors duration-300 hover:text-white"
+              style={{ color: 'var(--color-white-60)' }}
+            >
+              Contact
+            </Link>
           </div>
         </div>
       </div>

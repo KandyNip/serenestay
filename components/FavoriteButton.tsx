@@ -6,22 +6,28 @@ import { getFavorites, addFavorite, removeFavorite, isFavorite } from '@/lib/fav
 
 interface FavoriteButtonProps {
   slug: string;
-  name: string;
+  initialFavorited?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  showLabel?: boolean;
 }
 
-export default function FavoriteButton({ slug, name }: FavoriteButtonProps) {
-  const [saved, setSaved] = useState(false);
-  const [count, setCount] = useState(0);
+export default function FavoriteButton({
+  slug,
+  initialFavorited = false,
+  size = 'md',
+  showLabel = false,
+}: FavoriteButtonProps) {
+  const [saved, setSaved] = useState(initialFavorited);
+  const [animating, setAnimating] = useState(false);
 
   useEffect(() => {
     setSaved(isFavorite(slug));
-    setCount(getFavorites().length);
   }, [slug]);
 
-  const toggleFavorite = (e: React.MouseEvent) => {
+  const handleToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
+    setAnimating(true);
     if (saved) {
       removeFavorite(slug);
       setSaved(false);
@@ -29,26 +35,54 @@ export default function FavoriteButton({ slug, name }: FavoriteButtonProps) {
       addFavorite(slug);
       setSaved(true);
     }
-    setCount(getFavorites().length);
+    setTimeout(() => setAnimating(false), 300);
+  };
+
+  const sizeClasses = {
+    sm: 'w-9 h-9',
+    md: 'w-11 h-11',
+    lg: 'w-12 h-12',
+  };
+
+  const iconSize = {
+    sm: 17,
+    md: 20,
+    lg: 22,
   };
 
   return (
     <button
-      onClick={toggleFavorite}
-      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-        saved
-          ? 'bg-rose-50 border border-rose-200 text-rose-600'
-          : 'bg-primary/5 border border-primary/10 text-primary/50 hover:border-rose-200 hover:text-rose-500'
+      onClick={handleToggle}
+      aria-label={saved ? 'Remove from favorites' : 'Save to favorites'}
+      className={`${sizeClasses[size]} rounded-full flex items-center justify-center gap-2 transition-all duration-300 ${
+        animating ? 'scale-110' : 'hover:scale-105'
       }`}
-      title={saved ? `Remove ${name} from favorites` : `Save ${name} to favorites`}
+      style={{
+        background: saved
+          ? 'rgba(194,120,92,0.2)'
+          : 'rgba(255,255,255,0.1)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        border: saved
+          ? '1px solid rgba(194,120,92,0.4)'
+          : '1px solid rgba(255,255,255,0.15)',
+      }}
     >
-      <Heart className={`w-3.5 h-3.5 ${saved ? 'fill-rose-500' : ''}`} />
-      <span>{saved ? 'Saved' : 'Save'}</span>
-      {count > 0 && (
-        <span className={`ml-0.5 px-1.5 py-0.5 rounded-full text-[10px] ${
-          saved ? 'bg-rose-100 text-rose-600' : 'bg-primary/10 text-primary/50'
-        }`}>
-          {count}
+      <Heart
+        width={iconSize[size]}
+        height={iconSize[size]}
+        style={{
+          color: saved ? '#c2785c' : 'rgba(255,255,255,0.6)',
+          fill: saved ? '#c2785c' : 'none',
+          transition: 'all 0.3s ease',
+        }}
+      />
+      {showLabel && (
+        <span
+          className="text-xs font-medium"
+          style={{ color: saved ? '#c2785c' : 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-body)' }}
+        >
+          {saved ? 'Saved' : 'Save'}
         </span>
       )}
     </button>

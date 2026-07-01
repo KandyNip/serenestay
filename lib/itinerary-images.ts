@@ -142,43 +142,43 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
   ],
 };
 
-// Emoji fallback for when images fail to load
-export const CATEGORY_EMOJIS: Record<string, string> = {
-  temple: '🏛️',
-  market: '🛒',
-  food: '🍜',
-  nature: '🌿',
-  massage: '💆',
-  meditation: '🧘',
-  yoga: '🧘',
-  garden: '🌺',
-  beach: '🏖️',
-  mountain: '⛰️',
-  adventure: '🧗',
-  nightlife: '🌃',
-  spa: '🧖',
-  cafe: '☕',
-  culture: '🎭',
-  nomad: '💻',
-  transport: '🚐',
-  accommodation: '🏨',
-  cooking: '👨‍🍳',
-  class: '📚',
-  workshop: '🎨',
-  hotel: '🏨',
-  park: '🌳',
-  lake: '🏞️',
-  waterfall: '💧',
-  museum: '🏛️',
-  shopping: '🛍️',
-  diving: '🤿',
-  hiking: '🥾',
-  sunset: '🌅',
-  river: '🏞️',
-  island: '🏝️',
-  festival: '🎉',
-  art: '🎨',
-  wellness: '🧘',
+// Lucide icon name fallback for when images fail to load
+export const CATEGORY_ICONS: Record<string, string> = {
+  temple: 'landmark',
+  market: 'shopping-bag',
+  food: 'utensils',
+  nature: 'leaf',
+  massage: 'hand-heart',
+  meditation: 'flower-2',
+  yoga: 'flower-2',
+  garden: 'flower-2',
+  beach: 'waves',
+  mountain: 'mountain',
+  adventure: 'compass',
+  nightlife: 'moon',
+  spa: 'droplets',
+  cafe: 'coffee',
+  culture: 'palmtree',
+  nomad: 'laptop',
+  transport: 'car',
+  accommodation: 'home',
+  cooking: 'chef-hat',
+  class: 'book-open',
+  workshop: 'palette',
+  hotel: 'building',
+  park: 'tree-pine',
+  lake: 'waves',
+  waterfall: 'droplets',
+  museum: 'landmark',
+  shopping: 'shopping-bag',
+  diving: 'waves',
+  hiking: 'footprints',
+  sunset: 'sunset',
+  river: 'waves',
+  island: 'palmtree',
+  festival: 'party-popper',
+  art: 'palette',
+  wellness: 'heart-pulse',
 };
 
 export const DEFAULT_IMAGE =
@@ -191,8 +191,8 @@ export function getCategoryImage(category: string): string {
   return images[Math.floor(Math.random() * images.length)];
 }
 
-export function getCategoryEmoji(category: string): string {
-  return CATEGORY_EMOJIS[category.toLowerCase()] || '📍';
+export function getCategoryIconName(category: string): string {
+  return CATEGORY_ICONS[category.toLowerCase()] || 'map-pin';
 }
 
 export function hasCategoryImage(category: string): boolean {

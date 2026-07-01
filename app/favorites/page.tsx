@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart, Trash2, Sparkles, Map, Calendar, X } from 'lucide-react';
+import { Heart, Trash2, Map, Calendar, X, Compass, Leaf } from 'lucide-react';
 import { getFavorites, removeFavorite, clearFavorites } from '@/lib/favorites';
 import { getSavedItineraries, removeItinerary, clearItineraries, getSavedDayByDayItineraries, removeDayByDayItinerary, getSavedHealingJourneys, removeHealingJourney } from '@/lib/itinerary-storage';
 import type { SavedItinerary, SavedDayByDayItinerary, SavedHealingJourney } from '@/lib/itinerary-storage';
@@ -11,6 +11,7 @@ import { USER_STATES, USER_INTENTIONS } from '@/lib/healing-types';
 import type { Destination } from '@/lib/types';
 import ItineraryModal from '@/components/ItineraryModal';
 import ItineraryDayCard from '@/components/ItineraryDayCard';
+import LucideIcon from '@/components/LucideIcon';
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -32,7 +33,6 @@ export default function FavoritesPage() {
     setDayByDayItineraries(getSavedDayByDayItineraries());
     setHealingJourneys(getSavedHealingJourneys());
 
-    // Fetch all destinations and filter by saved slugs
     fetch('/api/destinations?fields=card')
       .then(r => r.json())
       .then((data: { destinations: Destination[] }) => {
@@ -82,42 +82,56 @@ export default function FavoritesPage() {
     }
   };
 
-  // Favorites page with tabs
+  const glassCardStyle = {
+    background: 'var(--glass-bg)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: '1px solid var(--glass-border)',
+    borderRadius: '20px',
+  };
+
+  const inputLikeStyle = {
+    background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(255,255,255,0.12)',
+  };
+
   return (
-    <div className="min-h-screen pt-20 pb-16">
-      {/* Header */}
-      <div className="container-full px-4 py-12 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-rose-50 rounded-full text-rose-600 text-sm mb-6">
-          <Heart className="w-4 h-4 fill-rose-500" />
-          <span>Your Shortlist</span>
+    <div style={{ background: 'var(--color-forest-deep)', minHeight: '100vh', paddingTop: '80px', paddingBottom: '64px' }}>
+      <div className="container-max px-4 py-12 text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm mb-6" style={{ background: 'rgba(91,143,168,0.15)', color: 'var(--color-sky-light)' }}>
+          <Heart className="w-4 h-4" style={{ fill: 'var(--color-sky)' }} />
+          <span style={{ fontFamily: 'var(--font-body)' }}>Your Shortlist</span>
         </div>
-        <h1 className="font-serif text-4xl sm:text-5xl text-primary">
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 48px)', color: 'var(--color-white)' }}>
           Saved
         </h1>
-        <p className="mt-4 text-primary/60 max-w-xl mx-auto">
+        <p className="mt-4 max-w-xl mx-auto" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
           Your curated collection of healing stays and personalized itineraries.
         </p>
 
-        {/* Tab Switcher */}
         <div className="flex items-center justify-center gap-3 mt-8">
           <button
             onClick={() => setActiveTab('destinations')}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium transition-colors ${
-              activeTab === 'destinations'
-                ? 'bg-rose-50 text-rose-600'
-                : 'text-primary/40 hover:text-primary/60'
-            }`}
+            className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium transition-colors`}
+            style={{
+              fontFamily: 'var(--font-body)',
+              background: activeTab === 'destinations' ? 'rgba(107,158,126,0.2)' : 'transparent',
+              color: activeTab === 'destinations' ? 'var(--color-moss)' : 'var(--color-white-40)',
+              border: activeTab === 'destinations' ? '1px solid rgba(107,158,126,0.3)' : '1px solid transparent',
+            }}
           >
             <Heart className="w-4 h-4" />
             Destinations
           </button>
           <button
             onClick={() => setActiveTab('itineraries')}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium transition-colors ${
-              activeTab === 'itineraries'
-                ? 'bg-[#6b8f71]/10 text-[#6b8f71]'
-                : 'text-primary/40 hover:text-primary/60'
-            }`}
+            className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium transition-colors`}
+            style={{
+              fontFamily: 'var(--font-body)',
+              background: activeTab === 'itineraries' ? 'rgba(91,143,168,0.15)' : 'transparent',
+              color: activeTab === 'itineraries' ? 'var(--color-sky-light)' : 'var(--color-white-40)',
+              border: activeTab === 'itineraries' ? '1px solid rgba(91,143,168,0.3)' : '1px solid transparent',
+            }}
           >
             <Map className="w-4 h-4" />
             Itineraries
@@ -125,84 +139,92 @@ export default function FavoritesPage() {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="container-full px-4 pb-16">
+      <div className="container-max px-4 pb-16">
         {loading ? (
           <div className="text-center py-12">
-            <p className="text-primary/50">Loading...</p>
+            <p style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-40)' }}>Loading...</p>
           </div>
         ) : activeTab === 'destinations' ? (
-          /* Destinations Tab */
           destinations.length === 0 ? (
             <div className="max-w-md mx-auto text-center py-12">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/5 rounded-full mb-4">
-                <Heart className="w-8 h-8 text-primary/30" />
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                <Heart className="w-8 h-8" style={{ color: 'var(--color-white-40)' }} />
               </div>
-              <h2 className="font-serif text-xl text-primary mb-2">No saved destinations yet</h2>
-              <p className="text-primary/60 mb-6">
+              <h2 className="text-xl mb-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}>No saved destinations yet</h2>
+              <p className="mb-6" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
                 Browse destinations and tap the heart icon to save your favorites here.
               </p>
               <Link
                 href="/destinations"
-                className="btn-secondary px-6 py-3 inline-flex items-center gap-2"
+                className="px-6 py-3 inline-flex items-center gap-2 transition-all hover:scale-105"
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  background: 'var(--glass-bg)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid var(--glass-border)',
+                  borderRadius: '9999px',
+                  color: 'var(--color-white)',
+                  fontWeight: 600,
+                }}
               >
+                <Compass className="w-4 h-4" />
                 Browse Destinations
               </Link>
             </div>
           ) : (
             <>
-              {/* Actions Bar */}
               <div className="flex items-center justify-between max-w-5xl mx-auto mb-6">
-                <p className="text-sm text-primary/50">
+                <p className="text-sm" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-40)' }}>
                   {destinations.length} destination{destinations.length !== 1 ? 's' : ''} saved
                 </p>
                 <button
                   onClick={handleClearAll}
-                  className="text-sm text-primary/40 hover:text-rose-500 transition-colors"
+                  className="text-sm transition-colors hover:opacity-80"
+                  style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-40)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sand)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white-40)'}
                 >
                   Clear All
                 </button>
               </div>
 
-              {/* Destinations Grid */}
               <div className="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {destinations.map((dest) => (
                   <div key={dest.slug} className="relative group">
                     <Link
                       href={`/destinations/${dest.slug}`}
-                      className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow"
+                      className="block overflow-hidden transition-all hover:scale-[1.02]"
+                      style={glassCardStyle}
                     >
-                      {/* Image */}
                       <div className="relative aspect-[16/10] overflow-hidden">
                         <Image
                           src={dest.images[0]}
                           alt={dest.name}
                           fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="object-cover transition-transform duration-500"
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
-                        {/* Remove button (hover reveal) */}
+                        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(14,36,25,0.5) 0%, transparent 50%)' }} />
                         <button
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             handleRemove(dest.slug);
                           }}
-                          className="absolute top-3 right-3 p-2 bg-white/90 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50"
+                          className="absolute top-3 right-3 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
+                          style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)' }}
                           title="Remove from favorites"
                         >
-                          <Trash2 className="w-4 h-4 text-rose-500" />
+                          <Trash2 className="w-4 h-4" style={{ color: 'var(--color-sand)' }} />
                         </button>
-                        {/* Saved badge */}
-                        <div className="absolute top-3 left-3 p-1.5 bg-white/90 rounded-full shadow-sm">
-                          <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
+                        <div className="absolute top-3 left-3 p-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)' }}>
+                          <Heart className="w-3.5 h-3.5" style={{ color: 'var(--color-moss)', fill: 'var(--color-moss)' }} />
                         </div>
                       </div>
-                      {/* Info */}
                       <div className="p-4">
-                        <h3 className="font-serif text-lg text-primary">{dest.name}</h3>
-                        <p className="text-sm text-primary/50 mt-1">{dest.country} · {dest.region}</p>
-                        <p className="text-sm text-primary/60 mt-2 line-clamp-2">{dest.tagline}</p>
+                        <h3 className="text-lg" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}>{dest.name}</h3>
+                        <p className="text-sm mt-1" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>{dest.country} · {dest.region}</p>
+                        <p className="text-sm mt-2 line-clamp-2" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>{dest.tagline}</p>
                       </div>
                     </Link>
                   </div>
@@ -211,43 +233,53 @@ export default function FavoritesPage() {
             </>
           )
         ) : (
-          /* Itineraries Tab */
           (itineraries.length === 0 && dayByDayItineraries.length === 0 && healingJourneys.length === 0) ? (
             <div className="max-w-md mx-auto text-center py-12">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/5 rounded-full mb-4">
-                <Map className="w-8 h-8 text-primary/30" />
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                <Map className="w-8 h-8" style={{ color: 'var(--color-white-40)' }} />
               </div>
-              <h2 className="font-serif text-xl text-primary mb-2">No saved itineraries yet</h2>
-              <p className="text-primary/60 mb-6">
+              <h2 className="text-xl mb-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}>No saved itineraries yet</h2>
+              <p className="mb-6" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
                 Generate and save trip itineraries to revisit them here.
               </p>
               <Link
                 href="/destinations"
-                className="btn-secondary px-6 py-3 inline-flex items-center gap-2"
+                className="px-6 py-3 inline-flex items-center gap-2 transition-all hover:scale-105"
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  background: 'var(--glass-bg)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid var(--glass-border)',
+                  borderRadius: '9999px',
+                  color: 'var(--color-white)',
+                  fontWeight: 600,
+                }}
               >
+                <Compass className="w-4 h-4" />
                 Browse Destinations
               </Link>
             </div>
           ) : (
             <>
-              {/* Actions Bar */}
               <div className="flex items-center justify-between max-w-5xl mx-auto mb-6">
-                <p className="text-sm text-primary/50">
+                <p className="text-sm" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-40)' }}>
                   {itineraries.length + dayByDayItineraries.length + healingJourneys.length} trip{(itineraries.length + dayByDayItineraries.length + healingJourneys.length) !== 1 ? 's' : ''} saved
                 </p>
                 <button
                   onClick={handleClearItineraries}
-                  className="text-sm text-primary/40 hover:text-rose-500 transition-colors"
+                  className="text-sm transition-colors hover:opacity-80"
+                  style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-40)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sand)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white-40)'}
                 >
                   Clear All
                 </button>
               </div>
 
-              {/* Healing Journeys */}
               {healingJourneys.length > 0 && (
                 <div className="max-w-5xl mx-auto mb-8">
-                  <h3 className="text-sm font-medium text-primary/60 mb-3 flex items-center gap-2">
-                    <span>🌿</span>
+                  <h3 className="text-sm font-medium mb-3 flex items-center gap-2" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
+                    <Leaf className="w-4 h-4" style={{ color: 'var(--color-moss)' }} />
                     Healing Journeys
                   </h3>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -261,43 +293,41 @@ export default function FavoritesPage() {
                               setSelectedHealingJourney(j);
                               setExpandedDays(new Set());
                             }}
-                            className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                            className="block overflow-hidden cursor-pointer transition-all hover:scale-[1.02]"
+                            style={glassCardStyle}
                           >
-                            {/* Gradient cover */}
-                            <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50 flex items-center justify-center">
-                              <span className="text-4xl">🌿</span>
-                              {/* Remove button (hover reveal) */}
+                            <div className="relative aspect-[16/10] overflow-hidden flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(58,125,92,0.3), rgba(212,197,169,0.2))' }}>
+                              <Leaf className="w-12 h-12" style={{ color: 'var(--color-moss)' }} />
                               <button
                                 onClick={(e) => {
                                   e.preventDefault();
                                   e.stopPropagation();
                                   handleRemoveHealingJourney(j.id);
                                 }}
-                                className="absolute top-3 right-3 p-2 bg-white/90 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50"
+                                className="absolute top-3 right-3 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
+                                style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)' }}
                                 title="Remove journey"
                               >
-                                <Trash2 className="w-4 h-4 text-rose-500" />
+                                <Trash2 className="w-4 h-4" style={{ color: 'var(--color-sand)' }} />
                               </button>
-                              {/* Duration badge */}
-                              <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 rounded-full shadow-sm text-xs font-medium text-emerald-700">
+                              <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-medium" style={{ background: 'rgba(107,158,126,0.3)', backdropFilter: 'blur(8px)', color: 'var(--color-moss)' }}>
                                 {j.totalDays} {j.totalDays === 1 ? 'Day' : 'Days'}
                               </div>
                             </div>
-                            {/* Info */}
                             <div className="p-4">
-                              <h3 className="font-serif text-lg text-primary">{j.destinationName}</h3>
-                              <p className="text-sm text-primary/50 mt-1 flex items-center gap-1">
-                                <span>{stateInfo?.emoji}</span>
+                              <h3 className="text-lg" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}>{j.destinationName}</h3>
+                              <p className="text-sm mt-1 flex items-center gap-1" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
+                                {stateInfo && <LucideIcon name={stateInfo.emoji} className="w-4 h-4" />}
                                 <span className="capitalize">{stateInfo?.label || j.currentState}</span>
                               </p>
                               <div className="flex flex-wrap gap-1 mt-2">
                                 {intentionLabels.slice(0, 3).map(label => (
-                                  <span key={label} className="text-[10px] px-1.5 py-0.5 bg-secondary/10 text-secondary rounded-full">
+                                  <span key={label} className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(91,143,168,0.15)', color: 'var(--color-sky-light)' }}>
                                     {label}
                                   </span>
                                 ))}
                               </div>
-                              <p className="text-xs text-primary/40 mt-2">
+                              <p className="text-xs mt-2" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-40)' }}>
                                 Saved {new Date(j.savedAt).toLocaleDateString()}
                               </p>
                             </div>
@@ -309,10 +339,9 @@ export default function FavoritesPage() {
                 </div>
               )}
 
-              {/* Day-by-Day Itineraries */}
               {dayByDayItineraries.length > 0 && (
                 <div className="max-w-5xl mx-auto mb-8">
-                  <h3 className="text-sm font-medium text-primary/60 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-medium mb-3 flex items-center gap-2" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
                     <Calendar className="w-4 h-4" />
                     Day-by-Day Plans
                   </h3>
@@ -324,33 +353,31 @@ export default function FavoritesPage() {
                             setSelectedDayByDay(it);
                             setExpandedDays(new Set());
                           }}
-                          className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                          className="block overflow-hidden cursor-pointer transition-all hover:scale-[1.02]"
+                          style={glassCardStyle}
                         >
-                          {/* Gradient cover */}
-                          <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center">
-                            <Calendar className="w-12 h-12 text-secondary/40" />
-                            {/* Remove button (hover reveal) */}
+                          <div className="relative aspect-[16/10] overflow-hidden flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                            <Calendar className="w-12 h-12" style={{ color: 'var(--color-white-20)' }} />
                             <button
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 handleRemoveDayByDay(it.id);
                               }}
-                              className="absolute top-3 right-3 p-2 bg-white/90 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50"
+                              className="absolute top-3 right-3 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
+                              style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)' }}
                               title="Remove itinerary"
                             >
-                              <Trash2 className="w-4 h-4 text-rose-500" />
+                              <Trash2 className="w-4 h-4" style={{ color: 'var(--color-sand)' }} />
                             </button>
-                            {/* Duration badge */}
-                            <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 rounded-full shadow-sm text-xs font-medium text-secondary">
+                            <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-medium" style={{ background: 'rgba(91,143,168,0.2)', backdropFilter: 'blur(8px)', color: 'var(--color-sky-light)' }}>
                               {it.totalDays} Days
                             </div>
                           </div>
-                          {/* Info */}
                           <div className="p-4">
-                            <h3 className="font-serif text-lg text-primary">{it.destinationName}</h3>
-                            <p className="text-sm text-primary/50 mt-1 capitalize">{it.focus} focus</p>
-                            <p className="text-xs text-primary/40 mt-2">
+                            <h3 className="text-lg" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}>{it.destinationName}</h3>
+                            <p className="text-sm mt-1 capitalize" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>{it.focus} focus</p>
+                            <p className="text-xs mt-2" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-40)' }}>
                               {it.days.length} days planned · Saved {new Date(it.savedAt).toLocaleDateString()}
                             </p>
                           </div>
@@ -361,11 +388,10 @@ export default function FavoritesPage() {
                 </div>
               )}
 
-              {/* Phase-based Itineraries */}
               {itineraries.length > 0 && (
                 <div className="max-w-5xl mx-auto">
                   {dayByDayItineraries.length > 0 && (
-                    <h3 className="text-sm font-medium text-primary/60 mb-3 flex items-center gap-2">
+                    <h3 className="text-sm font-medium mb-3 flex items-center gap-2" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
                       <Map className="w-4 h-4" />
                       Full Trip Itineraries
                     </h3>
@@ -375,45 +401,44 @@ export default function FavoritesPage() {
                       <div key={`${it.slug}-${it.duration}-${it.focus}`} className="relative group">
                         <div
                           onClick={() => setSelectedItinerary(it)}
-                          className="block bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                          className="block overflow-hidden cursor-pointer transition-all hover:scale-[1.02]"
+                          style={glassCardStyle}
                         >
-                          {/* Cover image or gradient */}
                           <div className="relative aspect-[16/10] overflow-hidden">
                             {it.coverImage ? (
                               <Image
                                 src={it.coverImage}
                                 alt={it.name}
                                 fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                className="object-cover transition-transform duration-500"
                                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                               />
                             ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-[#6b8f71]/20 to-[#e8b960]/20 flex items-center justify-center">
-                                <Map className="w-12 h-12 text-[#6b8f71]/40" />
+                              <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(58,125,92,0.2), rgba(212,197,169,0.15))' }}>
+                                <Map className="w-12 h-12" style={{ color: 'var(--color-white-20)' }} />
                               </div>
                             )}
-                            {/* Remove button (hover reveal) */}
+                            <div className="absolute inset-0" style={{ background: it.coverImage ? 'linear-gradient(to top, rgba(14,36,25,0.4) 0%, transparent 50%)' : 'transparent' }} />
                             <button
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 handleRemoveItinerary(it.slug, it.phase, it.focus);
                               }}
-                              className="absolute top-3 right-3 p-2 bg-white/90 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50"
+                              className="absolute top-3 right-3 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
+                              style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)' }}
                               title="Remove itinerary"
                             >
-                              <Trash2 className="w-4 h-4 text-rose-500" />
+                              <Trash2 className="w-4 h-4" style={{ color: 'var(--color-sand)' }} />
                             </button>
-                            {/* Duration badge */}
-                            <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 rounded-full shadow-sm text-xs font-medium text-[#6b8f71]">
+                            <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-medium" style={{ background: 'rgba(107,158,126,0.3)', backdropFilter: 'blur(8px)', color: 'var(--color-moss)' }}>
                               {it.duration} Days
                             </div>
                           </div>
-                          {/* Info */}
                           <div className="p-4">
-                            <h3 className="font-serif text-lg text-primary">{it.name}</h3>
-                            <p className="text-sm text-primary/50 mt-1 capitalize">{it.focus} focus</p>
-                            <p className="text-xs text-primary/40 mt-2">
+                            <h3 className="text-lg" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}>{it.name}</h3>
+                            <p className="text-sm mt-1 capitalize" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>{it.focus} focus</p>
+                            <p className="text-xs mt-2" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-40)' }}>
                               Saved {new Date(it.savedAt).toLocaleDateString()}
                             </p>
                           </div>
@@ -428,7 +453,6 @@ export default function FavoritesPage() {
         )}
       </div>
 
-      {/* Itinerary Modal */}
       {selectedItinerary && (
         <ItineraryModal
           itinerary={selectedItinerary}
@@ -442,21 +466,21 @@ export default function FavoritesPage() {
         />
       )}
 
-      {/* Day-by-Day Itinerary Viewer */}
       {selectedDayByDay && (
         <div
-          className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
           onClick={() => setSelectedDayByDay(null)}
         >
           <div
-            className="bg-surface rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+            className="w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+            style={{ ...glassCardStyle, background: 'rgba(14,36,25,0.95)' }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
-            <div className="sticky top-0 bg-white border-b border-primary/10 px-6 py-4 flex items-center justify-between z-10">
+            <div className="sticky top-0 px-6 py-4 flex items-center justify-between z-10" style={{ background: 'rgba(14,36,25,0.95)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
               <div>
-                <h2 className="font-serif text-2xl text-primary">{selectedDayByDay.destinationName}</h2>
-                <p className="text-sm text-primary/60 mt-0.5 capitalize">
+                <h2 className="text-2xl" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}>{selectedDayByDay.destinationName}</h2>
+                <p className="text-sm mt-0.5 capitalize" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
                   {selectedDayByDay.totalDays}-day {selectedDayByDay.focus} trip
                 </p>
               </div>
@@ -468,21 +492,26 @@ export default function FavoritesPage() {
                       setSelectedDayByDay(null);
                     }
                   }}
-                  className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                  className="p-2 rounded-lg transition-colors"
+                  style={{ color: 'var(--color-sand)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(212,197,169,0.15)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                   title="Delete trip"
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setSelectedDayByDay(null)}
-                  className="p-2 text-primary/60 hover:bg-primary/5 rounded-lg transition-colors"
+                  className="p-2 rounded-lg transition-colors"
+                  style={{ color: 'var(--color-white-60)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
             </div>
 
-            {/* Days */}
             <div className="p-6 space-y-3">
               {selectedDayByDay.days.map((day) => (
                 <ItineraryDayCard
@@ -506,18 +535,19 @@ export default function FavoritesPage() {
         </div>
       )}
 
-      {/* ─── Healing Journey Viewer Modal ─── */}
       {selectedHealingJourney && (
-        <div className="fixed inset-0 z-50 bg-black/30 flex items-start justify-center overflow-y-auto p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl my-8 overflow-hidden">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-emerald-50 to-amber-50 px-6 py-4 flex items-center justify-between border-b border-primary/10">
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}>
+          <div className="w-full max-w-3xl my-8 overflow-hidden" style={glassCardStyle}>
+            <div className="px-6 py-4 flex items-center justify-between" style={{ background: 'linear-gradient(to right, rgba(58,125,92,0.3), rgba(212,197,169,0.2))', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
               <div className="flex items-center gap-3">
-                <span className="text-2xl">🌿</span>
+                <Leaf className="w-6 h-6" style={{ color: 'var(--color-moss)' }} />
                 <div>
-                  <h2 className="font-serif text-xl text-primary">{selectedHealingJourney.destinationName}</h2>
-                  <p className="text-sm text-primary/50 flex items-center gap-1">
-                    {USER_STATES.find(s => s.id === selectedHealingJourney.currentState)?.emoji}{' '}
+                  <h2 className="text-xl" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-white)' }}>{selectedHealingJourney.destinationName}</h2>
+                  <p className="text-sm flex items-center gap-1" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-white-60)' }}>
+                    {(() => {
+                      const state = USER_STATES.find(s => s.id === selectedHealingJourney.currentState);
+                      return state ? <LucideIcon name={state.emoji} className="w-4 h-4" /> : null;
+                    })()}{' '}
                     <span className="capitalize">{USER_STATES.find(s => s.id === selectedHealingJourney.currentState)?.label || selectedHealingJourney.currentState}</span>
                     <span className="mx-1">·</span>
                     {selectedHealingJourney.totalDays} {selectedHealingJourney.totalDays === 1 ? 'Day' : 'Days'}
@@ -532,33 +562,37 @@ export default function FavoritesPage() {
                       setSelectedHealingJourney(null);
                     }
                   }}
-                  className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                  className="p-2 rounded-lg transition-colors"
+                  style={{ color: 'var(--color-sand)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(212,197,169,0.15)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                   title="Delete journey"
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setSelectedHealingJourney(null)}
-                  className="p-2 text-primary/60 hover:bg-primary/5 rounded-lg transition-colors"
+                  className="p-2 rounded-lg transition-colors"
+                  style={{ color: 'var(--color-white-60)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
             </div>
 
-            {/* Intentions */}
-            <div className="px-6 py-3 border-b border-primary/5 flex flex-wrap gap-1.5">
+            <div className="px-6 py-3 flex flex-wrap gap-1.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
               {selectedHealingJourney.intentions.map(i => {
                 const info = USER_INTENTIONS.find(ii => ii.id === i);
                 return (
-                  <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 bg-secondary/10 text-secondary text-xs rounded-full">
-                    {info?.emoji} {info?.label || i}
+                  <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full" style={{ background: 'rgba(91,143,168,0.15)', color: 'var(--color-sky-light)' }}>
+                    {info && <LucideIcon name={info.emoji} className="w-3 h-3" />} {info?.label || i}
                   </span>
                 );
               })}
             </div>
 
-            {/* Days */}
             <div className="p-6 space-y-3">
               {selectedHealingJourney.days.map((day) => (
                 <ItineraryDayCard
